@@ -1,6 +1,6 @@
 # MicroCD Labs Microfluidics Supply Site
 
-A static website for a London-based microfluidics parts and equipment supplier connected to the MicroCD Labs brand.
+A static website for a microfluidics parts and equipment supplier connected to the MicroCD Labs brand.
 
 ## What is included
 
@@ -9,7 +9,7 @@ A static website for a London-based microfluidics parts and equipment supplier c
 - Catalog filters
 - Quote list interaction
 - Mailto quote request draft
-- UK-aware research-use-only and export-aware positioning
+- Research-use-only and export-aware positioning
 - Online catalog imagery from Wikimedia Commons/NIST/NARA with source credits rendered on the page
 
 ## Run

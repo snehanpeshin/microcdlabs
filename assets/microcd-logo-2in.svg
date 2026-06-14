@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2in" height="2in" viewBox="0 0 600 600" role="img" aria-labelledby="title desc">
+  <title id="title">MicroCD Labs logo</title>
+  <desc id="desc">A compact circular MicroCD Labs logo with a lab-on-disc motif and microfluidic channels.</desc>
+  <defs>
+    <linearGradient id="discGradient" x1="120" y1="80" x2="480" y2="520" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0f766e"/>
+      <stop offset="0.55" stop-color="#0a4f4b"/>
+      <stop offset="1" stop-color="#18211f"/>
+    </linearGradient>
+    <linearGradient id="accentGradient" x1="160" y1="160" x2="445" y2="440" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d85b45"/>
+      <stop offset="1" stop-color="#d79a2b"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#18211f" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <rect width="600" height="600" rx="92" fill="#f4f8f6"/>
+
+  <g filter="url(#softShadow)">
+    <circle cx="300" cy="300" r="210" fill="url(#discGradient)"/>
+    <circle cx="300" cy="300" r="82" fill="#f4f8f6" opacity="0.96"/>
+    <circle cx="300" cy="300" r="34" fill="#0f766e"/>
+  </g>
+
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M300 300 L202 190" stroke="#ffffff" stroke-width="24"/>
+    <path d="M300 300 L430 208" stroke="#ffffff" stroke-width="24"/>
+    <path d="M300 300 L444 388" stroke="#ffffff" stroke-width="24"/>
+    <path d="M300 300 L195 415" stroke="#ffffff" stroke-width="24"/>
+    <path d="M202 190 C185 232 182 279 196 323" stroke="#ffffff" stroke-width="18" opacity="0.78"/>
+    <path d="M430 208 C468 262 469 334 438 389" stroke="#ffffff" stroke-width="18" opacity="0.78"/>
+  </g>
+
+  <g fill="url(#accentGradient)">
+    <circle cx="202" cy="190" r="26"/>
+    <circle cx="430" cy="208" r="26"/>
+    <circle cx="444" cy="388" r="26"/>
+    <circle cx="195" cy="415" r="26"/>
+  </g>
+
+  <text x="300" y="292" text-anchor="middle" font-family="Inter, Arial, Helvetica, sans-serif" font-size="76" font-weight="800" fill="#18211f">CD</text>
+  <text x="300" y="361" text-anchor="middle" font-family="Inter, Arial, Helvetica, sans-serif" font-size="38" font-weight="800" letter-spacing="2" fill="#ffffff">MICRO</text>
+  <text x="300" y="407" text-anchor="middle" font-family="Inter, Arial, Helvetica, sans-serif" font-size="32" font-weight="700" letter-spacing="5" fill="#ffffff" opacity="0.92">LABS</text>
+</svg>

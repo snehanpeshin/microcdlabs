@@ -109,7 +109,7 @@ const products = [
     name: "Microfluidics Starter Kit",
     category: "kits",
     description: "A quote-built bundle with tubing, connectors, chips, pump options, and setup notes.",
-    tags: ["Bundle", "Custom quote", "UK/EU"],
+    tags: ["Bundle", "Custom quote", "R&D setup"],
     icon: "kit",
     image: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Microfluidic_Device_%286842746147%29.jpg/960px-Microfluidic_Device_%286842746147%29.jpg",
@@ -127,8 +127,11 @@ const quoteList = document.querySelector("#quoteList");
 const emptyQuote = document.querySelector("#emptyQuote");
 const quoteMail = document.querySelector("#quoteMail");
 const quoteForm = document.querySelector("#quoteForm");
+const contactForm = document.querySelector("#contactForm");
+const contactMail = document.querySelector("#contactMail");
 const creditList = document.querySelector("#creditList");
 const filterButtons = document.querySelectorAll(".filter-button");
+const companyEmail = "info@microcdlabs.com";
 
 function iconSvg(type) {
   const common = 'fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"';
@@ -230,7 +233,20 @@ function renderQuote() {
       .map((item) => `- ${item.name}`)
       .join("\n")}\n\nName: ${name}\nEmail: ${email}\nOrganisation: ${organisation}\nNotes: ${notes}\n\nThank you.`,
   );
-  quoteMail.href = items.length ? `mailto:microcdlabs@gmail.com?subject=${subject}&body=${body}` : "#";
+  quoteMail.href = items.length ? `mailto:${companyEmail}?subject=${subject}&body=${body}` : "#";
+}
+
+function renderContactMail() {
+  const formData = new FormData(contactForm);
+  const name = formData.get("name") || "";
+  const email = formData.get("email") || "";
+  const message = formData.get("message") || "";
+  const subject = encodeURIComponent("MicroCD Labs contact request");
+  const body = encodeURIComponent(
+    `Hello MicroCD Labs,\n\n${message}\n\nName: ${name}\nEmail: ${email}\n\nThank you.`,
+  );
+
+  contactMail.href = `mailto:${companyEmail}?subject=${subject}&body=${body}`;
 }
 
 filterButtons.forEach((button) => {
@@ -270,7 +286,9 @@ quoteList.addEventListener("click", (event) => {
 });
 
 quoteForm.addEventListener("input", renderQuote);
+contactForm.addEventListener("input", renderContactMail);
 
 renderProducts();
 renderQuote();
 renderCredits();
+renderContactMail();

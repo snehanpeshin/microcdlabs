@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2in" height="2in" viewBox="0 0 600 600" role="img" aria-labelledby="title desc">
+  <title id="title">MicroCD Labs clarity and connection mark</title>
+  <desc id="desc">A compact MicroCD Labs mark showing a microfluidic disc, connected nodes, and a human-centered heart shape.</desc>
+  <defs>
+    <linearGradient id="disc" x1="118" y1="90" x2="482" y2="510" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#16a39a"/>
+      <stop offset="0.62" stop-color="#0f766e"/>
+      <stop offset="1" stop-color="#0a4f4b"/>
+    </linearGradient>
+    <linearGradient id="warm" x1="162" y1="150" x2="452" y2="454" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d85b45"/>
+      <stop offset="1" stop-color="#d79a2b"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#18211f" flood-opacity="0.16"/>
+    </filter>
+  </defs>
+
+  <rect width="600" height="600" rx="96" fill="#f4f8f6"/>
+
+  <g filter="url(#shadow)">
+    <circle cx="300" cy="300" r="220" fill="#ffffff"/>
+    <circle cx="300" cy="300" r="184" fill="url(#disc)"/>
+    <circle cx="300" cy="300" r="76" fill="#ffffff"/>
+    <circle cx="300" cy="300" r="27" fill="#0f766e"/>
+  </g>
+
+  <g fill="none" stroke="#ffffff" stroke-width="25" stroke-linecap="round" stroke-linejoin="round" opacity="0.96">
+    <path d="M300 300 C235 257 191 219 158 164"/>
+    <path d="M300 300 C374 251 427 214 476 164"/>
+    <path d="M300 300 C234 346 188 393 156 447"/>
+    <path d="M300 300 C371 349 424 394 475 447"/>
+  </g>
+
+  <g fill="url(#warm)">
+    <circle cx="158" cy="164" r="34"/>
+    <circle cx="476" cy="164" r="34"/>
+    <circle cx="156" cy="447" r="34"/>
+    <circle cx="475" cy="447" r="34"/>
+  </g>
+
+  <path d="M226 295 C247 235 347 235 370 295 C396 363 303 399 300 401 C297 399 201 363 226 295Z" fill="#ffffff" opacity="0.97"/>
+  <path d="M259 293 C271 263 329 263 341 293 C354 329 303 352 300 354 C297 352 246 329 259 293Z" fill="#d85b45"/>
+  <text x="300" y="507" text-anchor="middle" font-family="Inter, Arial, Helvetica, sans-serif" font-size="42" font-weight="800" letter-spacing="4" fill="#ffffff">MICROCD</text>
+</svg>
