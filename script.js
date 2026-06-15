@@ -609,6 +609,7 @@ function iconSvg(type) {
 }
 
 function renderProducts(filter = "all") {
+  if (!productGrid) return;
   const visible = filter === "all" ? products : products.filter((product) => product.category === filter);
 
   productGrid.innerHTML = visible
@@ -640,6 +641,7 @@ function renderProducts(filter = "all") {
 }
 
 function renderCredits() {
+  if (!creditList) return;
   const uniqueCredits = Array.from(
     products
       .filter((product) => product.image)
@@ -663,6 +665,7 @@ function renderCredits() {
 }
 
 function renderQuote() {
+  if (!quoteForm || !quoteList || !emptyQuote || !quoteMail) return;
   const items = Array.from(selected.values());
   const formData = new FormData(quoteForm);
   const name = formData.get("name") || "";
@@ -695,6 +698,7 @@ function renderQuote() {
 }
 
 function renderContactMail() {
+  if (!contactForm || !contactMail) return;
   const formData = new FormData(contactForm);
   const name = formData.get("name") || "";
   const email = formData.get("email") || "";
@@ -707,44 +711,50 @@ function renderContactMail() {
   contactMail.href = `mailto:${companyEmail}?subject=${subject}&body=${body}`;
 }
 
-filterButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    filterButtons.forEach((item) => item.classList.remove("active"));
-    button.classList.add("active");
-    renderProducts(button.dataset.filter);
+if (filterButtons.length) {
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      filterButtons.forEach((item) => item.classList.remove("active"));
+      button.classList.add("active");
+      renderProducts(button.dataset.filter);
+    });
   });
-});
+}
 
-productGrid.addEventListener("click", (event) => {
-  const button = event.target.closest("[data-product]");
-  if (!button) return;
+if (productGrid) {
+  productGrid.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-product]");
+    if (!button) return;
 
-  const product = products.find((item) => item.id === button.dataset.product);
-  if (!product) return;
+    const product = products.find((item) => item.id === button.dataset.product);
+    if (!product) return;
 
-  if (selected.has(product.id)) {
-    selected.delete(product.id);
-  } else {
-    selected.set(product.id, product);
-  }
+    if (selected.has(product.id)) {
+      selected.delete(product.id);
+    } else {
+      selected.set(product.id, product);
+    }
 
-  const activeFilter = document.querySelector(".filter-button.active")?.dataset.filter || "all";
-  renderProducts(activeFilter);
-  renderQuote();
-});
+    const activeFilter = document.querySelector(".filter-button.active")?.dataset.filter || "all";
+    renderProducts(activeFilter);
+    renderQuote();
+  });
+}
 
-quoteList.addEventListener("click", (event) => {
-  const button = event.target.closest("[data-remove]");
-  if (!button) return;
+if (quoteList) {
+  quoteList.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-remove]");
+    if (!button) return;
 
-  selected.delete(button.dataset.remove);
-  const activeFilter = document.querySelector(".filter-button.active")?.dataset.filter || "all";
-  renderProducts(activeFilter);
-  renderQuote();
-});
+    selected.delete(button.dataset.remove);
+    const activeFilter = document.querySelector(".filter-button.active")?.dataset.filter || "all";
+    renderProducts(activeFilter);
+    renderQuote();
+  });
+}
 
-quoteForm.addEventListener("input", renderQuote);
-contactForm.addEventListener("input", renderContactMail);
+if (quoteForm) quoteForm.addEventListener("input", renderQuote);
+if (contactForm) contactForm.addEventListener("input", renderContactMail);
 
 renderProducts();
 renderQuote();

@@ -361,6 +361,99 @@ h3 {
   font-size: 0.96rem;
 }
 
+.store-preview-section {
+  background: var(--white);
+}
+
+.store-preview-cta {
+  justify-self: end;
+  color: var(--white);
+  background: var(--charcoal);
+}
+
+.store-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.store-preview-grid a {
+  display: grid;
+  min-height: 142px;
+  gap: 12px;
+  align-content: start;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--charcoal);
+  border-radius: 8px;
+  padding: 20px;
+  background: var(--soft);
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.store-preview-grid a:hover,
+.store-preview-grid a:focus-visible {
+  border-color: var(--charcoal);
+  transform: translateY(-1px);
+}
+
+.store-preview-grid strong,
+.store-preview-grid span {
+  display: block;
+}
+
+.store-preview-grid strong {
+  font-size: 1.06rem;
+}
+
+.store-preview-grid span {
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+.store-hero {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.9fr) minmax(280px, 0.55fr);
+  gap: clamp(28px, 5vw, 72px);
+  align-items: end;
+  background: var(--charcoal);
+  color: var(--white);
+}
+
+.store-hero h1 {
+  max-width: 760px;
+  font-size: clamp(2.4rem, 5vw, 4.6rem);
+}
+
+.store-hero p:not(.eyebrow) {
+  max-width: 720px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: clamp(1.04rem, 1.5vw, 1.22rem);
+}
+
+.store-hero-panel {
+  display: grid;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  padding: 22px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.store-hero-panel strong {
+  font-size: 1.35rem;
+}
+
+.store-hero-panel span {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.store-catalog-section {
+  padding-top: clamp(48px, 7vw, 82px);
+}
+
 .filter-button {
   min-height: 38px;
   padding: 0 13px;
@@ -779,7 +872,9 @@ h3 {
   .quote-section,
   .quote-panel,
   .hero,
-  .contact-section {
+  .contact-section,
+  .store-hero,
+  .store-preview-grid {
     grid-template-columns: 1fr;
   }
 
@@ -839,6 +934,10 @@ h3 {
 
   .filters {
     justify-content: flex-start;
+  }
+
+  .store-preview-cta {
+    justify-self: start;
   }
 
   .service-copy {
