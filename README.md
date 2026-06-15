@@ -1,6 +1,6 @@
 # MicroCD Labs Microfluidics Supply Site
 
-A static website for a microfluidics parts and equipment supplier connected to the MicroCD Labs brand.
+A static website for MicroCD Labs, a division of Karigari Home LLC, focused on microfluidics parts and equipment supply.
 
 ## What is included
 

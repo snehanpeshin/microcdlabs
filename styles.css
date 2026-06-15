@@ -406,9 +406,11 @@ h3 {
 }
 
 .part-icon {
-  width: 78px;
-  height: 78px;
-  margin: 19px auto;
+  display: block;
+  width: 86px;
+  height: 86px;
+  margin: 15px auto;
+  color: var(--charcoal);
 }
 
 .product-image {
@@ -762,6 +764,11 @@ h3 {
   height: auto;
   margin-bottom: 12px;
   border-radius: 6px;
+}
+
+.company-legal {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 800;
 }
 
 @media (max-width: 1060px) {

@@ -553,6 +553,31 @@ const products = [
   },
 ];
 
+const productsWithRepresentativeImages = new Set([
+  "pdms-microfluidic-chips",
+  "glass-microfluidic-chips",
+  "coc-microfluidic-chips",
+  "pmma-microfluidic-chips",
+  "microfluidic-mixers",
+  "droplet-generation-chips",
+  "organ-on-chip-devices",
+  "cell-culture-microfluidic-devices",
+  "custom-microfluidic-chip-fabrication",
+  "syringe-pumps",
+  "lateral-flow-assay-materials",
+  "diagnostic-cartridges",
+  "rapid-test-housings",
+  "96-well-plates",
+  "pcr-plates",
+  "pipette-tips",
+]);
+
+products.forEach((product) => {
+  if (!productsWithRepresentativeImages.has(product.id)) {
+    product.image = null;
+  }
+});
+
 const selected = new Map();
 const productGrid = document.querySelector("#productGrid");
 const quoteList = document.querySelector("#quoteList");
