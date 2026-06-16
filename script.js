@@ -690,6 +690,33 @@ const fisherSupplierRefs = {
   },
 };
 
+const fisherObservedPrices = {
+  "ptfe-tubing": "$77.77",
+  "fep-tubing": "$611.50",
+  "peek-tubing": "$97.00",
+  "silicone-tubing": "$221.50",
+  "tygon-tubing": "$109.67",
+  "luer-lock-connectors": "$138.80",
+  "barbed-fittings": "$109.80",
+  "compression-fittings": "$148.74",
+  "syringe-pumps": "$4,440.00",
+  "peristaltic-pumps": "$7,317.20",
+  "solenoid-valves": "$2,783.00",
+  "flow-sensors": "$493.68",
+  "pressure-sensors": "$502.50",
+  "conjugate-pads": "$242.40",
+  "96-well-plates": "$457.00",
+  "pcr-plates": "$199.30",
+  "pcr-tubes": "$546.00",
+  "centrifuge-tubes": "$441.00",
+  cryovials: "$881.93",
+  "reservoir-trays": "$66.50",
+  "reagent-bottles": "$15.19",
+  "pipette-tips": "$160.40",
+};
+
+const fisherVerifiedProductIds = new Set(Object.keys(fisherObservedPrices));
+
 const categoryCatalogPrefixes = {
   microfluidics: "MF",
   "fluid-handling": "FH",
@@ -707,9 +734,15 @@ function assignCatalogMetadata() {
     counters.set(prefix, next);
     product.sku = `MCD-${prefix}-${String(next).padStart(3, "0")}`;
     product.supplierRef = fisherSupplierRefs[product.id] || null;
+    product.fisherObservedPrice = fisherObservedPrices[product.id] || null;
+    if (product.fisherObservedPrice) {
+      product.price = `${product.fisherObservedPrice} observed`;
+      product.tags = [...product.tags, "Fisher verified"];
+    }
   });
 }
 
+products.splice(0, products.length, ...products.filter((product) => fisherVerifiedProductIds.has(product.id)));
 assignCatalogMetadata();
 
 products.forEach((product) => {
@@ -723,6 +756,7 @@ const productGrid = document.querySelector("#productGrid");
 const quoteList = document.querySelector("#quoteList");
 const emptyQuote = document.querySelector("#emptyQuote");
 const quoteMail = document.querySelector("#quoteMail");
+const stripePayLink = document.querySelector("#stripePayLink");
 const cartSubtotal = document.querySelector("#cartSubtotal");
 const quoteForm = document.querySelector("#quoteForm");
 const contactForm = document.querySelector("#contactForm");
@@ -731,6 +765,7 @@ const creditList = document.querySelector("#creditList");
 const filterButtons = document.querySelectorAll(".filter-button");
 const heroDotField = document.querySelector("#heroDotField");
 const companyEmail = "info@microcdlabs.com";
+const stripePaymentLinkUrl = "";
 
 function initHeroDotField() {
   if (!heroDotField) return;
@@ -868,7 +903,7 @@ function renderProducts(filter = "all") {
             <p>${product.description}</p>
             ${
               product.supplierRef
-                ? `<p class="supplier-note">Comparable public listing: ${product.supplierRef.name}. Supplier pricing and availability are confirmed at order review.</p>`
+                ? `<p class="supplier-note">Observed on Fisher Scientific public page on June 16, 2026: ${product.supplierRef.name}. Official product images/details are available through the Fisher reference link. Final price is confirmed at order review.</p>`
                 : ""
             }
             <div class="product-meta">
@@ -950,6 +985,10 @@ function renderQuote() {
   emptyQuote.hidden = items.length > 0;
   quoteMail.classList.toggle("disabled", items.length === 0);
   quoteMail.setAttribute("aria-disabled", String(items.length === 0));
+  if (stripePayLink) {
+    stripePayLink.classList.toggle("disabled", items.length === 0);
+    stripePayLink.setAttribute("aria-disabled", String(items.length === 0));
+  }
 
   if (cartSubtotal) {
     const subtotal = items.reduce((sum, entry) => {
@@ -970,6 +1009,29 @@ function renderQuote() {
       .join("\n")}\n\nPlease confirm final price, availability, shipping, and payment link or invoice details.\n\nName: ${name}\nEmail: ${email}\nOrganisation: ${organisation}\nNotes: ${notes}\n\nThank you.`,
   );
   quoteMail.href = items.length ? `mailto:${companyEmail}?subject=${subject}&body=${body}` : "#";
+
+  if (stripePayLink) {
+    const stripeSubject = encodeURIComponent("MicroCD Labs Stripe invoice request");
+    const stripeBody = encodeURIComponent(
+      `Hello MicroCD Labs,\n\nPlease review my cart and send a Stripe invoice or Stripe-hosted payment link for the following research-use items:\n\n${items
+        .map((entry) => `- ${entry.quantity} x ${entry.product.name} (${entry.product.sku}; ${entry.product.price})`)
+        .join("\n")}\n\nName: ${name}\nEmail: ${email}\nOrganisation: ${organisation}\nNotes: ${notes}\n\nThank you.`,
+    );
+    stripePayLink.href =
+      items.length && stripePaymentLinkUrl
+        ? stripePaymentLinkUrl
+        : items.length
+          ? `mailto:${companyEmail}?subject=${stripeSubject}&body=${stripeBody}`
+          : "#";
+    stripePayLink.textContent = stripePaymentLinkUrl ? "Pay with Stripe" : "Request Stripe invoice";
+    if (stripePaymentLinkUrl) {
+      stripePayLink.setAttribute("target", "_blank");
+      stripePayLink.setAttribute("rel", "noreferrer");
+    } else {
+      stripePayLink.removeAttribute("target");
+      stripePayLink.removeAttribute("rel");
+    }
+  }
 }
 
 function renderContactMail() {

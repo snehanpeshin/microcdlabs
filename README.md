@@ -6,13 +6,15 @@ A static website for MicroCD Labs, a division of Karigari Home LLC, focused on m
 
 - Responsive landing page with product-led hero
 - Dedicated store page for the full microfluidics catalog
-- Catalog for tubing, fittings, chip holders, pumps, sensors, plastic parts, and kits
+- Fisher-verified store shortlist for tubing, fittings, pumps, sensors, diagnostic consumables, and lab plastics
 - Catalog filters
 - Cart and order-request interaction with quantities
 - Mailto order request draft with payment-link/invoice request
 - Invoice-first payment workflow copy
+- Stripe invoice/payment-link request button
+- Terms & Payments page for quote-based ordering
 - MicroCD catalog numbers for all products
-- Fisher Scientific reference links for comparable publicly listed supply items where available
+- Fisher Scientific reference links and observed public prices for 22 verified catalog items
 - Research-use-only and export-aware positioning
 - Online catalog imagery from Wikimedia Commons/NIST/NARA with source credits rendered on the page
 
@@ -48,10 +50,16 @@ Recommended next step for real payments:
 - Add environment variables only when a backend checkout function is added, such as `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and product price IDs.
 - Add terms, refund, shipping, and cancellation policy pages before enabling live checkout.
 
+Current Stripe-ready setup:
+
+- The store has a `Request Stripe invoice` button that prepares an email with the selected cart items.
+- To use a no-code Stripe Payment Link, create the link in Stripe Dashboard and paste it into `stripePaymentLinkUrl` in `script.js`.
+- For true dynamic cart checkout, add a backend/API endpoint that creates Stripe Checkout Sessions and stores prices server-side.
+
 ## Notes
 
 Before using this commercially, confirm the catalog against real supplier-approved items, prices, warranties, country-of-origin data, and compliance classifications.
 
 The current catalog images are representative open-source images, not supplier product photos. Replace them with your own supplier-approved photos before launch, or keep the credit section if using Creative Commons/public-domain sources.
 
-Fisher Scientific references are used as comparable sourcing references only. Do not copy Fisher product photos or claim Fisher pricing, affiliation, endorsement, distribution rights, or live inventory unless MicroCD Labs has written permission and a supplier-approved data feed or agreement.
+Fisher Scientific references are used as comparable sourcing references only. Observed public prices should be rechecked before quoting because availability, contract pricing, shipping, taxes, and configurations can change. Do not copy Fisher product photos or claim Fisher affiliation, endorsement, distribution rights, or live inventory unless MicroCD Labs has written permission and a supplier-approved data feed or agreement.

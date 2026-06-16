@@ -791,6 +791,13 @@ h3 {
   background: var(--charcoal);
 }
 
+.stripe-pay-link {
+  width: 100%;
+  margin-top: 10px;
+  color: var(--white);
+  background: var(--teal-dark);
+}
+
 .quote-store-link {
   width: 100%;
   margin-bottom: 10px;
