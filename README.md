@@ -6,7 +6,7 @@ A static website for MicroCD Labs, a division of Karigari Home LLC, focused on m
 
 - Responsive landing page with product-led hero
 - Dedicated store page for the full microfluidics catalog
-- Fisher-verified store shortlist for tubing, fittings, pumps, sensors, diagnostic consumables, and lab plastics
+- Broad quote-based catalog for tubing, fittings, chips, pumps, sensors, diagnostic consumables, lab plastics, and OEM items
 - Catalog filters
 - Cart and order-request interaction with quantities
 - Mailto order request draft with payment-link/invoice request
@@ -14,7 +14,6 @@ A static website for MicroCD Labs, a division of Karigari Home LLC, focused on m
 - Stripe invoice/payment-link request button
 - Terms & Payments page for quote-based ordering
 - MicroCD catalog numbers for all products
-- Fisher Scientific reference links and observed public prices for 22 verified catalog items
 - Research-use-only and export-aware positioning
 - Online catalog imagery from Wikimedia Commons/NIST/NARA with source credits rendered on the page
 
@@ -62,4 +61,4 @@ Before using this commercially, confirm the catalog against real supplier-approv
 
 The current catalog images are representative open-source images, not supplier product photos. Replace them with your own supplier-approved photos before launch, or keep the credit section if using Creative Commons/public-domain sources.
 
-Fisher Scientific references are used as comparable sourcing references only. Observed public prices should be rechecked before quoting because availability, contract pricing, shipping, taxes, and configurations can change. Do not copy Fisher product photos or claim Fisher affiliation, endorsement, distribution rights, or live inventory unless MicroCD Labs has written permission and a supplier-approved data feed or agreement.
+Do not copy third-party product photos or claim supplier affiliation, endorsement, distribution rights, or live inventory unless MicroCD Labs has written permission and a supplier-approved data feed or agreement.

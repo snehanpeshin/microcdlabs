@@ -572,151 +572,6 @@ const productsWithRepresentativeImages = new Set([
   "pipette-tips",
 ]);
 
-const fisherSupplierRefs = {
-  "ptfe-tubing": {
-    name: "DWK Life Sciences Kimble Kontes PTFE Tubing",
-    catalog: "K4208230116",
-    url: "https://www.fishersci.com/shop/products/kontes-ptfe-tubing/K4208230116",
-  },
-  "fep-tubing": {
-    name: "Thermo Scientific Nalgene 890 FEP Tubing",
-    catalog: "14176180",
-    url: "https://www.fishersci.com/shop/products/nalgene-890-tubing-8/14176180",
-  },
-  "peek-tubing": {
-    name: "Thermo Scientific Pre-cut PEEK Tubing",
-    catalog: "03050412",
-    url: "https://www.fishersci.com/shop/products/pre-cut-peek-tubing-a-5-foot-coil-1/03050412",
-  },
-  "silicone-tubing": {
-    name: "Thermo Scientific Nalgene 50 Platinum-Cured Silicone Tubing",
-    catalog: "14176332A",
-    url: "https://www.fishersci.com/shop/products/nalgene-50-platinum-cured-silicone-tubing-1/14176332A",
-  },
-  "tygon-tubing": {
-    name: "DWK Life Sciences TYGON S3 E-3603 Laboratory Tubing",
-    catalog: "12141455",
-    url: "https://www.fishersci.com/shop/products/tygon-s3-e-3603-10-ft-laboratory-tubing-3/12141455",
-  },
-  "luer-lock-connectors": {
-    name: "Fisherbrand Male Rotating Luer Lock and Nut Assembly",
-    catalog: "01000247",
-    url: "https://www.fishersci.com/shop/products/male-rotating-luer-lock-nut-assembly-1-16-in-id-polypropylene-qc-7/01000247",
-  },
-  "barbed-fittings": {
-    name: "Bel-Art Straight Tubing Connectors, Barbed Fittings",
-    catalog: "22384917",
-    url: "https://www.fishersci.com/shop/products/sp-scienceware-straight-tubing-connectors/22384917",
-  },
-  "compression-fittings": {
-    name: "Chemglass Life Sciences PFA Compression Fitting",
-    catalog: "50143648",
-    url: "https://www.fishersci.com/shop/products/compression-fitting1-8in-to1-2/50143648",
-  },
-  "syringe-pumps": {
-    name: "Fisherbrand Single Syringe Pump",
-    catalog: "14831200",
-    url: "https://www.fishersci.com/shop/products/fisher-scientific-single-syringe-pump/14831200",
-  },
-  "peristaltic-pumps": {
-    name: "DWK Life Sciences Wheaton OmniSpense ELITE Peristaltic Pump",
-    catalog: "13687446",
-    url: "https://www.fishersci.com/shop/products/wheaton-omnispense-elite-peristaltic-pump/13687446",
-  },
-  "solenoid-valves": {
-    name: "MilliporeSigma External Solenoid Valve",
-    catalog: "EXTSV00A1",
-    url: "https://www.fishersci.com/shop/products/external-solenoid-valve/EXTSV00A1",
-  },
-  "flow-sensors": {
-    name: "Thermo Scientific Flow Sensor",
-    catalog: "NC0324212",
-    url: "https://www.fishersci.com/shop/products/flow-sensor-8/NC0324212",
-  },
-  "pressure-sensors": {
-    name: "Vernier Gas Pressure Sensor",
-    catalog: "S16052ND",
-    url: "https://www.fishersci.com/shop/products/gas-pressure-sensor/S16052ND",
-  },
-  "nitrocellulose-membranes": {
-    name: "MilliporeSigma Hi-Flow Plus Membrane 90 Cards",
-    catalog: "HF090MC5PK",
-    url: "https://www.fishersci.com/shop/products/hi-flow-plus-membrane-90-cards-2/HF090MC5PK",
-  },
-  "conjugate-pads": {
-    name: "Sigma Aldrich G041 Glass Fiber Conjugate Pad Sheets",
-    catalog: "NC1832582",
-    url: "https://www.fishersci.com/shop/products/glass-fiber-conjugate-pads/NC1832582",
-  },
-  "96-well-plates": {
-    name: "Fisherbrand 96-Well Plates",
-    catalog: "21377203",
-    url: "https://www.fishersci.com/shop/products/fisherbrand-96-well-plates-4/21377203",
-  },
-  "pcr-plates": {
-    name: "Fisherbrand 96-Well Nonskirted PCR Plates",
-    catalog: "14230235",
-    url: "https://www.fishersci.com/shop/products/fisherbrand-96-well-nonskirted-pcr-plates-5/14230235",
-  },
-  "pcr-tubes": {
-    name: "Fisherbrand 0.2mL PCR Tube Strips",
-    catalog: "14230215",
-    url: "https://www.fishersci.com/shop/products/0-2ml-pcr-tube-strips/14230215",
-  },
-  "centrifuge-tubes": {
-    name: "Fisherbrand Easy Reader Conical Polypropylene Centrifuge Tubes",
-    catalog: "07200886",
-    url: "https://www.fishersci.com/shop/products/fisherbrand-easy-reader-polypropylene-centrifuge-tubes-9/07200886",
-  },
-  cryovials: {
-    name: "Simport Scientific Cryovial Internal Thread Cryogenic Vials",
-    catalog: "23045224",
-    url: "https://www.fishersci.com/shop/products/cryovial-internal-thread-silicone-washer-seal-cryogenic-vials/23045224",
-  },
-  "reservoir-trays": {
-    name: "Fisherbrand Reagent Reservoir",
-    catalog: "14127063",
-    url: "https://www.fishersci.com/shop/products/reagent-reservoir-5-wrap-5/14127063",
-  },
-  "reagent-bottles": {
-    name: "BRANDTECH VITLAB Wide-Mouth Reagent Bottles",
-    catalog: "14379354",
-    url: "https://www.fishersci.com/shop/products/brandtech-wide-mouth-reagent-bottles-screw-caps-5/14379354",
-  },
-  "pipette-tips": {
-    name: "Fisherbrand SureOne Large Orifice Non-Filtered Pipette Tips",
-    catalog: "02707459",
-    url: "https://www.fishersci.com/shop/products/sureone-specialty-pipettor-tips-4/02707459",
-  },
-};
-
-const fisherObservedPrices = {
-  "ptfe-tubing": "$77.77",
-  "fep-tubing": "$611.50",
-  "peek-tubing": "$97.00",
-  "silicone-tubing": "$221.50",
-  "tygon-tubing": "$109.67",
-  "luer-lock-connectors": "$138.80",
-  "barbed-fittings": "$109.80",
-  "compression-fittings": "$148.74",
-  "syringe-pumps": "$4,440.00",
-  "peristaltic-pumps": "$7,317.20",
-  "solenoid-valves": "$2,783.00",
-  "flow-sensors": "$493.68",
-  "pressure-sensors": "$502.50",
-  "conjugate-pads": "$242.40",
-  "96-well-plates": "$457.00",
-  "pcr-plates": "$199.30",
-  "pcr-tubes": "$546.00",
-  "centrifuge-tubes": "$441.00",
-  cryovials: "$881.93",
-  "reservoir-trays": "$66.50",
-  "reagent-bottles": "$15.19",
-  "pipette-tips": "$160.40",
-};
-
-const fisherVerifiedProductIds = new Set(Object.keys(fisherObservedPrices));
-
 const categoryCatalogPrefixes = {
   microfluidics: "MF",
   "fluid-handling": "FH",
@@ -733,16 +588,9 @@ function assignCatalogMetadata() {
     const next = (counters.get(prefix) || 0) + 1;
     counters.set(prefix, next);
     product.sku = `MCD-${prefix}-${String(next).padStart(3, "0")}`;
-    product.supplierRef = fisherSupplierRefs[product.id] || null;
-    product.fisherObservedPrice = fisherObservedPrices[product.id] || null;
-    if (product.fisherObservedPrice) {
-      product.price = `${product.fisherObservedPrice} observed`;
-      product.tags = [...product.tags, "Fisher verified"];
-    }
   });
 }
 
-products.splice(0, products.length, ...products.filter((product) => fisherVerifiedProductIds.has(product.id)));
 assignCatalogMetadata();
 
 products.forEach((product) => {
@@ -894,18 +742,8 @@ function renderProducts(filter = "all") {
             <strong class="product-price">${product.price}</strong>
             <div class="catalog-identifiers">
               <span>MicroCD Cat. No. ${product.sku}</span>
-              ${
-                product.supplierRef
-                  ? `<a href="${product.supplierRef.url}" target="_blank" rel="noreferrer">Fisher ref. ${product.supplierRef.catalog}</a>`
-                  : "<span>Custom or MicroCD-specified item</span>"
-              }
             </div>
             <p>${product.description}</p>
-            ${
-              product.supplierRef
-                ? `<p class="supplier-note">Observed on Fisher Scientific public page on June 16, 2026: ${product.supplierRef.name}. Official product images/details are available through the Fisher reference link. Final price is confirmed at order review.</p>`
-                : ""
-            }
             <div class="product-meta">
               ${product.tags.map((tag) => `<span>${tag}</span>`).join("")}
             </div>

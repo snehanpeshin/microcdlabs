@@ -564,21 +564,9 @@ h3 {
   font-weight: 800;
 }
 
-.catalog-identifiers a {
-  width: fit-content;
-  color: var(--teal-dark);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
 .product-body p {
   margin: 10px 0 0;
   font-size: 0.94rem;
-}
-
-.product-body .supplier-note {
-  color: #50645f;
-  font-size: 0.82rem;
 }
 
 .product-meta {
@@ -648,75 +636,6 @@ h3 {
 .service-list p,
 .compliance-grid p {
   margin-bottom: 0;
-}
-
-.relationship-section {
-  display: grid;
-  grid-template-columns: minmax(300px, 0.55fr) minmax(320px, 1fr);
-  gap: clamp(28px, 5vw, 72px);
-  align-items: start;
-  background: var(--white);
-}
-
-.relationship-copy {
-  position: sticky;
-  top: 104px;
-}
-
-.relationship-copy p:not(.eyebrow) {
-  max-width: 640px;
-  color: var(--muted);
-  font-size: 1.03rem;
-}
-
-.relationship-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.relationship-card {
-  display: grid;
-  min-height: 168px;
-  gap: 10px;
-  align-content: start;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 18px;
-  background: var(--soft);
-}
-
-.relationship-card.highlight {
-  border-color: #d1d1cc;
-  background: var(--white);
-  box-shadow: 0 12px 30px rgba(17, 17, 17, 0.06);
-}
-
-.relationship-logo-text {
-  display: inline-flex;
-  width: fit-content;
-  max-width: 100%;
-  min-height: 36px;
-  align-items: center;
-  border: 1px solid var(--charcoal);
-  border-radius: 8px;
-  padding: 7px 10px;
-  color: var(--charcoal);
-  background: var(--white);
-  font-size: 0.88rem;
-  font-weight: 900;
-  line-height: 1.15;
-}
-
-.relationship-card strong {
-  color: var(--charcoal);
-  font-size: 1rem;
-}
-
-.relationship-card p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.92rem;
 }
 
 .compliance-section {
@@ -1132,7 +1051,6 @@ h3 {
   .intro-section,
   .section-heading,
   .service-band,
-  .relationship-section,
   .compliance-section,
   .payment-section,
   .credits-section {
@@ -1149,14 +1067,6 @@ h3 {
 
   .service-copy {
     position: static;
-  }
-
-  .relationship-copy {
-    position: static;
-  }
-
-  .relationship-grid {
-    grid-template-columns: 1fr;
   }
 
   .site-footer {
