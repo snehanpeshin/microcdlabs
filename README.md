@@ -11,6 +11,8 @@ A static website for MicroCD Labs, a division of Karigari Home LLC, focused on m
 - Cart and order-request interaction with quantities
 - Mailto order request draft with payment-link/invoice request
 - Invoice-first payment workflow copy
+- MicroCD catalog numbers for all products
+- Fisher Scientific reference links for comparable publicly listed supply items where available
 - Research-use-only and export-aware positioning
 - Online catalog imagery from Wikimedia Commons/NIST/NARA with source credits rendered on the page
 
@@ -51,3 +53,5 @@ Recommended next step for real payments:
 Before using this commercially, confirm the catalog against real supplier-approved items, prices, warranties, country-of-origin data, and compliance classifications.
 
 The current catalog images are representative open-source images, not supplier product photos. Replace them with your own supplier-approved photos before launch, or keep the credit section if using Creative Commons/public-domain sources.
+
+Fisher Scientific references are used as comparable sourcing references only. Do not copy Fisher product photos or claim Fisher pricing, affiliation, endorsement, distribution rights, or live inventory unless MicroCD Labs has written permission and a supplier-approved data feed or agreement.

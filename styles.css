@@ -555,9 +555,30 @@ h3 {
   font-weight: 850;
 }
 
+.catalog-identifiers {
+  display: grid;
+  gap: 4px;
+  margin-top: 10px;
+  color: #555f5c;
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.catalog-identifiers a {
+  width: fit-content;
+  color: var(--teal-dark);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .product-body p {
   margin: 10px 0 0;
   font-size: 0.94rem;
+}
+
+.product-body .supplier-note {
+  color: #50645f;
+  font-size: 0.82rem;
 }
 
 .product-meta {
