@@ -583,6 +583,7 @@ const productGrid = document.querySelector("#productGrid");
 const quoteList = document.querySelector("#quoteList");
 const emptyQuote = document.querySelector("#emptyQuote");
 const quoteMail = document.querySelector("#quoteMail");
+const cartSubtotal = document.querySelector("#cartSubtotal");
 const quoteForm = document.querySelector("#quoteForm");
 const contactForm = document.querySelector("#contactForm");
 const contactMail = document.querySelector("#contactMail");
@@ -632,12 +633,26 @@ function renderProducts(filter = "all") {
             </div>
           </div>
           <button class="button card-action ${selected.has(product.id) ? "selected" : ""}" type="button" data-product="${product.id}">
-            ${selected.has(product.id) ? "Added" : "Add to quote"}
+            ${selected.has(product.id) ? "Add another" : "Add to cart"}
           </button>
         </article>
       `,
     )
     .join("");
+}
+
+function getStartingPrice(product) {
+  const match = product.price.match(/\$([\d,.]+)/);
+  if (!match) return null;
+  return Number(match[1].replace(/,/g, ""));
+}
+
+function formatCurrency(value) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: value % 1 ? 2 : 0,
+  }).format(value);
 }
 
 function renderCredits() {
@@ -675,10 +690,15 @@ function renderQuote() {
 
   quoteList.innerHTML = items
     .map(
-      (product) => `
+      (entry) => `
         <li>
-          <span>${product.name} <small>${product.price}</small></span>
-          <button class="remove-item" type="button" data-remove="${product.id}" aria-label="Remove ${product.name}">Remove</button>
+          <span>${entry.product.name} <small>${entry.product.price}</small></span>
+          <div class="quantity-control" aria-label="Quantity for ${entry.product.name}">
+            <button type="button" data-quantity="${entry.product.id}" data-change="-1" aria-label="Decrease quantity">-</button>
+            <output>${entry.quantity}</output>
+            <button type="button" data-quantity="${entry.product.id}" data-change="1" aria-label="Increase quantity">+</button>
+          </div>
+          <button class="remove-item" type="button" data-remove="${entry.product.id}" aria-label="Remove ${entry.product.name}">Remove</button>
         </li>
       `,
     )
@@ -688,11 +708,23 @@ function renderQuote() {
   quoteMail.classList.toggle("disabled", items.length === 0);
   quoteMail.setAttribute("aria-disabled", String(items.length === 0));
 
-  const subject = encodeURIComponent("MicroCD Labs microfluidics quote request");
+  if (cartSubtotal) {
+    const subtotal = items.reduce((sum, entry) => {
+      const startingPrice = getStartingPrice(entry.product);
+      return startingPrice === null ? sum : sum + startingPrice * entry.quantity;
+    }, 0);
+    const hasQuoteOnly = items.some((entry) => getStartingPrice(entry.product) === null);
+    cartSubtotal.hidden = items.length === 0;
+    cartSubtotal.textContent = subtotal
+      ? `Estimated starting subtotal: ${formatCurrency(subtotal)}${hasQuoteOnly ? " + quote-only items" : ""}. Final pricing is confirmed before payment.`
+      : "Selected items require final quote before payment.";
+  }
+
+  const subject = encodeURIComponent("MicroCD Labs microfluidics order request");
   const body = encodeURIComponent(
-    `Hello MicroCD Labs,\n\nI would like a quote for the following research-use microfluidics items:\n\n${items
-      .map((item) => `- ${item.name} (${item.price})`)
-      .join("\n")}\n\nName: ${name}\nEmail: ${email}\nOrganisation: ${organisation}\nNotes: ${notes}\n\nThank you.`,
+    `Hello MicroCD Labs,\n\nI would like to request an order review for the following research-use microfluidics items:\n\n${items
+      .map((entry) => `- ${entry.quantity} x ${entry.product.name} (${entry.product.price})`)
+      .join("\n")}\n\nPlease confirm final price, availability, shipping, and payment link or invoice details.\n\nName: ${name}\nEmail: ${email}\nOrganisation: ${organisation}\nNotes: ${notes}\n\nThank you.`,
   );
   quoteMail.href = items.length ? `mailto:${companyEmail}?subject=${subject}&body=${body}` : "#";
 }
@@ -730,9 +762,9 @@ if (productGrid) {
     if (!product) return;
 
     if (selected.has(product.id)) {
-      selected.delete(product.id);
+      selected.get(product.id).quantity += 1;
     } else {
-      selected.set(product.id, product);
+      selected.set(product.id, { product, quantity: 1 });
     }
 
     const activeFilter = document.querySelector(".filter-button.active")?.dataset.filter || "all";
@@ -743,6 +775,18 @@ if (productGrid) {
 
 if (quoteList) {
   quoteList.addEventListener("click", (event) => {
+    const quantityButton = event.target.closest("[data-quantity]");
+    if (quantityButton) {
+      const entry = selected.get(quantityButton.dataset.quantity);
+      if (!entry) return;
+      entry.quantity += Number(quantityButton.dataset.change);
+      if (entry.quantity < 1) selected.delete(quantityButton.dataset.quantity);
+      const activeFilter = document.querySelector(".filter-button.active")?.dataset.filter || "all";
+      renderProducts(activeFilter);
+      renderQuote();
+      return;
+    }
+
     const button = event.target.closest("[data-remove]");
     if (!button) return;
 

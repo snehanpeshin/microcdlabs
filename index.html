@@ -52,12 +52,12 @@
           </p>
           <div class="hero-highlights" aria-label="Catalog highlights">
             <span>50+ catalog items</span>
-            <span>Quote-ready pricing</span>
+            <span>Cart and invoice checkout</span>
             <span>RUO supply</span>
           </div>
           <div class="hero-actions">
             <a class="button button-primary" href="store.html">Browse store</a>
-            <a class="button button-secondary" href="#quote">Build a quote</a>
+            <a class="button button-secondary" href="store.html#quote">Build a cart</a>
           </div>
         </div>
         <figure class="hero-media">
@@ -72,7 +72,7 @@
       <section class="signal-strip" aria-label="Business highlights">
         <div>
           <strong>Supplier catalog</strong>
-          <span>Quote-ready parts for microfluidics, diagnostics, and lab automation work.</span>
+          <span>Cart-ready parts for microfluidics, diagnostics, and lab automation work.</span>
         </div>
         <div>
           <strong>Application support</strong>
@@ -90,7 +90,7 @@
           <h2 id="intro-title">A simple parts desk for microfluidics teams.</h2>
         </div>
         <p>
-          MicroCD Labs focuses on the items labs reach for again and again: tubing, fittings, chip holders, pumps, sensors, plastic spares, and practical starter bundles. Browse the catalog, add what you need, and send a quote request with your experiment notes.
+          MicroCD Labs focuses on the items labs reach for again and again: tubing, fittings, chip holders, pumps, sensors, plastic spares, and practical starter bundles. Browse the catalog, add what you need to the cart, and send an order request with your experiment notes.
         </p>
       </section>
 
@@ -135,7 +135,7 @@
           <p class="eyebrow">Helpful sourcing</p>
           <h2 id="services-title">Tell us the experiment. We help match the parts.</h2>
           <p>
-            If you know your flow rate, tubing size, solvent, chip type, or instrument interface, include it in the quote request. We can help narrow the options and prepare a sensible parts list for your research setup.
+            If you know your flow rate, tubing size, solvent, chip type, or instrument interface, include it in the order request. We can help narrow the options and prepare a sensible parts list for your research setup.
           </p>
         </div>
         <div class="service-list" aria-label="Service options">
@@ -189,17 +189,19 @@
       <section id="quote" class="section quote-section" aria-labelledby="quote-title">
         <div class="quote-panel">
           <div>
-            <p class="eyebrow">Request for quote</p>
-            <h2 id="quote-title">Build your quote request</h2>
+            <p class="eyebrow">Cart and checkout</p>
+            <h2 id="quote-title">Build your order request</h2>
             <p>
-              Add catalog items, then send the request with your lab details. The email draft goes to MicroCD Labs and includes your selected parts so it is easy to start the conversation.
+              Add catalog items in the store, then send the request with your lab details. MicroCD Labs confirms availability, final price, shipping, and compliance before sending a secure payment link or invoice.
             </p>
           </div>
           <div class="quote-summary">
-            <h3>Selected items</h3>
+            <h3>Cart items</h3>
             <ul id="quoteList" aria-live="polite"></ul>
-            <p id="emptyQuote" class="empty-state">No items selected yet.</p>
-            <a id="quoteMail" class="button button-primary disabled" href="#" aria-disabled="true">Email quote request</a>
+            <p id="emptyQuote" class="empty-state">No items in cart yet.</p>
+            <p id="cartSubtotal" class="cart-subtotal" hidden></p>
+            <a class="button quote-store-link" href="store.html#catalog">Open store to add items</a>
+            <a id="quoteMail" class="button button-primary disabled" href="#" aria-disabled="true">Email order request</a>
           </div>
         </div>
 

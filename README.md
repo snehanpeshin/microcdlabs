@@ -8,8 +8,9 @@ A static website for MicroCD Labs, a division of Karigari Home LLC, focused on m
 - Dedicated store page for the full microfluidics catalog
 - Catalog for tubing, fittings, chip holders, pumps, sensors, plastic parts, and kits
 - Catalog filters
-- Quote list interaction
-- Mailto quote request draft
+- Cart and order-request interaction with quantities
+- Mailto order request draft with payment-link/invoice request
+- Invoice-first payment workflow copy
 - Research-use-only and export-aware positioning
 - Online catalog imagery from Wikimedia Commons/NIST/NARA with source credits rendered on the page
 
@@ -32,6 +33,18 @@ microfluidics-supply-site
 ```
 
 The included `amplify.yml` publishes the static files directly and does not need an npm build.
+
+## Payment setup
+
+The live site is currently a static cart and order-request flow. It does not collect card numbers or bank details.
+
+Recommended next step for real payments:
+
+- Use Stripe Checkout, Stripe invoices, or Stripe Payment Links for customer payment.
+- Connect Stripe payouts to the Mercury business bank account.
+- Keep Stripe secret keys on a serverless backend, not in `index.html`, `store.html`, or `script.js`.
+- Add environment variables only when a backend checkout function is added, such as `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and product price IDs.
+- Add terms, refund, shipping, and cancellation policy pages before enabling live checkout.
 
 ## Notes
 

@@ -331,6 +331,7 @@ h3 {
 .intro-section,
 .section-heading,
 .compliance-section,
+.payment-section,
 .credits-section {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(280px, 1fr);
@@ -341,6 +342,7 @@ h3 {
 .intro-section p:not(.eyebrow),
 .service-copy p,
 .compliance-grid p,
+.payment-section p,
 .product-card p,
 .quote-panel p,
 .site-footer p {
@@ -688,6 +690,14 @@ h3 {
   background: var(--charcoal);
 }
 
+.quote-store-link {
+  width: 100%;
+  margin-bottom: 10px;
+  color: var(--charcoal);
+  border-color: var(--charcoal);
+  background: var(--white);
+}
+
 .quote-summary ul {
   display: grid;
   gap: 8px;
@@ -698,13 +708,51 @@ h3 {
 }
 
 .quote-summary li {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
   gap: 8px;
   border-bottom: 1px solid var(--line);
   padding-bottom: 8px;
   color: #343434;
   font-size: 0.92rem;
+}
+
+.quote-summary li span {
+  min-width: 0;
+}
+
+.quote-summary li small {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+}
+
+.quantity-control {
+  display: inline-grid;
+  grid-template-columns: 28px 30px 28px;
+  align-items: center;
+  border: 1px solid #d8d8d4;
+  border-radius: 8px;
+  background: var(--white);
+  overflow: hidden;
+}
+
+.quantity-control button {
+  width: 28px;
+  height: 30px;
+  border: 0;
+  color: var(--charcoal);
+  background: transparent;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.quantity-control output {
+  min-width: 30px;
+  text-align: center;
+  color: var(--charcoal);
+  font-weight: 850;
 }
 
 .remove-item {
@@ -717,6 +765,55 @@ h3 {
 
 .empty-state {
   font-size: 0.92rem;
+}
+
+.cart-subtotal {
+  border: 1px solid #d8d8d4;
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--charcoal);
+  background: var(--white);
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.payment-section {
+  align-items: start;
+  background: var(--soft);
+}
+
+.payment-section p:not(.eyebrow) {
+  max-width: 660px;
+  font-size: 1.03rem;
+}
+
+.payment-steps {
+  display: grid;
+  gap: 14px;
+}
+
+.payment-steps article {
+  display: grid;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--charcoal);
+  border-radius: 8px;
+  padding: 20px 22px;
+  background: var(--white);
+}
+
+.payment-steps span {
+  color: #707070;
+  font-weight: 900;
+}
+
+.payment-steps strong {
+  color: var(--charcoal);
+  font-size: 1.03rem;
+}
+
+.payment-steps p {
+  margin: 0;
 }
 
 .contact-form {
@@ -928,6 +1025,7 @@ h3 {
   .section-heading,
   .service-band,
   .compliance-section,
+  .payment-section,
   .credits-section {
     grid-template-columns: 1fr;
   }
@@ -952,6 +1050,14 @@ h3 {
 @media (max-width: 520px) {
   .product-grid {
     grid-template-columns: 1fr;
+  }
+
+  .quote-summary li {
+    grid-template-columns: 1fr;
+  }
+
+  .quantity-control {
+    width: 116px;
   }
 
   .hero-actions .button {

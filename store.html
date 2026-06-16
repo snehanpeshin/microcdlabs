@@ -45,12 +45,12 @@
           <p class="eyebrow">Online store</p>
           <h1 id="store-hero-title">Microfluidics parts and equipment catalog.</h1>
           <p>
-            Browse research-use parts by category, add items to a quote list, and send the request with your lab notes. Prices are indicative and final pricing is confirmed by quote.
+            Browse research-use parts by category, add items to your cart, and send the order request with your lab notes. Confirmed orders are paid by secure invoice or payment link.
           </p>
         </div>
         <div class="store-hero-panel">
           <strong>50+ catalog items</strong>
-          <span>Microfluidics, fluid handling, flow control, diagnostics, lab plastics, and OEM manufacturing support.</span>
+          <span>Microfluidics, fluid handling, flow control, diagnostics, lab plastics, OEM manufacturing support, and invoice-based checkout.</span>
         </div>
       </section>
 
@@ -80,17 +80,18 @@
       <section id="quote" class="section quote-section" aria-labelledby="quote-title">
         <div class="quote-panel">
           <div>
-            <p class="eyebrow">Request for quote</p>
-            <h2 id="quote-title">Build your quote request</h2>
+            <p class="eyebrow">Cart and checkout</p>
+            <h2 id="quote-title">Build your order request</h2>
             <p>
-              Add catalog items, then send the request with your lab details. The email draft goes to MicroCD Labs and includes your selected parts so it is easy to start the conversation.
+              Add catalog items, adjust quantities, then send the request with your lab details. MicroCD Labs confirms availability, final price, shipping, and compliance before sending a secure payment link or invoice.
             </p>
           </div>
           <div class="quote-summary">
-            <h3>Selected items</h3>
+            <h3>Cart items</h3>
             <ul id="quoteList" aria-live="polite"></ul>
-            <p id="emptyQuote" class="empty-state">No items selected yet.</p>
-            <a id="quoteMail" class="button button-primary disabled" href="#" aria-disabled="true">Email quote request</a>
+            <p id="emptyQuote" class="empty-state">No items in cart yet.</p>
+            <p id="cartSubtotal" class="cart-subtotal" hidden></p>
+            <a id="quoteMail" class="button button-primary disabled" href="#" aria-disabled="true">Email order request</a>
           </div>
         </div>
 
@@ -112,6 +113,33 @@
             <textarea id="quoteNotes" name="notes" rows="4" placeholder="Flow rate, tubing size, solvent compatibility, destination country, or project notes"></textarea>
           </label>
         </form>
+      </section>
+
+      <section id="payments" class="section payment-section" aria-labelledby="payments-title">
+        <div>
+          <p class="eyebrow">Payments</p>
+          <h2 id="payments-title">Secure payment after order review.</h2>
+          <p>
+            For now, orders are reviewed before payment so quantities, lead time, shipping, and export requirements are correct. After confirmation, MicroCD Labs can send a secure card or bank-payment link through a payment processor connected to the company bank account.
+          </p>
+        </div>
+        <div class="payment-steps" aria-label="Payment workflow">
+          <article>
+            <span>01</span>
+            <strong>Send cart</strong>
+            <p>Customer sends the order request with quantities, destination, and application notes.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <strong>Confirm order</strong>
+            <p>MicroCD Labs confirms final price, availability, shipping, and research-use requirements.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <strong>Pay securely</strong>
+            <p>A payment link or invoice is sent for the approved order. No card details are collected on this website.</p>
+          </article>
+        </div>
       </section>
 
       <section class="section credits-section" aria-labelledby="credits-title">
