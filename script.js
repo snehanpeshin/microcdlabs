@@ -589,7 +589,97 @@ const contactForm = document.querySelector("#contactForm");
 const contactMail = document.querySelector("#contactMail");
 const creditList = document.querySelector("#creditList");
 const filterButtons = document.querySelectorAll(".filter-button");
+const heroDotField = document.querySelector("#heroDotField");
 const companyEmail = "info@microcdlabs.com";
+
+function initHeroDotField() {
+  if (!heroDotField) return;
+  const hero = heroDotField.closest(".hero");
+  const context = heroDotField.getContext("2d");
+  if (!hero || !context) return;
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let dots = [];
+  let pointer = { x: -9999, y: -9999, active: false };
+  let width = 0;
+  let height = 0;
+  let pixelRatio = 1;
+
+  function resize() {
+    const rect = hero.getBoundingClientRect();
+    width = Math.max(1, Math.round(rect.width));
+    height = Math.max(1, Math.round(rect.height));
+    pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+    heroDotField.width = Math.round(width * pixelRatio);
+    heroDotField.height = Math.round(height * pixelRatio);
+    heroDotField.style.width = `${width}px`;
+    heroDotField.style.height = `${height}px`;
+    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+
+    const spacing = width < 720 ? 24 : 28;
+    const rows = Math.ceil(height / spacing) + 2;
+    const columns = Math.ceil(width / spacing) + 2;
+    dots = [];
+
+    for (let row = 0; row < rows; row += 1) {
+      for (let column = 0; column < columns; column += 1) {
+        dots.push({
+          x: column * spacing - spacing / 2,
+          y: row * spacing - spacing / 2,
+          phase: Math.random() * Math.PI * 2,
+        });
+      }
+    }
+  }
+
+  function updatePointer(event) {
+    const rect = hero.getBoundingClientRect();
+    pointer = {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
+      active: true,
+    };
+    draw();
+  }
+
+  function draw() {
+    context.clearRect(0, 0, width, height);
+
+    dots.forEach((dot) => {
+      const dx = dot.x - pointer.x;
+      const dy = dot.y - pointer.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      const influence = pointer.active ? Math.max(0, 1 - distance / 150) : 0;
+      const shimmer = reduceMotion.matches ? 0 : (Math.sin(dot.phase) + 1) * 0.06;
+      const radius = 1.05 + influence * 2.15 + shimmer;
+      const alpha = 0.22 + influence * 0.78 + shimmer;
+
+      context.beginPath();
+      context.arc(dot.x, dot.y, radius, 0, Math.PI * 2);
+      context.fillStyle =
+        influence > 0.02
+          ? `rgba(83, 255, 178, ${Math.min(alpha, 1)})`
+          : `rgba(255, 255, 255, ${Math.min(alpha, 0.38)})`;
+      context.shadowColor = influence > 0.02 ? "rgba(83, 255, 178, 0.85)" : "transparent";
+      context.shadowBlur = influence * 18;
+      context.fill();
+    });
+
+    context.shadowBlur = 0;
+  }
+
+  resize();
+  draw();
+  hero.addEventListener("pointermove", updatePointer);
+  hero.addEventListener("pointerleave", () => {
+    pointer.active = false;
+    draw();
+  });
+  window.addEventListener("resize", () => {
+    resize();
+    draw();
+  });
+}
 
 function iconSvg(type) {
   const common = 'fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"';
@@ -804,3 +894,4 @@ renderProducts();
 renderQuote();
 renderCredits();
 renderContactMail();
+initHeroDotField();
