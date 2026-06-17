@@ -803,6 +803,19 @@ h3 {
   background: var(--teal-dark);
 }
 
+.checkout-policy-note {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.checkout-policy-note a {
+  color: var(--charcoal);
+  font-weight: 850;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .quote-store-link {
   width: 100%;
   margin-bottom: 10px;
