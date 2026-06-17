@@ -6,7 +6,7 @@ A static website for MicroCD Labs, a division of Karigari Home LLC, focused on m
 
 - Responsive landing page with product-led hero
 - Dedicated store page for the full microfluidics catalog
-- Broad quote-based catalog for tubing, fittings, chips, pumps, sensors, diagnostic consumables, lab plastics, and OEM items
+- Broad quote-based catalog for tubing, fittings, chips, pumps, sensors, diagnostic consumables, lab plastics, OEM items, starter kits, and productized sourcing services
 - Careers page for a microfluidic testing internship
 - Catalog filters
 - Cart and order-request interaction with quantities
