@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18239515056"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied'
+      });
+      gtag('js', new Date());
+
+      gtag('config', 'AW-18239515056');
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Products | MicroCD Labs</title>
+    <meta
+      name="description"
+      content="Browse MicroCD Labs products by product class and subclass, including microfluidic chips, tubing, fittings, pumps, diagnostic consumables, lab plastics, and OEM parts."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-catalog-scope="products" data-coupon-dialog="true">
+    <header class="site-header">
+      <a class="brand" href="index.html#top" aria-label="MicroCD Labs home">
+        <img class="brand-logo" src="assets/microcd-labs-wordmark.svg" alt="microcd labs" />
+      </a>
+      <nav class="main-nav" aria-label="Primary navigation">
+        <a href="products.html" aria-current="page">Products</a>
+        <a href="services.html">Services</a>
+        <a href="kits.html">Kits</a>
+        <a href="careers.html">Careers</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+      <a class="header-cta" href="#quote">Request quote</a>
+    </header>
+
+    <main>
+      <section class="store-hero section" aria-labelledby="products-hero-title">
+        <div>
+          <p class="eyebrow">Products</p>
+          <h1 id="products-hero-title">Classified microfluidics parts and equipment.</h1>
+          <p>
+            Browse by product class, then narrow by subclass to find chips, tubing, fittings, pumps, diagnostics consumables, lab plastics, and OEM components.
+          </p>
+        </div>
+        <div class="store-hero-panel">
+          <strong>Parts catalog</strong>
+          <span>Products only. Services and kits now have their own pages so each catalog stays easier to scan.</span>
+        </div>
+      </section>
+
+      <section id="catalog" class="section catalog-section store-catalog-section" aria-labelledby="catalog-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Classified catalog</p>
+            <h2 id="catalog-title">Select a product class</h2>
+          </div>
+          <div class="catalog-controls" aria-label="Filter product catalog">
+            <label>
+              Product class
+              <select id="classFilter"></select>
+            </label>
+            <label>
+              Subclassification
+              <select id="subclassFilter"></select>
+            </label>
+          </div>
+        </div>
+
+        <p class="catalog-note">
+          Prices are indicative research-supply ranges and may change with manufacturer, material, dimensions, quantity, sterility, documentation, and lead time. Final pricing is confirmed by quote.
+        </p>
+        <div class="product-grid" id="productGrid"></div>
+      </section>
+
+      <section id="quote" class="section quote-section" aria-labelledby="quote-title">
+        <div class="quote-panel">
+          <div>
+            <p class="eyebrow">Cart and checkout</p>
+            <h2 id="quote-title">Build your order request</h2>
+            <p>
+              Add catalog items, adjust quantities, then send the request with your lab details. MicroCD Labs confirms availability, final price, shipping, and compliance before sending a secure payment link or invoice.
+            </p>
+          </div>
+          <div class="quote-summary">
+            <h3>Cart items</h3>
+            <ul id="quoteList" aria-live="polite"></ul>
+            <p id="emptyQuote" class="empty-state">No items in cart yet.</p>
+            <p id="cartSubtotal" class="cart-subtotal" hidden></p>
+            <a id="quoteMail" class="button button-primary disabled" href="#" aria-disabled="true">Email order request</a>
+            <a id="stripePayLink" class="button stripe-pay-link disabled" href="#" aria-disabled="true">Request Stripe invoice</a>
+          </div>
+        </div>
+
+        <form id="quoteForm" class="contact-form" aria-label="Quote request details">
+          <label>
+            Name
+            <input id="quoteName" type="text" name="name" placeholder="Your name" />
+          </label>
+          <label>
+            Work email
+            <input id="quoteEmail" type="email" name="email" placeholder="you@company.com" />
+          </label>
+          <label>
+            Organisation
+            <input id="quoteOrganisation" type="text" name="organisation" placeholder="University, startup, or R&D team" />
+          </label>
+          <label>
+            Notes
+            <textarea id="quoteNotes" name="notes" rows="4" placeholder="Flow rate, tubing size, solvent compatibility, destination country, or project notes"></textarea>
+          </label>
+        </form>
+      </section>
+
+      <section class="section credits-section" aria-labelledby="credits-title">
+        <div>
+          <p class="eyebrow">Image credits</p>
+          <h2 id="credits-title">Open-source catalog imagery.</h2>
+        </div>
+        <ul class="credit-list" id="creditList"></ul>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <img class="footer-logo" src="assets/microcd-labs-logo.svg" alt="microcd labs" />
+        <p class="company-legal">MicroCD Labs, a division of Karigari Home LLC</p>
+        <p>Supplier of research-use microfluidics parts, lab-on-chip consumables, and benchtop equipment.</p>
+      </div>
+      <p>
+        Catalog images are representative. Products are for non-clinical research use unless stated otherwise.
+        <a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a>
+        <a href="https://www.linkedin.com/company/microcd-labs/about/?viewAsMember=true" target="_blank" rel="noreferrer">LinkedIn</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms & Payments</a>
+      </p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

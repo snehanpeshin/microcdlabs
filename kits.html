@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18239515056"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied'
+      });
+      gtag('js', new Date());
+
+      gtag('config', 'AW-18239515056');
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kits | MicroCD Labs</title>
+    <meta
+      name="description"
+      content="MicroCD Labs microfluidic starter kits for beginner labs, flow testing, and prototyping."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-catalog-scope="kits" data-coupon-dialog="true">
+    <header class="site-header">
+      <a class="brand" href="index.html#top" aria-label="MicroCD Labs home">
+        <img class="brand-logo" src="assets/microcd-labs-wordmark.svg" alt="microcd labs" />
+      </a>
+      <nav class="main-nav" aria-label="Primary navigation">
+        <a href="products.html">Products</a>
+        <a href="services.html">Services</a>
+        <a href="kits.html" aria-current="page">Kits</a>
+        <a href="careers.html">Careers</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+      <a class="header-cta" href="#quote">Request kit</a>
+    </header>
+
+    <main>
+      <section class="store-hero section" aria-labelledby="kits-hero-title">
+        <div>
+          <p class="eyebrow">Kits</p>
+          <h1 id="kits-hero-title">Microfluidic starter kits for new lab setups.</h1>
+          <p>
+            Pick from three practical kit levels for teaching labs, early feasibility work, flow checks, and prototype builds.
+          </p>
+        </div>
+        <div class="store-hero-panel">
+          <strong>Three custom kits</strong>
+          <span>Beginner, flow testing, and prototyping kits can be requested directly and adjusted for your lab needs.</span>
+        </div>
+      </section>
+
+      <section id="catalog" class="section catalog-section store-catalog-section" aria-labelledby="catalog-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Kit catalog</p>
+            <h2 id="catalog-title">Choose a lab kit</h2>
+          </div>
+          <div class="catalog-controls" aria-label="Filter kit catalog">
+            <label>
+              Kit class
+              <select id="classFilter"></select>
+            </label>
+            <label>
+              Subclassification
+              <select id="subclassFilter"></select>
+            </label>
+          </div>
+        </div>
+
+        <p class="catalog-note">
+          Kit contents can be adjusted for tubing size, connector style, pump preference, and experiment type before final payment.
+        </p>
+        <div class="product-grid product-grid-compact" id="productGrid"></div>
+      </section>
+
+      <section id="quote" class="section quote-section" aria-labelledby="quote-title">
+        <div class="quote-panel">
+          <div>
+            <p class="eyebrow">Cart and checkout</p>
+            <h2 id="quote-title">Request a starter kit</h2>
+            <p>
+              Add a kit, share your lab context, and MicroCD Labs will confirm the final contents, pricing, shipping, and payment link.
+            </p>
+          </div>
+          <div class="quote-summary">
+            <h3>Selected kits</h3>
+            <ul id="quoteList" aria-live="polite"></ul>
+            <p id="emptyQuote" class="empty-state">No kits selected yet.</p>
+            <p id="cartSubtotal" class="cart-subtotal" hidden></p>
+            <a id="quoteMail" class="button button-primary disabled" href="#" aria-disabled="true">Email kit request</a>
+            <a id="stripePayLink" class="button stripe-pay-link disabled" href="#" aria-disabled="true">Request Stripe invoice</a>
+          </div>
+        </div>
+
+        <form id="quoteForm" class="contact-form" aria-label="Kit request details">
+          <label>
+            Name
+            <input id="quoteName" type="text" name="name" placeholder="Your name" />
+          </label>
+          <label>
+            Work email
+            <input id="quoteEmail" type="email" name="email" placeholder="you@company.com" />
+          </label>
+          <label>
+            Organisation
+            <input id="quoteOrganisation" type="text" name="organisation" placeholder="University, startup, or R&D team" />
+          </label>
+          <label>
+            Notes
+            <textarea id="quoteNotes" name="notes" rows="4" placeholder="Tell us your application, tubing size, chip type, and whether you need pump recommendations"></textarea>
+          </label>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <img class="footer-logo" src="assets/microcd-labs-logo.svg" alt="microcd labs" />
+        <p class="company-legal">MicroCD Labs, a division of Karigari Home LLC</p>
+        <p>Supplier of research-use microfluidics parts, lab-on-chip consumables, and benchtop equipment.</p>
+      </div>
+      <p>
+        For custom kit questions:
+        <a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a>
+        <a href="https://www.linkedin.com/company/microcd-labs/about/?viewAsMember=true" target="_blank" rel="noreferrer">LinkedIn</a>
+        <a href="products.html">Products</a>
+        <a href="services.html">Services</a>
+      </p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

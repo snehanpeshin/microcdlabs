@@ -783,6 +783,84 @@ const categoryCatalogPrefixes = {
   "starter-kits": "KIT",
 };
 
+const productCategoryLabels = {
+  microfluidics: "Microfluidics & Lab-on-Chip",
+  "fluid-handling": "Tubing & Fluid Handling",
+  "flow-control": "Syringe Pumps & Flow Control",
+  diagnostics: "Diagnostics Consumables",
+  "lab-plastics": "Lab Plastics",
+  oem: "OEM Manufacturing",
+  services: "Productized Services",
+  "starter-kits": "Microfluidic Starter Kits",
+};
+
+const productCatalogCategories = [
+  "microfluidics",
+  "fluid-handling",
+  "flow-control",
+  "diagnostics",
+  "lab-plastics",
+  "oem",
+];
+
+function getProductSubclass(product) {
+  const name = product.name.toLowerCase();
+  const tags = product.tags.join(" ").toLowerCase();
+  const text = `${name} ${tags}`;
+
+  if (product.category === "microfluidics") {
+    if (text.includes("custom") || text.includes("prototyping")) return "Custom fabrication";
+    if (text.includes("droplet") || text.includes("mixer")) return "Chip functions";
+    if (text.includes("organ") || text.includes("cell")) return "Cell and tissue chips";
+    return "Chip materials";
+  }
+
+  if (product.category === "fluid-handling") {
+    if (text.includes("tubing") || text.includes("ptfe") || text.includes("fep") || text.includes("peek")) return "Tubing";
+    if (text.includes("connector") || text.includes("fitting") || text.includes("manifold")) return "Connectors and manifolds";
+    if (text.includes("reservoir") || text.includes("bottle") || text.includes("falcon") || text.includes("eppendorf")) return "Reservoirs";
+    return "Fluidic accessories";
+  }
+
+  if (product.category === "flow-control") {
+    if (text.includes("pump")) return "Pumps";
+    if (text.includes("valve")) return "Valves";
+    if (text.includes("sensor") || text.includes("meter")) return "Sensors and meters";
+    return "Controllers";
+  }
+
+  if (product.category === "diagnostics") {
+    if (text.includes("lfia") || text.includes("membrane") || text.includes("pad")) return "LFIA materials";
+    if (text.includes("cartridge") || text.includes("housing") || text.includes("cassette")) return "Cartridges and housings";
+    return "Assay development";
+  }
+
+  if (product.category === "lab-plastics") {
+    if (text.includes("plate")) return "Plates";
+    if (text.includes("tube") || text.includes("vial")) return "Tubes and vials";
+    return "Pipetting and storage";
+  }
+
+  if (product.category === "oem") {
+    if (text.includes("mold") || text.includes("plastic")) return "Molded parts";
+    if (text.includes("cartridge") || text.includes("cassette")) return "Cartridges and cassettes";
+    return "Manufacturing support";
+  }
+
+  if (product.category === "services") {
+    if (text.includes("sourcing") || text.includes("supplier")) return "Supplier search";
+    return "OEM matching";
+  }
+
+  if (product.category === "starter-kits") {
+    if (text.includes("beginner")) return "Beginner";
+    if (text.includes("flow")) return "Flow testing";
+    return "Prototyping";
+  }
+
+  return "General";
+}
+
 function assignCatalogMetadata() {
   const counters = new Map();
   products.forEach((product) => {
@@ -790,6 +868,7 @@ function assignCatalogMetadata() {
     const next = (counters.get(prefix) || 0) + 1;
     counters.set(prefix, next);
     product.sku = `MCD-${prefix}-${String(next).padStart(3, "0")}`;
+    product.subclass = getProductSubclass(product);
   });
 }
 
@@ -813,7 +892,10 @@ const contactForm = document.querySelector("#contactForm");
 const contactMail = document.querySelector("#contactMail");
 const creditList = document.querySelector("#creditList");
 const filterButtons = document.querySelectorAll(".filter-button");
+const classFilter = document.querySelector("#classFilter");
+const subclassFilter = document.querySelector("#subclassFilter");
 const heroDotField = document.querySelector("#heroDotField");
+const catalogScope = document.body.dataset.catalogScope || "all";
 const companyEmail = "info@microcdlabs.com";
 const stripePaymentLinkUrl = "";
 
@@ -924,9 +1006,59 @@ function iconSvg(type) {
   return icons[type] || icons.parts;
 }
 
-function renderProducts(filter = "all") {
+function getScopedProducts() {
+  if (catalogScope === "products") return products.filter((product) => productCatalogCategories.includes(product.category));
+  if (catalogScope === "services") return products.filter((product) => product.category === "services");
+  if (catalogScope === "kits") return products.filter((product) => product.category === "starter-kits");
+  return products;
+}
+
+function getCurrentCatalogFilters() {
+  const activeButtonFilter = document.querySelector(".filter-button.active")?.dataset.filter || "all";
+  return {
+    category: classFilter?.value || activeButtonFilter,
+    subclass: subclassFilter?.value || "all",
+  };
+}
+
+function populateCatalogControls() {
+  if (!classFilter) return;
+  const scopedProducts = getScopedProducts();
+  const categories = Array.from(new Set(scopedProducts.map((product) => product.category)));
+
+  classFilter.innerHTML = [
+    '<option value="all">All product classes</option>',
+    ...categories.map((category) => `<option value="${category}">${productCategoryLabels[category] || category}</option>`),
+  ].join("");
+
+  updateSubclassOptions();
+}
+
+function updateSubclassOptions() {
+  if (!subclassFilter) return;
+  const scopedProducts = getScopedProducts();
+  const selectedCategory = classFilter?.value || "all";
+  const subclassProducts =
+    selectedCategory === "all" ? scopedProducts : scopedProducts.filter((product) => product.category === selectedCategory);
+  const subclasses = Array.from(new Set(subclassProducts.map((product) => product.subclass))).sort();
+
+  subclassFilter.innerHTML = [
+    '<option value="all">All subclasses</option>',
+    ...subclasses.map((subclass) => `<option value="${subclass}">${subclass}</option>`),
+  ].join("");
+}
+
+function renderProducts(filter = null) {
   if (!productGrid) return;
-  const visible = filter === "all" ? products : products.filter((product) => product.category === filter);
+  const scopedProducts = getScopedProducts();
+  const filters = getCurrentCatalogFilters();
+  const category = filter || filters.category || "all";
+  const subclass = filters.subclass || "all";
+  const visible = scopedProducts.filter((product) => {
+    const categoryMatch = category === "all" || product.category === category;
+    const subclassMatch = subclass === "all" || product.subclass === subclass;
+    return categoryMatch && subclassMatch;
+  });
 
   productGrid.innerHTML = visible
     .map(
@@ -944,6 +1076,7 @@ function renderProducts(filter = "all") {
             <strong class="product-price">${product.price}</strong>
             <div class="catalog-identifiers">
               <span>MicroCD Cat. No. ${product.sku}</span>
+              <span>${productCategoryLabels[product.category] || product.category} / ${product.subclass}</span>
             </div>
             <p>${product.description}</p>
             <div class="product-meta">
@@ -957,6 +1090,10 @@ function renderProducts(filter = "all") {
       `,
     )
     .join("");
+
+  if (!visible.length) {
+    productGrid.innerHTML = '<p class="empty-catalog">No catalog items match this classification yet.</p>';
+  }
 }
 
 function getStartingPrice(product) {
@@ -1098,6 +1235,18 @@ if (filterButtons.length) {
   });
 }
 
+if (classFilter) {
+  populateCatalogControls();
+  classFilter.addEventListener("change", () => {
+    updateSubclassOptions();
+    renderProducts();
+  });
+}
+
+if (subclassFilter) {
+  subclassFilter.addEventListener("change", () => renderProducts());
+}
+
 if (productGrid) {
   productGrid.addEventListener("click", (event) => {
     const button = event.target.closest("[data-product]");
@@ -1112,7 +1261,7 @@ if (productGrid) {
       selected.set(product.id, { product, quantity: 1 });
     }
 
-    const activeFilter = document.querySelector(".filter-button.active")?.dataset.filter || "all";
+    const activeFilter = document.querySelector(".filter-button.active")?.dataset.filter || null;
     renderProducts(activeFilter);
     renderQuote();
   });
@@ -1126,7 +1275,7 @@ if (quoteList) {
       if (!entry) return;
       entry.quantity += Number(quantityButton.dataset.change);
       if (entry.quantity < 1) selected.delete(quantityButton.dataset.quantity);
-      const activeFilter = document.querySelector(".filter-button.active")?.dataset.filter || "all";
+      const activeFilter = document.querySelector(".filter-button.active")?.dataset.filter || null;
       renderProducts(activeFilter);
       renderQuote();
       return;
@@ -1136,10 +1285,49 @@ if (quoteList) {
     if (!button) return;
 
     selected.delete(button.dataset.remove);
-    const activeFilter = document.querySelector(".filter-button.active")?.dataset.filter || "all";
+    const activeFilter = document.querySelector(".filter-button.active")?.dataset.filter || null;
     renderProducts(activeFilter);
     renderQuote();
   });
+}
+
+function initCouponDialog() {
+  if (!document.body.dataset.couponDialog || sessionStorage.getItem("microcdCouponClosed") === "true") return;
+
+  const dialog = document.createElement("div");
+  dialog.className = "coupon-dialog";
+  dialog.setAttribute("role", "dialog");
+  dialog.setAttribute("aria-modal", "true");
+  dialog.setAttribute("aria-labelledby", "couponTitle");
+  dialog.innerHTML = `
+    <div class="coupon-dialog__panel">
+      <button class="coupon-dialog__close" type="button" aria-label="Close coupon offer">Close</button>
+      <p class="eyebrow">MicroCD Labs offer</p>
+      <h2 id="couponTitle">Get 10% off your first quote request.</h2>
+      <p>Enter an email or phone number to reveal the code. This form does not store or submit your information.</p>
+      <label>
+        Email or phone
+        <input id="couponContact" type="text" placeholder="you@lab.edu or phone number" />
+      </label>
+      <button class="button button-primary coupon-dialog__reveal" type="button">Reveal code</button>
+      <p class="coupon-code" hidden>Use code <strong>MICROCD10</strong> in your order notes.</p>
+    </div>
+  `;
+
+  function closeDialog() {
+    sessionStorage.setItem("microcdCouponClosed", "true");
+    dialog.remove();
+  }
+
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog || event.target.closest(".coupon-dialog__close")) closeDialog();
+    if (event.target.closest(".coupon-dialog__reveal")) {
+      const code = dialog.querySelector(".coupon-code");
+      if (code) code.hidden = false;
+    }
+  });
+
+  document.body.append(dialog);
 }
 
 if (quoteForm) quoteForm.addEventListener("input", renderQuote);
@@ -1150,3 +1338,4 @@ renderQuote();
 renderCredits();
 renderContactMail();
 initHeroDotField();
+initCouponDialog();
