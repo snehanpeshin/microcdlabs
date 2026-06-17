@@ -897,7 +897,7 @@ const subclassFilter = document.querySelector("#subclassFilter");
 const heroDotField = document.querySelector("#heroDotField");
 const catalogScope = document.body.dataset.catalogScope || "all";
 const companyEmail = "info@microcdlabs.com";
-const stripePaymentLinkUrl = "";
+const stripePaymentLinkUrl = "https://buy.stripe.com/7sY8wP3Ep3EX9HtggE3Ru02";
 
 function initHeroDotField() {
   if (!heroDotField) return;
