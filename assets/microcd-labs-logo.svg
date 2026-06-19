@@ -1,23 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 628 320" role="img" aria-labelledby="title desc">
-  <title id="title">microcd labs logo</title>
-  <desc id="desc">A minimalist microcd labs wordmark with a white circular mark on a dark charcoal background.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title desc">
+  <title id="title">microcd labs circular logo</title>
+  <desc id="desc">A circular MicroCD Labs logo with small microcd labs lettering.</desc>
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#191919"/>
-      <stop offset="0.68" stop-color="#1d1d1d"/>
-      <stop offset="1" stop-color="#111111"/>
+    <linearGradient id="disc" x1="56" y1="42" x2="260" y2="284" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#16a39a"/>
+      <stop offset="0.7" stop-color="#0f766e"/>
+      <stop offset="1" stop-color="#0a4f4b"/>
     </linearGradient>
   </defs>
-  <rect width="628" height="320" fill="url(#bg)"/>
-  <path d="M628 0 509 320h119V0Z" fill="#242424" opacity=".42"/>
-  <circle cx="307" cy="102" r="80" fill="#fff"/>
-  <circle cx="151.5" cy="213.5" r="4.6" fill="#fff"/>
+  <circle cx="160" cy="160" r="152" fill="#ffffff"/>
+  <circle cx="160" cy="160" r="142" fill="#f3f7f4"/>
+  <circle cx="160" cy="132" r="78" fill="url(#disc)"/>
+  <circle cx="160" cy="132" r="31" fill="#ffffff"/>
+  <circle cx="160" cy="132" r="10" fill="#0f766e"/>
+  <g fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" opacity="0.92">
+    <path d="M160 132 C132 116 112 96 96 73"/>
+    <path d="M160 132 C190 113 211 94 231 73"/>
+    <path d="M160 132 C132 151 112 171 96 191"/>
+    <path d="M160 132 C190 151 211 171 231 191"/>
+  </g>
+  <g fill="#d66a45">
+    <circle cx="96" cy="73" r="11"/>
+    <circle cx="231" cy="73" r="11"/>
+    <circle cx="96" cy="191" r="11"/>
+    <circle cx="231" cy="191" r="11"/>
+  </g>
   <text
-    x="58"
-    y="268"
-    fill="#fff"
+    x="160"
+    y="252"
+    fill="#18211f"
+    text-anchor="middle"
     font-family="Inter, Helvetica Neue, Arial, sans-serif"
-    font-size="80"
-    font-weight="300"
+    font-size="34"
+    font-weight="350"
     letter-spacing="0">microcd labs</text>
 </svg>

@@ -1,45 +1,43 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="2in" height="2in" viewBox="0 0 600 600" role="img" aria-labelledby="title desc">
-  <title id="title">MicroCD Labs clarity and connection mark</title>
-  <desc id="desc">A compact MicroCD Labs mark showing a microfluidic disc, connected nodes, and a human-centered heart shape.</desc>
+  <title id="title">MicroCD Labs circular clarity mark</title>
+  <desc id="desc">A circular MicroCD Labs clarity mark with smaller microcd labs lettering.</desc>
   <defs>
-    <linearGradient id="disc" x1="118" y1="90" x2="482" y2="510" gradientUnits="userSpaceOnUse">
+    <linearGradient id="disc" x1="120" y1="80" x2="480" y2="520" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#16a39a"/>
       <stop offset="0.62" stop-color="#0f766e"/>
       <stop offset="1" stop-color="#0a4f4b"/>
     </linearGradient>
-    <linearGradient id="warm" x1="162" y1="150" x2="452" y2="454" gradientUnits="userSpaceOnUse">
+    <linearGradient id="warm" x1="150" y1="120" x2="450" y2="420" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#d85b45"/>
       <stop offset="1" stop-color="#d79a2b"/>
     </linearGradient>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#18211f" flood-opacity="0.16"/>
-    </filter>
   </defs>
-
-  <rect width="600" height="600" rx="96" fill="#f4f8f6"/>
-
-  <g filter="url(#shadow)">
-    <circle cx="300" cy="300" r="220" fill="#ffffff"/>
-    <circle cx="300" cy="300" r="184" fill="url(#disc)"/>
-    <circle cx="300" cy="300" r="76" fill="#ffffff"/>
-    <circle cx="300" cy="300" r="27" fill="#0f766e"/>
+  <circle cx="300" cy="300" r="286" fill="#ffffff"/>
+  <circle cx="300" cy="300" r="268" fill="#f3f7f4"/>
+  <circle cx="300" cy="245" r="156" fill="url(#disc)"/>
+  <circle cx="300" cy="245" r="64" fill="#ffffff"/>
+  <circle cx="300" cy="245" r="21" fill="#0f766e"/>
+  <g fill="none" stroke="#ffffff" stroke-width="17" stroke-linecap="round" stroke-linejoin="round" opacity="0.95">
+    <path d="M300 245 C242 212 201 174 168 126"/>
+    <path d="M300 245 C362 207 407 171 452 126"/>
+    <path d="M300 245 C242 287 201 329 168 373"/>
+    <path d="M300 245 C362 287 407 329 452 373"/>
   </g>
-
-  <g fill="none" stroke="#ffffff" stroke-width="25" stroke-linecap="round" stroke-linejoin="round" opacity="0.96">
-    <path d="M300 300 C235 257 191 219 158 164"/>
-    <path d="M300 300 C374 251 427 214 476 164"/>
-    <path d="M300 300 C234 346 188 393 156 447"/>
-    <path d="M300 300 C371 349 424 394 475 447"/>
-  </g>
-
   <g fill="url(#warm)">
-    <circle cx="158" cy="164" r="34"/>
-    <circle cx="476" cy="164" r="34"/>
-    <circle cx="156" cy="447" r="34"/>
-    <circle cx="475" cy="447" r="34"/>
+    <circle cx="168" cy="126" r="24"/>
+    <circle cx="452" cy="126" r="24"/>
+    <circle cx="168" cy="373" r="24"/>
+    <circle cx="452" cy="373" r="24"/>
   </g>
-
-  <path d="M226 295 C247 235 347 235 370 295 C396 363 303 399 300 401 C297 399 201 363 226 295Z" fill="#ffffff" opacity="0.97"/>
-  <path d="M259 293 C271 263 329 263 341 293 C354 329 303 352 300 354 C297 352 246 329 259 293Z" fill="#d85b45"/>
-  <text x="300" y="507" text-anchor="middle" font-family="Inter, Arial, Helvetica, sans-serif" font-size="42" font-weight="800" letter-spacing="4" fill="#ffffff">MICROCD</text>
+  <path d="M242 244 C259 199 340 199 359 244 C378 296 304 325 300 327 C296 325 223 296 242 244Z" fill="#ffffff" opacity="0.96"/>
+  <path d="M267 243 C277 218 324 218 333 243 C344 274 303 292 300 294 C297 292 256 274 267 243Z" fill="#d85b45"/>
+  <text
+    x="300"
+    y="470"
+    text-anchor="middle"
+    font-family="Inter, Arial, Helvetica, sans-serif"
+    font-size="62"
+    font-weight="350"
+    letter-spacing="0"
+    fill="#18211f">microcd labs</text>
 </svg>

@@ -1,13 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 80" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 72" role="img" aria-labelledby="title desc">
   <title id="title">microcd labs wordmark</title>
-  <desc id="desc">A compact teal circle and dark microcd labs wordmark for light navigation bars.</desc>
-  <circle cx="38" cy="40" r="22" fill="#0f766e"/>
+  <desc id="desc">A compact circular MicroCD Labs mark with smaller wordmark letters.</desc>
+  <defs>
+    <linearGradient id="mark" x1="10" y1="10" x2="62" y2="62" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#16a39a"/>
+      <stop offset="1" stop-color="#0f766e"/>
+    </linearGradient>
+  </defs>
+  <circle cx="36" cy="36" r="28" fill="url(#mark)"/>
+  <circle cx="36" cy="36" r="12" fill="#ffffff"/>
+  <circle cx="36" cy="36" r="4.5" fill="#0f766e"/>
   <text
     x="78"
-    y="53"
+    y="45"
     fill="#18211f"
     font-family="Inter, Helvetica Neue, Arial, sans-serif"
-    font-size="42"
+    font-size="30"
     font-weight="350"
     letter-spacing="0">microcd labs</text>
 </svg>

@@ -1,51 +1,43 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
-  <title id="title">MicroCD Labs clarity and connection logo</title>
-  <desc id="desc">A MicroCD Labs logo combining a clear circular lab-on-disc motif with connected human-centered nodes.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title desc">
+  <title id="title">MicroCD Labs circular clarity logo</title>
+  <desc id="desc">A circular MicroCD Labs logo focused on clarity and connection with small lettering.</desc>
   <defs>
-    <linearGradient id="disc" x1="92" y1="58" x2="350" y2="344" gradientUnits="userSpaceOnUse">
+    <linearGradient id="disc" x1="54" y1="38" x2="268" y2="276" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#16a39a"/>
       <stop offset="0.62" stop-color="#0f766e"/>
       <stop offset="1" stop-color="#0a4f4b"/>
     </linearGradient>
-    <linearGradient id="warm" x1="126" y1="104" x2="330" y2="308" gradientUnits="userSpaceOnUse">
+    <linearGradient id="warm" x1="80" y1="70" x2="240" y2="216" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#d85b45"/>
       <stop offset="1" stop-color="#d79a2b"/>
     </linearGradient>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#18211f" flood-opacity="0.14"/>
-    </filter>
   </defs>
-
-  <rect width="1200" height="420" rx="36" fill="#ffffff"/>
-
-  <g transform="translate(58 48)" filter="url(#shadow)">
-    <circle cx="162" cy="162" r="150" fill="#f4f8f6"/>
-    <circle cx="162" cy="162" r="124" fill="url(#disc)"/>
-    <circle cx="162" cy="162" r="52" fill="#ffffff"/>
-    <circle cx="162" cy="162" r="18" fill="#0f766e"/>
-
-    <g fill="none" stroke="#ffffff" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" opacity="0.95">
-      <path d="M162 162 C119 134 90 109 68 74"/>
-      <path d="M162 162 C210 129 246 105 279 77"/>
-      <path d="M162 162 C118 190 86 222 65 256"/>
-      <path d="M162 162 C211 196 246 224 278 256"/>
-    </g>
-
-    <g fill="url(#warm)">
-      <circle cx="68" cy="74" r="22"/>
-      <circle cx="279" cy="77" r="22"/>
-      <circle cx="65" cy="256" r="22"/>
-      <circle cx="278" cy="256" r="22"/>
-    </g>
-
-    <path d="M113 160 C128 119 196 119 211 160 C228 205 164 229 162 230 C160 229 96 205 113 160Z" fill="#ffffff" opacity="0.95"/>
-    <path d="M135 159 C143 138 181 138 189 159 C198 183 164 198 162 199 C160 198 126 183 135 159Z" fill="#d85b45"/>
+  <circle cx="160" cy="160" r="152" fill="#ffffff"/>
+  <circle cx="160" cy="160" r="142" fill="#f3f7f4"/>
+  <circle cx="160" cy="130" r="82" fill="url(#disc)"/>
+  <circle cx="160" cy="130" r="34" fill="#ffffff"/>
+  <circle cx="160" cy="130" r="11" fill="#0f766e"/>
+  <g fill="none" stroke="#ffffff" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.95">
+    <path d="M160 130 C130 112 108 92 91 68"/>
+    <path d="M160 130 C193 109 216 90 239 68"/>
+    <path d="M160 130 C130 151 108 173 91 195"/>
+    <path d="M160 130 C193 151 216 173 239 195"/>
   </g>
-
-  <g transform="translate(410 112)">
-    <text x="0" y="60" font-family="Inter, Arial, Helvetica, sans-serif" font-size="62" font-weight="800" letter-spacing="0" fill="#18211f">MicroCD Labs</text>
-    <text x="0" y="106" font-family="Inter, Arial, Helvetica, sans-serif" font-size="24" font-weight="700" letter-spacing="1.8" fill="#0f766e">MICROFLUIDICS • DIAGNOSTICS • HUMAN-CENTERED CLARITY</text>
-    <rect x="0" y="138" width="520" height="3" rx="1.5" fill="#d9e1dd"/>
-    <text x="0" y="184" font-family="Inter, Arial, Helvetica, sans-serif" font-size="26" font-weight="500" fill="#5d6965">Clearer tools for connected research teams.</text>
+  <g fill="url(#warm)">
+    <circle cx="91" cy="68" r="12"/>
+    <circle cx="239" cy="68" r="12"/>
+    <circle cx="91" cy="195" r="12"/>
+    <circle cx="239" cy="195" r="12"/>
   </g>
+  <path d="M129 129 C138 105 181 105 191 129 C202 157 162 174 160 175 C158 174 118 157 129 129Z" fill="#ffffff" opacity="0.95"/>
+  <path d="M143 129 C149 116 172 116 177 129 C183 145 161 154 160 155 C159 154 137 145 143 129Z" fill="#d85b45"/>
+  <text
+    x="160"
+    y="252"
+    fill="#18211f"
+    text-anchor="middle"
+    font-family="Inter, Helvetica Neue, Arial, sans-serif"
+    font-size="34"
+    font-weight="350"
+    letter-spacing="0">microcd labs</text>
 </svg>
