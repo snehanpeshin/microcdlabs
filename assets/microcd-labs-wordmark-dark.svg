@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 80" role="img" aria-labelledby="title desc">
+  <title id="title">microcd labs wordmark</title>
+  <desc id="desc">A compact teal circle and dark microcd labs wordmark for light navigation bars.</desc>
+  <circle cx="38" cy="40" r="22" fill="#0f766e"/>
+  <text
+    x="78"
+    y="53"
+    fill="#18211f"
+    font-family="Inter, Helvetica Neue, Arial, sans-serif"
+    font-size="42"
+    font-weight="350"
+    letter-spacing="0">microcd labs</text>
+</svg>
