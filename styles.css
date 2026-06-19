@@ -66,24 +66,20 @@ textarea {
   display: flex;
   align-items: center;
   gap: 12px;
-  min-width: 58px;
+  min-width: 190px;
 }
 
 .brand-logo {
   display: block;
-  width: 58px;
-  height: 58px;
-  border-radius: 50%;
-  object-fit: contain;
+  width: clamp(168px, 18vw, 220px);
+  height: auto;
 }
 
 .hero-logo {
   display: block;
-  width: min(190px, 56vw);
-  height: min(190px, 56vw);
+  width: min(330px, 82vw);
   margin-bottom: 18px;
-  border-radius: 50%;
-  object-fit: contain;
+  border-radius: 8px;
   box-shadow: 0 20px 54px rgba(26, 42, 36, 0.12);
 }
 
@@ -1088,12 +1084,11 @@ h3 {
 
 .footer-logo {
   display: block;
-  width: 112px;
-  height: 112px;
+  width: 190px;
   max-width: 100%;
+  height: auto;
   margin-bottom: 12px;
-  border-radius: 50%;
-  object-fit: contain;
+  border-radius: 6px;
 }
 
 .company-legal {
@@ -1233,8 +1228,7 @@ h3 {
   }
 
   .hero-logo {
-    width: min(170px, 54vw);
-    height: min(170px, 54vw);
+    width: min(300px, 88vw);
   }
 
   .hero-media figcaption {
