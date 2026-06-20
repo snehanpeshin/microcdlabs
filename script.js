@@ -1271,10 +1271,10 @@ function initHeroDotField() {
       context.arc(dot.x, dot.y, radius, 0, Math.PI * 2);
       context.fillStyle =
         influence > 0.02
-          ? `rgba(255, 255, 255, ${Math.min(alpha, 0.92)})`
+          ? `rgba(69, 255, 172, ${Math.min(alpha, 0.96)})`
           : `rgba(255, 255, 255, ${Math.min(alpha, 0.22)})`;
-      context.shadowColor = influence > 0.02 ? "rgba(255, 255, 255, 0.42)" : "transparent";
-      context.shadowBlur = influence * 12;
+      context.shadowColor = influence > 0.02 ? "rgba(69, 255, 172, 0.62)" : "transparent";
+      context.shadowBlur = influence * 16;
       context.fill();
     });
 
