@@ -1164,10 +1164,46 @@ const creditList = document.querySelector("#creditList");
 const filterButtons = document.querySelectorAll(".filter-button");
 const classFilter = document.querySelector("#classFilter");
 const subclassFilter = document.querySelector("#subclassFilter");
+const catalogSearch = document.querySelector("#catalogSearch");
+const catalogClassMenu = document.querySelector("#catalogClassMenu");
+const catalogResultsCount = document.querySelector("#catalogResultsCount");
+const productDetail = document.querySelector("#productDetail");
 const heroDotField = document.querySelector("#heroDotField");
+const productDetailId = document.body.dataset.productDetail || "";
 const catalogScope = document.body.dataset.catalogScope || "all";
 const companyEmail = "info@microcdlabs.com";
 const stripePaymentLinkUrl = "https://buy.stripe.com/7sY8wP3Ep3EX9HtggE3Ru02";
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function getProductPageUrl(product) {
+  return `catalog/${product.id}.html`;
+}
+
+function getProductSearchText(product) {
+  return [
+    product.name,
+    product.description,
+    product.price,
+    product.sku,
+    productCategoryLabels[product.category],
+    product.subclass,
+    ...product.tags,
+  ]
+    .join(" ")
+    .toLowerCase();
+}
+
+function resolveAssetUrl(url, prefix = "") {
+  if (!url || /^https?:\/\//i.test(url)) return url;
+  return `${prefix}${url}`;
+}
 
 function initHeroDotField() {
   if (!heroDotField) return;
@@ -1235,9 +1271,9 @@ function initHeroDotField() {
       context.arc(dot.x, dot.y, radius, 0, Math.PI * 2);
       context.fillStyle =
         influence > 0.02
-          ? `rgba(15, 118, 110, ${Math.min(alpha, 0.92)})`
-          : `rgba(15, 118, 110, ${Math.min(alpha, 0.22)})`;
-      context.shadowColor = influence > 0.02 ? "rgba(15, 118, 110, 0.42)" : "transparent";
+          ? `rgba(255, 255, 255, ${Math.min(alpha, 0.92)})`
+          : `rgba(255, 255, 255, ${Math.min(alpha, 0.22)})`;
+      context.shadowColor = influence > 0.02 ? "rgba(255, 255, 255, 0.42)" : "transparent";
       context.shadowBlur = influence * 12;
       context.fill();
     });
@@ -1301,7 +1337,19 @@ function populateCatalogControls() {
     ...categories.map((category) => `<option value="${category}">${productCategoryLabels[category] || category}</option>`),
   ].join("");
 
+  renderCatalogClassMenu(categories);
   updateSubclassOptions();
+}
+
+function renderCatalogClassMenu(categories) {
+  if (!catalogClassMenu) return;
+  catalogClassMenu.innerHTML = [
+    '<button class="catalog-class-button active" type="button" data-class-menu="all">All</button>',
+    ...categories.map(
+      (category) =>
+        `<button class="catalog-class-button" type="button" data-class-menu="${category}">${productCategoryLabels[category] || category}</button>`,
+    ),
+  ].join("");
 }
 
 function updateSubclassOptions() {
@@ -1324,11 +1372,17 @@ function renderProducts(filter = null) {
   const filters = getCurrentCatalogFilters();
   const category = filter || filters.category || "all";
   const subclass = filters.subclass || "all";
+  const searchTerm = (catalogSearch?.value || "").trim().toLowerCase();
   const visible = scopedProducts.filter((product) => {
     const categoryMatch = category === "all" || product.category === category;
     const subclassMatch = subclass === "all" || product.subclass === subclass;
-    return categoryMatch && subclassMatch;
+    const searchMatch = !searchTerm || getProductSearchText(product).includes(searchTerm);
+    return categoryMatch && subclassMatch && searchMatch;
   });
+
+  if (catalogResultsCount) {
+    catalogResultsCount.textContent = `${visible.length} ${visible.length === 1 ? "item" : "items"} shown`;
+  }
 
   productGrid.innerHTML = visible
     .map(
@@ -1353,9 +1407,12 @@ function renderProducts(filter = null) {
               ${product.tags.map((tag) => `<span>${tag}</span>`).join("")}
             </div>
           </div>
-          <button class="button card-action ${selected.has(product.id) ? "selected" : ""}" type="button" data-product="${product.id}">
-            ${selected.has(product.id) ? "Add another" : "Add to cart"}
-          </button>
+          <div class="product-card-actions">
+            <a class="button card-detail-link" href="${getProductPageUrl(product)}">View catalog page</a>
+            <button class="button card-action ${selected.has(product.id) ? "selected" : ""}" type="button" data-product="${product.id}">
+              ${selected.has(product.id) ? "Add another" : "Add to cart"}
+            </button>
+          </div>
         </article>
       `,
     )
@@ -1402,6 +1459,71 @@ function renderCredits() {
       `,
     )
     .join("");
+}
+
+function renderProductDetail() {
+  if (!productDetail || !productDetailId) return;
+  const product = products.find((item) => item.id === productDetailId);
+  if (!product) {
+    productDetail.innerHTML = `
+      <section class="section product-detail-section">
+        <p class="eyebrow">Catalog page</p>
+        <h1>Catalog item not found.</h1>
+        <p class="catalog-note">Return to the products catalog to browse available MicroCD Labs items.</p>
+        <a class="button button-primary" href="../products.html#catalog">Back to products</a>
+      </section>
+    `;
+    return;
+  }
+
+  const categoryLabel = productCategoryLabels[product.category] || product.category;
+  const requestSubject = encodeURIComponent(`MicroCD Labs quote request: ${product.name}`);
+  const requestBody = encodeURIComponent(
+    `Hello MicroCD Labs,\n\nPlease send availability, final price, lead time, shipping, and documentation details for:\n\n${product.name}\nMicroCD Cat. No. ${product.sku}\nCategory: ${categoryLabel}\nSubclass: ${product.subclass}\nIndicative price: ${product.price}\n\nIntended research-use application:\n\nDestination country:\n\nThank you.`,
+  );
+
+  productDetail.innerHTML = `
+    <section class="section product-detail-section" aria-labelledby="product-detail-title">
+      <div class="product-detail-layout">
+        <div class="product-detail-media">
+          ${
+            product.image
+              ? `<img src="${resolveAssetUrl(product.image.url, "../")}" alt="${escapeHtml(product.image.alt)}" />`
+              : iconSvg(product.icon)
+          }
+          ${product.image ? `<span class="image-credit">${escapeHtml(product.image.credit)}</span>` : ""}
+        </div>
+        <div class="product-detail-copy">
+          <p class="eyebrow">${escapeHtml(categoryLabel)}</p>
+          <h1 id="product-detail-title">${escapeHtml(product.name)}</h1>
+          <strong class="product-detail-price">${escapeHtml(product.price)}</strong>
+          <dl class="product-detail-specs">
+            <div>
+              <dt>MicroCD Cat. No.</dt>
+              <dd>${escapeHtml(product.sku)}</dd>
+            </div>
+            <div>
+              <dt>Classification</dt>
+              <dd>${escapeHtml(categoryLabel)}</dd>
+            </div>
+            <div>
+              <dt>Subclass</dt>
+              <dd>${escapeHtml(product.subclass)}</dd>
+            </div>
+          </dl>
+          <p>${escapeHtml(product.description)}</p>
+          <div class="product-meta">
+            ${product.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}
+          </div>
+          <div class="product-detail-actions">
+            <a class="button button-primary" href="mailto:${companyEmail}?subject=${requestSubject}&body=${requestBody}">Request quote for this item</a>
+            <a class="button product-back-link" href="../products.html#catalog">Back to catalog</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+  document.title = `${product.name} | MicroCD Labs Catalog`;
 }
 
 function renderQuote() {
@@ -1509,12 +1631,33 @@ if (classFilter) {
   populateCatalogControls();
   classFilter.addEventListener("change", () => {
     updateSubclassOptions();
+    if (catalogClassMenu) {
+      catalogClassMenu.querySelectorAll("[data-class-menu]").forEach((button) => {
+        button.classList.toggle("active", button.dataset.classMenu === classFilter.value);
+      });
+    }
     renderProducts();
   });
 }
 
 if (subclassFilter) {
   subclassFilter.addEventListener("change", () => renderProducts());
+}
+
+if (catalogSearch) {
+  catalogSearch.addEventListener("input", () => renderProducts());
+}
+
+if (catalogClassMenu) {
+  catalogClassMenu.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-class-menu]");
+    if (!button || !classFilter) return;
+    classFilter.value = button.dataset.classMenu;
+    updateSubclassOptions();
+    catalogClassMenu.querySelectorAll("[data-class-menu]").forEach((item) => item.classList.remove("active"));
+    button.classList.add("active");
+    renderProducts();
+  });
 }
 
 if (productGrid) {
@@ -1604,6 +1747,7 @@ if (quoteForm) quoteForm.addEventListener("input", renderQuote);
 if (contactForm) contactForm.addEventListener("input", renderContactMail);
 
 renderProducts();
+renderProductDetail();
 renderQuote();
 renderCredits();
 renderContactMail();

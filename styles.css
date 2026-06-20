@@ -408,10 +408,10 @@ h3 {
 
 .catalog-controls {
   display: grid;
-  grid-template-columns: repeat(2, minmax(180px, 1fr));
+  grid-template-columns: minmax(220px, 1.3fr) repeat(2, minmax(180px, 1fr));
   gap: 12px;
   justify-self: end;
-  width: min(520px, 100%);
+  width: min(820px, 100%);
 }
 
 .catalog-controls label {
@@ -422,6 +422,11 @@ h3 {
   font-weight: 800;
 }
 
+.catalog-search-label {
+  grid-column: span 1;
+}
+
+.catalog-controls input,
 .catalog-controls select {
   min-height: 42px;
   border: 1px solid #cfd9d5;
@@ -435,6 +440,13 @@ h3 {
   appearance: none;
 }
 
+.catalog-controls input {
+  padding-right: 12px;
+  background: var(--white);
+  appearance: auto;
+}
+
+.catalog-controls input:focus,
 .catalog-controls select:focus {
   border-color: var(--charcoal);
   outline: 3px solid rgba(27, 27, 27, 0.12);
@@ -445,6 +457,39 @@ h3 {
   margin: 24px 0 0;
   color: var(--muted);
   font-size: 0.96rem;
+}
+
+.catalog-class-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.catalog-class-button {
+  min-height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 12px;
+  color: var(--charcoal);
+  background: var(--white);
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.catalog-class-button.active,
+.catalog-class-button:hover,
+.catalog-class-button:focus-visible {
+  color: var(--white);
+  border-color: var(--charcoal-deep);
+  background: var(--charcoal-deep);
+}
+
+.catalog-results-count {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 800;
 }
 
 .store-preview-section {
@@ -674,18 +719,124 @@ h3 {
   font-weight: 700;
 }
 
-.card-action {
-  width: calc(100% - 36px);
+.product-card-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
   margin: 0 18px 18px;
+}
+
+.card-action,
+.card-detail-link {
+  width: 100%;
+  margin: 0;
   border: 1px solid var(--charcoal);
+  cursor: pointer;
+}
+
+.card-action {
   color: var(--charcoal);
   background: var(--white);
-  cursor: pointer;
+}
+
+.card-detail-link {
+  color: var(--white);
+  background: var(--charcoal);
 }
 
 .card-action.selected {
   color: var(--white);
   background: var(--charcoal);
+}
+
+.product-detail-section {
+  background: var(--white);
+}
+
+.product-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.8fr) minmax(320px, 1fr);
+  gap: clamp(28px, 5vw, 72px);
+  align-items: start;
+}
+
+.product-detail-media {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--soft);
+  overflow: hidden;
+}
+
+.product-detail-media img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+  background: #f4f4f2;
+}
+
+.product-detail-media .part-icon {
+  width: min(220px, 70%);
+  height: auto;
+  margin: 72px auto;
+}
+
+.product-detail-copy {
+  display: grid;
+  gap: 16px;
+}
+
+.product-detail-copy h1 {
+  font-size: clamp(2rem, 4.5vw, 4rem);
+}
+
+.product-detail-copy p {
+  color: var(--muted);
+  font-size: 1.02rem;
+}
+
+.product-detail-price {
+  color: var(--charcoal);
+  font-size: 1.1rem;
+}
+
+.product-detail-specs {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.product-detail-specs div {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 12px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 8px;
+}
+
+.product-detail-specs dt {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.product-detail-specs dd {
+  margin: 0;
+  color: var(--charcoal);
+  font-weight: 850;
+}
+
+.product-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.product-back-link {
+  color: var(--charcoal);
+  border-color: var(--charcoal);
+  background: var(--white);
 }
 
 .service-band {
@@ -1175,7 +1326,8 @@ h3 {
   .contact-section,
   .store-hero,
   .store-preview-grid,
-  .catalog-controls {
+  .catalog-controls,
+  .product-detail-layout {
     grid-template-columns: 1fr;
   }
 
@@ -1275,6 +1427,11 @@ h3 {
 
   .quantity-control {
     width: 116px;
+  }
+
+  .product-detail-specs div {
+    grid-template-columns: 1fr;
+    gap: 2px;
   }
 
   .hero-actions .button {

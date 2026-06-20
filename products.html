@@ -67,6 +67,10 @@
             <h2 id="catalog-title">Select a product class</h2>
           </div>
           <div class="catalog-controls" aria-label="Filter product catalog">
+            <label class="catalog-search-label">
+              Search catalog
+              <input id="catalogSearch" type="search" placeholder="Search by part, material, SKU, or use case" />
+            </label>
             <label>
               Product class
               <select id="classFilter"></select>
@@ -81,6 +85,8 @@
         <p class="catalog-note">
           Prices are indicative research-supply ranges and may change with manufacturer, material, dimensions, quantity, sterility, documentation, and lead time. Final pricing is confirmed by quote.
         </p>
+        <div class="catalog-class-menu" id="catalogClassMenu" aria-label="Quick product classification"></div>
+        <p class="catalog-results-count" id="catalogResultsCount" aria-live="polite"></p>
         <div class="product-grid" id="productGrid"></div>
       </section>
 
