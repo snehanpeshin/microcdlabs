@@ -1,19 +1,19 @@
 :root {
-  --ink: #18211f;
-  --muted: #64736e;
-  --line: #dfe8e3;
-  --paper: #fbfaf6;
-  --soft: #f3f7f4;
+  --ink: #151515;
+  --muted: #666666;
+  --line: #e6e6e6;
+  --paper: #ffffff;
+  --soft: #f7f7f5;
   --white: #ffffff;
-  --charcoal: #24332f;
-  --charcoal-deep: #172622;
-  --silver: #d7e1dc;
-  --teal: #0f766e;
-  --teal-dark: #0b5d56;
-  --coral: #c95f49;
-  --amber: #b8862f;
-  --blue: #3e6f91;
-  --shadow: 0 18px 44px rgba(26, 42, 36, 0.11);
+  --charcoal: #1b1b1b;
+  --charcoal-deep: #111111;
+  --silver: #cfcfcf;
+  --teal: #111111;
+  --teal-dark: #000000;
+  --coral: #bdbdbd;
+  --amber: #777777;
+  --blue: #444444;
+  --shadow: 0 18px 44px rgba(17, 17, 17, 0.12);
 }
 
 * {
@@ -27,9 +27,7 @@ html {
 body {
   margin: 0;
   color: var(--ink);
-  background:
-    radial-gradient(circle at top left, rgba(15, 118, 110, 0.08), transparent 28rem),
-    var(--paper);
+  background: var(--paper);
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
@@ -57,8 +55,8 @@ textarea {
   gap: 24px;
   min-height: 72px;
   padding: 12px clamp(18px, 4vw, 52px);
-  border-bottom: 1px solid rgba(223, 232, 227, 0.88);
-  background: rgba(251, 250, 246, 0.94);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(17, 17, 17, 0.96);
   backdrop-filter: blur(16px);
 }
 
@@ -77,23 +75,23 @@ textarea {
 
 .hero-logo {
   display: block;
-  width: min(330px, 82vw);
+  width: min(230px, 68vw);
   margin-bottom: 18px;
   border-radius: 8px;
-  box-shadow: 0 20px 54px rgba(26, 42, 36, 0.12);
+  box-shadow: 0 18px 52px rgba(0, 0, 0, 0.24);
 }
 
 .main-nav {
   display: flex;
   justify-content: center;
   gap: clamp(14px, 3vw, 34px);
-  color: #40524c;
+  color: rgba(255, 255, 255, 0.76);
   font-size: 0.95rem;
 }
 
 .main-nav a:hover,
 .main-nav a:focus-visible {
-  color: var(--teal);
+  color: var(--white);
 }
 
 .header-cta,
@@ -113,8 +111,8 @@ textarea {
 
 .header-cta {
   padding: 0 16px;
-  color: var(--white);
-  background: var(--teal);
+  color: var(--charcoal-deep);
+  background: var(--white);
 }
 
 .header-actions {
@@ -129,10 +127,10 @@ textarea {
   justify-content: center;
   width: 42px;
   height: 42px;
-  border: 1px solid #cbdad3;
+  border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: 8px;
-  color: var(--teal);
-  background: var(--white);
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.08);
   transition:
     transform 160ms ease,
     background 160ms ease,
@@ -154,13 +152,13 @@ textarea {
 
 .button-primary {
   color: var(--white);
-  background: var(--teal);
+  background: var(--charcoal-deep);
 }
 
 .button-secondary {
-  color: var(--charcoal);
-  border-color: #cbdad3;
-  background: rgba(255, 255, 255, 0.72);
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.26);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .button:hover,
@@ -187,13 +185,13 @@ textarea {
   display: grid;
   grid-template-columns: minmax(320px, 0.88fr) minmax(360px, 1.12fr);
   gap: clamp(32px, 5vw, 78px);
-  min-height: min(760px, calc(100vh - 72px));
+  min-height: calc(100vh - 72px);
   align-items: center;
   padding: clamp(34px, 5vw, 60px) clamp(18px, 6vw, 76px);
-  color: var(--ink);
+  color: var(--white);
   background:
-    radial-gradient(circle at 78% 20%, rgba(15, 118, 110, 0.15), transparent 24rem),
-    linear-gradient(120deg, #fbfaf6 0%, #f3f7f4 58%, #e9f1ed 100%);
+    linear-gradient(120deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0) 42%),
+    linear-gradient(105deg, var(--charcoal) 0%, #1c1c1c 58%, var(--charcoal-deep) 100%);
   overflow: hidden;
 }
 
@@ -211,8 +209,8 @@ textarea {
   position: absolute;
   z-index: 0;
   inset: 0 0 0 auto;
-  width: 20%;
-  background: linear-gradient(115deg, transparent 0%, rgba(15, 118, 110, 0.08) 100%);
+  width: 24%;
+  background: linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.04) 100%);
   content: "";
   pointer-events: none;
   transform: skewX(-18deg);
@@ -235,7 +233,7 @@ textarea {
 }
 
 .hero .eyebrow {
-  color: var(--teal);
+  color: var(--silver);
 }
 
 h1,
@@ -269,7 +267,7 @@ h3 {
 .hero-copy {
   max-width: 560px;
   margin: 16px 0 0;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.72);
   font-size: clamp(1rem, 1.15vw, 1.12rem);
 }
 
@@ -281,11 +279,11 @@ h3 {
 }
 
 .hero-highlights span {
-  border: 1px solid #cbdad3;
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 999px;
   padding: 7px 11px;
-  color: #31433e;
-  background: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.86);
+  background: rgba(255, 255, 255, 0.08);
   font-size: 0.82rem;
   font-weight: 800;
 }
@@ -297,12 +295,17 @@ h3 {
   margin-top: 20px;
 }
 
+.hero .button-primary {
+  color: var(--charcoal-deep);
+  background: var(--white);
+}
+
 .hero-media {
   margin: 0;
-  border: 1px solid rgba(203, 218, 211, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 8px;
   background: var(--white);
-  box-shadow: 0 28px 74px rgba(26, 42, 36, 0.16);
+  box-shadow: 0 28px 74px rgba(0, 0, 0, 0.28);
   overflow: hidden;
   position: relative;
   z-index: 2;
@@ -339,12 +342,6 @@ h3 {
 .hero-media figcaption span {
   color: rgba(255, 255, 255, 0.72);
   font-size: 0.88rem;
-}
-
-.button-secondary {
-  color: var(--charcoal);
-  border-color: #cbdad3;
-  background: rgba(255, 255, 255, 0.72);
 }
 
 .signal-strip {
@@ -457,7 +454,7 @@ h3 {
 .store-preview-cta {
   justify-self: end;
   color: var(--white);
-  background: var(--teal);
+  background: var(--charcoal-deep);
 }
 
 .store-preview-grid {
@@ -473,7 +470,7 @@ h3 {
   gap: 12px;
   align-content: start;
   border: 1px solid var(--line);
-  border-left: 4px solid var(--teal);
+  border-left: 4px solid var(--charcoal);
   border-radius: 8px;
   padding: 20px;
   background: var(--soft);
@@ -484,7 +481,7 @@ h3 {
 
 .store-preview-grid a:hover,
 .store-preview-grid a:focus-visible {
-  border-color: var(--teal);
+  border-color: var(--charcoal);
   transform: translateY(-1px);
 }
 
@@ -509,8 +506,7 @@ h3 {
   align-items: end;
   border-bottom: 1px solid var(--line);
   background:
-    radial-gradient(circle at top right, rgba(15, 118, 110, 0.1), transparent 24rem),
-    var(--paper);
+    linear-gradient(120deg, #ffffff 0%, #f7f7f5 100%);
   color: var(--ink);
 }
 
@@ -529,7 +525,7 @@ h3 {
   display: grid;
   gap: 8px;
   border: 1px solid var(--line);
-  border-left: 4px solid var(--teal);
+  border-left: 4px solid var(--charcoal);
   border-radius: 8px;
   padding: 22px;
   background: var(--soft);
@@ -558,8 +554,8 @@ h3 {
 
 .filter-button.active {
   color: var(--white);
-  border-color: var(--teal);
-  background: var(--teal);
+  border-color: var(--charcoal-deep);
+  background: var(--charcoal-deep);
 }
 
 .product-grid {
@@ -590,7 +586,7 @@ h3 {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--white);
-  box-shadow: 0 14px 34px rgba(26, 42, 36, 0.06);
+  box-shadow: 0 14px 34px rgba(17, 17, 17, 0.06);
   overflow: hidden;
 }
 
@@ -599,8 +595,8 @@ h3 {
   display: block;
   height: 116px;
   background:
-    linear-gradient(135deg, rgba(15, 118, 110, 0.12), rgba(62, 111, 145, 0.04)),
-    #edf5f1;
+    linear-gradient(135deg, rgba(17, 17, 17, 0.08), rgba(17, 17, 17, 0.02)),
+    #f4f4f2;
   overflow: hidden;
 }
 
@@ -609,7 +605,7 @@ h3 {
   width: 86px;
   height: 86px;
   margin: 15px auto;
-  color: var(--teal);
+  color: var(--charcoal);
 }
 
 .product-image {
@@ -681,15 +677,15 @@ h3 {
 .card-action {
   width: calc(100% - 36px);
   margin: 0 18px 18px;
-  border: 1px solid var(--teal);
-  color: var(--teal);
+  border: 1px solid var(--charcoal);
+  color: var(--charcoal);
   background: var(--white);
   cursor: pointer;
 }
 
 .card-action.selected {
   color: var(--white);
-  background: var(--teal);
+  background: var(--charcoal);
 }
 
 .service-band {
@@ -713,7 +709,7 @@ h3 {
 .service-list article,
 .compliance-grid article {
   border: 1px solid var(--line);
-  border-left: 4px solid var(--teal);
+  border-left: 4px solid var(--charcoal);
   border-radius: 8px;
   padding: 22px 22px 22px 26px;
   background: var(--white);
@@ -800,14 +796,14 @@ h3 {
 .quote-summary .button-primary,
 .contact-form .button-primary {
   color: var(--white);
-  background: var(--teal);
+  background: var(--charcoal-deep);
 }
 
 .stripe-pay-link {
   width: 100%;
   margin-top: 10px;
   color: var(--white);
-  background: var(--teal-dark);
+  background: var(--charcoal-deep);
 }
 
 .checkout-policy-note {
@@ -929,7 +925,7 @@ h3 {
   display: grid;
   gap: 7px;
   border: 1px solid var(--line);
-  border-left: 4px solid var(--teal);
+  border-left: 4px solid var(--charcoal);
   border-radius: 8px;
   padding: 20px 22px;
   background: var(--white);
@@ -1065,7 +1061,7 @@ h3 {
   border-top: 1px solid var(--line);
   background:
     radial-gradient(circle at 12% 0%, rgba(255, 255, 255, 0.1), transparent 22rem),
-    #17332f;
+    #111111;
   color: var(--white);
 }
 
@@ -1160,7 +1156,7 @@ h3 {
 
 .coupon-code {
   border: 1px solid #cfd9d5;
-  border-left: 4px solid var(--teal);
+  border-left: 4px solid var(--charcoal);
   border-radius: 8px;
   padding: 12px;
   color: var(--charcoal) !important;
@@ -1228,7 +1224,7 @@ h3 {
   }
 
   .hero-logo {
-    width: min(300px, 88vw);
+    width: min(230px, 88vw);
   }
 
   .hero-media figcaption {
