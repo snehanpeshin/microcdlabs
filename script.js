@@ -1366,6 +1366,33 @@ function updateSubclassOptions() {
   ].join("");
 }
 
+function applyInitialCatalogParams() {
+  if (!classFilter && !catalogSearch) return;
+  const params = new URLSearchParams(window.location.search);
+  const category = params.get("class");
+  const subclass = params.get("subclass");
+  const query = params.get("q");
+
+  if (category && classFilter && Array.from(classFilter.options).some((option) => option.value === category)) {
+    classFilter.value = category;
+    updateSubclassOptions();
+  }
+
+  if (subclass && subclassFilter && Array.from(subclassFilter.options).some((option) => option.value === subclass)) {
+    subclassFilter.value = subclass;
+  }
+
+  if (query && catalogSearch) {
+    catalogSearch.value = query;
+  }
+
+  if (catalogClassMenu && classFilter) {
+    catalogClassMenu.querySelectorAll("[data-class-menu]").forEach((button) => {
+      button.classList.toggle("active", button.dataset.classMenu === classFilter.value);
+    });
+  }
+}
+
 function renderProducts(filter = null) {
   if (!productGrid) return;
   const scopedProducts = getScopedProducts();
@@ -1629,6 +1656,7 @@ if (filterButtons.length) {
 
 if (classFilter) {
   populateCatalogControls();
+  applyInitialCatalogParams();
   classFilter.addEventListener("change", () => {
     updateSubclassOptions();
     if (catalogClassMenu) {
