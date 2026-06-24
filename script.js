@@ -156,16 +156,86 @@ const catalogImages = {
   oemComplexTuning: {
     url: "assets/oem/complex-microfluidic-tuning.jpg",
     alt: "Vendor-neutral microfluidic prototype with controllers, tubing, valves, sensors, and chip connections",
-    credit: "MicroCD Labs generated concept image",
+    credit: "MicroCD Labs",
     source: "assets/oem/complex-microfluidic-tuning.jpg",
     license: "Generated custom website asset",
   },
   oemPlugAndPlay: {
     url: "assets/oem/plug-and-play-microfluidic-device.jpg",
     alt: "Vendor-neutral plug-and-play microfluidic instrument with cartridge slot and guided interface",
-    credit: "MicroCD Labs generated concept image",
+    credit: "MicroCD Labs",
     source: "assets/oem/plug-and-play-microfluidic-device.jpg",
     license: "Generated custom website asset",
+  },
+  customMicrofluidicChips: {
+    url: "assets/catalog-custom/microfluidic-chips.jpg",
+    alt: "Vendor-neutral assortment of transparent microfluidic chips and lab-on-chip materials",
+    credit: "MicroCD Labs",
+    source: "assets/catalog-custom/microfluidic-chips.jpg",
+    license: "Generated custom catalog asset",
+  },
+  customTubing: {
+    url: "assets/catalog-custom/tubing-assortment.jpg",
+    alt: "Vendor-neutral assortment of microfluidic tubing in multiple materials and diameters",
+    credit: "MicroCD Labs",
+    source: "assets/catalog-custom/tubing-assortment.jpg",
+    license: "Generated custom catalog asset",
+  },
+  customFittings: {
+    url: "assets/catalog-custom/fittings-connectors.jpg",
+    alt: "Vendor-neutral assortment of microfluidic fittings, connectors, ferrules, and manifolds",
+    credit: "MicroCD Labs",
+    source: "assets/catalog-custom/fittings-connectors.jpg",
+    license: "Generated custom catalog asset",
+  },
+  customReservoirs: {
+    url: "assets/catalog-custom/reservoirs-accessories.jpg",
+    alt: "Vendor-neutral microfluidic reservoirs, bottle caps, adapters, and fluidic accessories",
+    credit: "MicroCD Labs",
+    source: "assets/catalog-custom/reservoirs-accessories.jpg",
+    license: "Generated custom catalog asset",
+  },
+  customPumps: {
+    url: "assets/catalog-custom/pumps-flow-control.jpg",
+    alt: "Vendor-neutral pumps, pressure controller modules, meters, tubing, and transparent chip setup",
+    credit: "MicroCD Labs",
+    source: "assets/catalog-custom/pumps-flow-control.jpg",
+    license: "Generated custom catalog asset",
+  },
+  customSensorsValves: {
+    url: "assets/catalog-custom/sensors-valves.jpg",
+    alt: "Vendor-neutral microfluidic sensors, meters, valves, and tubing connections",
+    credit: "MicroCD Labs",
+    source: "assets/catalog-custom/sensors-valves.jpg",
+    license: "Generated custom catalog asset",
+  },
+  customDiagnostics: {
+    url: "assets/catalog-custom/diagnostics-consumables.jpg",
+    alt: "Vendor-neutral diagnostic consumables, LFIA materials, cartridges, and rapid test housings",
+    credit: "MicroCD Labs",
+    source: "assets/catalog-custom/diagnostics-consumables.jpg",
+    license: "Generated custom catalog asset",
+  },
+  customLabPlastics: {
+    url: "assets/catalog-custom/lab-plastics-consumables.jpg",
+    alt: "Vendor-neutral lab plastics including plates, tubes, vials, reservoirs, bottles, and pipette tips",
+    credit: "MicroCD Labs",
+    source: "assets/catalog-custom/lab-plastics-consumables.jpg",
+    license: "Generated custom catalog asset",
+  },
+  customOemManufacturing: {
+    url: "assets/catalog-custom/oem-manufacturing.jpg",
+    alt: "Vendor-neutral molded diagnostic cartridges, enclosures, reservoirs, and OEM plastic components",
+    credit: "MicroCD Labs",
+    source: "assets/catalog-custom/oem-manufacturing.jpg",
+    license: "Generated custom catalog asset",
+  },
+  customServicesKits: {
+    url: "assets/catalog-custom/services-kits.jpg",
+    alt: "Vendor-neutral microfluidic sourcing kit with tubing, connectors, chip holder, sensor, and planning materials",
+    credit: "MicroCD Labs",
+    source: "assets/catalog-custom/services-kits.jpg",
+    license: "Generated custom catalog asset",
   },
 };
 
@@ -1171,6 +1241,66 @@ assignCatalogMetadata();
 products.forEach((product) => {
   if (!productsWithRepresentativeImages.has(product.id)) {
     product.image = null;
+  }
+});
+
+const genericCatalogImageSources = new Set([
+  catalogImages.chip.source,
+  catalogImages.chipClose.source,
+  catalogImages.laminar.source,
+  catalogImages.pump.source,
+  catalogImages.rapidTest.source,
+  catalogImages.microplate.source,
+  catalogImages.tips.source,
+]);
+
+const specificProductImageSources = new Set([
+  catalogImages.fluigentOmi.source,
+  catalogImages.fluigentAria.source,
+  catalogImages.fluigentLineup.source,
+  catalogImages.fluigentFlowEz.source,
+  catalogImages.fluigentMfcs.source,
+  catalogImages.fluigentPushPull.source,
+  catalogImages.fluigentFlowRatePlatform.source,
+  catalogImages.fluigentFlowUnit.source,
+  catalogImages.fluigentInlinePressureSensor.source,
+  catalogImages.fluigentFlowSensorHub.source,
+  catalogImages.fluigentInjectionValve.source,
+  catalogImages.fluigentValveController.source,
+  catalogImages.fluigentBidirectionalValve.source,
+  catalogImages.fluigentRecirculationValve.source,
+  catalogImages.fluigentSamplingValve.source,
+  catalogImages.oemPlugAndPlay.source,
+]);
+
+function getCustomCatalogImage(product) {
+  if (specificProductImageSources.has(product.image?.source)) return product.image;
+
+  if (product.category === "microfluidics") return catalogImages.customMicrofluidicChips;
+
+  if (product.category === "fluid-handling") {
+    if (product.subclass === "Tubing") return catalogImages.customTubing;
+    if (product.subclass === "Connectors and manifolds") return catalogImages.customFittings;
+    return catalogImages.customReservoirs;
+  }
+
+  if (product.category === "flow-control") {
+    if (product.subclass === "Valves" || product.subclass === "Sensors and meters") return catalogImages.customSensorsValves;
+    return catalogImages.customPumps;
+  }
+
+  if (product.category === "diagnostics") return catalogImages.customDiagnostics;
+  if (product.category === "lab-plastics") return catalogImages.customLabPlastics;
+  if (product.category === "oem") return catalogImages.customOemManufacturing;
+  if (product.category === "services" && product.id === "oem-microfluidic-device-ux-package") return catalogImages.oemPlugAndPlay;
+  if (product.category === "services" || product.category === "starter-kits") return catalogImages.customServicesKits;
+
+  return catalogImages.customMicrofluidicChips;
+}
+
+products.forEach((product) => {
+  if (!product.image || genericCatalogImageSources.has(product.image.source)) {
+    product.image = getCustomCatalogImage(product);
   }
 });
 
