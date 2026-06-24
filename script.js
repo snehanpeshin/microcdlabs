@@ -153,6 +153,20 @@ const catalogImages = {
     source: "assets/fluigent/sampling-valve.webp",
     license: "Provided product image",
   },
+  oemComplexTuning: {
+    url: "assets/oem/complex-microfluidic-tuning.jpg",
+    alt: "Vendor-neutral microfluidic prototype with controllers, tubing, valves, sensors, and chip connections",
+    credit: "MicroCD Labs generated concept image",
+    source: "assets/oem/complex-microfluidic-tuning.jpg",
+    license: "Generated custom website asset",
+  },
+  oemPlugAndPlay: {
+    url: "assets/oem/plug-and-play-microfluidic-device.jpg",
+    alt: "Vendor-neutral plug-and-play microfluidic instrument with cartridge slot and guided interface",
+    credit: "MicroCD Labs generated concept image",
+    source: "assets/oem/plug-and-play-microfluidic-device.jpg",
+    license: "Generated custom website asset",
+  },
 };
 
 const products = [
@@ -984,7 +998,7 @@ const products = [
     price: "Quote",
     tags: ["OEM UX", "Workflow mapping", "Plug-and-play"],
     icon: "kit",
-    image: catalogImages.fluigentLineup,
+    image: catalogImages.oemPlugAndPlay,
   },
   {
     id: "microfluidics-beginner-kit",
