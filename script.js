@@ -977,6 +977,16 @@ const products = [
     image: catalogImages.rapidTest,
   },
   {
+    id: "oem-microfluidic-device-ux-package",
+    name: "OEM Microfluidic Device UX Package",
+    category: "services",
+    description: "Workflow mapping for OEMs and equipment makers turning complex microfluidic tuning, priming, valve states, and assay timing into simpler RUO, clinical, or medical-facing operation.",
+    price: "Quote",
+    tags: ["OEM UX", "Workflow mapping", "Plug-and-play"],
+    icon: "kit",
+    image: catalogImages.fluigentLineup,
+  },
+  {
     id: "microfluidics-beginner-kit",
     name: "Microfluidics Beginner Kit",
     category: "starter-kits",

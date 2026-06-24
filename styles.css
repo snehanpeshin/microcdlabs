@@ -1539,6 +1539,121 @@ h3 {
   font-size: 0.88rem;
 }
 
+.oem-simplify-section {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.82fr) minmax(320px, 1.18fr);
+  gap: clamp(24px, 5vw, 72px);
+  align-items: start;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(15, 118, 110, 0.1), transparent 22rem),
+    var(--white);
+}
+
+.oem-services-section {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(37, 99, 168, 0.09), transparent 22rem),
+    var(--soft);
+}
+
+.oem-simplify-copy {
+  display: grid;
+  gap: 14px;
+  max-width: 620px;
+}
+
+.oem-simplify-copy p:not(.eyebrow) {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+.oem-simplify-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.oem-workflow-visual,
+.simplify-process {
+  display: grid;
+  gap: 14px;
+}
+
+.oem-workflow-visual {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.oem-workflow-visual article,
+.simplify-process article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  box-shadow: 0 12px 28px rgba(18, 48, 64, 0.07);
+  overflow: hidden;
+}
+
+.oem-workflow-visual img,
+.simplify-process img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+  background: var(--soft);
+}
+
+.oem-workflow-visual img {
+  aspect-ratio: 4 / 3;
+}
+
+.simplify-process img {
+  aspect-ratio: 16 / 8;
+}
+
+.oem-workflow-visual div,
+.simplify-process div {
+  padding: 16px 18px 18px;
+}
+
+.oem-workflow-visual span,
+.simplify-process span {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: var(--teal);
+  font-size: 0.7rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.oem-workflow-visual h3,
+.simplify-process h3 {
+  font-size: 0.95rem;
+}
+
+.simplify-process p {
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.solution-pill-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.solution-pill-grid span {
+  border: 1px solid #d6e3ec;
+  border-radius: 999px;
+  padding: 7px 10px;
+  color: #2a3f52;
+  background: var(--white);
+  font-size: 0.78rem;
+  font-weight: 760;
+}
+
 .service-visual-stack {
   display: grid;
   gap: 16px;
@@ -1608,12 +1723,14 @@ h3 {
   .finder-grid,
   .catalog-controls,
   .product-detail-layout,
+  .oem-simplify-section,
   .use-case-section,
   .compliance-panel {
     grid-template-columns: 1fr;
   }
 
   .use-case-grid,
+  .oem-workflow-visual,
   .proof-strip,
   .service-list-compact {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1690,6 +1807,7 @@ h3 {
   .finder-grid,
   .proof-strip,
   .use-case-grid,
+  .oem-workflow-visual,
   .service-list-compact,
   .credits-section {
     grid-template-columns: 1fr;
