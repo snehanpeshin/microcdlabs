@@ -1825,6 +1825,49 @@ h3 {
   margin-top: 28px;
 }
 
+.platform-hero {
+  align-items: stretch;
+}
+
+.platform-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.platform-status-panel {
+  min-height: 100%;
+}
+
+.platform-workbench-section {
+  background: var(--paper);
+}
+
+.platform-frame-shell {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #0d2233;
+  box-shadow: var(--shadow);
+}
+
+.platform-frame-shell iframe {
+  display: block;
+  width: 100%;
+  height: min(760px, calc(100vh - 92px));
+  min-height: 620px;
+  border: 0;
+}
+
+.platform-roadmap-section {
+  background: var(--soft);
+}
+
+.platform-proof-strip {
+  margin-top: 20px;
+}
+
 @media (max-width: 1060px) {
   .product-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1945,6 +1988,10 @@ h3 {
 
   .site-footer {
     display: block;
+  }
+
+  .platform-frame-shell iframe {
+    min-height: 560px;
   }
 }
 
