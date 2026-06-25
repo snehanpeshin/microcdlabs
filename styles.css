@@ -43,6 +43,7 @@ a {
 
 button,
 input,
+select,
 textarea {
   font: inherit;
 }
@@ -494,6 +495,7 @@ h3 {
 
 .catalog-controls label {
   display: grid;
+  min-width: 0;
   gap: 7px;
   color: #2a3f52;
   font-size: 0.78rem;
@@ -506,10 +508,14 @@ h3 {
 
 .catalog-controls input,
 .catalog-controls select {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   min-height: 42px;
   border: 1px solid #cad8e5;
   border-radius: 8px;
   padding: 0 38px 0 12px;
+  appearance: none;
   color: var(--ink);
   background:
     linear-gradient(45deg, transparent 50%, var(--charcoal) 50%) calc(100% - 18px) 18px / 6px 6px no-repeat,
@@ -704,6 +710,7 @@ h3 {
 
 .product-card {
   display: flex;
+  min-width: 0;
   min-height: 294px;
   flex-direction: column;
   justify-content: space-between;
@@ -773,6 +780,31 @@ h3 {
   color: var(--teal-dark);
   font-size: 0.86rem;
   font-weight: 760;
+}
+
+.product-option-field {
+  display: grid;
+  gap: 5px;
+  margin-top: 10px;
+  color: #526579;
+  font-size: 0.72rem;
+  font-weight: 780;
+}
+
+.product-option-field select {
+  width: 100%;
+  min-width: 0;
+  min-height: 38px;
+  border: 1px solid #d6e3ec;
+  border-radius: 6px;
+  padding: 7px 9px;
+  color: var(--ink);
+  background: var(--white);
+  font: inherit;
+}
+
+.product-option-field-detail {
+  max-width: 560px;
 }
 
 .catalog-identifiers {

@@ -1304,6 +1304,162 @@ products.forEach((product) => {
   }
 });
 
+function isPriceRange(price) {
+  return /\$[\d,.]+-\$?[\d,.]+/.test(price);
+}
+
+function isExactPrice(price) {
+  return /^\$[\d,.]+(?:\.\d{2})?(?:\s*\/\s*[\w\s]+)?$/.test(price.trim());
+}
+
+function getOptionPriceLabel(product, option = null) {
+  if (option?.priceLabel) return option.priceLabel;
+  if (isExactPrice(product.price)) return product.price;
+  if (product.price === "Quote" || product.price.startsWith("From")) return product.price;
+  return "Quote confirmed";
+}
+
+function getOptionNumericPrice(product, option = null) {
+  const price = option?.price || (isExactPrice(product.price) ? product.price : "");
+  const match = String(price).match(/\$([\d,.]+)/);
+  if (!match) return null;
+  return Number(match[1].replace(/,/g, ""));
+}
+
+function makeOption(label, priceLabel = "Quote confirmed", note = "Final supplier price confirmed before order") {
+  const price = isExactPrice(priceLabel) ? priceLabel : "";
+  return { label, price, priceLabel, note };
+}
+
+function getProductOptions(product) {
+  const name = product.name.toLowerCase();
+  const exact = isExactPrice(product.price);
+  const standard = makeOption("Standard configuration", exact ? product.price : getOptionPriceLabel(product), "Standard catalog configuration");
+
+  if (product.id === "darwin-ptfe-tubing-1-32-od-030-id") {
+    return [makeOption("1/32 in. OD x 0.30 mm ID PTFE tubing", "$95.82", "Darwin Microfluidics listed configuration")];
+  }
+  if (product.id === "darwin-ptfe-tubing-1-8-od") {
+    return [makeOption("1/8 in. OD PTFE tubing", "$96.17", "Darwin Microfluidics listed configuration")];
+  }
+  if (product.id === "idex-peek-capillary-tubing-1-16-od") {
+    return [makeOption("1/16 in. OD PEEK capillary tubing", "$48.91", "IDEX/Darwin listed configuration")];
+  }
+  if (product.id === "idex-microfluidic-y-connector-peek") {
+    return [makeOption("PEEK Y connector", "$37.91", "IDEX/Darwin listed configuration")];
+  }
+  if (product.id === "idex-manifold-4-port-cross-etfe") {
+    return [makeOption("4-port cross manifold, 1/4-28 ETFE", "$44.81", "IDEX/Darwin listed configuration")];
+  }
+  if (product.id === "elveflow-high-pressure-reservoir-350ml") {
+    return [makeOption("350 mL high-pressure reservoir", "$700.83", "ELVEFLOW/Darwin listed configuration")];
+  }
+  if (product.id === "elveflow-gl45-bottle-cap-l") {
+    return [makeOption("GL45 bottle cap, L, 100 mL, 2/4 ports", "$174.33", "ELVEFLOW/Darwin listed configuration")];
+  }
+  if (product.id === "elveflow-falcon-reservoir-s") {
+    return [makeOption("15 mL Falcon tube reservoir, S, 2/4 ports", "$169.65", "ELVEFLOW/Darwin listed configuration")];
+  }
+  if (product.id === "elveflow-eppendorf-reservoir-xs") {
+    return [makeOption("1.5 mL Eppendorf reservoir, XS", "$169.65", "ELVEFLOW/Darwin listed configuration")];
+  }
+  if (product.id === "elveflow-pdms-chip-reservoir-xxs") {
+    return [makeOption("PDMS chip reservoir, XXS", "$139.23", "ELVEFLOW/Darwin listed configuration")];
+  }
+
+  if (product.subclass === "Tubing") {
+    return [
+      makeOption("1/32 in. OD microbore tubing"),
+      makeOption("1/16 in. OD tubing"),
+      makeOption("1/8 in. OD tubing"),
+      makeOption("Custom OD/ID or cut length"),
+    ];
+  }
+  if (product.subclass === "Connectors and manifolds") {
+    return [
+      makeOption("Luer adapter pack"),
+      makeOption("1/4-28 fitting pack"),
+      makeOption("10-32 / compression fitting pack"),
+      makeOption("Y/T/cross manifold configuration"),
+    ];
+  }
+  if (product.subclass === "Reservoirs") {
+    return [
+      makeOption("1.5 mL reservoir format"),
+      makeOption("15 mL tube reservoir format"),
+      makeOption("50-100 mL bottle cap format"),
+      makeOption("250-350 mL pressure reservoir format"),
+    ];
+  }
+  if (product.category === "diagnostics") {
+    if (name.includes("housing") || name.includes("cartridge") || name.includes("cassette")) {
+      return [
+        makeOption("Prototype quantity"),
+        makeOption("Pilot quantity"),
+        makeOption("OEM quote quantity"),
+      ];
+    }
+    return [
+      makeOption("Small development pack"),
+      makeOption("Sheet/roll or bulk pack"),
+      makeOption("Lot-specific quote"),
+    ];
+  }
+  if (product.category === "lab-plastics") {
+    if (product.subclass === "Plates") {
+      return [
+        makeOption("Clear assay plate case"),
+        makeOption("White assay plate case"),
+        makeOption("Black assay plate case"),
+        makeOption("Sterile or treated plate case"),
+      ];
+    }
+    if (product.subclass === "Tubes and vials") {
+      return [
+        makeOption("0.2 mL PCR format"),
+        makeOption("1.5-2.0 mL microtube/vial format"),
+        makeOption("15 mL tube case"),
+        makeOption("50 mL tube case"),
+      ];
+    }
+    return [
+      makeOption("Standard pack"),
+      makeOption("Sterile pack"),
+      makeOption("Filtered or low-retention pack"),
+      makeOption("Case quantity quote"),
+    ];
+  }
+  if (product.category === "starter-kits") {
+    const kitPrice = isPriceRange(product.price) ? "Quote confirmed" : product.price;
+    return [makeOption("Standard kit", kitPrice, "Kit price confirmed before final shipping/tax"), makeOption("Custom kit by application", "Quote confirmed")];
+  }
+  if (product.category === "services") {
+    const servicePrice = isPriceRange(product.price) ? "Quote confirmed" : product.price;
+    return [makeOption("Standard service package", servicePrice, "Service scope confirmed before work starts"), makeOption("Expanded scope", "Quote confirmed")];
+  }
+  if (isPriceRange(product.price)) {
+    return [makeOption("Configured option", "Quote confirmed", "Exact price depends on selected dimensions, documentation, and quantity")];
+  }
+  return [standard];
+}
+
+function getSelectedOptionIndex(product) {
+  return Number(selectedOptions.get(product.id) || 0);
+}
+
+function getSelectedOption(product) {
+  const options = getProductOptions(product);
+  return options[getSelectedOptionIndex(product)] || options[0];
+}
+
+function getDisplayPrice(product) {
+  return getOptionPriceLabel(product, getSelectedOption(product));
+}
+
+function getCartKey(product, optionIndex = getSelectedOptionIndex(product)) {
+  return `${product.id}::${optionIndex}`;
+}
+
 const marketReferenceLinks = {
   darwin: {
     label: "Darwin Microfluidics catalog",
@@ -1766,6 +1922,7 @@ function getProductDetailPack(product) {
 }
 
 const selected = new Map();
+const selectedOptions = new Map();
 const productGrid = document.querySelector("#productGrid");
 const quoteList = document.querySelector("#quoteList");
 const emptyQuote = document.querySelector("#emptyQuote");
@@ -2028,7 +2185,10 @@ function renderProducts(filter = null) {
 
   productGrid.innerHTML = visible
     .map(
-      (product) => `
+      (product) => {
+        const options = getProductOptions(product);
+        const selectedOptionIndex = getSelectedOptionIndex(product);
+        return `
         <article class="product-card" data-category="${product.category}">
           <a class="product-visual" href="${getProductPageUrl(product)}" aria-label="View catalog page for ${escapeHtml(product.name)}">
             ${
@@ -2039,7 +2199,18 @@ function renderProducts(filter = null) {
           </a>
           <div class="product-body">
             <h3>${product.name}</h3>
-            <strong class="product-price">${product.price}</strong>
+            <strong class="product-price">${escapeHtml(getDisplayPrice(product))}</strong>
+            <label class="product-option-field">
+              <span>Option</span>
+              <select data-option-select="${product.id}" aria-label="Select option for ${escapeHtml(product.name)}">
+                ${options
+                  .map(
+                    (option, index) =>
+                      `<option value="${index}" ${index === selectedOptionIndex ? "selected" : ""}>${escapeHtml(option.label)} - ${escapeHtml(option.priceLabel)}</option>`,
+                  )
+                  .join("")}
+              </select>
+            </label>
             <div class="catalog-identifiers">
               <span>MicroCD Cat. No. ${product.sku}</span>
               <span>${productCategoryLabels[product.category] || product.category} / ${product.subclass}</span>
@@ -2051,12 +2222,13 @@ function renderProducts(filter = null) {
           </div>
           <div class="product-card-actions">
             <a class="button card-detail-link" href="${getProductPageUrl(product)}">View catalog page</a>
-            <button class="button card-action ${selected.has(product.id) ? "selected" : ""}" type="button" data-product="${product.id}">
-              ${selected.has(product.id) ? "Add another" : "Add to cart"}
+            <button class="button card-action ${selected.has(getCartKey(product, selectedOptionIndex)) ? "selected" : ""}" type="button" data-product="${product.id}">
+              ${selected.has(getCartKey(product, selectedOptionIndex)) ? "Add another" : "Add to cart"}
             </button>
           </div>
         </article>
-      `,
+      `;
+      },
     )
     .join("");
 
@@ -2120,9 +2292,11 @@ function renderProductDetail() {
 
   const categoryLabel = productCategoryLabels[product.category] || product.category;
   const detailPack = getProductDetailPack(product);
+  const productOptions = getProductOptions(product);
+  const detailPrice = getOptionPriceLabel(product, productOptions[0]);
   const requestSubject = encodeURIComponent(`MicroCD Labs quote request: ${product.name}`);
   const requestBody = encodeURIComponent(
-    `Hello MicroCD Labs,\n\nPlease send availability, final price, lead time, shipping, and documentation details for:\n\n${product.name}\nMicroCD Cat. No. ${product.sku}\nCategory: ${categoryLabel}\nSubclass: ${product.subclass}\nIndicative price: ${product.price}\n\nIntended research-use application:\n\nDestination country:\n\nThank you.`,
+    `Hello MicroCD Labs,\n\nPlease send availability, final price, lead time, shipping, and documentation details for:\n\n${product.name}\nMicroCD Cat. No. ${product.sku}\nCategory: ${categoryLabel}\nSubclass: ${product.subclass}\nSelected/starting option: ${productOptions[0].label}\nListed price status: ${detailPrice}\n\nIntended research-use application:\n\nDestination country:\n\nThank you.`,
   );
 
   productDetail.innerHTML = `
@@ -2139,7 +2313,15 @@ function renderProductDetail() {
         <div class="product-detail-copy">
           <p class="eyebrow">${escapeHtml(categoryLabel)}</p>
           <h1 id="product-detail-title">${escapeHtml(product.name)}</h1>
-          <strong class="product-detail-price">${escapeHtml(product.price)}</strong>
+          <strong class="product-detail-price">${escapeHtml(detailPrice)}</strong>
+          <label class="product-option-field product-option-field-detail">
+            <span>Available option</span>
+            <select aria-label="Available options for ${escapeHtml(product.name)}">
+              ${productOptions
+                .map((option) => `<option>${escapeHtml(option.label)} - ${escapeHtml(option.priceLabel)}</option>`)
+                .join("")}
+            </select>
+          </label>
           <dl class="product-detail-specs">
             <div>
               <dt>MicroCD Cat. No.</dt>
@@ -2229,13 +2411,13 @@ function renderQuote() {
     .map(
       (entry) => `
         <li>
-          <span>${entry.product.name} <small>${entry.product.price}</small></span>
+          <span>${entry.product.name} <small>${entry.option.label}; ${entry.option.priceLabel}</small></span>
           <div class="quantity-control" aria-label="Quantity for ${entry.product.name}">
-            <button type="button" data-quantity="${entry.product.id}" data-change="-1" aria-label="Decrease quantity">-</button>
+            <button type="button" data-quantity="${entry.key}" data-change="-1" aria-label="Decrease quantity">-</button>
             <output>${entry.quantity}</output>
-            <button type="button" data-quantity="${entry.product.id}" data-change="1" aria-label="Increase quantity">+</button>
+            <button type="button" data-quantity="${entry.key}" data-change="1" aria-label="Increase quantity">+</button>
           </div>
-          <button class="remove-item" type="button" data-remove="${entry.product.id}" aria-label="Remove ${entry.product.name}">Remove</button>
+          <button class="remove-item" type="button" data-remove="${entry.key}" aria-label="Remove ${entry.product.name}">Remove</button>
         </li>
       `,
     )
@@ -2251,10 +2433,10 @@ function renderQuote() {
 
   if (cartSubtotal) {
     const subtotal = items.reduce((sum, entry) => {
-      const startingPrice = getStartingPrice(entry.product);
+      const startingPrice = getOptionNumericPrice(entry.product, entry.option);
       return startingPrice === null ? sum : sum + startingPrice * entry.quantity;
     }, 0);
-    const hasQuoteOnly = items.some((entry) => getStartingPrice(entry.product) === null);
+    const hasQuoteOnly = items.some((entry) => getOptionNumericPrice(entry.product, entry.option) === null);
     cartSubtotal.hidden = items.length === 0;
     cartSubtotal.textContent = subtotal
       ? `Estimated starting subtotal: ${formatCurrency(subtotal)}${hasQuoteOnly ? " + quote-only items" : ""}. Final pricing is confirmed before payment.`
@@ -2264,7 +2446,7 @@ function renderQuote() {
   const subject = encodeURIComponent("MicroCD Labs microfluidics order request");
   const body = encodeURIComponent(
     `Hello MicroCD Labs,\n\nI would like to request an order review for the following research-use microfluidics items:\n\n${items
-      .map((entry) => `- ${entry.quantity} x ${entry.product.name} (${entry.product.price})`)
+      .map((entry) => `- ${entry.quantity} x ${entry.product.name} (${entry.product.sku}; option: ${entry.option.label}; price: ${entry.option.priceLabel})`)
       .join("\n")}\n\nPlease confirm final price, availability, shipping, and payment link or invoice details.\n\nName: ${name}\nEmail: ${email}\nOrganisation: ${organisation}\nNotes: ${notes}\n\nThank you.`,
   );
   quoteMail.href = items.length ? `mailto:${companyEmail}?subject=${subject}&body=${body}` : "#";
@@ -2273,7 +2455,7 @@ function renderQuote() {
     const stripeSubject = encodeURIComponent("MicroCD Labs Stripe invoice request");
     const stripeBody = encodeURIComponent(
       `Hello MicroCD Labs,\n\nPlease review my cart and send a Stripe invoice or Stripe-hosted payment link for the following research-use items:\n\n${items
-        .map((entry) => `- ${entry.quantity} x ${entry.product.name} (${entry.product.sku}; ${entry.product.price})`)
+        .map((entry) => `- ${entry.quantity} x ${entry.product.name} (${entry.product.sku}; option: ${entry.option.label}; price: ${entry.option.priceLabel})`)
         .join("\n")}\n\nName: ${name}\nEmail: ${email}\nOrganisation: ${organisation}\nNotes: ${notes}\n\nThank you.`,
     );
     stripePayLink.href =
@@ -2352,6 +2534,14 @@ if (catalogClassMenu) {
 }
 
 if (productGrid) {
+  productGrid.addEventListener("change", (event) => {
+    const select = event.target.closest("[data-option-select]");
+    if (!select) return;
+    selectedOptions.set(select.dataset.optionSelect, select.value);
+    const activeFilter = document.querySelector(".filter-button.active")?.dataset.filter || null;
+    renderProducts(activeFilter);
+  });
+
   productGrid.addEventListener("click", (event) => {
     const button = event.target.closest("[data-product]");
     if (!button) return;
@@ -2359,10 +2549,13 @@ if (productGrid) {
     const product = products.find((item) => item.id === button.dataset.product);
     if (!product) return;
 
-    if (selected.has(product.id)) {
-      selected.get(product.id).quantity += 1;
+    const optionIndex = getSelectedOptionIndex(product);
+    const option = getSelectedOption(product);
+    const key = getCartKey(product, optionIndex);
+    if (selected.has(key)) {
+      selected.get(key).quantity += 1;
     } else {
-      selected.set(product.id, { product, quantity: 1 });
+      selected.set(key, { key, product, option, optionIndex, quantity: 1 });
     }
 
     const activeFilter = document.querySelector(".filter-button.active")?.dataset.filter || null;
