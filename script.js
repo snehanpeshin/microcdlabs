@@ -1333,6 +1333,22 @@ const marketReferenceLinks = {
     label: "Cytiva lateral flow materials",
     url: "https://www.cytivalifesciences.com/en/us/shop/diagnostics/lateral-flow-assay-components",
   },
+  idexResources: {
+    label: "IDEX resource library",
+    url: "https://www.idex-hs.com/resources/view-all-resources",
+  },
+  idexFluidicsCapabilities: {
+    label: "IDEX microfluidics and consumables capability page",
+    url: "https://www.idex-hs.com/capabilities/microfluidics-consumables",
+  },
+  corningLifeSciences: {
+    label: "Corning Life Sciences products",
+    url: "https://www.corning.com/worldwide/en/products/life-sciences/products.html",
+  },
+  fisherDocuments: {
+    label: "Fisher Scientific product documentation search",
+    url: "https://www.fishersci.com/us/en/catalog/search/products?keyword=certificate%20of%20analysis%20lab%20plasticware",
+  },
 };
 
 function supplierSearchLink(product, supplier) {
@@ -1593,6 +1609,117 @@ function getMarketReferences(product) {
   }).slice(0, 5);
 }
 
+function documentationLink(label, url, sourceType = "OEM") {
+  return { label, url, sourceType };
+}
+
+function getFluigentDocumentation(product) {
+  const byId = {
+    "omi-automated-organ-on-chip-platform": documentationLink("Fluigent Omi product documentation", "https://www.fluigent.com/products/omi/", "OEM"),
+    "aria-automated-perfusion-system": documentationLink("Fluigent Aria product documentation", "https://www.fluigent.com/products/aria/", "OEM"),
+    "lineup-pressure-flow-controller-series": documentationLink("Fluigent LineUp product documentation", "https://www.fluigent.com/products/lineup-series/", "OEM"),
+    "flow-ez-microfluidic-flow-controller": documentationLink("Fluigent Flow EZ product documentation", "https://www.fluigent.com/products/flow-ez/", "OEM"),
+    "mfcs-microfluidic-flow-control-system": documentationLink("Fluigent MFCS product documentation", "https://www.fluigent.com/products/mfcs-ez/", "OEM"),
+    "microfluidic-push-pull-controller": documentationLink("Fluigent Push-Pull product documentation", "https://www.fluigent.com/products/push-pull/", "OEM"),
+    "flow-rate-platform": documentationLink("Fluigent Flow Rate Platform documentation", "https://www.fluigent.com/products/flow-rate-platform/", "OEM"),
+    "flow-unit-bidirectional-microfluidic-flow-sensor": documentationLink("Fluigent FLOW UNIT documentation", "https://www.fluigent.com/products/flow-unit/", "OEM"),
+    "microfluidic-inline-pressure-sensor": documentationLink("Fluigent Pressure Unit documentation", "https://www.fluigent.com/products/pressure-unit/", "OEM"),
+    "microfluidic-flow-sensor-hub": documentationLink("Fluigent Flowboard hub documentation", "https://www.fluigent.com/products/flowboard/", "OEM"),
+    "microfluidic-injection-valve-l-switch": documentationLink("Fluigent L-SWITCH documentation", "https://www.fluigent.com/products/l-switch/", "OEM"),
+    "switch-ez-microfluidic-valve-controller": documentationLink("Fluigent SWITCH EZ documentation", "https://www.fluigent.com/products/switch-ez/", "OEM"),
+    "m-switch-microfluidic-bidirectional-valve": documentationLink("Fluigent M-SWITCH documentation", "https://www.fluigent.com/products/m-switch/", "OEM"),
+    "microfluidic-recirculation-valve-l-switch": documentationLink("Fluigent L-SWITCH documentation", "https://www.fluigent.com/products/l-switch/", "OEM"),
+    "microfluidic-sampling-valve-2-switch": documentationLink("Fluigent 2-SWITCH documentation", "https://www.fluigent.com/products/2-switch/", "OEM"),
+  };
+
+  return byId[product.id] || documentationLink("Fluigent product information", marketReferenceLinks.fluigent.url, "OEM");
+}
+
+function getDocumentationLinks(product) {
+  const brand = getBrand(product);
+  const links = [];
+
+  if (brand === "Fluigent") {
+    links.push(getFluigentDocumentation(product));
+    links.push(documentationLink("Fluigent product catalog", marketReferenceLinks.fluigent.url, "OEM"));
+  }
+
+  if (brand === "ELVEFLOW") {
+    links.push(documentationLink("Elveflow product catalog", marketReferenceLinks.elveflow.url, "OEM"));
+    links.push(supplierSearchLink(product, "darwin") && { ...supplierSearchLink(product, "darwin"), sourceType: "Authorized supplier" });
+  }
+
+  if (brand === "IDEX") {
+    links.push(documentationLink("IDEX fluidics store and product pages", marketReferenceLinks.idex.url, "OEM"));
+    links.push(documentationLink("IDEX tools, drawings, and resources", marketReferenceLinks.idexResources.url, "OEM resources"));
+    links.push(supplierSearchLink(product, "darwin") && { ...supplierSearchLink(product, "darwin"), sourceType: "Supplier cross-reference" });
+  }
+
+  if (brand === "Darwin Microfluidics" || brand === "Innofluid" || brand === "Longer") {
+    links.push(supplierSearchLink(product, "darwin") && { ...supplierSearchLink(product, "darwin"), sourceType: "Supplier catalog" });
+    links.push(documentationLink("Darwin Microfluidics catalog", marketReferenceLinks.darwin.url, "Supplier catalog"));
+  }
+
+  if (product.category === "microfluidics") {
+    links.push(documentationLink("Elveflow microfluidic product documentation", marketReferenceLinks.elveflow.url, "OEM/category"));
+    links.push(documentationLink("Darwin Microfluidics chip and lab-on-chip catalog", marketReferenceLinks.darwin.url, "Supplier catalog"));
+  }
+
+  if (product.category === "fluid-handling") {
+    links.push(documentationLink("IDEX fluidics documentation and product pages", marketReferenceLinks.idex.url, "OEM/tier-1"));
+    links.push(supplierSearchLink(product, "fisher") && { ...supplierSearchLink(product, "fisher"), sourceType: "Tier-1 supplier" });
+  }
+
+  if (product.category === "flow-control") {
+    links.push(documentationLink("Fluigent flow control product information", marketReferenceLinks.fluigent.url, "OEM/category"));
+    links.push(documentationLink("Elveflow instruments and accessories", marketReferenceLinks.elveflow.url, "OEM/category"));
+  }
+
+  if (product.category === "diagnostics") {
+    links.push(documentationLink("Cytiva lateral flow assay component documentation", marketReferenceLinks.cytivaLfia.url, "OEM/tier-1"));
+    links.push(supplierSearchLink(product, "fisher") && { ...supplierSearchLink(product, "fisher"), sourceType: "Tier-1 supplier" });
+  }
+
+  if (product.category === "lab-plastics") {
+    links.push(documentationLink("Thermo Fisher lab plasticware documentation", marketReferenceLinks.thermofisherPlastics.url, "OEM/tier-1"));
+    links.push(documentationLink("Corning Life Sciences product documentation", marketReferenceLinks.corningLifeSciences.url, "OEM/tier-1"));
+    links.push(supplierSearchLink(product, "fisher") && { ...supplierSearchLink(product, "fisher"), sourceType: "Tier-1 supplier" });
+  }
+
+  if (product.category === "oem") {
+    links.push(documentationLink("IDEX microfluidics and consumables capability page", marketReferenceLinks.idexFluidicsCapabilities.url, "Tier-1/OEM capability"));
+    links.push(documentationLink("IDEX resource library", marketReferenceLinks.idexResources.url, "Tier-1 resources"));
+    links.push(documentationLink("Fisher Scientific catalog search", marketReferenceLinks.fisher.url, "Tier-1 supplier"));
+  }
+
+  if (product.category === "services" || product.category === "starter-kits") {
+    links.push(documentationLink("Darwin Microfluidics catalog", marketReferenceLinks.darwin.url, "Supplier catalog"));
+    links.push(documentationLink("IDEX fluidics product resources", marketReferenceLinks.idex.url, "Tier-1 supplier"));
+    links.push(documentationLink("Fisher Scientific catalog search", marketReferenceLinks.fisher.url, "Tier-1 supplier"));
+  }
+
+  const seen = new Set();
+  return links
+    .filter(Boolean)
+    .filter((link) => {
+      if (seen.has(link.url)) return false;
+      seen.add(link.url);
+      return true;
+    })
+    .slice(0, 6);
+}
+
+function getDocumentationNote(product) {
+  const brand = getBrand(product);
+  if (brand !== "MicroCD curated") {
+    return "Documentation priority: original manufacturer/OEM documentation first, followed by authorized supplier cross-reference when ordering region, SKU, or bundle configuration differs.";
+  }
+  if (product.category === "services" || product.category === "starter-kits") {
+    return "Documentation priority: source documents for the selected parts are attached to the final quote or kit bill of materials.";
+  }
+  return "Documentation priority: OEM or tier-1 supplier pages are used for comparable specifications; final datasheets, certificates, and lot documents are confirmed by quote.";
+}
+
 function getComparableSuppliers(product) {
   const brand = getBrand(product);
   const suppliers = [];
@@ -1632,6 +1759,8 @@ function getProductDetailPack(product) {
     variants: getVariantOptions(product),
     checklist: getSpecChecklist(product),
     references: getMarketReferences(product),
+    documentation: getDocumentationLinks(product),
+    documentationNote: getDocumentationNote(product),
     suppliers: getComparableSuppliers(product),
   };
 }
@@ -2069,10 +2198,14 @@ function renderProductDetail() {
           </ul>
         </article>
         <article class="detail-panel">
-          <h2>Reference links</h2>
+          <h2>Documentation links</h2>
+          <p>${escapeHtml(detailPack.documentationNote)}</p>
           <ul class="reference-list">
-            ${detailPack.references
-              .map((entry) => `<li><a href="${entry.url}" target="_blank" rel="noreferrer">${escapeHtml(entry.label)}</a></li>`)
+            ${detailPack.documentation
+              .map(
+                (entry) =>
+                  `<li><a href="${entry.url}" target="_blank" rel="noreferrer">${escapeHtml(entry.label)}</a><span>${escapeHtml(entry.sourceType)}</span></li>`,
+              )
               .join("")}
           </ul>
         </article>
