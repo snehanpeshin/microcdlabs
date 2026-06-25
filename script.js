@@ -1304,6 +1304,338 @@ products.forEach((product) => {
   }
 });
 
+const marketReferenceLinks = {
+  darwin: {
+    label: "Darwin Microfluidics catalog",
+    url: "https://darwin-microfluidics.com/",
+  },
+  elveflow: {
+    label: "Elveflow product catalog",
+    url: "https://elveflow.com/microfluidic-products/",
+  },
+  fluigent: {
+    label: "Fluigent product information",
+    url: "https://www.fluigent.com/products/",
+  },
+  idex: {
+    label: "IDEX Health & Science fluidics",
+    url: "https://www.idex-hs.com/store/fluidics.html",
+  },
+  fisher: {
+    label: "Fisher Scientific catalog",
+    url: "https://www.fishersci.com/us/en/catalog/search/products?keyword=microfluidics",
+  },
+  thermofisherPlastics: {
+    label: "Thermo Fisher lab plastics catalog",
+    url: "https://www.thermofisher.com/us/en/home/life-science/lab-plasticware-supplies.html",
+  },
+  cytivaLfia: {
+    label: "Cytiva lateral flow materials",
+    url: "https://www.cytivalifesciences.com/en/us/shop/diagnostics/lateral-flow-assay-components",
+  },
+};
+
+function supplierSearchLink(product, supplier) {
+  const query = encodeURIComponent(product.name);
+  if (supplier === "darwin") {
+    return {
+      label: "Search this item at Darwin Microfluidics",
+      url: `https://darwin-microfluidics.com/search.php?search_query=${query}`,
+    };
+  }
+  if (supplier === "fisher") {
+    return {
+      label: "Search comparable items at Fisher Scientific",
+      url: `https://www.fishersci.com/us/en/catalog/search/products?keyword=${query}`,
+    };
+  }
+  if (supplier === "thomas") {
+    return {
+      label: "Search comparable items at Thomas Scientific",
+      url: `https://www.thomassci.com/search/go?w=${query}`,
+    };
+  }
+  return null;
+}
+
+function uniqueArray(items) {
+  return [...new Set(items.filter(Boolean))];
+}
+
+function getBrand(product) {
+  const name = product.name.toLowerCase();
+  if (name.includes("elveflow")) return "ELVEFLOW";
+  if (name.includes("idex")) return "IDEX";
+  if (name.includes("darwin")) return "Darwin Microfluidics";
+  if (name.includes("innofluid")) return "Innofluid";
+  if (name.includes("longer")) return "Longer";
+  if (
+    name.includes("fluigent") ||
+    name.includes("flow ez") ||
+    name.includes("mfcs") ||
+    name.includes("lineup") ||
+    name.includes("flow unit") ||
+    name.includes("switch ez") ||
+    name.includes("m-switch") ||
+    name.includes("l-switch") ||
+    name.includes("2-switch") ||
+    name.includes("aria") ||
+    name.includes("omi")
+  ) {
+    return "Fluigent";
+  }
+  return "MicroCD curated";
+}
+
+function getItemRole(product) {
+  const subclass = product.subclass;
+  if (product.category === "microfluidics") {
+    if (subclass === "Chip materials") return "Microfluidic chip platform for material, optical, assay, and flow-path screening.";
+    if (subclass === "Chip functions") return "Functional chip component for mixing, droplet generation, gradient formation, or flow architecture studies.";
+    if (subclass === "Cell and tissue chips") return "Cell-culture or organ-on-chip format for perfusion, barrier, imaging, and microphysiology workflows.";
+    return "Custom build or prototyping pathway for moving a drawing, assay, or experimental need into a usable device.";
+  }
+  if (product.category === "fluid-handling") {
+    if (subclass === "Tubing") return "Fluid-path component selected by material compatibility, inner diameter, outer diameter, pressure, and dead volume.";
+    if (subclass === "Connectors and manifolds") return "Interconnect component used to split, adapt, seal, or route low-volume fluidic lines.";
+    if (subclass === "Reservoirs") return "Reservoir or cap interface for pressure-driven delivery, reagent holding, and low-volume setup organization.";
+    return "Accessory item for stabilizing, routing, or adapting a microfluidic setup.";
+  }
+  if (product.category === "flow-control") {
+    if (subclass === "Pumps") return "Benchtop or OEM-adjacent pump option for controlled transfer, perfusion, recirculation, and flow-rate testing.";
+    if (subclass === "Valves") return "Switching component for sample injection, routing, recirculation, automation, or flow redirection.";
+    if (subclass === "Sensors and meters") return "Measurement component used to monitor flow rate, pressure, stability, and setup repeatability.";
+    return "Controller platform for pressure-driven or automated microfluidic operation.";
+  }
+  if (product.category === "diagnostics") {
+    if (subclass === "LFIA materials") return "Lateral-flow assay material used to tune sample entry, conjugate release, capillary flow, and endpoint signal.";
+    if (subclass === "Cartridges and housings") return "Diagnostic housing or cartridge format for strip integration, sample handling, and pilot usability testing.";
+    return "Assay-development support item for feasibility, optimization, and early diagnostic product definition.";
+  }
+  if (product.category === "lab-plastics") return "Routine laboratory consumable selected by sterility, material, volume, compatibility, packaging, and case quantity.";
+  if (product.category === "oem") return "OEM supply or manufacturing pathway for custom consumables, enclosures, cartridges, reservoirs, or transition-to-production work.";
+  if (product.category === "services") return "Productized technical service to reduce supplier-search time and help teams specify practical microfluidic or diagnostic purchasing paths.";
+  if (product.category === "starter-kits") return "Curated kit for labs that need a practical first setup rather than a long parts search.";
+  return "Catalog item configured by application, material, documentation, and quantity.";
+}
+
+function getVariantOptions(product) {
+  const name = product.name.toLowerCase();
+  const options = [];
+
+  if (product.category === "microfluidics") {
+    options.push("Material options: PDMS, glass, COC, PMMA, or hybrid formats depending on chemistry and optical needs.");
+    options.push("Porting options: inlet/outlet count, luer adapters, NanoPort-style fittings, punched PDMS ports, or bonded manifolds.");
+    options.push("Channel options: straight channels, mixers, droplet junctions, gradients, chambers, traps, or assay-specific geometry.");
+    if (name.includes("organ") || name.includes("cell") || name.includes("aria") || name.includes("omi")) {
+      options.push("Biology options: perfusion path, cell-culture chamber geometry, membrane/barrier format, tubing kit, and incubation compatibility.");
+    }
+  }
+
+  if (product.category === "fluid-handling") {
+    if (product.subclass === "Tubing") {
+      options.push("Diameter options: common microfluidic OD/ID combinations including 1/32 in., 1/16 in., 1/8 in., and metric microbore sizes.");
+      options.push("Material options: PTFE, FEP, PEEK, silicone, Tygon, and low-adsorption or biocompatible grades where available.");
+      options.push("Pack options: trial length, roll, cut-to-length kit, or tubing assortment for setup development.");
+    }
+    if (product.subclass === "Connectors and manifolds") {
+      options.push("Connection options: luer, barbed, 1/4-28, 10-32, compression, union, tee, cross, reducer, or manifold formats.");
+      options.push("Material options: PEEK, ETFE, PP, PTFE, stainless, or chemically compatible polymer alternatives.");
+      options.push("Configuration options: straight, elbow, Y, T, cross, multi-port, and mixed-interface adapters.");
+    }
+    if (product.subclass === "Reservoirs") {
+      options.push("Volume options: 1.5 mL, 15 mL, 50 mL, 100 mL, 250 mL, 350 mL, or bottle-cap formats.");
+      options.push("Port options: 2-port, 4-port, pressure input, fluid output, venting, and spare port configurations.");
+      options.push("Accessory options: caps, tubing, filters, fittings, seals, chip reservoirs, and pressure-compatible adapters.");
+    }
+    if (product.subclass === "Fluidic accessories") {
+      options.push("Accessory options: resistance elements, dampers, adapters, tubing/fitting add-ons, and flow-stabilization components.");
+      options.push("Compatibility options: pressure-driven setups, pump-driven setups, chip inlets, reservoirs, and sensor/valve assemblies.");
+      options.push("Configuration options: single item, matched accessory kit, replacement part, or setup-specific bundle.");
+    }
+  }
+
+  if (product.category === "flow-control") {
+    if (product.subclass === "Pumps") {
+      options.push("Pump format options: syringe pump, peristaltic pump, low-pulse pump, or application-specific flow package.");
+      options.push("Control options: manual, digital, programmable, multi-channel, or software-controlled depending on platform.");
+      options.push("Selection options: target flow range, pulsation tolerance, fluid compatibility, tubing size, and continuous vs. discrete dispensing.");
+    }
+    if (product.subclass === "Controllers") {
+      options.push("Pressure range options: low-pressure cell work, mid-range chip operation, and higher-pressure droplet or analytical setups.");
+      options.push("Channel options: single-channel, multi-channel, modular expansion, and pressure/flow feedback configurations.");
+      options.push("Integration options: software control, trigger input, sensor feedback, reservoir kit, and OEM integration support.");
+    }
+    if (product.subclass === "Sensors and meters") {
+      options.push("Measurement options: flow-rate range, pressure range, bidirectional measurement, wetted material, and inline connection type.");
+      options.push("Readout options: standalone display, hub-connected, software logging, or controller feedback.");
+      options.push("Calibration options: factory calibration, application verification, and setup-specific flow check.");
+    }
+    if (product.subclass === "Valves") {
+      options.push("Valve options: 2-way, 3-port, 6-port/2-position, injection, recirculation, sampling, pinch, or bidirectional switching.");
+      options.push("Drive options: manual, solenoid, controller-driven, or software-automated sequencing.");
+      options.push("Integration options: tubing/fitting kit, controller pairing, mounting, and assay-specific switching logic.");
+    }
+  }
+
+  if (product.category === "diagnostics") {
+    options.push("Material options: membrane, sample pad, conjugate pad, absorbent pad, backing card, housing, cartridge, or assembled strip kit.");
+    options.push("Assay options: strip width, pore size/flow rate, protein binding behavior, release behavior, cassette geometry, and sample type.");
+    options.push("Documentation options: lot certificate, material traceability, sterility status, and storage/handling guidance when available.");
+  }
+
+  if (product.category === "lab-plastics") {
+    options.push("Format options: sterile/non-sterile, filtered/non-filtered, low-retention, DNase/RNase-free, skirted/non-skirted, or automation-ready.");
+    options.push("Packaging options: bulk, racked, refill, bagged, case quantity, individually wrapped, or cleanroom-compatible where available.");
+    options.push("Material options: polypropylene, polystyrene, PETG, HDPE, or application-specific plastic grade.");
+  }
+
+  if (product.category === "oem") {
+    options.push("Development options: concept review, CAD/DFM feedback, material selection, pilot tooling, and supplier shortlisting.");
+    options.push("Production options: low-volume pilot run, bridge production, injection molding, cartridge assembly, and packaging support.");
+    options.push("Documentation options: drawing package, material certificate, dimensional report, and supplier quality documentation by quote.");
+  }
+
+  if (product.category === "services") {
+    options.push("Scope options: supplier search, specification memo, request-for-quote package, vendor comparison, or intro-email support.");
+    options.push("Deliverable options: shortlist, capability table, recommended part list, risk notes, and next-step purchasing checklist.");
+    options.push("Add-ons: technical call, BOM refinement, OEM/CDMO outreach, and prototype workflow review.");
+  }
+
+  if (product.category === "starter-kits") {
+    options.push("Kit options: beginner, flow-testing, prototyping, or custom kit assembled around a target experiment.");
+    options.push("Component options: tubing, connectors, syringes, holders, sensors, pressure gauge, sample chips, and consultation time.");
+    options.push("Application options: university teaching, first lab setup, diagnostic proof-of-concept, or RUO assay workflow.");
+  }
+
+  return uniqueArray(options);
+}
+
+function getSpecChecklist(product) {
+  const checklist = [
+    "Confirm intended application: RUO, teaching, prototype, OEM evaluation, or diagnostic development.",
+    "Confirm fluid compatibility, pressure/flow range, operating temperature, and cleaning method.",
+  ];
+
+  if (product.category === "microfluidics") {
+    checklist.push("Provide channel drawing, target dimensions, material preference, port layout, and bonding/sterility needs.");
+    checklist.push("Confirm optical readout needs such as brightfield, fluorescence, microscopy, or imaging through the device.");
+  }
+  if (product.category === "fluid-handling") {
+    checklist.push("Specify tubing OD/ID, fitting thread type, wetted material, connector standard, and maximum pressure.");
+    checklist.push("Check dead volume, chemical compatibility, bubble tolerance, and available space around the chip or instrument.");
+  }
+  if (product.category === "flow-control") {
+    checklist.push("Define minimum/maximum flow rate or pressure, number of channels, acceptable pulsation, and software-control needs.");
+    checklist.push("Confirm power, communication interface, sensor compatibility, tubing/fitting kit, and maintenance requirements.");
+  }
+  if (product.category === "diagnostics") {
+    checklist.push("Share sample type, target analyte class, strip architecture, readout method, flow-time target, and cassette constraints.");
+    checklist.push("Request lot information, storage condition, material grade, membrane flow behavior, and certificate availability.");
+  }
+  if (product.category === "lab-plastics") {
+    checklist.push("Confirm sterility, purity claims, volume, plate geometry, temperature compatibility, automation fit, and pack size.");
+    checklist.push("Check certification needs such as DNase/RNase-free, pyrogen-free, PCR clean, or cell-culture treated.");
+  }
+  if (product.category === "oem") {
+    checklist.push("Share expected annual volume, target cost, regulatory context, material constraints, CAD status, and tolerance needs.");
+    checklist.push("Confirm whether the request is for prototype, pilot, bridge production, or supplier transition.");
+  }
+  if (product.category === "services" || product.category === "starter-kits") {
+    checklist.push("Share target experiment, current equipment, budget range, timeline, destination country, and documentation needs.");
+    checklist.push("Confirm whether MicroCD should provide a shortlist only or help prepare the first order/BOM.");
+  }
+
+  return checklist;
+}
+
+function getMarketReferences(product) {
+  const references = [];
+  const brand = getBrand(product);
+
+  if (brand === "ELVEFLOW") references.push(marketReferenceLinks.elveflow, supplierSearchLink(product, "darwin"));
+  if (brand === "Fluigent") references.push(marketReferenceLinks.fluigent, supplierSearchLink(product, "darwin"));
+  if (brand === "IDEX") references.push(marketReferenceLinks.idex, supplierSearchLink(product, "darwin"));
+  if (brand === "Darwin Microfluidics" || brand === "Innofluid" || brand === "Longer") {
+    references.push(marketReferenceLinks.darwin, supplierSearchLink(product, "darwin"));
+  }
+
+  if (product.category === "microfluidics") {
+    references.push(marketReferenceLinks.elveflow, marketReferenceLinks.darwin);
+  }
+  if (product.category === "fluid-handling") {
+    references.push(marketReferenceLinks.darwin, marketReferenceLinks.idex, supplierSearchLink(product, "fisher"));
+  }
+  if (product.category === "flow-control") {
+    references.push(marketReferenceLinks.fluigent, marketReferenceLinks.elveflow, marketReferenceLinks.darwin);
+  }
+  if (product.category === "diagnostics") {
+    references.push(marketReferenceLinks.cytivaLfia, supplierSearchLink(product, "fisher"));
+  }
+  if (product.category === "lab-plastics") {
+    references.push(marketReferenceLinks.thermofisherPlastics, supplierSearchLink(product, "fisher"), supplierSearchLink(product, "thomas"));
+  }
+  if (product.category === "oem") {
+    references.push(marketReferenceLinks.fisher, marketReferenceLinks.darwin);
+  }
+  if (product.category === "services") {
+    references.push(marketReferenceLinks.darwin, marketReferenceLinks.elveflow, marketReferenceLinks.fluigent);
+  }
+  if (product.category === "starter-kits") {
+    references.push(marketReferenceLinks.darwin, marketReferenceLinks.idex, supplierSearchLink(product, "fisher"));
+  }
+
+  const seen = new Set();
+  return references.filter((reference) => {
+    if (!reference || seen.has(reference.url)) return false;
+    seen.add(reference.url);
+    return true;
+  }).slice(0, 5);
+}
+
+function getComparableSuppliers(product) {
+  const brand = getBrand(product);
+  const suppliers = [];
+  if (brand !== "MicroCD curated") suppliers.push(brand);
+
+  if (product.category === "microfluidics") suppliers.push("Elveflow", "Fluigent", "Darwin Microfluidics", "Micronit", "Parallel Fluidics");
+  if (product.category === "fluid-handling") suppliers.push("Darwin Microfluidics", "IDEX Health & Science", "Fisher Scientific", "Cole-Parmer");
+  if (product.category === "flow-control") suppliers.push("Fluigent", "Elveflow", "Darwin Microfluidics", "Bartels Mikrotechnik", "Longer Pump");
+  if (product.category === "diagnostics") suppliers.push("Cytiva", "Ahlstrom", "MilliporeSigma", "Fisher Scientific", "OEM cassette suppliers");
+  if (product.category === "lab-plastics") suppliers.push("Thermo Fisher Scientific", "Corning", "Eppendorf", "VWR/Avantor", "Thomas Scientific");
+  if (product.category === "oem") suppliers.push("Invetech", "Controlled Fluidics", "Parallel Fluidics", "Nucleus Automation Partners", "diagnostic CDMO/OEM suppliers");
+  if (product.category === "services") suppliers.push("MicroCD Labs supplier search", "specialized microfluidics distributors", "diagnostic OEM/CDMO networks");
+  if (product.category === "starter-kits") suppliers.push("MicroCD Labs curated kits", "Darwin Microfluidics", "Fisher Scientific", "IDEX Health & Science");
+
+  return uniqueArray(suppliers).slice(0, 6);
+}
+
+function getMarketPosition(product) {
+  const brand = getBrand(product);
+  const quoteNote =
+    product.price === "Quote" || product.price.startsWith("From")
+      ? "configured-by-quote item"
+      : "indicative online-catalog price/range";
+  const brandNote =
+    brand === "MicroCD curated"
+      ? "MicroCD-curated catalog family item"
+      : `${brand}-branded item or directly comparable product family`;
+
+  return `${brandNote}. Listed as a ${quoteNote}; final availability, tax, shipping, lead time, regional pricing, and documentation are confirmed before order.`;
+}
+
+function getProductDetailPack(product) {
+  return {
+    brand: getBrand(product),
+    role: getItemRole(product),
+    marketPosition: getMarketPosition(product),
+    variants: getVariantOptions(product),
+    checklist: getSpecChecklist(product),
+    references: getMarketReferences(product),
+    suppliers: getComparableSuppliers(product),
+  };
+}
+
 const selected = new Map();
 const productGrid = document.querySelector("#productGrid");
 const quoteList = document.querySelector("#quoteList");
@@ -1658,6 +1990,7 @@ function renderProductDetail() {
   }
 
   const categoryLabel = productCategoryLabels[product.category] || product.category;
+  const detailPack = getProductDetailPack(product);
   const requestSubject = encodeURIComponent(`MicroCD Labs quote request: ${product.name}`);
   const requestBody = encodeURIComponent(
     `Hello MicroCD Labs,\n\nPlease send availability, final price, lead time, shipping, and documentation details for:\n\n${product.name}\nMicroCD Cat. No. ${product.sku}\nCategory: ${categoryLabel}\nSubclass: ${product.subclass}\nIndicative price: ${product.price}\n\nIntended research-use application:\n\nDestination country:\n\nThank you.`,
@@ -1691,8 +2024,17 @@ function renderProductDetail() {
               <dt>Subclass</dt>
               <dd>${escapeHtml(product.subclass)}</dd>
             </div>
+            <div>
+              <dt>Brand/source family</dt>
+              <dd>${escapeHtml(detailPack.brand)}</dd>
+            </div>
+            <div>
+              <dt>Order type</dt>
+              <dd>Research-use supply, sourcing, or configuration by quote</dd>
+            </div>
           </dl>
           <p>${escapeHtml(product.description)}</p>
+          <p>${escapeHtml(detailPack.role)}</p>
           <div class="product-meta">
             ${product.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}
           </div>
@@ -1702,6 +2044,40 @@ function renderProductDetail() {
           </div>
         </div>
       </div>
+      <div class="product-detail-grid" aria-label="Detailed product information">
+        <article class="detail-panel detail-panel-wide">
+          <h2>Market comparison note</h2>
+          <p>${escapeHtml(detailPack.marketPosition)}</p>
+          <p>MicroCD Labs uses the catalog number <strong>${escapeHtml(product.sku)}</strong> for internal quoting, substitutions, compatible variants, and customer order review.</p>
+        </article>
+        <article class="detail-panel">
+          <h2>Available variants</h2>
+          <ul>
+            ${detailPack.variants.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+          </ul>
+        </article>
+        <article class="detail-panel">
+          <h2>Specification checklist</h2>
+          <ul>
+            ${detailPack.checklist.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+          </ul>
+        </article>
+        <article class="detail-panel">
+          <h2>Comparable supplier families</h2>
+          <ul>
+            ${detailPack.suppliers.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+          </ul>
+        </article>
+        <article class="detail-panel">
+          <h2>Reference links</h2>
+          <ul class="reference-list">
+            ${detailPack.references
+              .map((entry) => `<li><a href="${entry.url}" target="_blank" rel="noreferrer">${escapeHtml(entry.label)}</a></li>`)
+              .join("")}
+          </ul>
+        </article>
+      </div>
+      <p class="catalog-disclaimer">Catalog details are intended for research, sourcing, and purchasing review. Specifications, documentation, substitutions, and prices are confirmed in writing before order placement.</p>
     </section>
   `;
   document.title = `${product.name} | MicroCD Labs Catalog`;
