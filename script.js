@@ -2030,13 +2030,13 @@ function renderProducts(filter = null) {
     .map(
       (product) => `
         <article class="product-card" data-category="${product.category}">
-          <div class="product-visual">
+          <a class="product-visual" href="${getProductPageUrl(product)}" aria-label="View catalog page for ${escapeHtml(product.name)}">
             ${
               product.image
-                ? `<img class="product-image" src="${product.image.url}" alt="${product.image.alt}" loading="lazy" /><span class="image-credit">${product.image.credit}</span>`
+                ? `<img class="product-image" src="${product.image.url}" alt="${escapeHtml(product.image.alt)}" loading="lazy" /><span class="image-credit">${escapeHtml(product.image.credit)}</span>`
                 : iconSvg(product.icon)
             }
-          </div>
+          </a>
           <div class="product-body">
             <h3>${product.name}</h3>
             <strong class="product-price">${product.price}</strong>

@@ -718,10 +718,17 @@ h3 {
   position: relative;
   display: block;
   height: 116px;
+  color: inherit;
   background:
     linear-gradient(135deg, rgba(15, 118, 110, 0.1), rgba(37, 99, 168, 0.04)),
     #f3f8fb;
+  text-decoration: none;
   overflow: hidden;
+}
+
+.product-visual:focus-visible {
+  outline: 3px solid rgba(15, 118, 110, 0.42);
+  outline-offset: -3px;
 }
 
 .part-icon {
