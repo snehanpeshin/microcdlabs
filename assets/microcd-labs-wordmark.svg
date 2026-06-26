@@ -1,6 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 80" role="img" aria-labelledby="title desc">
   <title id="title">microcd labs wordmark</title>
-  <desc id="desc">A compact white circle and microcd labs wordmark for dark navigation bars.</desc>
+  <desc id="desc">A compact white circle and microcd labs wordmark on a black rectangular background.</desc>
+  <rect width="360" height="80" rx="10" fill="#111"/>
   <circle cx="38" cy="40" r="22" fill="#fff"/>
   <text
     x="78"
