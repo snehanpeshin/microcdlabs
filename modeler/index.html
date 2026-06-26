@@ -3,11 +3,256 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MicroCD Labs Microfluidics Modeler</title>
-    <script type="module" crossorigin src="/modeler/assets/index-Dqs6NZ9t.js"></script>
-    <link rel="stylesheet" crossorigin href="/modeler/assets/index-D0KmHFoL.css">
+    <title>Launch Microfluidics Modeler | MicroCD Labs</title>
+    <style>
+      :root {
+        --ink: #16212f;
+        --muted: #647084;
+        --line: #dbe6ef;
+        --paper: #ffffff;
+        --soft: #f5f8fb;
+        --charcoal: #0d2233;
+        --teal: #0f766e;
+        --teal-dark: #0b5f59;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 12% 12%, rgba(15, 118, 110, 0.18), transparent 24rem),
+          linear-gradient(135deg, #f8fafc 0%, #eef5f7 48%, #ffffff 100%);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.55;
+      }
+
+      main {
+        display: grid;
+        min-height: 100vh;
+        place-items: center;
+        padding: clamp(18px, 4vw, 48px);
+      }
+
+      .launch-panel {
+        width: min(860px, 100%);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow: 0 24px 70px rgba(13, 34, 51, 0.14);
+        overflow: hidden;
+      }
+
+      .launch-header {
+        padding: clamp(24px, 4vw, 42px);
+        color: #ffffff;
+        background:
+          linear-gradient(120deg, rgba(15, 118, 110, 0.22), rgba(255, 255, 255, 0) 56%),
+          var(--charcoal);
+      }
+
+      .eyebrow {
+        margin: 0 0 10px;
+        color: #7ed2c8;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 720px;
+        margin: 0;
+        font-size: clamp(1.8rem, 4vw, 3rem);
+        line-height: 1.04;
+      }
+
+      .launch-header p {
+        max-width: 680px;
+        margin: 16px 0 0;
+        color: rgba(255, 255, 255, 0.78);
+        font-size: 1rem;
+      }
+
+      .launch-body {
+        display: grid;
+        gap: 22px;
+        padding: clamp(22px, 4vw, 38px);
+      }
+
+      .capability-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .capability-grid article {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 16px;
+        background: var(--soft);
+      }
+
+      .capability-grid strong {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--charcoal);
+        font-size: 0.92rem;
+      }
+
+      .capability-grid span,
+      .terms-copy,
+      .agreement {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .terms-box {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 18px;
+        background: #ffffff;
+      }
+
+      .terms-box h2 {
+        margin: 0 0 8px;
+        color: var(--charcoal);
+        font-size: 1rem;
+      }
+
+      .terms-copy {
+        margin: 0;
+      }
+
+      .agreement {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin-top: 14px;
+        cursor: pointer;
+      }
+
+      .agreement input {
+        width: 18px;
+        height: 18px;
+        margin-top: 2px;
+        accent-color: var(--teal);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        padding: 0 18px;
+        color: #ffffff;
+        background: var(--teal);
+        font-size: 0.9rem;
+        font-weight: 800;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .button:hover,
+      .button:focus-visible {
+        background: var(--teal-dark);
+      }
+
+      .button[aria-disabled="true"] {
+        pointer-events: none;
+        opacity: 0.5;
+      }
+
+      .button-secondary {
+        color: var(--charcoal);
+        border-color: var(--line);
+        background: #ffffff;
+      }
+
+      .button-secondary:hover,
+      .button-secondary:focus-visible {
+        background: var(--soft);
+      }
+
+      @media (max-width: 760px) {
+        .capability-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <main>
+      <section class="launch-panel" aria-labelledby="launch-title">
+        <div class="launch-header">
+          <p class="eyebrow">MicroCD Labs alpha tool</p>
+          <h1 id="launch-title">Microfluidics 3D modeler</h1>
+          <p>
+            Build early cartridge, channel, cut, port, and enclosure concepts in a browser-based workspace.
+          </p>
+        </div>
+
+        <div class="launch-body">
+          <div class="capability-grid" aria-label="Current modeler capabilities">
+            <article>
+              <strong>Sketch and shape</strong>
+              <span>Blocks, rectangles, circles, slots, sketch cuts, and coordinate editing.</span>
+            </article>
+            <article>
+              <strong>Modify features</strong>
+              <span>Extruded cuts, holes, fillets, mirror, duplicate, and linear patterns.</span>
+            </article>
+            <article>
+              <strong>Export concepts</strong>
+              <span>Use GLB export for concept sharing and early geometry review.</span>
+            </article>
+          </div>
+
+          <div class="terms-box">
+            <h2>Before launching</h2>
+            <p class="terms-copy">
+              This alpha modeler is for research, concept design, education, and early feasibility work. Designs are not validated for clinical use, manufacturing release, regulatory submission, or patient-facing decisions. Review all geometry, materials, tolerances, and assay requirements with qualified engineers before fabrication or use.
+            </p>
+            <label class="agreement">
+              <input id="agreeTerms" type="checkbox" />
+              <span>I understand and agree to use this alpha tool for research and concept design only.</span>
+            </label>
+          </div>
+
+          <div class="actions">
+            <a id="launchApp" class="button" href="app.html?v=terms-v1" aria-disabled="true">Agree and launch modeler</a>
+            <a class="button button-secondary" href="../platform.html">Back to platform</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const agreeTerms = document.getElementById("agreeTerms");
+      const launchApp = document.getElementById("launchApp");
+
+      agreeTerms.addEventListener("change", () => {
+        const isAgreed = agreeTerms.checked;
+        launchApp.setAttribute("aria-disabled", String(!isAgreed));
+      });
+
+      launchApp.addEventListener("click", (event) => {
+        if (!agreeTerms.checked) {
+          event.preventDefault();
+        }
+      });
+    </script>
   </body>
 </html>
