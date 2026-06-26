@@ -78,10 +78,8 @@ textarea {
 
 .hero-logo {
   display: block;
-  width: min(164px, 58vw);
+  width: min(188px, 58vw);
   margin-bottom: 14px;
-  border-radius: 8px;
-  box-shadow: 0 18px 52px rgba(0, 0, 0, 0.24);
 }
 
 .main-nav {
