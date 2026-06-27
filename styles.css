@@ -455,6 +455,78 @@ h3 {
   line-height: 1.45;
 }
 
+.buyer-path-section {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(420px, 1.2fr) minmax(220px, 0.5fr);
+  gap: 18px;
+  align-items: stretch;
+  border-bottom: 1px solid var(--line);
+  background: var(--white);
+}
+
+.buyer-path-copy {
+  align-self: center;
+}
+
+.buyer-path-copy p:not(.eyebrow) {
+  max-width: 540px;
+  margin: 14px 0 0;
+  color: var(--muted);
+}
+
+.buyer-path-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.buyer-path-steps article,
+.buyer-path-card,
+.product-guidance-strip article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfdfe;
+}
+
+.buyer-path-steps article {
+  display: grid;
+  align-content: start;
+  gap: 9px;
+  min-height: 180px;
+  padding: 18px;
+}
+
+.buyer-path-steps span {
+  color: var(--teal);
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.buyer-path-steps p,
+.buyer-path-card span,
+.product-guidance-strip span {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.buyer-path-card {
+  display: grid;
+  align-content: center;
+  gap: 10px;
+  border-left: 4px solid var(--teal);
+  padding: 20px;
+  background:
+    linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(37, 99, 168, 0.04)),
+    var(--white);
+}
+
+.buyer-path-card strong,
+.product-guidance-strip strong {
+  color: var(--ink);
+  font-size: 0.94rem;
+}
+
 .intro-section,
 .section-heading,
 .compliance-section,
@@ -665,6 +737,23 @@ h3 {
 
 .store-hero-panel span {
   color: var(--muted);
+}
+
+.product-guidance-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 18px clamp(18px, 5vw, 64px);
+  border-bottom: 1px solid var(--line);
+  background: #eef6f8;
+}
+
+.product-guidance-strip article {
+  display: grid;
+  gap: 7px;
+  padding: 16px 18px;
+  background: var(--white);
+  box-shadow: 0 10px 24px rgba(18, 48, 64, 0.055);
 }
 
 .store-catalog-section {
@@ -1879,6 +1968,7 @@ h3 {
   .store-hero,
   .store-preview-grid,
   .finder-grid,
+  .buyer-path-section,
   .catalog-controls,
   .product-detail-layout,
   .product-detail-grid,
@@ -1891,6 +1981,8 @@ h3 {
   .use-case-grid,
   .oem-workflow-visual,
   .proof-strip,
+  .buyer-path-steps,
+  .product-guidance-strip,
   .service-list-compact {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1964,6 +2056,8 @@ h3 {
   .compliance-section,
   .payment-section,
   .finder-grid,
+  .buyer-path-steps,
+  .product-guidance-strip,
   .proof-strip,
   .use-case-grid,
   .oem-workflow-visual,
