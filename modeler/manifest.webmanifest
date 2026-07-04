@@ -1,0 +1,40 @@
+{
+  "name": "MicroCD Labs Microfluidics Modeler",
+  "short_name": "MicroCD Modeler",
+  "description": "Browser-based alpha modeler for early microfluidic cartridge, channel, port, and enclosure concepts.",
+  "id": "/modeler/",
+  "start_url": "/modeler/index.html?v=pwa-v1",
+  "scope": "/modeler/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f8fafc",
+  "theme_color": "#0d2233",
+  "categories": ["productivity", "education", "medical"],
+  "icons": [
+    {
+      "src": "/modeler/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/modeler/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Launch modeler",
+      "short_name": "Modeler",
+      "url": "/modeler/app/index.html?v=pwa-v1",
+      "icons": [
+        {
+          "src": "/modeler/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}

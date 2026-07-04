@@ -4,6 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="canonical" href="https://www.microcdlabs.com/modeler/" />
+    <meta name="theme-color" content="#0d2233" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="MicroCD Modeler" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="manifest" href="/modeler/manifest.webmanifest" />
+    <link rel="icon" href="/modeler/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/modeler/icon-192.png" />
     <title>Launch Microfluidics Modeler | MicroCD Labs</title>
     <style>
       :root {
@@ -107,7 +114,8 @@
 
       .capability-grid span,
       .terms-copy,
-      .agreement {
+      .agreement,
+      .install-copy {
         color: var(--muted);
         font-size: 0.9rem;
       }
@@ -119,14 +127,49 @@
         background: #ffffff;
       }
 
-      .terms-box h2 {
+      .terms-box h2,
+      .install-box h2 {
         margin: 0 0 8px;
         color: var(--charcoal);
         font-size: 1rem;
       }
 
-      .terms-copy {
+      .terms-copy,
+      .install-copy {
         margin: 0;
+      }
+
+      .install-box {
+        border: 1px solid rgba(15, 118, 110, 0.22);
+        border-radius: 8px;
+        padding: 18px;
+        background: #eef8f6;
+      }
+
+      .install-steps {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .install-steps div {
+        border: 1px solid rgba(15, 118, 110, 0.18);
+        border-radius: 8px;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.72);
+      }
+
+      .install-steps strong {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--charcoal);
+        font-size: 0.86rem;
+      }
+
+      .install-steps span {
+        color: var(--muted);
+        font-size: 0.84rem;
       }
 
       .agreement {
@@ -187,8 +230,17 @@
         background: var(--soft);
       }
 
+      .install-button {
+        display: none;
+      }
+
+      .install-button.is-visible {
+        display: inline-flex;
+      }
+
       @media (max-width: 760px) {
-        .capability-grid {
+        .capability-grid,
+        .install-steps {
           grid-template-columns: 1fr;
         }
       }
@@ -221,6 +273,23 @@
             </article>
           </div>
 
+          <div class="install-box">
+            <h2>Install like an app</h2>
+            <p class="install-copy">
+              You can add the modeler to your iPhone, iPad, or Mac home screen for faster access. It will open as a focused app-style workspace.
+            </p>
+            <div class="install-steps" aria-label="Install instructions">
+              <div>
+                <strong>iPhone or iPad</strong>
+                <span>Open in Safari, tap Share, then Add to Home Screen.</span>
+              </div>
+              <div>
+                <strong>Mac</strong>
+                <span>Use Safari Add to Dock or Chrome Install when available.</span>
+              </div>
+            </div>
+          </div>
+
           <div class="terms-box">
             <h2>Before launching</h2>
             <p class="terms-copy">
@@ -233,7 +302,8 @@
           </div>
 
           <div class="actions">
-            <a id="launchApp" class="button" href="app/index.html?v=terms-v2" aria-disabled="true">Agree and launch modeler</a>
+            <a id="launchApp" class="button" href="app/index.html?v=pwa-v1" aria-disabled="true">Agree and launch modeler</a>
+            <button id="installApp" class="button button-secondary install-button" type="button">Install app</button>
             <a class="button button-secondary" href="../platform.html">Back to platform</a>
           </div>
         </div>
@@ -243,6 +313,14 @@
     <script>
       const agreeTerms = document.getElementById("agreeTerms");
       const launchApp = document.getElementById("launchApp");
+      const installApp = document.getElementById("installApp");
+      let deferredInstallPrompt = null;
+
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("/modeler/sw.js", { scope: "/modeler/" });
+        });
+      }
 
       agreeTerms.addEventListener("change", () => {
         const isAgreed = agreeTerms.checked;
@@ -253,6 +331,20 @@
         if (!agreeTerms.checked) {
           event.preventDefault();
         }
+      });
+
+      window.addEventListener("beforeinstallprompt", (event) => {
+        event.preventDefault();
+        deferredInstallPrompt = event;
+        installApp.classList.add("is-visible");
+      });
+
+      installApp.addEventListener("click", async () => {
+        if (!deferredInstallPrompt) return;
+        deferredInstallPrompt.prompt();
+        await deferredInstallPrompt.userChoice;
+        deferredInstallPrompt = null;
+        installApp.classList.remove("is-visible");
       });
     </script>
   </body>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">MicroCD Labs Modeler</title>
+  <rect width="512" height="512" rx="92" fill="#0d2233"/>
+  <path d="M102 316c60-78 105-98 160-61 34 23 67 26 105 9 18-8 35-19 52-34" fill="none" stroke="#7ed2c8" stroke-width="34" stroke-linecap="round"/>
+  <circle cx="132" cy="316" r="34" fill="#ffffff"/>
+  <circle cx="256" cy="250" r="34" fill="#0f766e" stroke="#ffffff" stroke-width="16"/>
+  <circle cx="384" cy="256" r="34" fill="#ffffff"/>
+  <path d="M134 380h244" fill="none" stroke="#bfd4e3" stroke-width="24" stroke-linecap="round"/>
+  <path d="M176 136h160v64H176z" fill="#ffffff" opacity=".92"/>
+  <path d="M208 168h96" fill="none" stroke="#0f766e" stroke-width="18" stroke-linecap="round"/>
+</svg>
