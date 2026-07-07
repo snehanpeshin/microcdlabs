@@ -1677,6 +1677,35 @@ h3 {
   text-underline-offset: 3px;
 }
 
+.related-app-section {
+  padding-top: 0;
+}
+
+.related-app-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: min(100%, 1180px);
+  margin: 0 auto;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  box-shadow: 0 18px 50px rgba(17, 24, 39, 0.06);
+}
+
+.related-app-panel h2 {
+  margin: 8px 0;
+  font-size: clamp(1.35rem, 2vw, 1.9rem);
+}
+
+.related-app-panel p:not(.eyebrow) {
+  max-width: 760px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
 .footer-logo {
   display: block;
   width: 190px;
@@ -2419,6 +2448,11 @@ h3 {
 
   .store-preview-cta {
     justify-self: start;
+  }
+
+  .related-app-panel {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .service-copy {
