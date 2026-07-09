@@ -1,7 +1,7 @@
 {
-  "name": "MicroCD Labs Microfluidics Modeler",
-  "short_name": "MicroCD Modeler",
-  "description": "Browser-based alpha modeler for early microfluidic cartridge, channel, port, and enclosure concepts.",
+  "name": "MicroCD Labs Microfluidic Modeller",
+  "short_name": "MicroCD Modeller",
+  "description": "Browser-based alpha modeller for early microfluidic cartridge, channel, port, and enclosure concepts.",
   "id": "/modeler/",
   "start_url": "/modeler/index.html?v=pwa-v1",
   "scope": "/modeler/",
@@ -26,8 +26,8 @@
   ],
   "shortcuts": [
     {
-      "name": "Launch modeler",
-      "short_name": "Modeler",
+      "name": "Launch modeller",
+      "short_name": "Modeller",
       "url": "/modeler/app/index.html?v=pwa-v1",
       "icons": [
         {

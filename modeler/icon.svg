@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
-  <title id="title">MicroCD Labs Modeler</title>
+  <title id="title">MicroCD Labs Microfluidic Modeller</title>
   <rect width="512" height="512" rx="92" fill="#0d2233"/>
   <path d="M102 316c60-78 105-98 160-61 34 23 67 26 105 9 18-8 35-19 52-34" fill="none" stroke="#7ed2c8" stroke-width="34" stroke-linecap="round"/>
   <circle cx="132" cy="316" r="34" fill="#ffffff"/>
