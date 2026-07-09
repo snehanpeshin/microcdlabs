@@ -1,4 +1,4 @@
-const CACHE_NAME = "microcd-modeler-pwa-v1";
+const CACHE_NAME = "microcd-modeller-pwa-v3";
 const APP_SHELL = [
   "/modeler/index.html?v=pwa-v1",
   "/modeler/app/index.html?v=pwa-v1",
