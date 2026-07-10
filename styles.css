@@ -1101,6 +1101,186 @@ h3 {
   color: var(--muted);
 }
 
+.recommendation-hero {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.95fr) minmax(280px, 0.52fr);
+  gap: clamp(28px, 5vw, 72px);
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 82% 14%, rgba(15, 118, 110, 0.13), transparent 18rem),
+    linear-gradient(130deg, #ffffff 0%, #f3f8fb 100%);
+}
+
+.recommendation-copy {
+  max-width: 760px;
+}
+
+.recommendation-copy p:not(.eyebrow) {
+  max-width: 690px;
+  color: var(--muted);
+  font-size: clamp(0.92rem, 1vw, 1rem);
+}
+
+.recommendation-assurance {
+  display: grid;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--teal);
+  border-radius: 8px;
+  padding: clamp(20px, 3vw, 28px);
+  background: var(--white);
+  box-shadow: var(--shadow);
+}
+
+.recommendation-assurance strong {
+  font-size: 1rem;
+}
+
+.recommendation-assurance ol {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 20px;
+  color: var(--muted);
+}
+
+.recommendation-packages {
+  background: var(--white);
+}
+
+.package-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 26px;
+}
+
+.package-card {
+  display: grid;
+  gap: 13px;
+  align-content: start;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: clamp(18px, 2.5vw, 24px);
+  background: #fbfdfe;
+  box-shadow: 0 12px 30px rgba(17, 25, 35, 0.055);
+}
+
+.package-card-featured {
+  border-color: rgba(15, 118, 110, 0.42);
+  background: linear-gradient(180deg, #ffffff 0%, #eef8f6 100%);
+  box-shadow: var(--shadow);
+}
+
+.package-label {
+  width: fit-content;
+  border: 1px solid rgba(15, 118, 110, 0.22);
+  border-radius: 999px;
+  padding: 4px 9px;
+  color: var(--teal-dark);
+  background: #eef8f6;
+  font-size: 0.7rem;
+  font-weight: 860;
+  text-transform: uppercase;
+}
+
+.package-card h3 {
+  font-size: 1.02rem;
+}
+
+.package-card strong {
+  color: var(--ink);
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.package-card p,
+.package-card li {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.package-card p {
+  margin: 0;
+}
+
+.package-card ul {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.package-card li::marker {
+  color: var(--teal);
+}
+
+.recommendation-intake {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.78fr) minmax(320px, 0.72fr);
+  gap: clamp(24px, 5vw, 72px);
+  align-items: start;
+  background: var(--soft);
+}
+
+.intake-panel {
+  display: grid;
+  gap: 18px;
+}
+
+.intake-panel p:not(.eyebrow) {
+  color: var(--muted);
+}
+
+.intake-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.intake-grid article {
+  display: grid;
+  gap: 5px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px 18px;
+  background: var(--white);
+}
+
+.intake-grid strong {
+  color: var(--ink);
+}
+
+.intake-grid span {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.recommendation-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.recommendation-form select {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid #cad8e5;
+  border-radius: 8px;
+  padding: 0 38px 0 12px;
+  color: var(--ink);
+  background:
+    linear-gradient(45deg, transparent 50%, var(--charcoal) 50%) calc(100% - 18px) 18px / 6px 6px no-repeat,
+    linear-gradient(135deg, var(--charcoal) 50%, transparent 50%) calc(100% - 12px) 18px / 6px 6px no-repeat,
+    var(--white);
+  appearance: none;
+}
+
+.recommendation-form select:focus {
+  border-color: var(--teal);
+  outline: 3px solid rgba(15, 118, 110, 0.14);
+}
+
 .store-hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -2573,9 +2753,12 @@ h3 {
   .hero,
   .contact-section,
   .decision-section,
+  .recommendation-hero,
+  .recommendation-intake,
   .category-finder,
   .store-hero,
   .store-preview-grid,
+  .package-grid,
   .finder-grid,
   .buyer-path-section,
   .boardroom-section,
@@ -2710,6 +2893,8 @@ h3 {
   .intro-section,
   .section-heading,
   .decision-section,
+  .recommendation-hero,
+  .recommendation-intake,
   .service-band,
   .compliance-section,
   .payment-section,
@@ -2727,6 +2912,7 @@ h3 {
   .use-case-grid,
   .oem-workflow-visual,
   .service-list-compact,
+  .package-grid,
   .credits-section {
     grid-template-columns: 1fr;
   }
@@ -2796,6 +2982,10 @@ h3 {
 
   .catalog-route-strip {
     padding-inline: 16px;
+  }
+
+  .recommendation-form-grid {
+    grid-template-columns: 1fr;
   }
 
   .product-body h3 {

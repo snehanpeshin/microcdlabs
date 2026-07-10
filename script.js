@@ -1942,6 +1942,8 @@ const catalogResultsCount = document.querySelector("#catalogResultsCount");
 const catalogRouteLinks = document.querySelectorAll("[data-class-route]");
 const productDetail = document.querySelector("#productDetail");
 const heroDotField = document.querySelector("#heroDotField");
+const recommendationForm = document.querySelector("#recommendationForm");
+const recommendationStatus = document.querySelector("#recommendationStatus");
 const productDetailId = document.body.dataset.productDetail || "";
 const catalogScope = document.body.dataset.catalogScope || "all";
 const companyEmail = "info@microcdlabs.com";
@@ -2608,6 +2610,50 @@ if (quoteList) {
     const activeFilter = document.querySelector(".filter-button.active")?.dataset.filter || null;
     renderProducts(activeFilter);
     renderQuote();
+  });
+}
+
+if (recommendationForm) {
+  recommendationForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const name = document.querySelector("#recommendationName")?.value.trim() || "";
+    const email = document.querySelector("#recommendationEmail")?.value.trim() || "";
+    const organisation = document.querySelector("#recommendationOrganisation")?.value.trim() || "";
+    const need = document.querySelector("#recommendationNeed")?.value.trim() || "";
+    const budget = document.querySelector("#recommendationBudget")?.value.trim() || "";
+    const timeline = document.querySelector("#recommendationTimeline")?.value.trim() || "";
+    const packageInterest = document.querySelector("#recommendationPackage")?.value || "";
+
+    if (!name || !email || !need) {
+      if (recommendationStatus) {
+        recommendationStatus.textContent = "Please add your name, work email, and sourcing need before sending.";
+      }
+      return;
+    }
+
+    const subject = encodeURIComponent("MicroCD Labs parts recommendation request");
+    const body = encodeURIComponent(
+      [
+        "MicroCD Labs parts recommendation request",
+        "",
+        `Name: ${name}`,
+        `Work email: ${email}`,
+        `Organisation: ${organisation || "Not provided"}`,
+        `Package interest: ${packageInterest}`,
+        `Budget: ${budget || "Not provided"}`,
+        `Timeline: ${timeline || "Not provided"}`,
+        "",
+        "What I need help sourcing:",
+        need,
+        "",
+        "Please review and let me know the suggested next step.",
+      ].join("\n"),
+    );
+
+    window.location.href = `mailto:${companyEmail}?subject=${subject}&body=${body}`;
+    if (recommendationStatus) {
+      recommendationStatus.textContent = "Your email app should open with the request filled in. You can edit it before sending.";
+    }
   });
 }
 
