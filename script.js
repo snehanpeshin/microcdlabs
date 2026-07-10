@@ -2627,6 +2627,35 @@ function initCouponDialog() {
   document.body.append(dialog);
 }
 
+function initNavigationMenus() {
+  const menus = Array.from(document.querySelectorAll(".nav-menu"));
+  if (!menus.length) return;
+
+  function closeMenus(exceptMenu = null) {
+    menus.forEach((menu) => {
+      if (menu !== exceptMenu) menu.removeAttribute("open");
+    });
+  }
+
+  menus.forEach((menu) => {
+    menu.addEventListener("toggle", () => {
+      if (menu.open) closeMenus(menu);
+    });
+
+    menu.addEventListener("click", (event) => {
+      if (event.target.closest(".nav-menu-list a")) menu.removeAttribute("open");
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!event.target.closest(".main-nav")) closeMenus();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeMenus();
+  });
+}
+
 if (quoteForm) quoteForm.addEventListener("input", renderQuote);
 if (contactForm) contactForm.addEventListener("input", renderContactMail);
 
@@ -2637,3 +2666,4 @@ renderCredits();
 renderContactMail();
 initHeroDotField();
 initCouponDialog();
+initNavigationMenus();
