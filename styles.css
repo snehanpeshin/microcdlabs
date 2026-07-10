@@ -96,12 +96,6 @@ textarea {
   height: auto;
 }
 
-.hero-logo {
-  display: block;
-  width: min(188px, 58vw);
-  margin-bottom: 14px;
-}
-
 .main-nav {
   display: flex;
   align-items: center;
@@ -368,7 +362,7 @@ textarea {
 .hero-content {
   position: relative;
   z-index: 2;
-  max-width: 580px;
+  max-width: 620px;
 }
 
 .eyebrow {
@@ -382,6 +376,7 @@ textarea {
 
 .hero .eyebrow {
   color: var(--teal-dark);
+  margin-bottom: 12px;
 }
 
 h1,
@@ -2999,10 +2994,6 @@ h3 {
   .store-hero h1,
   .legal-header h1 {
     font-size: clamp(1.44rem, 6vw, 1.86rem);
-  }
-
-  .hero-logo {
-    width: min(176px, 72vw);
   }
 
   .hero-media figcaption {
