@@ -24,9 +24,10 @@
       content="Browse MicroCD Labs products by product class and subclass, including microfluidic chips, tubing, fittings, pumps, diagnostic consumables, lab plastics, and OEM parts."
     />
     <link rel="canonical" href="https://www.microcdlabs.com/products.html" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="assets/microcd-clarity-connection-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css?v=20260710" />
   </head>
-  <body data-catalog-scope="products" data-coupon-dialog="true">
+  <body data-catalog-scope="products">
     <header class="site-header">
       <a class="brand" href="index.html#top" aria-label="MicroCD Labs home">
         <img class="brand-logo" src="assets/microcd-labs-wordmark.svg?v=boxed" alt="microcd labs" />
@@ -82,7 +83,7 @@
         <a class="social-icon-link" href="https://www.linkedin.com/company/microcd-labs/about/?viewAsMember=true" target="_blank" rel="noreferrer" aria-label="MicroCD Labs on LinkedIn">
           <span aria-hidden="true">in</span>
         </a>
-        <a class="header-cta" href="recommendations.html">Get recommendation</a>
+        <a class="header-cta" href="#catalog">Browse products</a>
       </div>
     </header>
 
@@ -102,6 +103,7 @@
         <div class="store-hero-panel">
           <strong>Quote-reviewed products</strong>
           <span>Choose the item and variant first. MicroCD Labs confirms current availability, final price, lead time, and documentation before payment.</span>
+          <small>First quote: add code <strong>MICROCD10</strong> to your notes for 10% off eligible items.</small>
         </div>
       </section>
 
@@ -167,6 +169,9 @@
         <div class="catalog-class-menu" id="catalogClassMenu" aria-label="Quick product classification"></div>
         <p class="catalog-results-count" id="catalogResultsCount" aria-live="polite"></p>
         <div class="product-grid" id="productGrid"></div>
+        <div class="catalog-pagination">
+          <button class="button button-secondary" id="catalogLoadMore" type="button">Show more products</button>
+        </div>
       </section>
 
       <section id="quote" class="section quote-section" aria-labelledby="quote-title">
@@ -200,7 +205,7 @@
           </label>
           <label>
             Organisation
-            <input id="quoteOrganisation" type="text" name="organisation" placeholder="University, startup, or R&D team" />
+            <input id="quoteOrganisation" type="text" name="organisation" placeholder="University, startup, or R&amp;D team" />
           </label>
           <label>
             Notes
@@ -221,12 +226,12 @@
         <a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a>
         <a href="https://www.linkedin.com/company/microcd-labs/about/?viewAsMember=true" target="_blank" rel="noreferrer">LinkedIn</a>
         <a href="privacy.html">Privacy Policy</a>
-        <a href="terms.html">Terms & Payments</a>
-        <a href="refunds.html">Refunds & Returns</a>
+        <a href="terms.html">Terms &amp; Payments</a>
+        <a href="refunds.html">Refunds &amp; Returns</a>
         <a href="credits.html">Image Credits</a>
       </p>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=20260710"></script>
   </body>
 </html>

@@ -1939,6 +1939,7 @@ const subclassFilter = document.querySelector("#subclassFilter");
 const catalogSearch = document.querySelector("#catalogSearch");
 const catalogClassMenu = document.querySelector("#catalogClassMenu");
 const catalogResultsCount = document.querySelector("#catalogResultsCount");
+const catalogLoadMore = document.querySelector("#catalogLoadMore");
 const catalogRouteLinks = document.querySelectorAll("[data-class-route]");
 const productDetail = document.querySelector("#productDetail");
 const heroDotField = document.querySelector("#heroDotField");
@@ -1948,6 +1949,9 @@ const productDetailId = document.body.dataset.productDetail || "";
 const catalogScope = document.body.dataset.catalogScope || "all";
 const companyEmail = "info@microcdlabs.com";
 const stripePaymentLinkUrl = "https://buy.stripe.com/7sY8wP3Ep3EX9HtggE3Ru02";
+const catalogPageSize = 18;
+let catalogDisplayLimit = catalogPageSize;
+let catalogViewKey = "";
 
 function escapeHtml(value) {
   return String(value)
@@ -2181,12 +2185,26 @@ function renderProducts(filter = null) {
     const searchMatch = !searchTerm || getProductSearchText(product).includes(searchTerm);
     return categoryMatch && subclassMatch && searchMatch;
   });
+  const nextViewKey = `${category}|${subclass}|${searchTerm}`;
+  if (nextViewKey !== catalogViewKey) {
+    catalogDisplayLimit = catalogPageSize;
+    catalogViewKey = nextViewKey;
+  }
+  const renderedProducts = visible.slice(0, catalogDisplayLimit);
 
   if (catalogResultsCount) {
-    catalogResultsCount.textContent = `${visible.length} ${visible.length === 1 ? "item" : "items"} shown`;
+    catalogResultsCount.textContent = visible.length > renderedProducts.length
+      ? `${renderedProducts.length} of ${visible.length} items shown`
+      : `${visible.length} ${visible.length === 1 ? "item" : "items"} shown`;
   }
 
-  productGrid.innerHTML = visible
+  if (catalogLoadMore) {
+    const remaining = Math.max(0, visible.length - renderedProducts.length);
+    catalogLoadMore.hidden = remaining === 0;
+    catalogLoadMore.textContent = remaining ? `Show more products (${remaining} remaining)` : "All products shown";
+  }
+
+  productGrid.innerHTML = renderedProducts
     .map(
       (product) => {
         const options = getProductOptions(product);
@@ -2524,6 +2542,13 @@ if (catalogSearch) {
   catalogSearch.addEventListener("input", () => renderProducts());
 }
 
+if (catalogLoadMore) {
+  catalogLoadMore.addEventListener("click", () => {
+    catalogDisplayLimit += catalogPageSize;
+    renderProducts();
+  });
+}
+
 if (catalogClassMenu) {
   catalogClassMenu.addEventListener("click", (event) => {
     const button = event.target.closest("[data-class-menu]");
@@ -2699,9 +2724,31 @@ function initCouponDialog() {
 function initNavigationMenus() {
   const menus = Array.from(document.querySelectorAll(".nav-menu"));
   if (!menus.length) return;
+  const navigation = document.querySelector(".main-nav");
+  const header = navigation?.closest(".site-header");
   const desktopQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
   const desktopWidthQuery = window.matchMedia("(min-width: 761px)");
   const closeTimers = new WeakMap();
+
+  let navigationToggle = null;
+  if (navigation && header) {
+    navigation.id ||= "primaryNavigation";
+    navigationToggle = document.createElement("button");
+    navigationToggle.className = "nav-toggle";
+    navigationToggle.type = "button";
+    navigationToggle.setAttribute("aria-controls", navigation.id);
+    navigationToggle.setAttribute("aria-expanded", "false");
+    navigationToggle.setAttribute("aria-label", "Open navigation");
+    navigationToggle.innerHTML = '<span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>';
+    header.insertBefore(navigationToggle, navigation);
+
+    navigationToggle.addEventListener("click", () => {
+      const isOpen = header.classList.toggle("mobile-nav-open");
+      navigationToggle.setAttribute("aria-expanded", String(isOpen));
+      navigationToggle.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
+      if (!isOpen) closeMenus();
+    });
+  }
 
   function closeMenus(exceptMenu = null) {
     menus.forEach((menu) => {
@@ -2733,7 +2780,7 @@ function initNavigationMenus() {
   }
 
   function shouldUseDesktopMenu(event = null) {
-    return desktopQuery.matches || desktopWidthQuery.matches || event?.pointerType === "mouse";
+    return desktopWidthQuery.matches && (desktopQuery.matches || event?.pointerType === "mouse");
   }
 
   menus.forEach((menu) => {
@@ -2765,7 +2812,12 @@ function initNavigationMenus() {
         openMenu(menu);
         return;
       }
-      if (event.target.closest(".nav-menu-list a")) menu.removeAttribute("open");
+      if (event.target.closest(".nav-menu-list a")) {
+        menu.removeAttribute("open");
+        header?.classList.remove("mobile-nav-open");
+        navigationToggle?.setAttribute("aria-expanded", "false");
+        navigationToggle?.setAttribute("aria-label", "Open navigation");
+      }
     });
   });
 
@@ -2774,7 +2826,21 @@ function initNavigationMenus() {
   });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") closeMenus();
+    if (event.key === "Escape") {
+      closeMenus();
+      header?.classList.remove("mobile-nav-open");
+      navigationToggle?.setAttribute("aria-expanded", "false");
+      navigationToggle?.setAttribute("aria-label", "Open navigation");
+    }
+  });
+
+  desktopWidthQuery.addEventListener("change", (event) => {
+    if (event.matches) {
+      header?.classList.remove("mobile-nav-open");
+      navigationToggle?.setAttribute("aria-expanded", "false");
+      navigationToggle?.setAttribute("aria-label", "Open navigation");
+    }
+    closeMenus();
   });
 }
 
