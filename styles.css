@@ -167,7 +167,11 @@ textarea {
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.98);
   box-shadow: 0 22px 54px rgba(17, 25, 35, 0.16);
+  opacity: 1;
   transform: translateX(-50%);
+  transition:
+    opacity 140ms ease,
+    transform 140ms ease;
 }
 
 .nav-menu:not([open]) > .nav-menu-list {
@@ -196,6 +200,10 @@ textarea {
   padding: 10px 11px;
   color: var(--ink);
   text-decoration: none;
+  transition:
+    background 140ms ease,
+    color 140ms ease,
+    transform 140ms ease;
 }
 
 .nav-menu-list a span {
@@ -208,6 +216,7 @@ textarea {
 .nav-menu-list a:focus-visible {
   background: #eef8f6;
   color: var(--teal-dark);
+  transform: translateX(2px);
 }
 
 .nav-menu:last-child .nav-menu-list {

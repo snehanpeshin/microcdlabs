@@ -2699,6 +2699,9 @@ function initCouponDialog() {
 function initNavigationMenus() {
   const menus = Array.from(document.querySelectorAll(".nav-menu"));
   if (!menus.length) return;
+  const desktopQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+  const desktopWidthQuery = window.matchMedia("(min-width: 761px)");
+  const closeTimers = new WeakMap();
 
   function closeMenus(exceptMenu = null) {
     menus.forEach((menu) => {
@@ -2706,12 +2709,62 @@ function initNavigationMenus() {
     });
   }
 
+  function clearCloseTimer(menu) {
+    const timer = closeTimers.get(menu);
+    if (timer) window.clearTimeout(timer);
+    closeTimers.delete(menu);
+  }
+
+  function scheduleClose(menu, delay = 120) {
+    clearCloseTimer(menu);
+    closeTimers.set(
+      menu,
+      window.setTimeout(() => {
+        menu.removeAttribute("open");
+        closeTimers.delete(menu);
+      }, delay),
+    );
+  }
+
+  function openMenu(menu) {
+    clearCloseTimer(menu);
+    closeMenus(menu);
+    menu.setAttribute("open", "");
+  }
+
+  function shouldUseDesktopMenu(event = null) {
+    return desktopQuery.matches || desktopWidthQuery.matches || event?.pointerType === "mouse";
+  }
+
   menus.forEach((menu) => {
     menu.addEventListener("toggle", () => {
       if (menu.open) closeMenus(menu);
     });
 
+    menu.addEventListener("pointerenter", (event) => {
+      if (shouldUseDesktopMenu(event)) openMenu(menu);
+    });
+
+    menu.addEventListener("pointerleave", (event) => {
+      if (shouldUseDesktopMenu(event)) scheduleClose(menu);
+    });
+
+    menu.addEventListener("focusin", () => {
+      if (shouldUseDesktopMenu()) openMenu(menu);
+    });
+
+    menu.addEventListener("focusout", () => {
+      window.setTimeout(() => {
+        if (shouldUseDesktopMenu() && !menu.contains(document.activeElement)) scheduleClose(menu, 0);
+      }, 0);
+    });
+
     menu.addEventListener("click", (event) => {
+      if (shouldUseDesktopMenu(event) && event.target.closest("summary")) {
+        event.preventDefault();
+        openMenu(menu);
+        return;
+      }
       if (event.target.closest(".nav-menu-list a")) menu.removeAttribute("open");
     });
   });
