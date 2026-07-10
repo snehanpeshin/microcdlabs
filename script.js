@@ -1939,6 +1939,7 @@ const subclassFilter = document.querySelector("#subclassFilter");
 const catalogSearch = document.querySelector("#catalogSearch");
 const catalogClassMenu = document.querySelector("#catalogClassMenu");
 const catalogResultsCount = document.querySelector("#catalogResultsCount");
+const catalogRouteLinks = document.querySelectorAll("[data-class-route]");
 const productDetail = document.querySelector("#productDetail");
 const heroDotField = document.querySelector("#heroDotField");
 const productDetailId = document.body.dataset.productDetail || "";
@@ -2530,6 +2531,28 @@ if (catalogClassMenu) {
     catalogClassMenu.querySelectorAll("[data-class-menu]").forEach((item) => item.classList.remove("active"));
     button.classList.add("active");
     renderProducts();
+  });
+}
+
+if (catalogRouteLinks.length) {
+  catalogRouteLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      if (!classFilter) return;
+      event.preventDefault();
+      const category = link.dataset.classRoute;
+      if (!Array.from(classFilter.options).some((option) => option.value === category)) return;
+      classFilter.value = category;
+      if (catalogSearch) catalogSearch.value = "";
+      updateSubclassOptions();
+      if (catalogClassMenu) {
+        catalogClassMenu.querySelectorAll("[data-class-menu]").forEach((button) => {
+          button.classList.toggle("active", button.dataset.classMenu === category);
+        });
+      }
+      catalogRouteLinks.forEach((item) => item.classList.toggle("active", item === link));
+      renderProducts();
+      document.querySelector("#catalog")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
   });
 }
 
