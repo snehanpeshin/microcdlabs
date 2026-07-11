@@ -4,12 +4,14 @@ A static website for MicroCD Labs, a division of Karigari Home LLC, focused on m
 
 ## What is included
 
-- Responsive landing page with product-led hero
+- Responsive landing page focused on microfluidic and diagnostic product development
+- Dedicated About and Technical Consultation pages
+- Development-service architecture covering cartridges, lab-on-disc, prototyping, verification planning, suppliers, and commercialization support
 - Dedicated Products, Services, and Kits catalog pages
 - Classified product catalog with product-class and subclass dropdowns
 - Broad quote-based catalog for tubing, fittings, chips, pumps, sensors, diagnostic consumables, lab plastics, OEM items, starter kits, and productized sourcing services
 - Careers page for a microfluidic testing internship
-- Lightweight coupon dialog that reveals a 10% code without storing contact details
+- Non-interruptive first-quote promotion shown within the product workflow
 - Cart and order-request interaction with quantities
 - Mailto order request draft with payment-link/invoice request
 - Invoice-first payment workflow copy
@@ -38,6 +40,8 @@ microfluidics-supply-site
 ```
 
 The included `amplify.yml` publishes the static files directly and does not need an npm build.
+
+The marketing site uses `site.js` for shared navigation, responsive behavior, and consultation forms. Catalog pages also load `script.js`, which contains the product data and quote-cart behavior. The exported `analyzer/` and `modeler/` tools are deployed as static artifacts; their original framework source and package manifests are not currently included in this repository.
 
 ## Payment setup
 

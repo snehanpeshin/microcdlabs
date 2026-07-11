@@ -1064,7 +1064,7 @@ const products = [
     id: "oem-microfluidic-device-ux-package",
     name: "OEM Microfluidic Device UX Package",
     category: "services",
-    description: "Workflow mapping for OEMs and equipment makers turning complex microfluidic tuning, priming, valve states, and assay timing into simpler RUO, clinical, or medical-facing operation.",
+    description: "Workflow mapping for OEMs and equipment makers turning complex microfluidic tuning, priming, valve states, and assay timing into simpler research-use or product-development operation.",
     price: "Quote",
     tags: ["OEM UX", "Workflow mapping", "Plug-and-play"],
     icon: "kit",

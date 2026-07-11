@@ -18,13 +18,19 @@
     </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Get Microfluidic Parts Recommendation | MicroCD Labs</title>
+    <title>Microfluidic Supplier &amp; Parts Recommendation | MicroCD Labs</title>
     <meta
       name="description"
       content="Send MicroCD Labs your assay, fluidics need, budget, and timeline to receive a quote-reviewed microfluidic parts recommendation or sourcing package."
     />
     <link rel="canonical" href="https://www.microcdlabs.com/recommendations.html" />
-    <link rel="stylesheet" href="styles.css" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Microfluidic Supplier &amp; Parts Recommendation" />
+    <meta property="og:description" content="Share your application and constraints to receive a reviewed parts, supplier, or sourcing path." />
+    <meta property="og:url" content="https://www.microcdlabs.com/recommendations.html" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" href="assets/microcd-clarity-connection-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css?v=20260710c" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -79,7 +85,7 @@
         <details class="nav-menu">
           <summary>Capabilities</summary>
           <div class="nav-menu-list">
-            <a href="services.html">Services <span>Sourcing, OEM matching, and technical support</span></a>
+            <a href="services.html">Development services <span>Engineering, prototyping, and product support</span></a>
             <a href="automation.html">OEM workflows <span>Simplified microfluidic device operation</span></a>
             <a href="diagnostics.html">Diagnostics <span>Assay, LFIA, and kinetic analysis support</span></a>
           </div>
@@ -95,11 +101,11 @@
         <details class="nav-menu">
           <summary>Company</summary>
           <div class="nav-menu-list">
-            <a href="index.html#top">Home <span>MicroCD Labs overview</span></a>
+            <a href="about.html">About <span>Technical focus and founder background</span></a>
             <a href="news.html">News <span>Research updates and company notes</span></a>
             <a href="partners.html">Partners <span>Supplier and collaboration discussions</span></a>
             <a href="careers.html">Careers <span>Internship and lab roles</span></a>
-            <a href="index.html#contact">Contact <span>Email, phone, LinkedIn, and address</span></a>
+            <a href="consultation.html">Contact <span>Discuss a technical project</span></a>
           </div>
         </details>
         <details class="nav-menu">
@@ -220,15 +226,15 @@
         <form id="recommendationForm" class="contact-form recommendation-form" aria-label="Parts recommendation request">
           <label>
             Name
-            <input id="recommendationName" type="text" name="name" placeholder="Your name" required />
+            <input id="recommendationName" type="text" name="name" autocomplete="name" placeholder="Your name" required />
           </label>
           <label>
             Work email
-            <input id="recommendationEmail" type="email" name="email" placeholder="you@company.com" required />
+            <input id="recommendationEmail" type="email" name="email" autocomplete="email" placeholder="you@company.com" required />
           </label>
           <label>
             Organisation
-            <input id="recommendationOrganisation" type="text" name="organisation" placeholder="University, startup, lab, or company" />
+            <input id="recommendationOrganisation" type="text" name="organisation" autocomplete="organization" placeholder="University, startup, lab, or company" />
           </label>
           <label>
             What do you need help sourcing?
@@ -278,6 +284,6 @@
       </p>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="site.js?v=20260710c"></script>
   </body>
 </html>
