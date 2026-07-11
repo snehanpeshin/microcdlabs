@@ -4364,6 +4364,74 @@ body {
   margin-bottom: 7px;
 }
 
+.development-evidence-section {
+  display: grid;
+  grid-template-columns: minmax(420px, 1.15fr) minmax(320px, 0.75fr);
+  gap: clamp(30px, 5vw, 64px);
+  align-items: center;
+  border-top: 1px solid var(--line);
+  background: #ffffff;
+}
+
+.development-evidence-visual {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f7f9fa;
+  box-shadow: var(--shadow);
+}
+
+.development-evidence-visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.development-evidence-visual figcaption {
+  border-top: 1px solid var(--line);
+  padding: 10px 12px;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.development-evidence-copy > p:not(.eyebrow) {
+  color: var(--muted);
+}
+
+.development-evidence-list {
+  display: grid;
+  gap: 12px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.development-evidence-list li {
+  display: grid;
+  gap: 4px;
+  border-left: 3px solid var(--teal);
+  padding-left: 12px;
+}
+
+.development-evidence-list strong {
+  font-size: 0.84rem;
+}
+
+.development-evidence-list span,
+.development-evidence-note {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.development-evidence-note {
+  margin-top: 20px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 12px;
+  background: var(--soft);
+}
+
 .consultation-hero {
   display: grid;
   grid-template-columns: minmax(320px, 0.9fr) minmax(300px, 0.55fr);
@@ -4515,6 +4583,7 @@ body {
   .faq-section,
   .development-services-section,
   .founder-section,
+  .development-evidence-section,
   .evidence-section,
   .consultation-hero,
   .inquiry-section {
@@ -4527,6 +4596,7 @@ body {
   .faq-section,
   .development-service-card,
   .founder-section,
+  .development-evidence-section,
   .evidence-section,
   .consultation-hero,
   .inquiry-section {
