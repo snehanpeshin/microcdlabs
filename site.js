@@ -1,10 +1,57 @@
 const microcdCompanyEmail = "info@microcdlabs.com";
 
+if (!document.querySelector('link[href*="restructure.css"]')) {
+  const focusedStyles = document.createElement("link");
+  focusedStyles.rel = "stylesheet";
+  focusedStyles.href = "restructure.css?v=20260715a";
+  document.head.appendChild(focusedStyles);
+}
+
+function normalizeSiteChrome() {
+  if (window.location.pathname.endsWith("/news.html")) {
+    document.title = "Research & Insights | MicroCD Labs";
+    const newsHeading = document.querySelector("h1");
+    if (newsHeading && /^news$/i.test(newsHeading.textContent.trim())) newsHeading.textContent = "Research & Insights";
+  }
+  const navigation = document.querySelector(".main-nav");
+  if (navigation) {
+    navigation.innerHTML = `
+      <a href="services.html">Services</a>
+      <a href="applications.html">Applications</a>
+      <a href="tools.html">Tools</a>
+      <a href="about.html">About</a>
+      <a href="consultation.html">Contact</a>`;
+  }
+
+  const headerActions = document.querySelector(".header-actions");
+  if (headerActions) {
+    headerActions.innerHTML = '<a class="header-cta" href="consultation.html">Discuss a Project</a>';
+  }
+
+  const footer = document.querySelector(".site-footer");
+  if (footer) {
+    footer.innerHTML = `
+      <div class="footer-brand-block">
+        <img class="footer-logo" src="assets/microcd-labs-wordmark.svg?v=boxed" alt="MicroCD Labs" />
+        <p class="company-legal">MicroCD Labs, a division of Karigari Home LLC</p>
+        <p>MicroCD Labs provides microfluidic and diagnostic product-development support for research, startup, and laboratory-product teams.</p>
+        <p>Technical sourcing and research-use product support are available for selected projects.</p>
+        <a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a>
+      </div>
+      <div class="footer-link-groups">
+        <div><strong>Company</strong><a href="about.html">About</a><a href="consultation.html">Contact</a><a href="news.html">Research &amp; Insights</a><a href="partners.html">Partners</a><a href="careers.html">Careers</a></div>
+        <div><strong>Products &amp; sourcing</strong><a href="products.html">Catalog</a><a href="recommendations.html">Parts recommendations</a><a href="kits.html">Starter kits</a><a href="products.html#quote">Request a quote</a></div>
+        <div><strong>Policies</strong><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="refunds.html">Refunds</a><a href="accessibility.html">Accessibility</a><a href="credits.html">Image credits</a></div>
+        <div><strong>Related</strong><a href="tools.html">Tools</a><a href="karigari-wellness-lens-instructions.html">Karigari Wellness Lens</a><a href="https://www.linkedin.com/company/microcd-labs/about/?viewAsMember=true" target="_blank" rel="noreferrer">LinkedIn</a></div>
+      </div>`;
+  }
+}
+
 function initSiteNavigation() {
   const navigation = document.querySelector(".main-nav");
   const header = navigation?.closest(".site-header");
   const menus = Array.from(document.querySelectorAll(".nav-menu"));
-  if (!navigation || !header || !menus.length || header.querySelector(".nav-toggle")) return;
+  if (!navigation || !header || header.querySelector(".nav-toggle")) return;
 
   const desktopWidth = window.matchMedia("(min-width: 761px)");
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -235,6 +282,8 @@ function initProjectInquiryForm() {
       `Project type: ${data.get("projectType")}`,
       `Development stage: ${data.get("developmentStage")}`,
       `Preferred next step: ${data.get("nextStep")}`,
+      `Support needed: ${data.get("supportNeeded") || "Not provided"}`,
+      `Target timeline: ${data.get("targetTimeline") || "Not provided"}`,
       "",
       "Project description:",
       data.get("description"),
@@ -278,6 +327,7 @@ function initRecommendationForm() {
   });
 }
 
+normalizeSiteChrome();
 initSiteNavigation();
 initHeroDots();
 initProjectInquiryForm();
