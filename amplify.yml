@@ -5,7 +5,7 @@ frontend:
       commands:
         - rm -rf dist
         - mkdir -p dist
-        - rsync -a --exclude dist --exclude .git --exclude audit ./ dist/
+        - find . -mindepth 1 -maxdepth 1 ! -name dist ! -name .git ! -name audit -exec cp -R {} dist/ \;
   artifacts:
     baseDirectory: dist
     files:
