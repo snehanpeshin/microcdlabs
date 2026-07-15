@@ -1,19 +1,3 @@
-function normalizeCatalogChrome() {
-  const prefix = window.location.pathname.includes("/catalog/") ? "../" : "";
-  if (!document.querySelector('link[href*="restructure.css"]')) {
-    const focusedStyles = document.createElement("link");
-    focusedStyles.rel = "stylesheet";
-    focusedStyles.href = `${prefix}restructure.css?v=20260715a`;
-    document.head.appendChild(focusedStyles);
-  }
-  const navigation = document.querySelector(".main-nav");
-  if (navigation) navigation.innerHTML = `<a href="${prefix}services.html">Services</a><a href="${prefix}applications.html">Applications</a><a href="${prefix}tools.html">Tools</a><a href="${prefix}about.html">About</a><a href="${prefix}consultation.html">Contact</a>`;
-  const headerActions = document.querySelector(".header-actions");
-  if (headerActions) headerActions.innerHTML = `<a class="header-cta" href="${prefix}consultation.html">Discuss a Project</a>`;
-  const footer = document.querySelector(".site-footer");
-  if (footer) footer.innerHTML = `<div class="footer-brand-block"><img class="footer-logo" src="${prefix}assets/microcd-labs-wordmark.svg?v=boxed" alt="MicroCD Labs" /><p class="company-legal">MicroCD Labs, a division of Karigari Home LLC</p><p>MicroCD Labs provides microfluidic and diagnostic product-development support for research, startup, and laboratory-product teams.</p><p>Technical sourcing and research-use product support are available for selected projects.</p><a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a></div><div class="footer-link-groups"><div><strong>Company</strong><a href="${prefix}about.html">About</a><a href="${prefix}consultation.html">Contact</a><a href="${prefix}news.html">Research &amp; Insights</a><a href="${prefix}partners.html">Partners</a><a href="${prefix}careers.html">Careers</a></div><div><strong>Products &amp; sourcing</strong><a href="${prefix}products.html">Catalog</a><a href="${prefix}recommendations.html">Parts recommendations</a><a href="${prefix}kits.html">Starter kits</a><a href="${prefix}products.html#quote">Request a quote</a></div><div><strong>Policies</strong><a href="${prefix}privacy.html">Privacy</a><a href="${prefix}terms.html">Terms</a><a href="${prefix}refunds.html">Refunds</a><a href="${prefix}accessibility.html">Accessibility</a><a href="${prefix}credits.html">Image credits</a></div><div><strong>Related</strong><a href="${prefix}tools.html">Tools</a><a href="${prefix}karigari-wellness-lens-instructions.html">Karigari Wellness Lens</a></div></div>`;
-}
-
 const catalogImages = {
   chip: {
     url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Microfluidic_Device_%286842746147%29.jpg/960px-Microfluidic_Device_%286842746147%29.jpg",
@@ -2739,6 +2723,7 @@ function initCouponDialog() {
 
 function initNavigationMenus() {
   const menus = Array.from(document.querySelectorAll(".nav-menu"));
+  if (!menus.length) return;
   const navigation = document.querySelector(".main-nav");
   const header = navigation?.closest(".site-header");
   const desktopQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -2862,7 +2847,6 @@ function initNavigationMenus() {
 if (quoteForm) quoteForm.addEventListener("input", renderQuote);
 if (contactForm) contactForm.addEventListener("input", renderContactMail);
 
-normalizeCatalogChrome();
 renderProducts();
 renderProductDetail();
 renderQuote();
