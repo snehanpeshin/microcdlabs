@@ -3,9 +3,11 @@ frontend:
   phases:
     build:
       commands:
-        - echo "Static site - no build step required"
+        - rm -rf dist
+        - mkdir -p dist
+        - find . -mindepth 1 -maxdepth 1 ! -name dist ! -name .git ! -name audit -exec cp -R {} dist/ \;
   artifacts:
-    baseDirectory: .
+    baseDirectory: dist
     files:
       - "**/*"
   cache:
