@@ -1,5 +1,26 @@
 const microcdCompanyEmail = "info@microcdlabs.com";
 
+function injectLabOpsLinks() {
+  const toolsMenu = Array.from(document.querySelectorAll(".nav-menu")).find((menu) => menu.querySelector("summary")?.textContent.trim() === "Tools");
+  const toolsList = toolsMenu?.querySelector(".nav-menu-list");
+  if (toolsList && !toolsList.querySelector('[href="https://labops.microcdlabs.com"]')) {
+    const link = document.createElement("a");
+    link.href = "https://labops.microcdlabs.com";
+    link.rel = "noreferrer";
+    link.innerHTML = "MicroCD LabOps <span>Engineering reports and traceability workspace</span>";
+    toolsList.appendChild(link);
+  }
+
+  const footerLinks = document.querySelector(".site-footer > p");
+  if (footerLinks && !footerLinks.querySelector('[href="https://labops.microcdlabs.com"]')) {
+    const link = document.createElement("a");
+    link.href = "https://labops.microcdlabs.com";
+    link.rel = "noreferrer";
+    link.textContent = "MicroCD LabOps";
+    footerLinks.appendChild(link);
+  }
+}
+
 function initSiteNavigation() {
   const navigation = document.querySelector(".main-nav");
   const header = navigation?.closest(".site-header");
@@ -278,6 +299,7 @@ function initRecommendationForm() {
   });
 }
 
+injectLabOpsLinks();
 initSiteNavigation();
 initHeroDots();
 initProjectInquiryForm();
