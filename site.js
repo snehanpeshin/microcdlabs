@@ -8,7 +8,8 @@ function injectLabOpsLinks() {
     link.href = "https://labops.microcdlabs.com";
     link.rel = "noreferrer";
     link.innerHTML = "MicroCD LabOps <span>Engineering reports and traceability workspace</span>";
-    toolsList.appendChild(link);
+    const relatedWellnessLink = toolsList.querySelector('[href$="daily-wellness-lens-instructions.html"]');
+    toolsList.insertBefore(link, relatedWellnessLink || null);
   }
 
   const footerLinks = document.querySelector(".site-footer > p");
@@ -19,6 +20,28 @@ function injectLabOpsLinks() {
     link.textContent = "MicroCD LabOps";
     footerLinks.appendChild(link);
   }
+}
+
+function initPageNavigationAids() {
+  const main = document.querySelector("main");
+  if (main && !document.querySelector(".skip-link")) {
+    main.id ||= "main-content";
+    const skipLink = document.createElement("a");
+    skipLink.className = "skip-link";
+    skipLink.href = `#${main.id}`;
+    skipLink.textContent = "Skip to main content";
+    document.body.prepend(skipLink);
+  }
+
+  const currentPath = new URL(window.location.href).pathname.replace(/\/$/, "/index.html");
+  document.querySelectorAll(".main-nav a[href]").forEach((link) => {
+    const target = new URL(link.href, window.location.href);
+    const targetPath = target.pathname.replace(/\/$/, "/index.html");
+    if (target.origin === window.location.origin && targetPath === currentPath) {
+      link.setAttribute("aria-current", "page");
+      link.closest(".nav-menu")?.querySelector("summary")?.classList.add("has-current-page");
+    }
+  });
 }
 
 function initSiteNavigation() {
@@ -300,6 +323,7 @@ function initRecommendationForm() {
 }
 
 injectLabOpsLinks();
+initPageNavigationAids();
 initSiteNavigation();
 initHeroDots();
 initProjectInquiryForm();

@@ -38,6 +38,25 @@ body {
   line-height: 1.55;
 }
 
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 12px;
+  z-index: 1000;
+  padding: 10px 14px;
+  border-radius: 6px;
+  color: var(--white);
+  background: var(--charcoal-deep);
+  font-size: 0.82rem;
+  font-weight: 760;
+  transform: translateY(-160%);
+  transition: transform 140ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -151,6 +170,10 @@ textarea {
   background: rgba(15, 118, 110, 0.08);
 }
 
+.nav-menu summary.has-current-page {
+  color: var(--teal-dark);
+}
+
 .nav-menu[open] summary::after {
   transform: translateY(1px) rotate(225deg);
 }
@@ -217,6 +240,11 @@ textarea {
   background: #eef8f6;
   color: var(--teal-dark);
   transform: translateX(2px);
+}
+
+.nav-menu-list a[aria-current="page"] {
+  color: var(--teal-dark);
+  background: var(--accent-soft);
 }
 
 .nav-menu:last-child .nav-menu-list {
@@ -3315,11 +3343,88 @@ body {
 }
 
 .home-routes,
+.home-tools,
 .home-integration,
 .home-research,
 .home-assurance,
 .home-contact {
   padding-inline: max(24px, calc((100vw - 1240px) / 2));
+}
+
+.home-tools {
+  padding-block: 70px;
+  border-block: 1px solid var(--line);
+  background: #eef3f5;
+}
+
+.home-tool-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.home-tool-card {
+  display: grid;
+  grid-template-columns: 116px 1fr;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 10px 26px rgba(21, 45, 52, 0.055);
+  overflow: hidden;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.home-tool-card:hover,
+.home-tool-card:focus-visible {
+  border-color: rgba(8, 124, 112, 0.52);
+  box-shadow: var(--shadow);
+  transform: translateY(-3px);
+}
+
+.home-tool-card img {
+  width: 116px;
+  height: 100%;
+  min-height: 190px;
+  object-fit: cover;
+  background: var(--paper);
+}
+
+.home-tool-card[href="platform.html"] img {
+  object-fit: contain;
+  padding: 24px;
+}
+
+.home-tool-card div {
+  display: grid;
+  gap: 7px;
+  align-content: center;
+  padding: 18px;
+}
+
+.home-tool-card span {
+  color: var(--teal-dark);
+  font-size: 0.66rem;
+  font-weight: 840;
+  text-transform: uppercase;
+}
+
+.home-tool-card strong {
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+.home-tool-card small {
+  color: var(--muted);
+  font-size: 0.77rem;
+  line-height: 1.5;
+}
+
+.home-tool-card b {
+  margin-top: 3px;
+  color: var(--teal-dark);
+  font-size: 0.74rem;
 }
 
 .home-routes {
@@ -3746,6 +3851,14 @@ body {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .home-tool-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-tool-card img {
+    min-height: 150px;
+  }
+
   .home-route-card div {
     min-height: 148px;
   }
@@ -3901,6 +4014,7 @@ body {
   }
 
   .home-routes,
+  .home-tools,
   .home-integration,
   .home-research,
   .home-assurance,
@@ -3910,6 +4024,7 @@ body {
 
   .home-section-heading,
   .home-route-grid,
+  .home-tool-grid,
   .home-assurance-grid {
     grid-template-columns: 1fr;
   }
@@ -3924,6 +4039,19 @@ body {
 
   .home-route-card {
     grid-template-columns: 112px 1fr;
+  }
+
+  .home-tool-card {
+    grid-template-columns: 92px 1fr;
+  }
+
+  .home-tool-card img {
+    width: 92px;
+    min-height: 146px;
+  }
+
+  .home-tool-card[href="platform.html"] img {
+    padding: 18px;
   }
 
   .home-route-card img {
