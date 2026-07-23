@@ -1,0 +1,37 @@
+# MicroCD Labs
+
+> MicroCD Labs supports diagnostic, life-sciences, and laboratory-product teams with microfluidic systems, cartridges, consumables, lab-on-disc development, engineering design, prototype coordination, supplier identification, verification planning, and technical commercialization work.
+
+MicroCD Labs is a division of Karigari Home LLC. Website content describes research-use products, technical capabilities, software tools, and early product-development support. It does not claim regulatory approval, clinical validation, certified manufacturing, or laboratory accreditation.
+
+## Primary pages
+
+- [Home](https://www.microcdlabs.com/): Company positioning, development focus, and contact options
+- [Services](https://www.microcdlabs.com/services.html): Microfluidic and diagnostic product-development capabilities
+- [Diagnostics](https://www.microcdlabs.com/diagnostics.html): Assay development, LFIA, lab-on-disc, and kinetic-analysis focus
+- [OEM workflows](https://www.microcdlabs.com/automation.html): Microfluidic equipment integration and end-user workflow support
+- [Products](https://www.microcdlabs.com/products.html): Research-use parts, consumables, kits, and equipment catalog
+- [About](https://www.microcdlabs.com/about.html): Founder background and areas of technical experience
+- [News](https://www.microcdlabs.com/news.html): Research, software, and company updates
+- [Technical consultation](https://www.microcdlabs.com/consultation.html): Non-confidential project inquiry
+
+## Software tools
+
+- [MicroCD LabOps](https://labops.microcdlabs.com/): Engineering documentation and supplier traceability workspace
+- [Microfluidic Modeler](https://www.microcdlabs.com/platform.html): Cartridge geometry and early design workspace
+- [Kinetic Assay Enhancer](https://www.microcdlabs.com/analyzer/): Time-series assay image and kinetic-feature analysis
+
+## Policies
+
+- [Privacy](https://www.microcdlabs.com/privacy.html)
+- [Terms](https://www.microcdlabs.com/terms.html)
+- [Refunds and returns](https://www.microcdlabs.com/refunds.html)
+- [Accessibility](https://www.microcdlabs.com/accessibility.html)
+
+## Contact
+
+- Email: info@microcdlabs.com
+- Website: https://www.microcdlabs.com/
+- LinkedIn: https://www.linkedin.com/company/microcd-labs/
+
+Do not submit patient information, protected health information, proprietary formulations, or confidential technical material through public website forms or messaging.
