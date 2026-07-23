@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18239515056"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'});
+      gtag('js', new Date()); gtag('config', 'AW-18239515056');
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RippleGuard | Camera-Free Room Privacy Monitor | MicroCD Labs</title>
+    <meta name="description" content="RippleGuard is a camera-free room privacy monitoring prototype from MicroCD Labs using RippleNode One ESP32 hardware and a local dashboard." />
+    <link rel="canonical" href="https://www.microcdlabs.com/rippleguard.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="RippleGuard | MicroCD Labs" />
+    <meta property="og:description" content="A camera-free room privacy monitor prototype using RippleNode One ESP32 hardware and a local dashboard." />
+    <meta property="og:url" content="https://www.microcdlabs.com/rippleguard.html" />
+    <link rel="icon" href="assets/microcd-tab-icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css?v=20260715a" />
+    <link rel="stylesheet" href="restructure.css?v=20260715a" />
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div class="announcement-bar"><span>MicroCD Labs prototype product</span><a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a></div>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="MicroCD Labs home"><img class="brand-logo" src="assets/microcd-labs-wordmark.svg?v=boxed" alt="MicroCD Labs" /></a>
+      <nav class="main-nav" aria-label="Primary navigation">
+        <details class="nav-menu">
+          <summary>Products</summary>
+          <div class="nav-menu-list">
+            <a href="products.html">Catalog <span>Parts, consumables, and equipment</span></a>
+            <a href="recommendations.html">Parts recommendation <span>Get a reviewed parts list for your setup</span></a>
+            <a href="kits.html">Starter kits <span>Beginner, flow testing, and prototyping kits</span></a>
+            <a href="rippleguard.html">RippleGuard <span>Camera-free room privacy monitor</span></a>
+            <a href="products.html#quote">Request quote <span>Send item, quantity, and project notes</span></a>
+          </div>
+        </details>
+        <a href="services.html">Services</a>
+        <a href="applications.html">Applications</a>
+        <a href="tools.html">Tools</a>
+        <a href="about.html">About</a>
+        <a href="consultation.html">Contact</a>
+      </nav>
+      <div class="header-actions"><a class="header-cta" href="https://ripplenode.one/app.html" rel="noreferrer">Open Demo</a></div>
+    </header>
+
+    <main id="main-content">
+      <section class="hero home-hero section" aria-labelledby="hero-title">
+        <canvas id="heroDotField" aria-hidden="true"></canvas>
+        <div class="home-hero-copy">
+          <p class="eyebrow">Camera-free room awareness</p>
+          <h1 id="hero-title">RippleGuard</h1>
+          <p class="hero-lead">A simple room privacy monitor that uses the RippleNode One ESP32 device to watch wireless signal disturbance and show quiet, movement, entry-like change, and still-presence proxy events.</p>
+          <div class="hero-actions"><a class="button button-primary" href="https://ripplenode.one/" rel="noreferrer">View RippleGuard Site</a><a class="button button-secondary" href="https://ripplenode.one/app.html" rel="noreferrer">Try Dashboard</a></div>
+          <p class="capability-line">Local-first · No camera · ESP32 hardware · Browser dashboard · CSV export</p>
+        </div>
+        <aside class="hero-focus-panel" aria-label="Prototype status">
+          <p class="eyebrow">Device included</p>
+          <strong>RippleNode One is the hardware node.</strong>
+          <p>RippleGuard is the app and privacy-monitoring product. RippleNode One is the low-cost wireless sensing device that feeds the dashboard.</p>
+          <a href="https://github.com/snehanpeshin/rippleguard" rel="noreferrer">View GitHub <span aria-hidden="true">→</span></a>
+        </aside>
+      </section>
+
+      <section class="section focused-section" aria-labelledby="use-title">
+        <div class="home-section-heading"><div><p class="eyebrow">What the user gets</p><h2 id="use-title">A privacy monitor for spaces where cameras feel wrong.</h2></div></div>
+        <div class="focus-card-grid">
+          <article><h3>Room State</h3><p>Shows whether the room looks quiet, disturbed, or changed compared with its recent baseline.</p></article>
+          <article><h3>Protected Zone</h3><p>Lets a user calibrate areas such as a doorway, desk, cabinet, bed, or window and watch likely disturbance zones.</p></article>
+          <article><h3>Local Dashboard</h3><p>Streams to a browser app on the local network with live charts, event cards, and CSV export.</p></article>
+          <article><h3>Cheap First Build</h3><p>Designed around one ESP32 Wi-Fi/BLE SoC, USB power, a status LED, and a calibration button.</p></article>
+        </div>
+      </section>
+
+      <section class="section focused-section soft-section" aria-labelledby="how-title">
+        <div class="home-section-heading"><div><p class="eyebrow">How it works</p><h2 id="how-title">RippleGuard compares live wireless patterns to a calm-room baseline.</h2></div></div>
+        <ol class="engagement-steps">
+          <li><span>01</span><div><h3>Place</h3><p>Put RippleNode One near a router, doorway, cabinet, desk, or protected path.</p></div></li>
+          <li><span>02</span><div><h3>Baseline</h3><p>Keep the room still while RippleGuard learns the normal signal pattern.</p></div></li>
+          <li><span>03</span><div><h3>Calibrate</h3><p>Stand in each important zone once so the app can learn rough fingerprints.</p></div></li>
+          <li><span>04</span><div><h3>Monitor</h3><p>Review movement likelihood, confidence, likely zone, and event history.</p></div></li>
+        </ol>
+      </section>
+
+      <section class="section credibility-section" aria-labelledby="boundary-title">
+        <div><p class="eyebrow">Prototype boundary</p><h2 id="boundary-title">Room privacy signal estimate, not imaging.</h2></div>
+        <div class="credibility-copy"><p>RippleGuard does not image people, identify people, or scan inside the body. It estimates room-level wireless disturbance patterns for experimentation and privacy monitoring trials.</p><p>The manufacturable target is a compact plug-in room node that works near an existing Wi-Fi router to keep total system cost low.</p><a class="button button-secondary" href="https://github.com/snehanpeshin/rippleguard/tree/main/docs/device" rel="noreferrer">View Device Blueprint</a></div>
+      </section>
+
+      <section class="home-contact section" aria-labelledby="contact-title">
+        <div><p class="eyebrow">Prototype trial</p><h2 id="contact-title">Test RippleGuard with ESP32 hardware.</h2><p>Use the public dashboard in demo mode first, then connect the local bridge when the ESP32 sketch is ready.</p></div>
+        <div class="home-contact-actions"><a class="button button-light" href="https://ripplenode.one/app.html" rel="noreferrer">Open App</a><a class="button button-outline-light" href="consultation.html">Discuss Productization</a></div>
+      </section>
+    </main>
+
+    <footer class="site-footer"></footer>
+    <script src="site.js?v=20260715a"></script>
+  </body>
+</html>
