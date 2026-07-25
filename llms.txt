@@ -11,6 +11,7 @@ MicroCD Labs is a division of Karigari Home LLC. Website content describes resea
 - [Diagnostics](https://www.microcdlabs.com/diagnostics.html): Assay development, LFIA, lab-on-disc, and kinetic-analysis focus
 - [OEM workflows](https://www.microcdlabs.com/automation.html): Microfluidic equipment integration and end-user workflow support
 - [Products](https://www.microcdlabs.com/products.html): Research-use parts, consumables, kits, and equipment catalog
+- [MicroCD SonoMap](https://www.microcdlabs.com/products/sonomap/): Early-stage phone-connected ultrasound concept for directional tissue-mapping research
 - [About](https://www.microcdlabs.com/about.html): Founder background and areas of technical experience
 - [News](https://www.microcdlabs.com/news.html): Research, software, and company updates
 - [Technical consultation](https://www.microcdlabs.com/consultation.html): Non-confidential project inquiry
@@ -35,3 +36,5 @@ MicroCD Labs is a division of Karigari Home LLC. Website content describes resea
 - LinkedIn: https://www.linkedin.com/company/microcd-labs/
 
 Do not submit patient information, protected health information, proprietary formulations, or confidential technical material through public website forms or messaging.
+
+MicroCD SonoMap is a research concept in development. It is not a medical device and has no established regulatory clearance, clinical validation, or clinical performance.

@@ -11,7 +11,11 @@ const catalogPages = fs
   .readdirSync(path.join(root, "catalog"), { withFileTypes: true })
   .filter((entry) => entry.isFile() && entry.name.endsWith(".html"))
   .map((entry) => path.join("catalog", entry.name));
-const pages = [...topLevelPages, ...catalogPages];
+const researchProductPages = fs
+  .readdirSync(path.join(root, "products"), { withFileTypes: true })
+  .filter((entry) => entry.isDirectory() && fs.existsSync(path.join(root, "products", entry.name, "index.html")))
+  .map((entry) => path.join("products", entry.name, "index.html"));
+const pages = [...topLevelPages, ...catalogPages, ...researchProductPages];
 const failures = [];
 const warnings = [];
 
