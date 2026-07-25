@@ -15,7 +15,15 @@ const researchProductPages = fs
   .readdirSync(path.join(root, "products"), { withFileTypes: true })
   .filter((entry) => entry.isDirectory() && fs.existsSync(path.join(root, "products", entry.name, "index.html")))
   .map((entry) => path.join("products", entry.name, "index.html"));
-const pages = [...topLevelPages, ...catalogPages, ...researchProductPages];
+const commercialCategoryDirectories = [
+  "microfluidic-chips",
+  "microfluidic-tubing",
+  "microfluidic-fittings-connectors",
+  "microfluidic-pumps-flow-control",
+  "lateral-flow-assay-materials",
+];
+const commercialCategoryPages = commercialCategoryDirectories.map((directory) => path.join(directory, "index.html"));
+const pages = [...topLevelPages, ...catalogPages, ...researchProductPages, ...commercialCategoryPages];
 const failures = [];
 const warnings = [];
 

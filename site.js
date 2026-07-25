@@ -34,6 +34,28 @@ function injectSonoMapLink() {
   catalogLink?.insertAdjacentElement("afterend", link);
 }
 
+function injectCatalogCategoryLinks() {
+  const productsMenu = Array.from(document.querySelectorAll(".nav-menu")).find((menu) => menu.querySelector("summary")?.textContent.trim() === "Products");
+  const productsList = productsMenu?.querySelector(".nav-menu-list");
+  if (!productsList || productsList.querySelector('[data-seo-category-link="true"]')) return;
+
+  const categoryLinks = [
+    ["/microfluidic-chips/", "Microfluidic chips", "PDMS, glass, COC, PMMA, and custom chips"],
+    ["/microfluidic-tubing/", "Microfluidic tubing", "Materials, dimensions, and fluid paths"],
+    ["/microfluidic-fittings-connectors/", "Fittings and connectors", "Interfaces, manifolds, and reservoirs"],
+    ["/microfluidic-pumps-flow-control/", "Pumps and flow control", "Pumps, controllers, valves, and sensors"],
+    ["/lateral-flow-assay-materials/", "LFIA materials", "Membranes, pads, housings, and development"],
+  ];
+  const reference = productsList.querySelector('[href$="recommendations.html"]') || productsList.children[1] || null;
+  categoryLinks.reverse().forEach(([href, label, description]) => {
+    const link = document.createElement("a");
+    link.href = href;
+    link.dataset.seoCategoryLink = "true";
+    link.innerHTML = `${label} <span>${description}</span>`;
+    productsList.insertBefore(link, reference);
+  });
+}
+
 function initPageNavigationAids() {
   const main = document.querySelector("main");
   if (main && !document.querySelector(".skip-link")) {
@@ -386,6 +408,7 @@ function initSonoMapInquiryForm() {
 
 injectLabOpsLinks();
 injectSonoMapLink();
+injectCatalogCategoryLinks();
 initPageNavigationAids();
 initSiteNavigation();
 initHeroDots();
