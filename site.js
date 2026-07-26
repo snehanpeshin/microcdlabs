@@ -34,17 +34,6 @@ function injectSonoMapLink() {
   catalogLink?.insertAdjacentElement("afterend", link);
 }
 
-function injectLabOnCdLink() {
-  const capabilitiesMenu = Array.from(document.querySelectorAll(".nav-menu")).find((menu) => menu.querySelector("summary")?.textContent.trim() === "Capabilities");
-  const capabilitiesList = capabilitiesMenu?.querySelector(".nav-menu-list");
-  if (!capabilitiesList || capabilitiesList.querySelector('[href$="lab-on-cd-platform.html"]')) return;
-
-  const link = document.createElement("a");
-  link.href = "/lab-on-cd-platform.html";
-  link.innerHTML = "Lab-on-CD platform <span>Centrifugal microfluidics and the 2030 POCT vision</span>";
-  capabilitiesList.prepend(link);
-}
-
 function injectCatalogCategoryLinks() {
   const productsMenu = Array.from(document.querySelectorAll(".nav-menu")).find((menu) => menu.querySelector("summary")?.textContent.trim() === "Products");
   const productsList = productsMenu?.querySelector(".nav-menu-list");
@@ -287,7 +276,6 @@ function initProjectInquiryForm() {
     "microfluidic-development": "Microfluidic product development",
     "diagnostic-cartridge": "Diagnostic cartridge or consumable",
     "lab-on-disc": "Lab-on-disc or centrifugal microfluidics",
-    "lab-on-cd-platform": "Lab-on-disc or centrifugal microfluidics",
     "engineering-design": "Engineering design or prototyping",
     "verification-planning": "Verification and validation planning",
     "system-integration": "Microfluidic product development",
@@ -420,7 +408,6 @@ function initSonoMapInquiryForm() {
 
 injectLabOpsLinks();
 injectSonoMapLink();
-injectLabOnCdLink();
 injectCatalogCategoryLinks();
 initPageNavigationAids();
 initSiteNavigation();
