@@ -14,6 +14,7 @@ MicroCD Labs is a division of Karigari Home LLC. Website content describes resea
 - [Microfluidic chips](https://www.microcdlabs.com/microfluidic-chips/): PDMS, glass, COC, PMMA, functional chips, and custom chip-development options
 - [Microfluidic tubing](https://www.microcdlabs.com/microfluidic-tubing/): PTFE, FEP, PEEK, silicone, Tygon, and microbore tubing selection
 - [Fittings and connectors](https://www.microcdlabs.com/microfluidic-fittings-connectors/): Luer, barbed, compression, PEEK, manifold, and reservoir interfaces
+- [Lab-on-CD Platform](https://www.microcdlabs.com/lab-on-cd-platform.html): Centrifugal microfluidics, disc consumables, assays, instrumentation, software, and a staged development vision toward future point-of-care workflows
 - [Pumps and flow control](https://www.microcdlabs.com/microfluidic-pumps-flow-control/): Syringe and peristaltic pumps, pressure controllers, valves, and sensors
 - [Lateral flow assay materials](https://www.microcdlabs.com/lateral-flow-assay-materials/): Membranes, pads, housings, consumables, and development support
 - [MicroCD SonoMap](https://www.microcdlabs.com/products/sonomap/): Early-stage phone-connected ultrasound concept for directional tissue-mapping research

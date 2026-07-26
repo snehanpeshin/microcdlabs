@@ -5655,6 +5655,350 @@ body {
   }
 }
 
+/* Lab-on-CD platform focus */
+.home-lab-cd {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
+  gap: clamp(34px, 5vw, 72px);
+  align-items: center;
+  background: #eaf1f0;
+}
+
+.home-lab-cd-visual {
+  margin: 0;
+}
+
+.home-lab-cd-visual img,
+.lab-cd-hero-visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--paper);
+}
+
+.home-lab-cd-visual figcaption,
+.lab-cd-hero-visual figcaption {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.home-lab-cd-copy {
+  max-width: 640px;
+}
+
+.home-lab-cd-copy h2,
+.lab-cd-definition h2,
+.lab-cd-readiness h2 {
+  max-width: 820px;
+  margin: 8px 0 18px;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.04;
+}
+
+.home-lab-cd-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 24px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.home-lab-cd-tags li,
+.lab-cd-status {
+  display: inline-flex;
+  padding: 7px 10px;
+  border: 1px solid #b9cbc7;
+  border-radius: 4px;
+  color: var(--teal-dark);
+  background: rgba(255, 255, 255, 0.72);
+  font-size: 0.76rem;
+  font-weight: 760;
+}
+
+.development-note {
+  max-width: 720px;
+  margin: 20px 0 0;
+  padding-left: 14px;
+  border-left: 3px solid var(--teal);
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.lab-cd-page main {
+  background: var(--paper);
+}
+
+.lab-cd-hero {
+  display: grid;
+  grid-template-columns: minmax(400px, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(36px, 6vw, 84px);
+  align-items: center;
+  min-height: 680px;
+  background: #f5f7f8;
+}
+
+.lab-cd-hero-copy h1 {
+  max-width: 760px;
+  margin: 18px 0;
+  font-size: clamp(2.65rem, 4.4vw, 4rem);
+  line-height: 1.01;
+}
+
+.lab-cd-status {
+  margin-top: 12px;
+}
+
+.lab-cd-definition {
+  display: grid;
+  grid-template-columns: 0.55fr 1.35fr 0.9fr;
+  gap: 30px;
+  align-items: start;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.lab-cd-definition h2 {
+  margin-top: 0;
+}
+
+.lab-cd-definition > p:last-child {
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.lab-cd-stack-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.lab-cd-stack-grid article {
+  min-height: 230px;
+  padding: 28px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.lab-cd-stack-grid span,
+.lab-cd-system-flow span {
+  color: var(--teal);
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.lab-cd-stack-grid h3 {
+  margin: 42px 0 10px;
+  font-size: 1.2rem;
+}
+
+.lab-cd-stack-grid p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.lab-cd-system {
+  color: var(--white);
+  background: var(--charcoal-deep);
+}
+
+.lab-cd-system > div:first-child {
+  max-width: 820px;
+}
+
+.lab-cd-system h2 {
+  margin: 8px 0 16px;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+}
+
+.lab-cd-system p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.lab-cd-system-flow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 46px 0 0;
+  padding: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  list-style: none;
+}
+
+.lab-cd-system-flow li {
+  min-height: 128px;
+  padding: 20px;
+  border-right: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.lab-cd-system-flow strong {
+  display: block;
+  margin-top: 28px;
+}
+
+.lab-cd-roadmap-list {
+  margin: 42px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--line-strong);
+  list-style: none;
+}
+
+.lab-cd-roadmap-list li {
+  display: grid;
+  grid-template-columns: minmax(130px, 0.32fr) 1fr;
+  gap: 34px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.lab-cd-roadmap-list time {
+  color: var(--teal-dark);
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.lab-cd-roadmap-list h3,
+.lab-cd-roadmap-list p {
+  margin: 0;
+}
+
+.lab-cd-roadmap-list p {
+  max-width: 820px;
+  margin-top: 8px;
+  color: var(--muted);
+}
+
+.lab-cd-readiness {
+  display: grid;
+  grid-template-columns: 0.75fr 1.25fr;
+  gap: clamp(36px, 7vw, 100px);
+  background: #edf3f2;
+}
+
+.lab-cd-readiness ul {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid #bed0cc;
+  list-style: none;
+}
+
+.lab-cd-readiness li {
+  display: grid;
+  grid-template-columns: 0.55fr 1fr;
+  gap: 20px;
+  padding: 18px 0;
+  border-bottom: 1px solid #bed0cc;
+}
+
+.lab-cd-readiness span {
+  color: var(--muted);
+}
+
+.lab-cd-collaboration {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 50px;
+  align-items: end;
+}
+
+.lab-cd-collaboration h2 {
+  max-width: 800px;
+  margin: 8px 0 14px;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+}
+
+.lab-cd-collaboration > div:last-child {
+  display: grid;
+  gap: 10px;
+}
+
+.lab-cd-boundary {
+  display: grid;
+  grid-template-columns: 0.35fr 1fr;
+  gap: 32px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  color: rgba(255, 255, 255, 0.78);
+  background: var(--charcoal);
+}
+
+.lab-cd-boundary strong {
+  color: var(--white);
+}
+
+.lab-cd-boundary p {
+  margin: 0;
+}
+
+@media (max-width: 1060px) {
+  .home-lab-cd,
+  .lab-cd-hero,
+  .lab-cd-definition,
+  .lab-cd-readiness {
+    grid-template-columns: 1fr;
+  }
+
+  .lab-cd-hero {
+    min-height: 0;
+  }
+
+  .lab-cd-stack-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lab-cd-system-flow {
+    grid-template-columns: 1fr;
+  }
+
+  .lab-cd-system-flow li {
+    min-height: auto;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  }
+}
+
+@media (max-width: 760px) {
+  .home-lab-cd,
+  .lab-cd-hero,
+  .lab-cd-definition,
+  .lab-cd-stack,
+  .lab-cd-system,
+  .lab-cd-roadmap,
+  .lab-cd-readiness,
+  .lab-cd-collaboration,
+  .lab-cd-boundary {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+
+  .lab-cd-hero-copy h1 {
+    font-size: clamp(2.35rem, 12vw, 3.5rem);
+  }
+
+  .lab-cd-stack-grid,
+  .lab-cd-collaboration,
+  .lab-cd-boundary {
+    grid-template-columns: 1fr;
+  }
+
+  .lab-cd-stack-grid article {
+    min-height: auto;
+  }
+
+  .lab-cd-roadmap-list li,
+  .lab-cd-readiness li {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .lab-cd-collaboration > div:last-child {
+    width: 100%;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
