@@ -1542,6 +1542,50 @@ h3 {
   line-height: 1.3;
 }
 
+.catalog-static-index {
+  padding-top: 48px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--line);
+  background: #f4f7f8;
+}
+
+.catalog-static-groups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.catalog-static-groups details {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+}
+
+.catalog-static-groups summary {
+  padding: 17px 18px;
+  color: var(--ink);
+  font-weight: 780;
+  cursor: pointer;
+}
+
+.catalog-static-groups details > div {
+  display: grid;
+  padding: 0 18px 16px;
+}
+
+.catalog-static-groups a {
+  padding: 8px 0;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.catalog-static-groups a:hover,
+.catalog-static-groups a:focus-visible {
+  color: var(--teal-dark);
+}
+
 .store-catalog-section {
   padding-top: clamp(48px, 7vw, 82px);
 }
@@ -5652,6 +5696,16 @@ body {
 
   .seo-category-cta .button-primary {
     justify-self: stretch;
+  }
+}
+
+@media (max-width: 760px) {
+  .catalog-static-index {
+    padding: 42px 18px;
+  }
+
+  .catalog-static-groups {
+    grid-template-columns: 1fr;
   }
 }
 

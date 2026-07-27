@@ -177,21 +177,6 @@ function productStructuredData(product, detail, imageUrl) {
           { "@type": "ListItem", position: 4, name: product.name, item: `${siteUrl}/catalog/${product.id}.html` },
         ],
       },
-      {
-        "@type": "Product",
-        "@id": `${siteUrl}/catalog/${product.id}.html#product`,
-        name: product.name,
-        description: product.description,
-        sku: product.sku,
-        category: catalog.productCategoryLabels[product.category],
-        url: `${siteUrl}/catalog/${product.id}.html`,
-        ...(imageUrl ? { image: imageUrl } : {}),
-        brand: { "@type": "Brand", name: detail.brand },
-        additionalProperty: [
-          { "@type": "PropertyValue", name: "Subclass", value: product.subclass },
-          { "@type": "PropertyValue", name: "Order type", value: "Research-use supply or configuration by quote" },
-        ],
-      },
     ],
   };
 }
