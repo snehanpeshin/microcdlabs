@@ -48,111 +48,6 @@ const catalogImages = {
     source: "https://commons.wikimedia.org/wiki/File:Pipette_tips-different_1.jpg",
     license: "CC BY-SA 3.0",
   },
-  fluigentOmi: {
-    url: "assets/fluigent/omi.webp",
-    alt: "Omi automated organ-on-a-chip platform",
-    credit: "Fluigent",
-    source: "assets/fluigent/omi.webp",
-    license: "Provided product image",
-  },
-  fluigentAria: {
-    url: "assets/fluigent/aria.webp",
-    alt: "Aria automated perfusion system",
-    credit: "Fluigent",
-    source: "assets/fluigent/aria.webp",
-    license: "Provided product image",
-  },
-  fluigentLineup: {
-    url: "assets/fluigent/lineup-controller.webp",
-    alt: "LineUp series microfluidic pressure-based flow controllers",
-    credit: "Fluigent",
-    source: "assets/fluigent/lineup-controller.webp",
-    license: "Provided product image",
-  },
-  fluigentFlowEz: {
-    url: "assets/fluigent/flow-ez-controller.webp",
-    alt: "Flow EZ microfluidic flow and pressure controller",
-    credit: "Fluigent",
-    source: "assets/fluigent/flow-ez-controller.webp",
-    license: "Provided product image",
-  },
-  fluigentMfcs: {
-    url: "assets/fluigent/mfcs-system.webp",
-    alt: "MFCS microfluidic flow control system",
-    credit: "Fluigent",
-    source: "assets/fluigent/mfcs-system.webp",
-    license: "Provided product image",
-  },
-  fluigentPushPull: {
-    url: "assets/fluigent/push-pull-controller.webp",
-    alt: "Microfluidic push pull pressure controller",
-    credit: "Fluigent",
-    source: "assets/fluigent/push-pull-controller.webp",
-    license: "Provided product image",
-  },
-  fluigentFlowRatePlatform: {
-    url: "assets/fluigent/flow-rate-platform.webp",
-    alt: "Microfluidic flow rate platform hub",
-    credit: "Fluigent",
-    source: "assets/fluigent/flow-rate-platform.webp",
-    license: "Provided product image",
-  },
-  fluigentFlowUnit: {
-    url: "assets/fluigent/flow-unit.webp",
-    alt: "Bidirectional microfluidic flow sensor units",
-    credit: "Fluigent",
-    source: "assets/fluigent/flow-unit.webp",
-    license: "Provided product image",
-  },
-  fluigentInlinePressureSensor: {
-    url: "assets/fluigent/inline-pressure-sensor.webp",
-    alt: "Microfluidic in-line pressure sensor",
-    credit: "Fluigent",
-    source: "assets/fluigent/inline-pressure-sensor.webp",
-    license: "Provided product image",
-  },
-  fluigentFlowSensorHub: {
-    url: "assets/fluigent/flow-sensor-hub.webp",
-    alt: "Microfluidic flow sensor hub",
-    credit: "Fluigent",
-    source: "assets/fluigent/flow-sensor-hub.webp",
-    license: "Provided product image",
-  },
-  fluigentInjectionValve: {
-    url: "assets/fluigent/injection-valve.webp",
-    alt: "Microfluidic injection valve",
-    credit: "Fluigent",
-    source: "assets/fluigent/injection-valve.webp",
-    license: "Provided product image",
-  },
-  fluigentValveController: {
-    url: "assets/fluigent/switch-ez-valve-controller.webp",
-    alt: "Switch EZ microfluidic valve controller",
-    credit: "Fluigent",
-    source: "assets/fluigent/switch-ez-valve-controller.webp",
-    license: "Provided product image",
-  },
-  fluigentBidirectionalValve: {
-    url: "assets/fluigent/bidirectional-valve.webp",
-    alt: "M-SWITCH microfluidic bidirectional valve",
-    credit: "Fluigent",
-    source: "assets/fluigent/bidirectional-valve.webp",
-    license: "Provided product image",
-  },
-  fluigentRecirculationValve: {
-    url: "assets/fluigent/recirculation-valve.webp",
-    alt: "Microfluidic recirculation valve",
-    credit: "Fluigent",
-    source: "assets/fluigent/recirculation-valve.webp",
-    license: "Provided product image",
-  },
-  fluigentSamplingValve: {
-    url: "assets/fluigent/sampling-valve.webp",
-    alt: "Microfluidic sampling valve",
-    credit: "Fluigent",
-    source: "assets/fluigent/sampling-valve.webp",
-    license: "Provided product image",
-  },
   oemComplexTuning: {
     url: "assets/oem/complex-microfluidic-tuning.jpg",
     alt: "Vendor-neutral microfluidic prototype with controllers, tubing, valves, sensors, and chip connections",
@@ -239,38 +134,6 @@ const catalogImages = {
   },
 };
 
-const excludedCatalogProductIds = new Set([
-  "omi-automated-organ-on-chip-platform",
-  "aria-automated-perfusion-system",
-  "lineup-pressure-flow-controller-series",
-  "flow-ez-microfluidic-flow-controller",
-  "mfcs-microfluidic-flow-control-system",
-  "microfluidic-push-pull-controller",
-  "flow-rate-platform",
-  "flow-unit-bidirectional-microfluidic-flow-sensor",
-  "microfluidic-inline-pressure-sensor",
-  "microfluidic-flow-sensor-hub",
-  "microfluidic-injection-valve-l-switch",
-  "switch-ez-microfluidic-valve-controller",
-  "m-switch-microfluidic-bidirectional-valve",
-  "microfluidic-recirculation-valve-l-switch",
-  "microfluidic-sampling-valve-2-switch",
-  "elveflow-high-pressure-reservoir-350ml",
-  "elveflow-flow-resistance-kit",
-  "elveflow-gl45-bottle-cap-l",
-  "elveflow-falcon-reservoir-s",
-  "elveflow-eppendorf-reservoir-xs",
-  "elveflow-pdms-chip-reservoir-xxs",
-  "idex-microfluidic-y-connector-peek",
-  "idex-manifold-4-port-cross-etfe",
-  "idex-peek-capillary-tubing-1-16-od",
-  "innofluid-pulse-damper-general",
-  "innofluid-labn1-peristaltic-pump",
-  "darwin-ptfe-tubing-1-32-od-030-id",
-  "darwin-ptfe-tubing-1-8-od",
-  "longer-bt100-3j-peristaltic-pump",
-]);
-
 const products = [
   {
     id: "pdms-microfluidic-chips",
@@ -343,26 +206,6 @@ const products = [
     image: catalogImages.chipClose,
   },
   {
-    id: "omi-automated-organ-on-chip-platform",
-    name: "Omi Automated Organ-On-A-Chip Platform",
-    category: "microfluidics",
-    description: "Automated organ-on-chip platform option for mimicking microphysiological conditions in research-use studies.",
-    price: "Quote",
-    tags: ["Organ-on-chip", "Automation", "New release"],
-    icon: "chip",
-    image: catalogImages.fluigentOmi,
-  },
-  {
-    id: "aria-automated-perfusion-system",
-    name: "Aria Automated Perfusion System",
-    category: "microfluidics",
-    description: "Automated perfusion system option for spatial omics, perfusion workflows, and controlled cell-culture studies.",
-    price: "Quote",
-    tags: ["Perfusion", "Spatial omics", "Best seller"],
-    icon: "kit",
-    image: catalogImages.fluigentAria,
-  },
-  {
     id: "cell-culture-microfluidic-devices",
     name: "Cell Culture Microfluidic Devices",
     category: "microfluidics",
@@ -433,12 +276,12 @@ const products = [
     image: catalogImages.chip,
   },
   {
-    id: "tygon-tubing",
-    name: "Tygon Tubing",
+    id: "flexible-laboratory-tubing",
+    name: "Flexible Laboratory Tubing",
     category: "fluid-handling",
-    description: "General-purpose flexible tubing for pump and transfer applications where compatibility fits the fluid.",
+    description: "General-purpose flexible laboratory tubing for pump and transfer applications where compatibility fits the fluid.",
     price: "$30-$120 / pack",
-    tags: ["Tygon", "Flexible", "Transfer"],
+    tags: ["Flexible", "Laboratory tubing", "Transfer"],
     icon: "tubing",
     image: catalogImages.chip,
   },
@@ -493,152 +336,12 @@ const products = [
     image: catalogImages.laminar,
   },
   {
-    id: "elveflow-high-pressure-reservoir-350ml",
-    name: "ELVEFLOW Microfluidic High Pressure Reservoir 350 mL",
-    category: "fluid-handling",
-    description: "High-pressure microfluidic reservoir option for pressure-driven flow setups and controlled reagent delivery.",
-    price: "$700.83",
-    tags: ["Reservoir", "Pressure", "350 mL"],
-    icon: "holder",
-    image: catalogImages.laminar,
-  },
-  {
-    id: "idex-microfluidic-y-connector-peek",
-    name: "IDEX Microfluidic Y Connector PEEK",
-    category: "fluid-handling",
-    description: "PEEK Y connector for splitting or combining small-volume microfluidic flow paths.",
-    price: "$37.91",
-    tags: ["PEEK", "Y connector", "Flow path"],
-    icon: "connectors",
-    image: catalogImages.laminar,
-  },
-  {
-    id: "elveflow-flow-resistance-kit",
-    name: "ELVEFLOW Microfluidic Flow Resistance Kit",
-    category: "fluid-handling",
-    description: "Flow resistance kit for tuning pressure-driven flow behavior in microfluidic setups.",
-    price: "$174.33",
-    tags: ["Resistance", "Flow tuning", "Kit"],
-    icon: "kit",
-    image: catalogImages.laminar,
-  },
-  {
-    id: "elveflow-gl45-bottle-cap-l",
-    name: "ELVEFLOW Microfluidic Reservoir GL45 Bottle Cap - L",
-    category: "fluid-handling",
-    description: "GL45 bottle-cap reservoir interface for 100 mL bottles with 2/4 port configuration options.",
-    price: "$174.33",
-    tags: ["GL45", "100 mL", "2/4 ports"],
-    icon: "holder",
-    image: catalogImages.laminar,
-  },
-  {
-    id: "elveflow-falcon-reservoir-s",
-    name: "ELVEFLOW Microfluidic Reservoir for 15 mL Falcon Tube - S",
-    category: "fluid-handling",
-    description: "Reservoir adapter for 15 mL Falcon-style tubes with 2/4 port configuration options.",
-    price: "$169.65",
-    tags: ["Falcon tube", "15 mL", "2/4 ports"],
-    icon: "holder",
-    image: catalogImages.laminar,
-  },
-  {
-    id: "elveflow-eppendorf-reservoir-xs",
-    name: "ELVEFLOW Microfluidic Reservoir for 1.5 mL Eppendorf - XS",
-    category: "fluid-handling",
-    description: "Small-volume reservoir adapter for 1.5 mL Eppendorf-style tubes and low-volume assays.",
-    price: "$169.65",
-    tags: ["Eppendorf", "1.5 mL", "Low volume"],
-    icon: "holder",
-    image: catalogImages.laminar,
-  },
-  {
-    id: "innofluid-pulse-damper-general",
-    name: "Innofluid Fluid Pulse Damper - General",
-    category: "fluid-handling",
-    description: "Pulse-damping accessory for smoothing flow variation in pump-driven fluidic setups.",
-    price: "$53.94",
-    tags: ["Pulse damping", "Flow smoothing", "Accessory"],
-    icon: "sensor",
-    image: catalogImages.laminar,
-  },
-  {
-    id: "elveflow-pdms-chip-reservoir-xxs",
-    name: "ELVEFLOW Microfluidic Reservoir for PDMS Chip - XXS",
-    category: "fluid-handling",
-    description: "Very small reservoir interface for PDMS chip workflows and low-volume microfluidic testing.",
-    price: "$139.23",
-    tags: ["PDMS", "XXS", "Reservoir"],
-    icon: "holder",
-    image: catalogImages.chip,
-  },
-  {
-    id: "darwin-ptfe-tubing-1-32-od-030-id",
-    name: "Darwin Microfluidics PTFE Tubing 1/32 in. OD x 0.30 mm ID",
-    category: "fluid-handling",
-    description: "PTFE tubing sized for microfluidic interconnects and low-volume flow paths.",
-    price: "$95.82",
-    tags: ["PTFE", "1/32 in. OD", "0.30 mm ID"],
-    icon: "tubing",
-    image: catalogImages.laminar,
-  },
-  {
-    id: "idex-manifold-4-port-cross-etfe",
-    name: "IDEX Manifold 4 Ports Cross 1/4-28 ETFE",
-    category: "fluid-handling",
-    description: "Four-port cross manifold for routing multiple 1/4-28 fluidic connections.",
-    price: "$44.81",
-    tags: ["Manifold", "4 port", "ETFE"],
-    icon: "holder",
-    image: catalogImages.laminar,
-  },
-  {
-    id: "darwin-ptfe-tubing-1-8-od",
-    name: "Darwin Microfluidics PTFE Tubing 1/8 in. OD",
-    category: "fluid-handling",
-    description: "PTFE tubing for larger microfluidic support lines, reagent feeds, and chemically compatible flow paths.",
-    price: "$96.17",
-    tags: ["PTFE", "1/8 in. OD", "Chemical resistant"],
-    icon: "tubing",
-    image: catalogImages.laminar,
-  },
-  {
-    id: "idex-peek-capillary-tubing-1-16-od",
-    name: "IDEX 1/16 in. OD PEEK Capillary Tubing",
-    category: "fluid-handling",
-    description: "PEEK capillary tubing for analytical and microfluidic connections requiring higher pressure compatibility.",
-    price: "$48.91",
-    tags: ["PEEK", "1/16 in. OD", "Capillary"],
-    icon: "tubing",
-    image: catalogImages.laminar,
-  },
-  {
     id: "syringe-pumps",
     name: "Syringe Pumps",
     category: "flow-control",
     description: "Single- and multi-channel syringe pump options for controlled microfluidic flow in R&D setups.",
     price: "$650-$3,500",
     tags: ["Syringe", "Flow rate", "Benchtop"],
-    icon: "pump",
-    image: catalogImages.pump,
-  },
-  {
-    id: "innofluid-labn1-peristaltic-pump",
-    name: "Innofluid LabN1 Flow Rate Peristaltic Pump",
-    category: "flow-control",
-    description: "Peristaltic pump option for controlled flow-rate testing, continuous transfer, and fluidic prototyping.",
-    price: "$986.66",
-    tags: ["Peristaltic", "Flow rate", "Benchtop"],
-    icon: "pump",
-    image: catalogImages.pump,
-  },
-  {
-    id: "longer-bt100-3j-peristaltic-pump",
-    name: "Longer BT100-3J Basic Peristaltic Pump",
-    category: "flow-control",
-    description: "Basic peristaltic pump option for routine transfer, flow testing, and early microfluidic setups.",
-    price: "$846.38",
-    tags: ["Peristaltic", "Basic pump", "Flow testing"],
     icon: "pump",
     image: catalogImages.pump,
   },
@@ -711,136 +414,6 @@ const products = [
     tags: ["Meter", "Calibration", "Verification"],
     icon: "sensor",
     image: catalogImages.pump,
-  },
-  {
-    id: "lineup-pressure-flow-controller-series",
-    name: "LineUp Microfluidic Pressure-Based Flow Controller Series",
-    category: "flow-control",
-    description: "Compact modular flow-control platform with automation capability, intuitive setup, and expandable pressure-based configurations.",
-    price: "Quote",
-    tags: ["LineUp", "Pressure controller", "Modular"],
-    icon: "sensor",
-    image: catalogImages.fluigentLineup,
-  },
-  {
-    id: "flow-ez-microfluidic-flow-controller",
-    name: "Flow EZ Microfluidic Flow Controller",
-    category: "flow-control",
-    description: "Pressure-based microfluidic flow and pressure controller option for stable, responsive benchtop flow control.",
-    price: "Quote",
-    tags: ["Flow EZ", "Pressure controller", "Compact"],
-    icon: "sensor",
-    image: catalogImages.fluigentFlowEz,
-  },
-  {
-    id: "mfcs-microfluidic-flow-control-system",
-    name: "MFCS Microfluidic Flow Control System",
-    category: "flow-control",
-    description: "Multi-channel microfluidic flow-control system option for coordinated pressure-driven experiments and instrument setups.",
-    price: "Quote",
-    tags: ["MFCS", "Multi-channel", "Pressure controller"],
-    icon: "sensor",
-    image: catalogImages.fluigentMfcs,
-  },
-  {
-    id: "microfluidic-push-pull-controller",
-    name: "Microfluidic Push Pull Controller",
-    category: "flow-control",
-    description: "Controller option for regulating negative and positive pressure in push-pull microfluidic workflows.",
-    price: "Quote",
-    tags: ["Push pull", "Positive pressure", "Negative pressure"],
-    icon: "sensor",
-    image: catalogImages.fluigentPushPull,
-  },
-  {
-    id: "flow-rate-platform",
-    name: "Microfluidic Flow Rate Platform",
-    category: "flow-control",
-    description: "Flow-rate platform and sensor hub option for connecting multiple flow sensors in microfluidic monitoring setups.",
-    price: "Quote",
-    tags: ["Flow sensor", "Flow rate", "Hub"],
-    icon: "sensor",
-    image: catalogImages.fluigentFlowRatePlatform,
-  },
-  {
-    id: "flow-unit-bidirectional-microfluidic-flow-sensor",
-    name: "Bidirectional Microfluidic Flow Sensor FLOW UNIT / FLOW UNIT+",
-    category: "flow-control",
-    description: "Bidirectional microfluidic flow sensor option for measuring low-flow rates in pressure- or pump-driven systems.",
-    price: "Quote",
-    tags: ["FLOW UNIT", "Bidirectional", "Flow sensor"],
-    icon: "sensor",
-    image: catalogImages.fluigentFlowUnit,
-  },
-  {
-    id: "microfluidic-inline-pressure-sensor",
-    name: "Microfluidic In-Line Pressure Sensor",
-    category: "flow-control",
-    description: "In-line pressure sensor option for monitoring pressure conditions inside microfluidic flow paths.",
-    price: "Quote",
-    tags: ["Pressure sensor", "Inline", "Monitoring"],
-    icon: "sensor",
-    image: catalogImages.fluigentInlinePressureSensor,
-  },
-  {
-    id: "microfluidic-flow-sensor-hub",
-    name: "Microfluidic Flow Sensor Hub",
-    category: "flow-control",
-    description: "Sensor hub option for organizing multiple flow-sensor connections in modular microfluidic systems.",
-    price: "Quote",
-    tags: ["Flow sensor", "Hub", "Modular"],
-    icon: "sensor",
-    image: catalogImages.fluigentFlowSensorHub,
-  },
-  {
-    id: "microfluidic-injection-valve-l-switch",
-    name: "Microfluidic Injection Valve L-SWITCH",
-    category: "flow-control",
-    description: "6-port/2-position L-SWITCH valve option for microfluidic sample injection and flow-path switching.",
-    price: "Quote",
-    tags: ["Valve", "Injection", "6-port"],
-    icon: "sensor",
-    image: catalogImages.fluigentInjectionValve,
-  },
-  {
-    id: "switch-ez-microfluidic-valve-controller",
-    name: "SWITCH EZ Microfluidic Valve Controller",
-    category: "flow-control",
-    description: "Valve controller option for automated flow redirection in modular microfluidic setups.",
-    price: "Quote",
-    tags: ["Valve controller", "Automation", "Flow redirection"],
-    icon: "sensor",
-    image: catalogImages.fluigentValveController,
-  },
-  {
-    id: "m-switch-microfluidic-bidirectional-valve",
-    name: "M-SWITCH Microfluidic Bidirectional Valve",
-    category: "flow-control",
-    description: "Bidirectional microfluidic valve option for switching and redirecting flow in compact assemblies.",
-    price: "Quote",
-    tags: ["Valve", "Bidirectional", "M-SWITCH"],
-    icon: "sensor",
-    image: catalogImages.fluigentBidirectionalValve,
-  },
-  {
-    id: "microfluidic-recirculation-valve-l-switch",
-    name: "Microfluidic Recirculation Valve L-SWITCH",
-    category: "flow-control",
-    description: "6-port/2-position L-SWITCH valve option for recirculation and closed-loop microfluidic workflows.",
-    price: "Quote",
-    tags: ["Valve", "Recirculation", "6-port"],
-    icon: "sensor",
-    image: catalogImages.fluigentRecirculationValve,
-  },
-  {
-    id: "microfluidic-sampling-valve-2-switch",
-    name: "Microfluidic Sampling Valve 2-SWITCH",
-    category: "flow-control",
-    description: "3-port/2-way sampling valve option for controlled sampling and routing in microfluidic experiments.",
-    price: "Quote",
-    tags: ["Valve", "Sampling", "3-port"],
-    icon: "sensor",
-    image: catalogImages.fluigentSamplingValve,
   },
   {
     id: "lateral-flow-assay-materials",
@@ -1132,7 +705,7 @@ const products = [
     icon: "kit",
     image: catalogImages.chip,
   },
-].filter((product) => !excludedCatalogProductIds.has(product.id));
+];
 
 const productsWithRepresentativeImages = new Set([
   "pdms-microfluidic-chips",
@@ -1142,24 +715,9 @@ const productsWithRepresentativeImages = new Set([
   "microfluidic-mixers",
   "droplet-generation-chips",
   "organ-on-chip-devices",
-  "omi-automated-organ-on-chip-platform",
-  "aria-automated-perfusion-system",
   "cell-culture-microfluidic-devices",
   "custom-microfluidic-chip-fabrication",
   "syringe-pumps",
-  "lineup-pressure-flow-controller-series",
-  "flow-ez-microfluidic-flow-controller",
-  "mfcs-microfluidic-flow-control-system",
-  "microfluidic-push-pull-controller",
-  "flow-rate-platform",
-  "flow-unit-bidirectional-microfluidic-flow-sensor",
-  "microfluidic-inline-pressure-sensor",
-  "microfluidic-flow-sensor-hub",
-  "microfluidic-injection-valve-l-switch",
-  "switch-ez-microfluidic-valve-controller",
-  "m-switch-microfluidic-bidirectional-valve",
-  "microfluidic-recirculation-valve-l-switch",
-  "microfluidic-sampling-valve-2-switch",
   "lateral-flow-assay-materials",
   "diagnostic-cartridges",
   "rapid-test-housings",
@@ -1214,7 +772,7 @@ function getProductSubclass(product) {
   if (product.category === "fluid-handling") {
     if (text.includes("tubing") || text.includes("ptfe") || text.includes("fep") || text.includes("peek")) return "Tubing";
     if (text.includes("connector") || text.includes("fitting") || text.includes("manifold")) return "Connectors and manifolds";
-    if (text.includes("reservoir") || text.includes("bottle") || text.includes("falcon") || text.includes("eppendorf")) return "Reservoirs";
+    if (text.includes("reservoir") || text.includes("bottle")) return "Reservoirs";
     return "Fluidic accessories";
   }
 
@@ -1287,21 +845,6 @@ const genericCatalogImageSources = new Set([
 ]);
 
 const specificProductImageSources = new Set([
-  catalogImages.fluigentOmi.source,
-  catalogImages.fluigentAria.source,
-  catalogImages.fluigentLineup.source,
-  catalogImages.fluigentFlowEz.source,
-  catalogImages.fluigentMfcs.source,
-  catalogImages.fluigentPushPull.source,
-  catalogImages.fluigentFlowRatePlatform.source,
-  catalogImages.fluigentFlowUnit.source,
-  catalogImages.fluigentInlinePressureSensor.source,
-  catalogImages.fluigentFlowSensorHub.source,
-  catalogImages.fluigentInjectionValve.source,
-  catalogImages.fluigentValveController.source,
-  catalogImages.fluigentBidirectionalValve.source,
-  catalogImages.fluigentRecirculationValve.source,
-  catalogImages.fluigentSamplingValve.source,
   catalogImages.oemPlugAndPlay.source,
 ]);
 
@@ -1368,36 +911,6 @@ function getProductOptions(product) {
   const exact = isExactPrice(product.price);
   const standard = makeOption("Standard configuration", exact ? product.price : getOptionPriceLabel(product), "Standard catalog configuration");
 
-  if (product.id === "darwin-ptfe-tubing-1-32-od-030-id") {
-    return [makeOption("1/32 in. OD x 0.30 mm ID PTFE tubing", "$95.82", "Darwin Microfluidics listed configuration")];
-  }
-  if (product.id === "darwin-ptfe-tubing-1-8-od") {
-    return [makeOption("1/8 in. OD PTFE tubing", "$96.17", "Darwin Microfluidics listed configuration")];
-  }
-  if (product.id === "idex-peek-capillary-tubing-1-16-od") {
-    return [makeOption("1/16 in. OD PEEK capillary tubing", "$48.91", "IDEX/Darwin listed configuration")];
-  }
-  if (product.id === "idex-microfluidic-y-connector-peek") {
-    return [makeOption("PEEK Y connector", "$37.91", "IDEX/Darwin listed configuration")];
-  }
-  if (product.id === "idex-manifold-4-port-cross-etfe") {
-    return [makeOption("4-port cross manifold, 1/4-28 ETFE", "$44.81", "IDEX/Darwin listed configuration")];
-  }
-  if (product.id === "elveflow-high-pressure-reservoir-350ml") {
-    return [makeOption("350 mL high-pressure reservoir", "$700.83", "ELVEFLOW/Darwin listed configuration")];
-  }
-  if (product.id === "elveflow-gl45-bottle-cap-l") {
-    return [makeOption("GL45 bottle cap, L, 100 mL, 2/4 ports", "$174.33", "ELVEFLOW/Darwin listed configuration")];
-  }
-  if (product.id === "elveflow-falcon-reservoir-s") {
-    return [makeOption("15 mL Falcon tube reservoir, S, 2/4 ports", "$169.65", "ELVEFLOW/Darwin listed configuration")];
-  }
-  if (product.id === "elveflow-eppendorf-reservoir-xs") {
-    return [makeOption("1.5 mL Eppendorf reservoir, XS", "$169.65", "ELVEFLOW/Darwin listed configuration")];
-  }
-  if (product.id === "elveflow-pdms-chip-reservoir-xxs") {
-    return [makeOption("PDMS chip reservoir, XXS", "$139.23", "ELVEFLOW/Darwin listed configuration")];
-  }
 
   if (product.subclass === "Tubing") {
     return [
@@ -1492,103 +1005,12 @@ function getCartKey(product, optionIndex = getSelectedOptionIndex(product)) {
   return `${product.id}::${optionIndex}`;
 }
 
-const marketReferenceLinks = {
-  darwin: {
-    label: "Darwin Microfluidics catalog",
-    url: "https://darwin-microfluidics.com/",
-  },
-  elveflow: {
-    label: "Elveflow product catalog",
-    url: "https://elveflow.com/microfluidic-products/",
-  },
-  fluigent: {
-    label: "Fluigent product information",
-    url: "https://www.fluigent.com/products/",
-  },
-  idex: {
-    label: "IDEX Health & Science fluidics",
-    url: "https://www.idex-hs.com/store/fluidics.html",
-  },
-  fisher: {
-    label: "Fisher Scientific catalog",
-    url: "https://www.fishersci.com/us/en/catalog/search/products?keyword=microfluidics",
-  },
-  thermofisherPlastics: {
-    label: "Thermo Fisher lab plastics catalog",
-    url: "https://www.thermofisher.com/us/en/home/life-science/lab-plasticware-supplies.html",
-  },
-  cytivaLfia: {
-    label: "Cytiva lateral flow materials",
-    url: "https://www.cytivalifesciences.com/en/us/shop/diagnostics/lateral-flow-assay-components",
-  },
-  idexResources: {
-    label: "IDEX resource library",
-    url: "https://www.idex-hs.com/resources/view-all-resources",
-  },
-  idexFluidicsCapabilities: {
-    label: "IDEX microfluidics and consumables capability page",
-    url: "https://www.idex-hs.com/capabilities/microfluidics-consumables",
-  },
-  corningLifeSciences: {
-    label: "Corning Life Sciences products",
-    url: "https://www.corning.com/worldwide/en/products/life-sciences/products.html",
-  },
-  fisherDocuments: {
-    label: "Fisher Scientific product documentation search",
-    url: "https://www.fishersci.com/us/en/catalog/search/products?keyword=certificate%20of%20analysis%20lab%20plasticware",
-  },
-};
-
-function supplierSearchLink(product, supplier) {
-  const query = encodeURIComponent(product.name);
-  if (supplier === "darwin") {
-    return {
-      label: "Search this item at Darwin Microfluidics",
-      url: `https://darwin-microfluidics.com/search.php?search_query=${query}`,
-    };
-  }
-  if (supplier === "fisher") {
-    return {
-      label: "Search comparable items at Fisher Scientific",
-      url: `https://www.fishersci.com/us/en/catalog/search/products?keyword=${query}`,
-    };
-  }
-  if (supplier === "thomas") {
-    return {
-      label: "Search comparable items at Thomas Scientific",
-      url: `https://www.thomassci.com/search/go?w=${query}`,
-    };
-  }
-  return null;
-}
-
 function uniqueArray(items) {
   return [...new Set(items.filter(Boolean))];
 }
 
-function getBrand(product) {
-  const name = product.name.toLowerCase();
-  if (name.includes("elveflow")) return "ELVEFLOW";
-  if (name.includes("idex")) return "IDEX";
-  if (name.includes("darwin")) return "Darwin Microfluidics";
-  if (name.includes("innofluid")) return "Innofluid";
-  if (name.includes("longer")) return "Longer";
-  if (
-    name.includes("fluigent") ||
-    name.includes("flow ez") ||
-    name.includes("mfcs") ||
-    name.includes("lineup") ||
-    name.includes("flow unit") ||
-    name.includes("switch ez") ||
-    name.includes("m-switch") ||
-    name.includes("l-switch") ||
-    name.includes("2-switch") ||
-    name.includes("aria") ||
-    name.includes("omi")
-  ) {
-    return "Fluigent";
-  }
-  return "MicroCD curated";
+function getBrand() {
+  return "MicroCD Labs";
 }
 
 function getItemRole(product) {
@@ -1629,7 +1051,7 @@ function getVariantOptions(product) {
 
   if (product.category === "microfluidics") {
     options.push("Material options: PDMS, glass, COC, PMMA, or hybrid formats depending on chemistry and optical needs.");
-    options.push("Porting options: inlet/outlet count, luer adapters, NanoPort-style fittings, punched PDMS ports, or bonded manifolds.");
+    options.push("Porting options: inlet/outlet count, luer adapters, threaded fittings, punched PDMS ports, or bonded manifolds.");
     options.push("Channel options: straight channels, mixers, droplet junctions, gradients, chambers, traps, or assay-specific geometry.");
     if (name.includes("organ") || name.includes("cell") || name.includes("aria") || name.includes("omi")) {
       options.push("Biology options: perfusion path, cell-culture chamber geometry, membrane/barrier format, tubing kit, and incubation compatibility.");
@@ -1639,7 +1061,7 @@ function getVariantOptions(product) {
   if (product.category === "fluid-handling") {
     if (product.subclass === "Tubing") {
       options.push("Diameter options: common microfluidic OD/ID combinations including 1/32 in., 1/16 in., 1/8 in., and metric microbore sizes.");
-      options.push("Material options: PTFE, FEP, PEEK, silicone, Tygon, and low-adsorption or biocompatible grades where available.");
+      options.push("Material options: PTFE, FEP, PEEK, silicone, and low-adsorption or biocompatible grades where available.");
       options.push("Pack options: trial length, roll, cut-to-length kit, or tubing assortment for setup development.");
     }
     if (product.subclass === "Connectors and manifolds") {
@@ -1753,190 +1175,20 @@ function getSpecChecklist(product) {
   return checklist;
 }
 
-function getMarketReferences(product) {
-  const references = [];
-  const brand = getBrand(product);
+function getMarketPosition(product) {
+  const quoteNote =
+    product.price === "Quote" || product.price.startsWith("From")
+      ? "configured by quote"
+      : "shown with an indicative catalog range";
 
-  if (brand === "ELVEFLOW") references.push(marketReferenceLinks.elveflow, supplierSearchLink(product, "darwin"));
-  if (brand === "Fluigent") references.push(marketReferenceLinks.fluigent, supplierSearchLink(product, "darwin"));
-  if (brand === "IDEX") references.push(marketReferenceLinks.idex, supplierSearchLink(product, "darwin"));
-  if (brand === "Darwin Microfluidics" || brand === "Innofluid" || brand === "Longer") {
-    references.push(marketReferenceLinks.darwin, supplierSearchLink(product, "darwin"));
-  }
-
-  if (product.category === "microfluidics") {
-    references.push(marketReferenceLinks.elveflow, marketReferenceLinks.darwin);
-  }
-  if (product.category === "fluid-handling") {
-    references.push(marketReferenceLinks.darwin, marketReferenceLinks.idex, supplierSearchLink(product, "fisher"));
-  }
-  if (product.category === "flow-control") {
-    references.push(marketReferenceLinks.fluigent, marketReferenceLinks.elveflow, marketReferenceLinks.darwin);
-  }
-  if (product.category === "diagnostics") {
-    references.push(marketReferenceLinks.cytivaLfia, supplierSearchLink(product, "fisher"));
-  }
-  if (product.category === "lab-plastics") {
-    references.push(marketReferenceLinks.thermofisherPlastics, supplierSearchLink(product, "fisher"), supplierSearchLink(product, "thomas"));
-  }
-  if (product.category === "oem") {
-    references.push(marketReferenceLinks.fisher, marketReferenceLinks.darwin);
-  }
-  if (product.category === "services") {
-    references.push(marketReferenceLinks.darwin, marketReferenceLinks.elveflow, marketReferenceLinks.fluigent);
-  }
-  if (product.category === "starter-kits") {
-    references.push(marketReferenceLinks.darwin, marketReferenceLinks.idex, supplierSearchLink(product, "fisher"));
-  }
-
-  const seen = new Set();
-  return references.filter((reference) => {
-    if (!reference || seen.has(reference.url)) return false;
-    seen.add(reference.url);
-    return true;
-  }).slice(0, 5);
-}
-
-function documentationLink(label, url, sourceType = "OEM") {
-  return { label, url, sourceType };
-}
-
-function getFluigentDocumentation(product) {
-  const byId = {
-    "omi-automated-organ-on-chip-platform": documentationLink("Fluigent Omi product documentation", "https://www.fluigent.com/products/omi/", "OEM"),
-    "aria-automated-perfusion-system": documentationLink("Fluigent Aria product documentation", "https://www.fluigent.com/products/aria/", "OEM"),
-    "lineup-pressure-flow-controller-series": documentationLink("Fluigent LineUp product documentation", "https://www.fluigent.com/products/lineup-series/", "OEM"),
-    "flow-ez-microfluidic-flow-controller": documentationLink("Fluigent Flow EZ product documentation", "https://www.fluigent.com/products/flow-ez/", "OEM"),
-    "mfcs-microfluidic-flow-control-system": documentationLink("Fluigent MFCS product documentation", "https://www.fluigent.com/products/mfcs-ez/", "OEM"),
-    "microfluidic-push-pull-controller": documentationLink("Fluigent Push-Pull product documentation", "https://www.fluigent.com/products/push-pull/", "OEM"),
-    "flow-rate-platform": documentationLink("Fluigent Flow Rate Platform documentation", "https://www.fluigent.com/products/flow-rate-platform/", "OEM"),
-    "flow-unit-bidirectional-microfluidic-flow-sensor": documentationLink("Fluigent FLOW UNIT documentation", "https://www.fluigent.com/products/flow-unit/", "OEM"),
-    "microfluidic-inline-pressure-sensor": documentationLink("Fluigent Pressure Unit documentation", "https://www.fluigent.com/products/pressure-unit/", "OEM"),
-    "microfluidic-flow-sensor-hub": documentationLink("Fluigent Flowboard hub documentation", "https://www.fluigent.com/products/flowboard/", "OEM"),
-    "microfluidic-injection-valve-l-switch": documentationLink("Fluigent L-SWITCH documentation", "https://www.fluigent.com/products/l-switch/", "OEM"),
-    "switch-ez-microfluidic-valve-controller": documentationLink("Fluigent SWITCH EZ documentation", "https://www.fluigent.com/products/switch-ez/", "OEM"),
-    "m-switch-microfluidic-bidirectional-valve": documentationLink("Fluigent M-SWITCH documentation", "https://www.fluigent.com/products/m-switch/", "OEM"),
-    "microfluidic-recirculation-valve-l-switch": documentationLink("Fluigent L-SWITCH documentation", "https://www.fluigent.com/products/l-switch/", "OEM"),
-    "microfluidic-sampling-valve-2-switch": documentationLink("Fluigent 2-SWITCH documentation", "https://www.fluigent.com/products/2-switch/", "OEM"),
-  };
-
-  return byId[product.id] || documentationLink("Fluigent product information", marketReferenceLinks.fluigent.url, "OEM");
-}
-
-function getDocumentationLinks(product) {
-  const brand = getBrand(product);
-  const links = [];
-
-  if (brand === "Fluigent") {
-    links.push(getFluigentDocumentation(product));
-    links.push(documentationLink("Fluigent product catalog", marketReferenceLinks.fluigent.url, "OEM"));
-  }
-
-  if (brand === "ELVEFLOW") {
-    links.push(documentationLink("Elveflow product catalog", marketReferenceLinks.elveflow.url, "OEM"));
-    links.push(supplierSearchLink(product, "darwin") && { ...supplierSearchLink(product, "darwin"), sourceType: "Authorized supplier" });
-  }
-
-  if (brand === "IDEX") {
-    links.push(documentationLink("IDEX fluidics store and product pages", marketReferenceLinks.idex.url, "OEM"));
-    links.push(documentationLink("IDEX tools, drawings, and resources", marketReferenceLinks.idexResources.url, "OEM resources"));
-    links.push(supplierSearchLink(product, "darwin") && { ...supplierSearchLink(product, "darwin"), sourceType: "Supplier cross-reference" });
-  }
-
-  if (brand === "Darwin Microfluidics" || brand === "Innofluid" || brand === "Longer") {
-    links.push(supplierSearchLink(product, "darwin") && { ...supplierSearchLink(product, "darwin"), sourceType: "Supplier catalog" });
-    links.push(documentationLink("Darwin Microfluidics catalog", marketReferenceLinks.darwin.url, "Supplier catalog"));
-  }
-
-  if (product.category === "microfluidics") {
-    links.push(documentationLink("Elveflow microfluidic product documentation", marketReferenceLinks.elveflow.url, "OEM/category"));
-    links.push(documentationLink("Darwin Microfluidics chip and lab-on-chip catalog", marketReferenceLinks.darwin.url, "Supplier catalog"));
-  }
-
-  if (product.category === "fluid-handling") {
-    links.push(documentationLink("IDEX fluidics documentation and product pages", marketReferenceLinks.idex.url, "OEM/tier-1"));
-    links.push(supplierSearchLink(product, "fisher") && { ...supplierSearchLink(product, "fisher"), sourceType: "Tier-1 supplier" });
-  }
-
-  if (product.category === "flow-control") {
-    links.push(documentationLink("Fluigent flow control product information", marketReferenceLinks.fluigent.url, "OEM/category"));
-    links.push(documentationLink("Elveflow instruments and accessories", marketReferenceLinks.elveflow.url, "OEM/category"));
-  }
-
-  if (product.category === "diagnostics") {
-    links.push(documentationLink("Cytiva lateral flow assay component documentation", marketReferenceLinks.cytivaLfia.url, "OEM/tier-1"));
-    links.push(supplierSearchLink(product, "fisher") && { ...supplierSearchLink(product, "fisher"), sourceType: "Tier-1 supplier" });
-  }
-
-  if (product.category === "lab-plastics") {
-    links.push(documentationLink("Thermo Fisher lab plasticware documentation", marketReferenceLinks.thermofisherPlastics.url, "OEM/tier-1"));
-    links.push(documentationLink("Corning Life Sciences product documentation", marketReferenceLinks.corningLifeSciences.url, "OEM/tier-1"));
-    links.push(supplierSearchLink(product, "fisher") && { ...supplierSearchLink(product, "fisher"), sourceType: "Tier-1 supplier" });
-  }
-
-  if (product.category === "oem") {
-    links.push(documentationLink("IDEX microfluidics and consumables capability page", marketReferenceLinks.idexFluidicsCapabilities.url, "Tier-1/OEM capability"));
-    links.push(documentationLink("IDEX resource library", marketReferenceLinks.idexResources.url, "Tier-1 resources"));
-    links.push(documentationLink("Fisher Scientific catalog search", marketReferenceLinks.fisher.url, "Tier-1 supplier"));
-  }
-
-  if (product.category === "services" || product.category === "starter-kits") {
-    links.push(documentationLink("Darwin Microfluidics catalog", marketReferenceLinks.darwin.url, "Supplier catalog"));
-    links.push(documentationLink("IDEX fluidics product resources", marketReferenceLinks.idex.url, "Tier-1 supplier"));
-    links.push(documentationLink("Fisher Scientific catalog search", marketReferenceLinks.fisher.url, "Tier-1 supplier"));
-  }
-
-  const seen = new Set();
-  return links
-    .filter(Boolean)
-    .filter((link) => {
-      if (seen.has(link.url)) return false;
-      seen.add(link.url);
-      return true;
-    })
-    .slice(0, 6);
+  return `MicroCD Labs generic catalog family item, ${quoteNote}. Availability, specifications, final price, tax, shipping, and lead time are confirmed in writing before any order is accepted. No manufacturer, authorized-reseller, or distribution relationship is implied.`;
 }
 
 function getDocumentationNote(product) {
-  const brand = getBrand(product);
-  if (brand !== "MicroCD curated") {
-    return "Documentation priority: original manufacturer/OEM documentation first, followed by authorized supplier cross-reference when ordering region, SKU, or bundle configuration differs.";
-  }
   if (product.category === "services" || product.category === "starter-kits") {
-    return "Documentation priority: source documents for the selected parts are attached to the final quote or kit bill of materials.";
+    return "A MicroCD Labs scope, bill of materials, and applicable component documentation are provided with the final written quote.";
   }
-  return "Documentation priority: OEM or tier-1 supplier pages are used for comparable specifications; final datasheets, certificates, and lot documents are confirmed by quote.";
-}
-
-function getComparableSuppliers(product) {
-  const brand = getBrand(product);
-  const suppliers = [];
-  if (brand !== "MicroCD curated") suppliers.push(brand);
-
-  if (product.category === "microfluidics") suppliers.push("Elveflow", "Fluigent", "Darwin Microfluidics", "Micronit", "Parallel Fluidics");
-  if (product.category === "fluid-handling") suppliers.push("Darwin Microfluidics", "IDEX Health & Science", "Fisher Scientific", "Cole-Parmer");
-  if (product.category === "flow-control") suppliers.push("Fluigent", "Elveflow", "Darwin Microfluidics", "Bartels Mikrotechnik", "Longer Pump");
-  if (product.category === "diagnostics") suppliers.push("Cytiva", "Ahlstrom", "MilliporeSigma", "Fisher Scientific", "OEM cassette suppliers");
-  if (product.category === "lab-plastics") suppliers.push("Thermo Fisher Scientific", "Corning", "Eppendorf", "VWR/Avantor", "Thomas Scientific");
-  if (product.category === "oem") suppliers.push("Invetech", "Controlled Fluidics", "Parallel Fluidics", "Nucleus Automation Partners", "diagnostic CDMO/OEM suppliers");
-  if (product.category === "services") suppliers.push("MicroCD Labs supplier search", "specialized microfluidics distributors", "diagnostic OEM/CDMO networks");
-  if (product.category === "starter-kits") suppliers.push("MicroCD Labs curated kits", "Darwin Microfluidics", "Fisher Scientific", "IDEX Health & Science");
-
-  return uniqueArray(suppliers).slice(0, 6);
-}
-
-function getMarketPosition(product) {
-  const brand = getBrand(product);
-  const quoteNote =
-    product.price === "Quote" || product.price.startsWith("From")
-      ? "configured-by-quote item"
-      : "indicative online-catalog price/range";
-  const brandNote =
-    brand === "MicroCD curated"
-      ? "MicroCD-curated catalog family item"
-      : `${brand}-branded item or directly comparable product family`;
-
-  return `${brandNote}. Listed as a ${quoteNote}; final availability, tax, shipping, lead time, regional pricing, and documentation are confirmed before order.`;
+  return "Available specifications and applicable documentation are confirmed with the final written quote. Manufacturer-specific documents are provided only when a separately approved source is identified in writing.";
 }
 
 function getProductDetailPack(product) {
@@ -1946,10 +1198,7 @@ function getProductDetailPack(product) {
     marketPosition: getMarketPosition(product),
     variants: getVariantOptions(product),
     checklist: getSpecChecklist(product),
-    references: getMarketReferences(product),
-    documentation: getDocumentationLinks(product),
     documentationNote: getDocumentationNote(product),
-    suppliers: getComparableSuppliers(product),
   };
 }
 
@@ -2389,12 +1638,12 @@ function renderProductDetail() {
               <dd>${escapeHtml(product.subclass)}</dd>
             </div>
             <div>
-              <dt>Brand/source family</dt>
+              <dt>Catalog source</dt>
               <dd>${escapeHtml(detailPack.brand)}</dd>
             </div>
             <div>
               <dt>Order type</dt>
-              <dd>Research-use supply, sourcing, or configuration by quote</dd>
+              <dd>Generic research-use family reviewed by written quote</dd>
             </div>
           </dl>
           <p>${escapeHtml(product.description)}</p>
@@ -2410,7 +1659,7 @@ function renderProductDetail() {
       </div>
       <div class="product-detail-grid" aria-label="Detailed product information">
         <article class="detail-panel detail-panel-wide">
-          <h2>Market comparison note</h2>
+          <h2>Catalog status</h2>
           <p>${escapeHtml(detailPack.marketPosition)}</p>
           <p>MicroCD Labs uses the catalog number <strong>${escapeHtml(product.sku)}</strong> for internal quoting, substitutions, compatible variants, and customer order review.</p>
         </article>
@@ -2427,25 +1676,11 @@ function renderProductDetail() {
           </ul>
         </article>
         <article class="detail-panel">
-          <h2>Comparable supplier families</h2>
-          <ul>
-            ${detailPack.suppliers.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
-          </ul>
-        </article>
-        <article class="detail-panel">
-          <h2>Documentation links</h2>
+          <h2>Documentation and order review</h2>
           <p>${escapeHtml(detailPack.documentationNote)}</p>
-          <ul class="reference-list">
-            ${detailPack.documentation
-              .map(
-                (entry) =>
-                  `<li><a href="${entry.url}" target="_blank" rel="noreferrer">${escapeHtml(entry.label)}</a><span>${escapeHtml(entry.sourceType)}</span></li>`,
-              )
-              .join("")}
-          </ul>
         </article>
       </div>
-      <p class="catalog-disclaimer">Catalog details are intended for research, sourcing, and purchasing review. Specifications, documentation, substitutions, and prices are confirmed in writing before order placement.</p>
+      <p class="catalog-disclaimer">Catalog details describe MicroCD Labs generic product families for research planning and quote review. No third-party branded product is offered, and no manufacturer, authorized-reseller, or distribution relationship is implied. Specifications, source, documentation, availability, and final price must be confirmed in writing before an order is accepted.</p>
     </section>
   `;
   document.title = `${product.name} | MicroCD Labs Catalog`;

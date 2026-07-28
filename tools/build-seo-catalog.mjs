@@ -4,7 +4,7 @@ import vm from "node:vm";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const buildDate = "2026-07-25";
+const buildDate = "2026-07-28";
 const siteUrl = "https://www.microcdlabs.com";
 
 const categoryDefinitions = [
@@ -28,7 +28,7 @@ const categoryDefinitions = [
     title: "Microfluidic Tubing by Material and Size | MicroCD Labs",
     h1: "Microfluidic tubing for controlled research flow",
     eyebrow: "Tubing selection",
-    description: "Compare PTFE, FEP, PEEK, silicone, Tygon, and microbore tubing for microfluidic systems by material, dimensions, flexibility, and application.",
+    description: "Compare PTFE, FEP, PEEK, silicone, flexible laboratory, and microbore tubing for microfluidic systems by material, dimensions, flexibility, and application.",
     answer: "Choose microfluidic tubing by material compatibility first, then confirm inner diameter, outer diameter, pressure, bend radius, connection method, and required length. PTFE supports broad chemical resistance, FEP adds optical clarity and flexibility, PEEK is used for rigid high-performance fluid paths, and silicone suits compliant or peristaltic-pump sections.",
     category: "fluid-handling",
     subclass: "Tubing",
@@ -99,7 +99,6 @@ function loadCatalogModel() {
   const source = `${fs.readFileSync(path.join(root, "script.js"), "utf8")}
 globalThis.__seoCatalog = {
   products,
-  excludedCatalogProductIds,
   productCategoryLabels,
   getProductDetailPack,
   getProductOptions,
@@ -221,8 +220,8 @@ function productMain(product) {
               <div><dt>MicroCD Cat. No.</dt><dd>${escapeHtml(product.sku)}</dd></div>
               <div><dt>Classification</dt><dd>${escapeHtml(categoryLabel)}</dd></div>
               <div><dt>Subclass</dt><dd>${escapeHtml(product.subclass)}</dd></div>
-              <div><dt>Brand/source family</dt><dd>${escapeHtml(detail.brand)}</dd></div>
-              <div><dt>Order type</dt><dd>Research-use supply, sourcing, or configuration by quote</dd></div>
+              <div><dt>Catalog source</dt><dd>${escapeHtml(detail.brand)}</dd></div>
+              <div><dt>Order type</dt><dd>Generic research-use family reviewed by written quote</dd></div>
             </dl>
             <p>${escapeHtml(product.description)}</p>
             <p>${escapeHtml(detail.role)}</p>
@@ -235,22 +234,18 @@ function productMain(product) {
         </div>
         <div class="product-detail-grid" aria-label="Detailed product information">
           <article class="detail-panel detail-panel-wide">
-            <h2>Selection and market note</h2>
+            <h2>Catalog status</h2>
             <p>${escapeHtml(detail.marketPosition)}</p>
             <p>MicroCD Labs uses catalog number <strong>${escapeHtml(product.sku)}</strong> for quoting, compatible variants, substitutions, and order review.</p>
           </article>
           <article class="detail-panel"><h2>Available variants</h2><ul>${detail.variants.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></article>
           <article class="detail-panel"><h2>Specification checklist</h2><ul>${detail.checklist.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></article>
-          <article class="detail-panel"><h2>Comparable supplier families</h2><ul>${detail.suppliers.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></article>
           <article class="detail-panel">
-            <h2>Documentation links</h2>
+            <h2>Documentation and order review</h2>
             <p>${escapeHtml(detail.documentationNote)}</p>
-            <ul class="reference-list">
-              ${detail.documentation.map((entry) => `<li><a href="${escapeHtml(entry.url)}" target="_blank" rel="noreferrer">${escapeHtml(entry.label)}</a><span>${escapeHtml(entry.sourceType)}</span></li>`).join("")}
-            </ul>
           </article>
         </div>
-        <p class="catalog-disclaimer">Catalog details are intended for research, sourcing, and purchasing review. Specifications, documentation, substitutions, availability, and prices are confirmed in writing before order placement.</p>
+        <p class="catalog-disclaimer">Catalog details describe MicroCD Labs generic product families for research planning and quote review. No third-party branded product is offered, and no manufacturer, authorized-reseller, or distribution relationship is implied. Specifications, source, documentation, availability, and final price must be confirmed in writing before an order is accepted.</p>
       </section>
       <!-- SEO_PRODUCT_END -->
     </main>`;
@@ -261,7 +256,6 @@ async function updateProductPages() {
     const file = path.join(root, "catalog", `${product.id}.html`);
     if (!fs.existsSync(file)) throw new Error(`Missing catalog page: ${file}`);
     let html = await fs.promises.readFile(file, "utf8");
-    if (html.includes("<!-- SEO_PRODUCT_START -->") && html.includes("<!-- SEO_PRODUCT_META_START -->")) return;
     const detail = catalog.getProductDetailPack(product);
     const image = localImageUrl(product, `${siteUrl}/`) || `${siteUrl}/${fallbackImage(product, "")}`;
     const description = uniqueDescription(product);
@@ -281,18 +275,13 @@ ${JSON.stringify(productStructuredData(product, detail, image), null, 6)}
     html = html
       .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(product.name)} | MicroCD Labs Catalog</title>`)
       .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${escapeHtml(description)}" />`)
+      .replace(/<link rel="canonical" href="[^"]*" \/>/, `<link rel="canonical" href="${siteUrl}/catalog/${product.id}.html" />`)
+      .replace(/script\.js\?v=[^"]+/, "script.js?v=20260728b")
       .replace(/\s*<!-- SEO_PRODUCT_META_START -->[\s\S]*?<!-- SEO_PRODUCT_META_END -->\s*/g, "\n")
       .replace("</head>", `${generatedHead}  </head>`)
       .replace(/    <main id="productDetail">[\s\S]*?<\/main>/, productMain(product));
     await fs.promises.writeFile(file, html);
   }));
-}
-
-function removeExcludedProductPages() {
-  for (const productId of catalog.excludedCatalogProductIds) {
-    const file = path.join(root, "catalog", `${productId}.html`);
-    if (fs.existsSync(file)) fs.unlinkSync(file);
-  }
 }
 
 function productMatchesCategory(product, definition) {
@@ -399,7 +388,7 @@ ${JSON.stringify(categoryStructuredData(definition, products), null, 6)}
         <div><p class="eyebrow">${escapeHtml(definition.eyebrow)}</p><h1 id="category-title">${escapeHtml(definition.h1)}</h1><p>${escapeHtml(definition.description)}</p><div class="hero-actions"><a class="button button-primary" href="#category-products">Browse ${products.length} items</a><a class="button button-secondary" href="../recommendations.html">Get a parts recommendation</a></div></div>
         <img src="${escapeHtml(definition.image)}" alt="${escapeHtml(definition.eyebrow)} arranged for research system planning" width="960" height="640" />
       </section>
-      <section class="seo-direct-answer section" aria-labelledby="selection-answer-title"><div><p class="eyebrow">Selection answer</p><h2 id="selection-answer-title">How should you choose?</h2></div><div><p>${escapeHtml(definition.answer)}</p><p class="seo-review-note">Technical content reviewed by <a href="../about.html">Snehan Peshin, Ph.D.</a> · Updated July 25, 2026. Confirm final selection against current manufacturer documentation and the complete research system.</p></div></section>
+      <section class="seo-direct-answer section" aria-labelledby="selection-answer-title"><div><p class="eyebrow">Selection answer</p><h2 id="selection-answer-title">How should you choose?</h2></div><div><p>${escapeHtml(definition.answer)}</p><p class="seo-review-note">Technical content reviewed by <a href="../about.html">Snehan Peshin, Ph.D.</a> · Updated July 28, 2026. Confirm final selection against the written quote, applicable source documentation, and the complete research system.</p></div></section>
       <section class="seo-considerations section" aria-labelledby="considerations-title"><div class="section-heading"><div><p class="eyebrow">Before requesting a quote</p><h2 id="considerations-title">Confirm the complete system requirement</h2></div><p>MicroCD Labs reviews compatibility, documentation, final pricing, availability, and lead time before payment.</p></div><div class="seo-consideration-grid">${definition.considerations.map(([title, copy]) => `<article><h3>${escapeHtml(title)}</h3><p>${escapeHtml(copy)}</p></article>`).join("")}</div></section>
       <section id="category-products" class="seo-category-products section" aria-labelledby="category-products-title"><div class="section-heading"><div><p class="eyebrow">Research-use catalog</p><h2 id="category-products-title">${escapeHtml(definition.eyebrow)} products and product families</h2></div><p>Open an item for variants, specification questions, documentation links, and quote status.</p></div><div class="seo-product-grid">${products.map(categoryCard).join("")}</div></section>
       <section class="seo-category-cta section"><div><p class="eyebrow">Technical review</p><h2>Not sure which components fit together?</h2><p>Share the fluid, target flow or pressure, interface sizes, and intended research workflow. We can help build a compatible shortlist.</p></div><a class="button button-primary" href="../consultation.html?project=technical-consulting">Request a technical consultation</a></section>
@@ -446,7 +435,6 @@ function updateSitemap() {
   fs.writeFileSync(sitemapPath, `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries}\n</urlset>\n`);
 }
 
-removeExcludedProductPages();
 await updateProductPages();
 writeCategoryPages();
 updateSitemap();
