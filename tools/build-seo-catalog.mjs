@@ -99,6 +99,7 @@ function loadCatalogModel() {
   const source = `${fs.readFileSync(path.join(root, "script.js"), "utf8")}
 globalThis.__seoCatalog = {
   products,
+  excludedCatalogProductIds,
   productCategoryLabels,
   getProductDetailPack,
   getProductOptions,
@@ -287,6 +288,13 @@ ${JSON.stringify(productStructuredData(product, detail, image), null, 6)}
   }));
 }
 
+function removeExcludedProductPages() {
+  for (const productId of catalog.excludedCatalogProductIds) {
+    const file = path.join(root, "catalog", `${productId}.html`);
+    if (fs.existsSync(file)) fs.unlinkSync(file);
+  }
+}
+
 function productMatchesCategory(product, definition) {
   if (product.category !== definition.category) return false;
   if (definition.subclass && product.subclass !== definition.subclass) return false;
@@ -415,9 +423,13 @@ function writeCategoryPages() {
 function updateSitemap() {
   const sitemapPath = path.join(root, "sitemap.xml");
   const current = fs.readFileSync(sitemapPath, "utf8");
+  const activeCatalogUrls = new Set(
+    catalog.products.map((product) => `${siteUrl}/catalog/${product.id}.html`),
+  );
   const currentEntries = [...current.matchAll(/<url>\s*<loc>([^<]+)<\/loc>(?:\s*<lastmod>([^<]+)<\/lastmod>)?[\s\S]*?<\/url>/g)]
     .map((match) => ({ loc: match[1], lastmod: match[2] || buildDate }))
-    .filter((entry) => !entry.loc.includes("daily-wellness-lens-instructions"));
+    .filter((entry) => !entry.loc.includes("daily-wellness-lens-instructions"))
+    .filter((entry) => !entry.loc.includes("/catalog/") || activeCatalogUrls.has(entry.loc));
   const byLocation = new Map(currentEntries.map((entry) => [entry.loc, entry]));
 
   for (const definition of categoryDefinitions) {
@@ -434,6 +446,7 @@ function updateSitemap() {
   fs.writeFileSync(sitemapPath, `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries}\n</urlset>\n`);
 }
 
+removeExcludedProductPages();
 await updateProductPages();
 writeCategoryPages();
 updateSitemap();

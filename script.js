@@ -239,6 +239,38 @@ const catalogImages = {
   },
 };
 
+const excludedCatalogProductIds = new Set([
+  "omi-automated-organ-on-chip-platform",
+  "aria-automated-perfusion-system",
+  "lineup-pressure-flow-controller-series",
+  "flow-ez-microfluidic-flow-controller",
+  "mfcs-microfluidic-flow-control-system",
+  "microfluidic-push-pull-controller",
+  "flow-rate-platform",
+  "flow-unit-bidirectional-microfluidic-flow-sensor",
+  "microfluidic-inline-pressure-sensor",
+  "microfluidic-flow-sensor-hub",
+  "microfluidic-injection-valve-l-switch",
+  "switch-ez-microfluidic-valve-controller",
+  "m-switch-microfluidic-bidirectional-valve",
+  "microfluidic-recirculation-valve-l-switch",
+  "microfluidic-sampling-valve-2-switch",
+  "elveflow-high-pressure-reservoir-350ml",
+  "elveflow-flow-resistance-kit",
+  "elveflow-gl45-bottle-cap-l",
+  "elveflow-falcon-reservoir-s",
+  "elveflow-eppendorf-reservoir-xs",
+  "elveflow-pdms-chip-reservoir-xxs",
+  "idex-microfluidic-y-connector-peek",
+  "idex-manifold-4-port-cross-etfe",
+  "idex-peek-capillary-tubing-1-16-od",
+  "innofluid-pulse-damper-general",
+  "innofluid-labn1-peristaltic-pump",
+  "darwin-ptfe-tubing-1-32-od-030-id",
+  "darwin-ptfe-tubing-1-8-od",
+  "longer-bt100-3j-peristaltic-pump",
+]);
+
 const products = [
   {
     id: "pdms-microfluidic-chips",
@@ -1100,7 +1132,7 @@ const products = [
     icon: "kit",
     image: catalogImages.chip,
   },
-];
+].filter((product) => !excludedCatalogProductIds.has(product.id));
 
 const productsWithRepresentativeImages = new Set([
   "pdms-microfluidic-chips",
