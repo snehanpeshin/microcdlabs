@@ -17,7 +17,7 @@ MicroCD Labs is a division of Karigari Home LLC. Website content describes resea
 - [Pumps and flow control](https://www.microcdlabs.com/microfluidic-pumps-flow-control/): Syringe and peristaltic pumps, pressure controllers, valves, and sensors
 - [Lateral flow assay materials](https://www.microcdlabs.com/lateral-flow-assay-materials/): Membranes, pads, housings, consumables, and development support
 - [MicroCD SonoMap](https://www.microcdlabs.com/products/sonomap/): Early-stage phone-connected ultrasound concept for directional tissue-mapping research
-- [About](https://www.microcdlabs.com/about.html): Founder background and areas of technical experience
+- [About](https://www.microcdlabs.com/about.html): Company background and areas of technical experience
 - [News](https://www.microcdlabs.com/news.html): Research, software, and company updates
 - [Technical consultation](https://www.microcdlabs.com/consultation.html): Non-confidential project inquiry
 
