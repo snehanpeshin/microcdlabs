@@ -271,6 +271,7 @@ function initProjectInquiryForm() {
   if (!form) return;
   const status = document.querySelector("#projectInquiryStatus");
   const submit = form.querySelector('button[type="submit"]');
+  const copyRequest = form.querySelector("#copyProjectInquiry");
   const requestedProject = new URLSearchParams(window.location.search).get("project");
   const projectAliases = {
     "microfluidic-development": "Microfluidic product development",
@@ -295,16 +296,17 @@ function initProjectInquiryForm() {
     if (error) error.textContent = "";
   });
 
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
+  function prepareProjectInquiry() {
     if (!validateProjectForm(form)) {
       setFormStatus(status, "Please review the highlighted fields.", "error");
       form.querySelector('[aria-invalid="true"]')?.focus();
-      return;
+      return null;
     }
 
     const data = new FormData(form);
     const lines = [
+      `To: ${microcdCompanyEmail}`,
+      "",
       "MicroCD Labs technical consultation request",
       "",
       `Name: ${data.get("name")}`,
@@ -317,6 +319,14 @@ function initProjectInquiryForm() {
       "Project description:",
       data.get("description"),
     ];
+    return { data, lines };
+  }
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const inquiry = prepareProjectInquiry();
+    if (!inquiry) return;
+    const { data, lines } = inquiry;
     submit.disabled = true;
     submit.setAttribute("aria-busy", "true");
     setFormStatus(status, "Preparing your consultation email…", "loading");
@@ -328,6 +338,17 @@ function initProjectInquiryForm() {
       submit.removeAttribute("aria-busy");
       setFormStatus(status, "Your email app should open with the project details prepared. Review the message before sending.", "success");
     }, 250);
+  });
+
+  copyRequest?.addEventListener("click", async () => {
+    const inquiry = prepareProjectInquiry();
+    if (!inquiry) return;
+    try {
+      await navigator.clipboard.writeText(inquiry.lines.join("\n"));
+      setFormStatus(status, `Request details copied. Paste them into a new email to ${microcdCompanyEmail}.`, "success");
+    } catch {
+      setFormStatus(status, `Copying was blocked by the browser. Email the request directly to ${microcdCompanyEmail}.`, "error");
+    }
   });
 }
 
