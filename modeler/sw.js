@@ -1,8 +1,8 @@
-const CACHE_NAME = "microcd-modeller-pwa-v3";
+const CACHE_NAME = "microcd-modeller-pwa-v4";
 const APP_SHELL = [
-  "/modeler/index.html?v=pwa-v1",
-  "/modeler/app/index.html?v=pwa-v1",
-  "/modeler/app.html?v=pwa-v1",
+  "/modeler/index.html?v=pwa-v2",
+  "/modeler/app/index.html?v=pwa-v2",
+  "/modeler/app.html?v=pwa-v2",
   "/modeler/assets/index-D0KmHFoL.css",
   "/modeler/assets/index-Dqs6NZ9t.js",
   "/modeler/manifest.webmanifest",
@@ -49,7 +49,7 @@ self.addEventListener("fetch", (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(request, responseCopy));
           return networkResponse;
         })
-        .catch(() => caches.match("/modeler/index.html?v=pwa-v1"));
+        .catch(() => caches.match("/modeler/index.html?v=pwa-v2"));
     })
   );
 });
