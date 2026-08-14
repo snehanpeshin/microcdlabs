@@ -348,6 +348,9 @@ function categoryPage(definition) {
   return `<!doctype html>
 <html lang="en">
   <head>
+    <!-- Google AdSense Auto Ads -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6605747981994820"
+         crossorigin="anonymous"></script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18239515056"></script>
     <script>
