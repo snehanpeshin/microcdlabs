@@ -131,8 +131,11 @@
           <label for="preferredNextStep">Preferred next step</label>
           <select id="preferredNextStep" name="nextStep"><option>30-minute introductory discussion</option><option>Written technical review</option><option>Scoped development proposal</option><option>Supplier or component recommendation</option><option>Not sure — recommend a path</option></select>
 
-          <button class="button button-primary" type="submit">Prepare consultation email</button>
-          <p id="projectInquiryStatus" class="form-status" role="status" aria-live="polite">Required fields are marked with an asterisk. No information is stored by this static form.</p>
+          <div class="consultation-form-actions">
+            <button class="button button-primary" type="submit">Prepare consultation email</button>
+            <button class="button button-secondary" id="copyProjectInquiry" type="button">Copy request details</button>
+          </div>
+          <p id="projectInquiryStatus" class="form-status" role="status" aria-live="polite">Required fields are marked with an asterisk. No information is stored by this static form. If an email app is unavailable, copy the request details and send them to info@microcdlabs.com using webmail.</p>
         </form>
       </section>
     </main>

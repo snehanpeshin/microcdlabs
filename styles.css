@@ -5156,6 +5156,13 @@ body {
   outline: 3px solid rgba(168, 60, 53, 0.12);
 }
 
+.consultation-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
 .field-error {
   min-height: 1.2em;
   color: #9b302a;
