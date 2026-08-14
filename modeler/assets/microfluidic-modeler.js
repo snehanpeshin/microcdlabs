@@ -9,6 +9,8 @@
   const selectedInfo = document.getElementById("selectedInfo");
   const drcList = document.getElementById("drcList");
   const summaryList = document.getElementById("summaryList");
+  const nativeAdsBridge = window.webkit?.messageHandlers?.microcdAds;
+  const rewardedAdBtn = document.getElementById("rewardedAdBtn");
 
   const state = {
     tool: "select",
@@ -547,6 +549,16 @@
   }
 
   function download(filename, content, mime) {
+    const nativeBridge = window.webkit?.messageHandlers?.microcdExport;
+    if (nativeBridge) {
+      nativeBridge.postMessage({
+        filename,
+        mimeType: mime,
+        base64: btoa(unescape(encodeURIComponent(content)))
+      });
+      return;
+    }
+
     const blob = new Blob([content], { type: mime });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
@@ -661,6 +673,24 @@
     render();
   });
   document.getElementById("exportBtn").addEventListener("click", () => exportFile("json"));
+  if (nativeAdsBridge && rewardedAdBtn) {
+    rewardedAdBtn.hidden = false;
+    rewardedAdBtn.disabled = true;
+    rewardedAdBtn.textContent = "Loading Ad";
+    rewardedAdBtn.addEventListener("click", () => {
+      nativeAdsBridge.postMessage({ action: "rewarded" });
+      rewardedAdBtn.disabled = true;
+      rewardedAdBtn.textContent = "Loading Ad";
+    });
+    window.microcdNativeAdStatus = ({ rewardedReady }) => {
+      rewardedAdBtn.disabled = !rewardedReady;
+      rewardedAdBtn.textContent = rewardedReady ? "Rewarded Ad" : "Loading Ad";
+    };
+    window.microcdNativeAdRewarded = () => {
+      alert("Thanks for supporting Microfluidic Modeler.");
+    };
+    nativeAdsBridge.postMessage({ action: "status" });
+  }
 
   window.addEventListener("keydown", (event) => {
     if (event.key === "Escape") setTool("select");
