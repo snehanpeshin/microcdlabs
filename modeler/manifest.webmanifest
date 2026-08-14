@@ -3,7 +3,7 @@
   "short_name": "MicroCD Modeller",
   "description": "Browser-based alpha modeller for early microfluidic cartridge, channel, port, and enclosure concepts.",
   "id": "/modeler/",
-  "start_url": "/modeler/index.html?v=pwa-v1",
+  "start_url": "/modeler/index.html?v=pwa-v2",
   "scope": "/modeler/",
   "display": "standalone",
   "orientation": "any",
@@ -28,7 +28,7 @@
     {
       "name": "Launch modeller",
       "short_name": "Modeller",
-      "url": "/modeler/app/index.html?v=pwa-v1",
+      "url": "/modeler/app/index.html?v=pwa-v2",
       "icons": [
         {
           "src": "/modeler/icon-192.png",

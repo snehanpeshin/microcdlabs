@@ -247,6 +247,17 @@ textarea {
   background: var(--accent-soft);
 }
 
+.nav-menu-wide .nav-menu-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: min(520px, calc(100vw - 32px));
+}
+
+.nav-menu-wide .nav-menu-overview {
+  grid-column: 1 / -1;
+  border-bottom: 1px solid var(--line);
+  border-radius: 7px 7px 3px 3px;
+}
+
 .nav-menu:last-child .nav-menu-list {
   right: 0;
   left: auto;
@@ -1005,6 +1016,19 @@ h3 {
   color: var(--muted);
   background: #eef7f5;
   font-size: 0.9rem;
+}
+
+.in-house-production-note {
+  width: fit-content;
+  margin: 8px 0 12px;
+  border: 1px solid rgba(15, 118, 110, 0.26);
+  border-radius: 999px;
+  padding: 7px 11px;
+  color: #0b5f59;
+  background: #e8f6f3;
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.35;
 }
 
 .catalog-class-menu {
@@ -3214,6 +3238,380 @@ h3 {
   }
 }
 
+/* CLAIR flagship product */
+.clair-feature {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(420px, 1.08fr);
+  gap: clamp(34px, 5vw, 76px);
+  align-items: center;
+  overflow: hidden;
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 84% 18%, rgba(63, 220, 225, 0.2), transparent 28%),
+    linear-gradient(135deg, #10185d 0%, #352078 58%, #7b2d68 100%);
+}
+
+.clair-kicker-row,
+.clair-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.clair-flagship,
+.clair-feature .development-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 5px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 999px;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.clair-feature .eyebrow {
+  margin-top: 26px;
+  color: #55e0e5;
+}
+
+.clair-feature h2 {
+  max-width: 720px;
+  margin: 8px 0 18px;
+  color: #ffffff;
+  font-size: clamp(2.35rem, 5vw, 4.9rem);
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.clair-lede {
+  max-width: 660px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: clamp(1rem, 1.5vw, 1.18rem);
+}
+
+.clair-actions {
+  margin-top: 26px;
+}
+
+.clair-feature .button-primary {
+  color: #10185d;
+  background: #63e4e6;
+}
+
+.clair-feature .button-secondary {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.34);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.clair-targets {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 34px 0 0;
+  padding: 1px;
+  border-radius: 14px;
+  overflow: hidden;
+  list-style: none;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.clair-targets li {
+  min-height: 126px;
+  padding: 18px;
+  background: rgba(15, 19, 81, 0.7);
+}
+
+.clair-targets strong,
+.clair-targets span {
+  display: block;
+}
+
+.clair-targets strong {
+  color: #63e4e6;
+  font-size: 0.9rem;
+}
+
+.clair-targets span {
+  margin-top: 7px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.clair-hero-visual {
+  position: relative;
+  margin: 0;
+}
+
+.clair-hero-visual img {
+  display: block;
+  width: 100%;
+  min-height: 440px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 24px 24px 74px 24px;
+  object-fit: cover;
+  box-shadow: 0 32px 80px rgba(4, 8, 45, 0.38);
+}
+
+.clair-hero-visual figcaption {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: #ffffff;
+  background: rgba(11, 16, 75, 0.86);
+  font-size: 0.68rem;
+  font-weight: 700;
+  backdrop-filter: blur(8px);
+}
+
+.clair-workflow {
+  background: #ffffff;
+}
+
+.clair-process {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin: 34px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.clair-process li {
+  min-height: 250px;
+  padding: 24px;
+  border: 1px solid #cdd9ff;
+  border-radius: 18px;
+  background: #f2f6ff;
+}
+
+.clair-process li:nth-child(2) { border-color: #d9ceff; background: #f6f3ff; }
+.clair-process li:nth-child(3) { border-color: #e4cfff; background: #faf2ff; }
+.clair-process li:nth-child(4) { border-color: #bfe4e3; background: #eefaf9; }
+
+.clair-process span {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 36px;
+  border-radius: 50%;
+  color: #ffffff;
+  background: #245bea;
+  font-size: 0.78rem;
+  font-weight: 840;
+}
+
+.clair-process li:nth-child(2) span { background: #5624df; }
+.clair-process li:nth-child(3) span { background: #7c28eb; }
+.clair-process li:nth-child(4) span { background: #07958f; }
+
+.clair-process strong {
+  display: block;
+  color: #15185e;
+  font-size: 1.02rem;
+}
+
+.clair-process p {
+  margin: 14px 0 0;
+  color: #5f698a;
+  font-size: 0.82rem;
+}
+
+.clair-validation-note {
+  margin: 18px 0 0;
+  padding: 14px 18px;
+  border-left: 3px solid #6a34e8;
+  color: #535d78;
+  background: #f8f7ff;
+  font-size: 0.78rem;
+}
+
+.clair-demo {
+  background: #eff2fa;
+}
+
+.clair-demo-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 16px;
+  margin-top: 34px;
+}
+
+.clair-demo-grid figure {
+  display: grid;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid #d8dced;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: var(--shadow);
+}
+
+.clair-demo-grid img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.clair-demo-grid figcaption {
+  display: grid;
+  gap: 4px;
+  padding: 17px 18px 19px;
+}
+
+.clair-demo-grid figcaption strong {
+  color: #15185e;
+  font-size: 0.9rem;
+}
+
+.clair-demo-grid figcaption span,
+.clair-concept-caption {
+  color: #64708a;
+  font-size: 0.76rem;
+}
+
+.clair-concept-caption {
+  margin: 16px 0 0;
+}
+
+.clair-proof {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  gap: clamp(26px, 4vw, 54px);
+  align-items: center;
+  color: #ffffff;
+  background: #10185d;
+}
+
+.clair-proof-mark {
+  display: grid;
+  place-items: center;
+  width: 112px;
+  height: 112px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 22px;
+  color: #10185d;
+  background: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+}
+
+.clair-proof .eyebrow {
+  color: #63e4e6;
+}
+
+.clair-proof h2 {
+  margin: 8px 0 14px;
+  color: #ffffff;
+}
+
+.clair-proof p {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.clair-proof-caveat {
+  margin-bottom: 0;
+  font-size: 0.76rem;
+}
+
+.clair-proof-data {
+  margin: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.clair-proof-data div {
+  display: grid;
+  grid-template-columns: 0.82fr 1.18fr;
+  gap: 18px;
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.clair-proof-data dt,
+.clair-proof-data dd {
+  margin: 0;
+}
+
+.clair-proof-data dt {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.7rem;
+}
+
+.clair-proof-data dd {
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 760;
+}
+
+@media (max-width: 1060px) {
+  .clair-feature,
+  .clair-proof {
+    grid-template-columns: 1fr;
+  }
+
+  .clair-hero-visual {
+    grid-row: 1;
+  }
+
+  .clair-hero-visual img {
+    max-height: 620px;
+  }
+
+  .clair-process {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .clair-proof-mark {
+    width: 92px;
+    height: 92px;
+  }
+}
+
+@media (max-width: 700px) {
+  .clair-feature h2 {
+    font-size: clamp(2.2rem, 12vw, 3.45rem);
+  }
+
+  .clair-targets,
+  .clair-process,
+  .clair-demo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .clair-targets li,
+  .clair-process li {
+    min-height: auto;
+  }
+
+  .clair-process span {
+    margin-bottom: 22px;
+  }
+
+  .clair-hero-visual img {
+    min-height: 300px;
+    border-radius: 18px 18px 44px 18px;
+  }
+
+  .clair-hero-visual figcaption {
+    position: static;
+    margin-top: 10px;
+    color: rgba(255, 255, 255, 0.76);
+    background: transparent;
+  }
+}
+
 @media (max-width: 520px) {
   .product-grid {
     grid-template-columns: 1fr;
@@ -4076,6 +4474,16 @@ body {
     transform: none;
   }
 
+  .nav-menu-wide .nav-menu-list {
+    grid-template-columns: 1fr;
+    width: auto;
+  }
+
+  .nav-menu-wide .nav-menu-overview {
+    grid-column: auto;
+    border-bottom: 0;
+  }
+
   .nav-menu-list::before {
     display: none;
   }
@@ -4786,9 +5194,15 @@ body {
 
 .research-platform-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
   margin-top: 28px;
+}
+
+@media (max-width: 1060px) {
+  .research-platform-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .research-platform-card {
@@ -4875,12 +5289,12 @@ body {
   font-size: 0.8rem;
 }
 
-/* MicroCD SonoMap */
-.sonomap-page {
+/* Clip-on ultrasound research concept */
+.ultrasound-concept-page {
   background: var(--paper);
 }
 
-.sonomap-hero {
+.ultrasound-concept-hero {
   display: grid;
   grid-template-columns: minmax(320px, 0.82fr) minmax(460px, 1.18fr);
   gap: clamp(34px, 5vw, 74px);
@@ -4892,15 +5306,15 @@ body {
     #f7f9fa;
 }
 
-.sonomap-hero-copy {
+.ultrasound-concept-hero-copy {
   max-width: 650px;
 }
 
-.sonomap-hero-copy .development-status {
+.ultrasound-concept-hero-copy .development-status {
   margin: 7px 0 18px;
 }
 
-.sonomap-hero h1 {
+.ultrasound-concept-hero h1 {
   max-width: 690px;
   margin: 0;
   font-size: clamp(2.55rem, 5.1vw, 4.65rem);
@@ -4908,7 +5322,7 @@ body {
   letter-spacing: 0;
 }
 
-.sonomap-lead {
+.ultrasound-concept-lead {
   max-width: 660px;
   margin: 24px 0 0;
   color: #3f4d5b;
@@ -4923,14 +5337,14 @@ body {
   line-height: 1.55;
 }
 
-.sonomap-hero-copy .concept-notice {
+.ultrasound-concept-hero-copy .concept-notice {
   max-width: 620px;
   margin: 22px 0 0;
   border-left: 3px solid #9bb8b3;
   padding-left: 13px;
 }
 
-.sonomap-hero-visual {
+.ultrasound-concept-hero-visual {
   overflow: hidden;
   margin: 0;
   border: 1px solid #d2dce0;
@@ -4939,7 +5353,7 @@ body {
   box-shadow: var(--shadow-strong);
 }
 
-.sonomap-hero-visual img {
+.ultrasound-concept-hero-visual img {
   display: block;
   width: 100%;
   height: auto;
@@ -4947,55 +5361,55 @@ body {
   object-fit: cover;
 }
 
-.sonomap-hero-visual figcaption {
+.ultrasound-concept-hero-visual figcaption {
   padding: 10px 14px;
   color: var(--muted);
   background: var(--paper);
   font-size: 0.72rem;
 }
 
-.sonomap-problem,
-.sonomap-fit,
-.sonomap-collaboration {
+.ultrasound-concept-problem,
+.ultrasound-concept-fit,
+.ultrasound-concept-collaboration {
   display: grid;
   grid-template-columns: minmax(280px, 0.72fr) minmax(380px, 1fr);
   gap: clamp(34px, 6vw, 88px);
   align-items: start;
 }
 
-.sonomap-section-intro {
+.ultrasound-concept-section-intro {
   max-width: 790px;
 }
 
-.sonomap-section-intro h2,
-.sonomap-problem h2,
-.sonomap-fit h2,
-.sonomap-collaboration h2 {
+.ultrasound-concept-section-intro h2,
+.ultrasound-concept-problem h2,
+.ultrasound-concept-fit h2,
+.ultrasound-concept-collaboration h2 {
   margin: 0;
   font-size: clamp(1.8rem, 3.2vw, 2.85rem);
   line-height: 1.12;
   letter-spacing: 0;
 }
 
-.sonomap-section-intro > p:not(.eyebrow),
-.sonomap-problem-copy p,
-.sonomap-collaboration-copy > p:not(.eyebrow, .confidentiality-note) {
+.ultrasound-concept-section-intro > p:not(.eyebrow),
+.ultrasound-concept-problem-copy p,
+.ultrasound-concept-collaboration-copy > p:not(.eyebrow, .confidentiality-note) {
   color: var(--muted);
   font-size: 0.96rem;
   line-height: 1.7;
 }
 
-.sonomap-problem-copy {
+.ultrasound-concept-problem-copy {
   max-width: 720px;
 }
 
-.sonomap-problem-copy p:first-child {
+.ultrasound-concept-problem-copy p:first-child {
   margin-top: 0;
   color: var(--ink);
   font-size: 1.08rem;
 }
 
-.sonomap-steps {
+.ultrasound-concept-steps {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1px;
@@ -5008,7 +5422,7 @@ body {
   list-style: none;
 }
 
-.sonomap-steps li {
+.ultrasound-concept-steps li {
   display: grid;
   align-content: start;
   min-height: 230px;
@@ -5016,35 +5430,35 @@ body {
   background: var(--paper);
 }
 
-.sonomap-steps li > span {
+.ultrasound-concept-steps li > span {
   color: var(--teal);
   font-size: 0.72rem;
   font-weight: 850;
 }
 
-.sonomap-steps h3 {
+.ultrasound-concept-steps h3 {
   margin: 46px 0 8px;
   font-size: 1.15rem;
 }
 
-.sonomap-steps p {
+.ultrasound-concept-steps p {
   margin: 0;
   color: var(--muted);
   font-size: 0.88rem;
 }
 
-.sonomap-modes {
+.ultrasound-concept-modes {
   display: grid;
   grid-template-columns: minmax(280px, 0.65fr) minmax(480px, 1.2fr);
   gap: clamp(38px, 7vw, 100px);
   background: #f2f5f6;
 }
 
-.sonomap-mode-list {
+.ultrasound-concept-mode-list {
   border-top: 1px solid var(--line-strong);
 }
 
-.sonomap-mode-list article {
+.ultrasound-concept-mode-list article {
   display: grid;
   grid-template-columns: minmax(180px, 0.55fr) minmax(260px, 1fr);
   gap: 28px;
@@ -5052,45 +5466,45 @@ body {
   border-bottom: 1px solid var(--line-strong);
 }
 
-.sonomap-mode-list h3,
-.sonomap-mode-list p {
+.ultrasound-concept-mode-list h3,
+.ultrasound-concept-mode-list p {
   margin: 0;
 }
 
-.sonomap-mode-list h3 {
+.ultrasound-concept-mode-list h3 {
   font-size: 0.98rem;
 }
 
-.sonomap-mode-list p {
+.ultrasound-concept-mode-list p {
   color: var(--muted);
   font-size: 0.86rem;
 }
 
-.sonomap-architecture {
+.ultrasound-concept-architecture {
   color: #f5f8f8;
   background: #172630;
 }
 
-.sonomap-architecture-inner .section-heading h2 {
+.ultrasound-concept-architecture-inner .section-heading h2 {
   color: var(--white);
 }
 
-.sonomap-architecture-inner .section-heading > p {
+.ultrasound-concept-architecture-inner .section-heading > p {
   color: #b9c8cd;
 }
 
-.sonomap-architecture-inner .eyebrow {
+.ultrasound-concept-architecture-inner .eyebrow {
   color: #76d1bd;
 }
 
-.sonomap-architecture-flow {
+.ultrasound-concept-architecture-flow {
   display: grid;
   grid-template-columns: repeat(7, auto);
   align-items: center;
   margin-top: 34px;
 }
 
-.sonomap-architecture-flow div {
+.ultrasound-concept-architecture-flow div {
   display: grid;
   align-content: start;
   min-height: 142px;
@@ -5098,25 +5512,25 @@ body {
   padding: 18px 10px 0 0;
 }
 
-.sonomap-architecture-flow strong {
+.ultrasound-concept-architecture-flow strong {
   font-size: 0.94rem;
 }
 
-.sonomap-architecture-flow span {
+.ultrasound-concept-architecture-flow span {
   max-width: 200px;
   margin-top: 8px;
   color: #b9c8cd;
   font-size: 0.78rem;
 }
 
-.sonomap-architecture-flow i {
+.ultrasound-concept-architecture-flow i {
   width: clamp(26px, 4vw, 60px);
   height: 1px;
   margin: 0 12px;
   background: #65818b;
 }
 
-.sonomap-roadmap-list {
+.ultrasound-concept-roadmap-list {
   display: grid;
   margin: 30px 0 0;
   padding: 0;
@@ -5124,7 +5538,7 @@ body {
   list-style: none;
 }
 
-.sonomap-roadmap-list li {
+.ultrasound-concept-roadmap-list li {
   display: grid;
   grid-template-columns: minmax(170px, 0.36fr) minmax(360px, 1fr);
   gap: 34px;
@@ -5132,22 +5546,22 @@ body {
   border-bottom: 1px solid var(--line);
 }
 
-.sonomap-roadmap-list strong {
+.ultrasound-concept-roadmap-list strong {
   color: var(--teal-dark);
 }
 
-.sonomap-roadmap-list span {
+.ultrasound-concept-roadmap-list span {
   color: var(--muted);
 }
 
-.sonomap-applications {
+.ultrasound-concept-applications {
   display: grid;
   grid-template-columns: minmax(280px, 0.7fr) minmax(420px, 1fr);
   gap: clamp(36px, 7vw, 100px);
   background: #eef3f4;
 }
 
-.sonomap-application-list {
+.ultrasound-concept-application-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0 28px;
@@ -5157,7 +5571,7 @@ body {
   list-style: none;
 }
 
-.sonomap-application-list li {
+.ultrasound-concept-application-list li {
   min-height: 78px;
   border-bottom: 1px solid var(--line-strong);
   padding: 18px 0 16px 24px;
@@ -5165,7 +5579,7 @@ body {
   font-weight: 720;
 }
 
-.sonomap-application-list li::before {
+.ultrasound-concept-application-list li::before {
   content: "";
   display: inline-block;
   width: 8px;
@@ -5175,44 +5589,44 @@ body {
   background: var(--teal);
 }
 
-.sonomap-basis {
+.ultrasound-concept-basis {
   display: grid;
   grid-template-columns: minmax(280px, 0.72fr) minmax(420px, 1fr);
   gap: clamp(38px, 7vw, 100px);
 }
 
-.sonomap-reference-list {
+.ultrasound-concept-reference-list {
   border-top: 1px solid var(--line);
 }
 
-.sonomap-reference-list p {
+.ultrasound-concept-reference-list p {
   margin: 0;
   border-bottom: 1px solid var(--line);
   padding: 18px 0;
   color: var(--muted);
 }
 
-.sonomap-reference-list a {
+.ultrasound-concept-reference-list a {
   color: var(--teal-dark);
   font-weight: 750;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
-.sonomap-fit {
+.ultrasound-concept-fit {
   color: var(--white);
   background: #20313b;
 }
 
-.sonomap-fit .eyebrow {
+.ultrasound-concept-fit .eyebrow {
   color: #76d1bd;
 }
 
-.sonomap-fit-points {
+.ultrasound-concept-fit-points {
   border-top: 1px solid rgba(255, 255, 255, 0.24);
 }
 
-.sonomap-fit-points p {
+.ultrasound-concept-fit-points p {
   display: grid;
   grid-template-columns: minmax(170px, 0.5fr) minmax(250px, 1fr);
   gap: 28px;
@@ -5221,24 +5635,24 @@ body {
   padding: 20px 0;
 }
 
-.sonomap-fit-points span {
+.ultrasound-concept-fit-points span {
   color: #c2ced2;
 }
 
-.sonomap-collaboration {
+.ultrasound-concept-collaboration {
   background: #f4f7f7;
 }
 
-.sonomap-collaboration-copy {
+.ultrasound-concept-collaboration-copy {
   position: sticky;
   top: 104px;
 }
 
-.sonomap-form {
+.ultrasound-concept-form {
   box-shadow: none;
 }
 
-.sonomap-form select {
+.ultrasound-concept-form select {
   width: 100%;
   min-height: 44px;
   border: 1px solid #cad8e5;
@@ -5248,14 +5662,14 @@ body {
   background: var(--paper);
 }
 
-.sonomap-form input:focus,
-.sonomap-form select:focus,
-.sonomap-form textarea:focus {
+.ultrasound-concept-form input:focus,
+.ultrasound-concept-form select:focus,
+.ultrasound-concept-form textarea:focus {
   border-color: var(--teal);
   outline: 3px solid rgba(18, 107, 100, 0.14);
 }
 
-.sonomap-form [aria-invalid="true"] {
+.ultrasound-concept-form [aria-invalid="true"] {
   border-color: #a83c35;
   outline: 3px solid rgba(168, 60, 53, 0.12);
 }
@@ -5523,38 +5937,38 @@ body {
     justify-self: start;
   }
 
-  .sonomap-hero {
+  .ultrasound-concept-hero {
     grid-template-columns: 1fr;
     min-height: auto;
   }
 
-  .sonomap-hero-copy {
+  .ultrasound-concept-hero-copy {
     max-width: 780px;
   }
 
-  .sonomap-hero-visual {
+  .ultrasound-concept-hero-visual {
     max-width: 880px;
   }
 
-  .sonomap-steps {
+  .ultrasound-concept-steps {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .sonomap-architecture-flow {
+  .ultrasound-concept-architecture-flow {
     grid-template-columns: 1fr;
     gap: 0;
   }
 
-  .sonomap-architecture-flow div {
+  .ultrasound-concept-architecture-flow div {
     min-height: auto;
     padding: 18px 0;
   }
 
-  .sonomap-architecture-flow span {
+  .ultrasound-concept-architecture-flow span {
     max-width: none;
   }
 
-  .sonomap-architecture-flow i {
+  .ultrasound-concept-architecture-flow i {
     width: 1px;
     height: 28px;
     margin: 0 0 0 12px;
@@ -5622,48 +6036,48 @@ body {
   }
 
   .research-platform-grid,
-  .sonomap-problem,
-  .sonomap-modes,
-  .sonomap-applications,
-  .sonomap-basis,
-  .sonomap-fit,
-  .sonomap-collaboration {
+  .ultrasound-concept-problem,
+  .ultrasound-concept-modes,
+  .ultrasound-concept-applications,
+  .ultrasound-concept-basis,
+  .ultrasound-concept-fit,
+  .ultrasound-concept-collaboration {
     grid-template-columns: 1fr;
   }
 
-  .sonomap-hero {
+  .ultrasound-concept-hero {
     gap: 30px;
     padding: 54px 18px;
   }
 
-  .sonomap-hero h1 {
+  .ultrasound-concept-hero h1 {
     font-size: clamp(2.35rem, 12vw, 3.4rem);
   }
 
-  .sonomap-steps {
+  .ultrasound-concept-steps {
     grid-template-columns: 1fr;
   }
 
-  .sonomap-steps li {
+  .ultrasound-concept-steps li {
     min-height: auto;
   }
 
-  .sonomap-steps h3 {
+  .ultrasound-concept-steps h3 {
     margin-top: 24px;
   }
 
-  .sonomap-mode-list article,
-  .sonomap-roadmap-list li,
-  .sonomap-fit-points p {
+  .ultrasound-concept-mode-list article,
+  .ultrasound-concept-roadmap-list li,
+  .ultrasound-concept-fit-points p {
     grid-template-columns: 1fr;
     gap: 8px;
   }
 
-  .sonomap-application-list {
+  .ultrasound-concept-application-list {
     grid-template-columns: 1fr;
   }
 
-  .sonomap-collaboration-copy {
+  .ultrasound-concept-collaboration-copy {
     position: static;
   }
 

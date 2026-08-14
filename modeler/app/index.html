@@ -10,24 +10,173 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="MicroCD Modeler" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="google-adsense-account" content="ca-pub-6605747981994820" />
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6605747981994820"
+      crossorigin="anonymous"
+    ></script>
     <link rel="manifest" href="/modeler/manifest.webmanifest" />
     <link rel="icon" href="/modeler/icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/modeler/icon-192.png" />
+    <link rel="stylesheet" href="/modeler/assets/microfluidic-modeler.css" />
     <title>MicroCD Labs Microfluidic Modeler</title>
-    <script defer src="/modeler/assets/index-Dqs6NZ9t.js"></script>
-    <link rel="stylesheet" href="/modeler/assets/index-D0KmHFoL.css" />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="app" class="cad-app">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">M</span>
+          <div>
+            <strong>MicroCD Labs</strong>
+            <span>Microfluidic Modeler</span>
+          </div>
+        </div>
+        <nav class="ribbon" aria-label="Modeling tools">
+          <button data-tool="select" class="is-active" title="Select or edit a feature">Select</button>
+          <button data-tool="channel" title="Draw a rectangular channel">Channel</button>
+          <button data-tool="port" title="Place a hose or pipette port">Port</button>
+          <button data-tool="chamber" title="Place a reagent chamber">Chamber</button>
+          <button data-tool="mixer" title="Place a serpentine mixer">Mixer</button>
+          <button data-tool="valve" title="Place a siphon or burst valve">Valve</button>
+          <button data-tool="cut" title="Create a cut, window, or pocket">Cut</button>
+          <button data-tool="measure" title="Measure a distance">Measure</button>
+          <button data-tool="dimension" title="Add a dimension annotation">Dimension</button>
+        </nav>
+        <div class="file-actions">
+          <button id="undoBtn" title="Undo last feature">Undo</button>
+          <button id="clearBtn" title="Clear the model">Clear</button>
+          <button id="importBtn" title="Import MicroCD project JSON">Import</button>
+          <button id="exportBtn" class="primary" title="Export model files">Export</button>
+          <input id="importFile" type="file" accept="application/json,.json" hidden />
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="sidebar left-panel">
+          <section>
+            <h2>Base</h2>
+            <label>Length <input id="baseLength" type="number" min="10" step="1" value="75" /> mm</label>
+            <label>Width <input id="baseWidth" type="number" min="10" step="1" value="25" /> mm</label>
+            <label>Thickness <input id="baseHeight" type="number" min="0.5" step="0.1" value="3.0" /> mm</label>
+            <label>Corner radius <input id="cornerRadius" type="number" min="0" step="0.1" value="2.0" /> mm</label>
+            <button id="lfaExample">Load LFA strip cartridge</button>
+            <button id="cdExample">Load lab-on-CD concept</button>
+          </section>
+
+          <section>
+            <h2>Feature dimensions</h2>
+            <label>Channel width <input id="channelWidth" type="number" min="0.05" step="0.05" value="0.8" /> mm</label>
+            <label>Channel depth <input id="channelDepth" type="number" min="0.02" step="0.02" value="0.25" /> mm</label>
+            <label>Port diameter <input id="portDiameter" type="number" min="0.2" step="0.1" value="2.0" /> mm</label>
+            <label>Chamber diameter <input id="chamberDiameter" type="number" min="1" step="0.5" value="6.0" /> mm</label>
+            <label>Cut width <input id="cutWidth" type="number" min="0.5" step="0.5" value="8.0" /> mm</label>
+            <label>Cut height <input id="cutHeight" type="number" min="0.5" step="0.5" value="18.0" /> mm</label>
+          </section>
+
+          <section>
+            <h2>Layers</h2>
+            <label><input class="layer-toggle" data-layer="base" type="checkbox" checked /> Base</label>
+            <label><input class="layer-toggle" data-layer="channels" type="checkbox" checked /> Channels</label>
+            <label><input class="layer-toggle" data-layer="ports" type="checkbox" checked /> Ports</label>
+            <label><input class="layer-toggle" data-layer="cuts" type="checkbox" checked /> Cuts</label>
+            <label><input class="layer-toggle" data-layer="annotations" type="checkbox" checked /> Dimensions</label>
+          </section>
+        </aside>
+
+        <section class="canvas-wrap" aria-label="3D modeling workspace">
+          <div class="viewbar">
+            <div class="view-controls">
+              <button data-view="top">Top</button>
+              <button data-view="iso" class="is-active">ISO</button>
+              <button data-view="front">Front</button>
+              <button data-view="right">Right</button>
+            </div>
+            <div class="pointer-readout" id="pointerReadout">X 0.00 mm | Y 0.00 mm | Z 0.00 mm</div>
+          </div>
+          <svg id="modelCanvas" viewBox="0 0 1000 620" role="img" aria-label="Microfluidic device canvas">
+            <defs>
+              <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#d7e4ec" stroke-width="1" />
+              </pattern>
+              <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#0d2233" flood-opacity="0.18" />
+              </filter>
+            </defs>
+            <rect width="1000" height="620" fill="#f7fafc" />
+            <rect width="1000" height="620" fill="url(#grid)" opacity="0.72" />
+            <g id="viewport"></g>
+          </svg>
+          <div id="cursorPanel" class="cursor-panel" hidden>
+            <strong id="cursorTool">Channel</strong>
+            <span id="cursorCoords">X 0.00, Y 0.00</span>
+            <span id="cursorDims">W 0.80 x D 0.25 mm</span>
+          </div>
+          <div class="ad-slot" aria-label="Advertisement">
+            <ins
+              class="adsbygoogle"
+              style="display:block"
+              data-ad-client="ca-pub-6605747981994820"
+              data-ad-format="auto"
+              data-full-width-responsive="true"
+            ></ins>
+          </div>
+        </section>
+
+        <aside class="sidebar right-panel">
+          <section>
+            <h2>Selected feature</h2>
+            <div id="selectedInfo" class="info-box">Select or place a feature to edit its dimensions.</div>
+            <div class="property-grid">
+              <label>X <input id="editX" type="number" step="0.1" /></label>
+              <label>Y <input id="editY" type="number" step="0.1" /></label>
+              <label>W / Dia <input id="editA" type="number" step="0.1" /></label>
+              <label>H / Len <input id="editB" type="number" step="0.1" /></label>
+              <label>Depth <input id="editDepth" type="number" step="0.05" /></label>
+            </div>
+            <button id="applyFeatureBtn">Apply dimensions</button>
+            <button id="deleteFeatureBtn">Delete feature</button>
+          </section>
+
+          <section>
+            <h2>Design-rule check</h2>
+            <ul id="drcList" class="drc-list"></ul>
+          </section>
+
+          <section>
+            <h2>Export</h2>
+            <div class="export-grid">
+              <button data-export="json">Project JSON</button>
+              <button data-export="svg">SVG</button>
+              <button data-export="dxf">DXF</button>
+              <button data-export="stl">STL</button>
+              <button data-export="obj">OBJ</button>
+              <button disabled title="STEP requires a CAD kernel backend">STEP planned</button>
+            </div>
+          </section>
+
+          <section>
+            <h2>Model summary</h2>
+            <dl id="summaryList"></dl>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <script src="/modeler/assets/microfluidic-modeler.js" defer></script>
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
           navigator.serviceWorker.register("/modeler/sw.js", { scope: "/modeler/" });
         });
       }
+      window.addEventListener("load", () => {
+        try {
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (error) {
+          document.querySelector(".ad-slot")?.classList.add("ad-empty");
+        }
+      });
     </script>
-      <!-- Start of microcdlabs Zendesk Widget script -->
-    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=f6f042c5-f6ce-4381-8555-2da23e6aebd1"></script>
-    <!-- End of microcdlabs Zendesk Widget script -->
   </body>
 </html>

@@ -1,6 +1,12 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Google AdSense site verification and ad loader -->
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6605747981994820"
+      crossorigin="anonymous"
+    ></script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18239515056"></script>
     <script>
@@ -33,7 +39,7 @@
     <link rel="icon" href="assets/microcd-tab-icon.svg" type="image/svg+xml" />
     <link rel="preload" href="assets/hero-lab-supply.jpg" as="image" fetchpriority="high" />
     <link rel="preload" href="assets/microcd-labs-wordmark.svg?v=boxed" as="image" />
-    <link rel="stylesheet" href="styles.css?v=20260728b" />
+    <link rel="stylesheet" href="styles.css?v=20260731a" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -62,7 +68,7 @@
             "@type": "FAQPage",
             "mainEntity": [
               { "@type": "Question", "name": "What kinds of projects does MicroCD Labs support?", "acceptedAnswer": { "@type": "Answer", "text": "MicroCD Labs supports early microfluidic and diagnostic product development, cartridge and consumable planning, lab-on-disc workflows, engineering design, prototype coordination, supplier identification, verification planning, troubleshooting, and technical commercialization work." } },
-              { "@type": "Question", "name": "Does MicroCD Labs manufacture products?", "acceptedAnswer": { "@type": "Answer", "text": "MicroCD Labs does not claim in-house manufacturing capacity. It can help define requirements, identify suppliers, coordinate fabrication options, and organize technical handoff information." } },
+              { "@type": "Question", "name": "Does MicroCD Labs manufacture products?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Every MicroCD Labs catalog item is made in-house using bespoke 3D printers owned and operated by MicroCD Labs. External supplier coordination is available for customer-specific needs outside the catalog." } },
               { "@type": "Question", "name": "Can MicroCD Labs support regulated medical-device development?", "acceptedAnswer": { "@type": "Answer", "text": "MicroCD Labs can support early engineering, research-use workflows, requirements, and verification planning. Regulatory, clinical, quality-system, and legal scope must be confirmed separately with appropriately qualified specialists." } }
             ]
           }
@@ -82,50 +88,51 @@
       </a>
       <nav class="main-nav" aria-label="Primary navigation">
         <details class="nav-menu">
-          <summary>Products</summary>
-          <div class="nav-menu-list">
-            <a href="products.html">Catalog <span>Parts, consumables, and equipment</span></a>
-            <a href="recommendations.html">Parts recommendation <span>Get a reviewed parts list for your setup</span></a>
-            <a href="kits.html">Starter kits <span>Beginner, flow testing, and prototyping kits</span></a>
-            <a href="rippleguard.html">RippleGuard <span>Camera-free room privacy monitor</span></a>
-            <a href="products.html#quote">Request quote <span>Send item, quantity, and project notes</span></a>
-          </div>
-        </details>
-        <details class="nav-menu">
           <summary>Capabilities</summary>
           <div class="nav-menu-list">
-            <a href="services.html">Development services <span>Engineering, prototyping, and product support</span></a>
-            <a href="automation.html">OEM workflows <span>Simplified microfluidic device operation</span></a>
-            <a href="diagnostics.html">Diagnostics <span>Assay, LFIA, and kinetic analysis support</span></a>
+            <a href="services.html">Product development <span>Microfluidics, cartridges, prototyping, and engineering</span></a>
+            <a href="diagnostics.html">Diagnostics &amp; assays <span>LFIA, lab-on-disc, and kinetic analysis support</span></a>
+            <a href="automation.html">OEM workflow design <span>Simpler operation for fluidic instruments and devices</span></a>
+            <a href="consultation.html">Technical consultation <span>Define the next practical development step</span></a>
+          </div>
+        </details>
+        <details class="nav-menu nav-menu-wide">
+          <summary>Products</summary>
+          <div class="nav-menu-list">
+            <a class="nav-menu-overview" href="products.html">Browse all products <span>Research parts, consumables, kits, and service packages</span></a>
+            <a href="microfluidic-chips/">Microfluidic chips <span>PDMS, glass, COC, PMMA, and custom formats</span></a>
+            <a href="microfluidic-tubing/">Tubing <span>Materials, dimensions, and fluid-path selection</span></a>
+            <a href="microfluidic-fittings-connectors/">Fittings &amp; connectors <span>Interfaces, manifolds, and reservoirs</span></a>
+            <a href="microfluidic-pumps-flow-control/">Pumps &amp; flow control <span>Pumps, controllers, valves, and sensors</span></a>
+            <a href="lateral-flow-assay-materials/">LFIA materials <span>Membranes, pads, housings, and development</span></a>
+            <a href="kits.html">Starter kits <span>Beginner, flow-testing, and prototyping kits</span></a>
           </div>
         </details>
         <details class="nav-menu">
-          <summary>Tools</summary>
+          <summary>Software</summary>
           <div class="nav-menu-list">
-            <a href="platform.html">Microfluidic Modeler <span>Browser-based cartridge concept workspace</span></a>
-            <a href="analyzer/">Kinetic Assay Enhancer <span>Time-resolved assay analysis concept</span></a>
-            <a href="daily-wellness-lens-instructions.html">Daily Wellness Lens <span>Related wellness app guidance</span></a>
+            <a href="https://labops.microcdlabs.com/" rel="noreferrer">MicroCD LabOps <span>Engineering reports and traceability workspace</span></a>
+            <a href="platform.html">Microfluidic Modeler <span>Cartridge geometry and concept workspace</span></a>
+            <a href="analyzer/">Kinetic Assay Enhancer <span>Time-resolved assay analysis workspace</span></a>
+          </div>
+        </details>
+        <details class="nav-menu">
+          <summary>Research</summary>
+          <div class="nav-menu-list">
+            <a href="news.html">Research updates <span>Publications, concepts, and company progress</span></a>
+            <a href="diagnostics.html#publication">Kinetic assay preprint <span>Time-resolved signal extraction research</span></a>
+            <a href="products/invertadx/">InvertaDx <span>Origami-based centrifugal microfluidic concept</span></a>
+            <a href="products.html#research-platforms">Reader concepts <span>Exploratory fluorescence imaging platform</span></a>
+            <a href="products/clip-on-ultrasound/">Ultrasound concept <span>Directional imaging research platform</span></a>
           </div>
         </details>
         <details class="nav-menu">
           <summary>Company</summary>
           <div class="nav-menu-list">
             <a href="about.html">About <span>Technical focus and company background</span></a>
-            <a href="news.html">News <span>Research updates and company notes</span></a>
-            <a href="partners.html">Partners <span>Supplier and collaboration discussions</span></a>
-            <a href="careers.html">Careers <span>Internship and lab roles</span></a>
+            <a href="partners.html">Partners <span>Supplier and collaboration approach</span></a>
+            <a href="careers.html">Careers <span>Internship and technical opportunities</span></a>
             <a href="consultation.html">Contact <span>Discuss a technical project</span></a>
-          </div>
-        </details>
-        <details class="nav-menu">
-          <summary>Policies</summary>
-          <div class="nav-menu-list">
-            <a href="index.html#compliance">Compliance <span>Research-use, export, and order review</span></a>
-            <a href="privacy.html">Privacy <span>Website and app privacy notices</span></a>
-            <a href="terms.html">Terms <span>Payments and quote workflow</span></a>
-            <a href="refunds.html">Refunds <span>Returns and cancellation policy</span></a>
-            <a href="credits.html">Credits <span>Image and media credits</span></a>
-            <a href="accessibility.html">Accessibility <span>Accessibility statement and support</span></a>
           </div>
         </details>
       </nav>
@@ -348,7 +355,7 @@
         <div class="faq-list">
           <details><summary>What types of teams does MicroCD Labs support?</summary><p>Diagnostic and life-sciences startups, laboratory-product companies, research laboratories, universities, translational teams, and OEM groups working through microfluidic, cartridge, consumable, assay, or integration questions.</p></details>
           <details><summary>What can an initial engagement produce?</summary><p>Typical early deliverables may include requirements, technical options, a development roadmap, a component or supplier shortlist, CAD concepts, prototype coordination notes, a verification plan, or a focused troubleshooting memo.</p></details>
-          <details><summary>Does MicroCD Labs manufacture products?</summary><p>No in-house manufacturing capacity is claimed. MicroCD Labs can help define requirements, identify suitable fabrication or supply routes, coordinate technical questions, and prepare information for external suppliers.</p></details>
+          <details><summary>Does MicroCD Labs manufacture products?</summary><p>Yes. Every item in the MicroCD Labs catalog is made in-house using bespoke 3D printers owned and operated by MicroCD Labs. External supplier coordination is available for customer-specific needs outside the catalog.</p></details>
           <details><summary>Can MicroCD Labs support regulated product development?</summary><p>MicroCD Labs can support early engineering, research-use workflows, requirements, risk questions, and verification planning. Regulatory, clinical, quality-system, and legal activities require separately confirmed scope and appropriately qualified specialists.</p></details>
           <details><summary>Should confidential information be submitted through the website?</summary><p>No. The initial form should contain only non-confidential context. Do not send trade secrets, patient information, controlled technical data, or sensitive files. An NDA can be discussed separately when appropriate.</p></details>
         </div>
@@ -391,7 +398,7 @@
       </p>
     </footer>
 
-    <script src="site.js?v=20260722a"></script>
+    <script src="site.js?v=20260729a"></script>
       <!-- Start of microcdlabs Zendesk Widget script -->
     <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=f6f042c5-f6ce-4381-8555-2da23e6aebd1"></script>
     <!-- End of microcdlabs Zendesk Widget script -->
