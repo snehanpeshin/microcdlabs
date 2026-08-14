@@ -1,52 +1,71 @@
 const catalogImages = {
   chip: {
     url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Microfluidic_Device_%286842746147%29.jpg/960px-Microfluidic_Device_%286842746147%29.jpg",
+    title: "Microfluidic Device",
     alt: "A microfluidic device with pipette and fluidic channel on a lab bench",
     credit: "Cooksey/NIST",
     source: "https://commons.wikimedia.org/wiki/File:Microfluidic_Device_(6842746147).jpg",
     license: "Public domain",
+    modifications: "Displayed at reduced size and may be cropped by responsive layout.",
   },
   chipClose: {
     url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Microfluidic_chip_for_point-of-care_medical_devices.jpg/960px-Microfluidic_chip_for_point-of-care_medical_devices.jpg",
+    title: "Microfluidic chip for point-of-care medical devices",
     alt: "A transparent microfluidic chip with etched channels and electrodes",
     credit: "FMNLab",
     source: "https://commons.wikimedia.org/wiki/File:Microfluidic_chip_for_point-of-care_medical_devices.jpg",
     license: "CC BY 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by/4.0/",
+    modifications: "Displayed at reduced size and may be cropped by responsive layout.",
   },
   laminar: {
     url: "https://upload.wikimedia.org/wikipedia/commons/5/57/Microfluidic_device_laminar_flow.png",
+    title: "Microfluidic device laminar flow",
     alt: "A multi-input microfluidic device diagram showing colored laminar flow",
     credit: "Courson & Rock",
     source: "https://commons.wikimedia.org/wiki/File:Microfluidic_device_laminar_flow.png",
     license: "CC BY 2.5",
+    licenseUrl: "https://creativecommons.org/licenses/by/2.5/",
+    modifications: "Displayed at reduced size and may be cropped by responsive layout.",
   },
   pump: {
     url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/EPA_GULF_BREEZE_LABORATORY%2C_BIOASSAY_WET_LAB._THIS_IS_A_CLOSE-UP_OF_A_SYRINGE_PUMP%2C_WHICH_CONTROLS_THE_RATE_OF_FLOW..._-_NARA_-_546326.jpg/960px-EPA_GULF_BREEZE_LABORATORY%2C_BIOASSAY_WET_LAB._THIS_IS_A_CLOSE-UP_OF_A_SYRINGE_PUMP%2C_WHICH_CONTROLS_THE_RATE_OF_FLOW..._-_NARA_-_546326.jpg",
+    title: "EPA Gulf Breeze Laboratory syringe pump",
     alt: "Close-up of a syringe pump controlling laboratory fluid flow",
     credit: "EPA/NARA",
     source: "https://commons.wikimedia.org/wiki/File:EPA_GULF_BREEZE_LABORATORY,_BIOASSAY_WET_LAB._THIS_IS_A_CLOSE-UP_OF_A_SYRINGE_PUMP,_WHICH_CONTROLS_THE_RATE_OF_FLOW..._-_NARA_-_546326.jpg",
     license: "Public domain",
+    modifications: "Displayed at reduced size and may be cropped by responsive layout.",
   },
   rapidTest: {
     url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/COVID-19_rapid_test.jpg/720px-COVID-19_rapid_test.jpg",
+    title: "COVID-19 rapid test",
     alt: "Two lateral flow rapid test cassettes on a light background",
     credit: "Lennardywlee",
     source: "https://commons.wikimedia.org/wiki/File:COVID-19_rapid_test.jpg",
     license: "CC BY-SA 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+    modifications: "Displayed at reduced size and may be cropped by responsive layout.",
   },
   microplate: {
     url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Microplate_with_hand.jpg/960px-Microplate_with_hand.jpg",
+    title: "Microplate with hand",
     alt: "A clear 96-well microplate held by a gloved hand",
     credit: "Magnus Manske",
     source: "https://commons.wikimedia.org/wiki/File:Microplate_with_hand.jpg",
     license: "CC BY-SA 3.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
+    modifications: "Displayed at reduced size and may be cropped by responsive layout.",
   },
   tips: {
     url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Pipette_tips-different_1.jpg/960px-Pipette_tips-different_1.jpg",
+    title: "Pipette tips-different 1",
     alt: "Different sizes of clear plastic pipette tips",
     credit: "Nadine90",
     source: "https://commons.wikimedia.org/wiki/File:Pipette_tips-different_1.jpg",
     license: "CC BY-SA 3.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
+    modifications: "Displayed at reduced size and may be cropped by responsive layout.",
   },
   oemComplexTuning: {
     url: "assets/oem/complex-microfluidic-tuning.jpg",
@@ -1181,14 +1200,14 @@ function getMarketPosition(product) {
       ? "configured by quote"
       : "shown with an indicative catalog range";
 
-  return `MicroCD Labs generic catalog family item, ${quoteNote}. Availability, specifications, final price, tax, shipping, and lead time are confirmed in writing before any order is accepted. No manufacturer, authorized-reseller, or distribution relationship is implied.`;
+  return `Made in-house using bespoke 3D printers owned and operated by MicroCD Labs; ${quoteNote}. Availability, specifications, final price, tax, shipping, and lead time are confirmed in writing before any order is accepted.`;
 }
 
 function getDocumentationNote(product) {
   if (product.category === "services" || product.category === "starter-kits") {
     return "A MicroCD Labs scope, bill of materials, and applicable component documentation are provided with the final written quote.";
   }
-  return "Available specifications and applicable documentation are confirmed with the final written quote. Manufacturer-specific documents are provided only when a separately approved source is identified in writing.";
+  return "Available specifications and applicable in-house production documentation are confirmed with the final written quote.";
 }
 
 function getProductDetailPack(product) {
@@ -1501,6 +1520,7 @@ function renderProducts(filter = null) {
           </a>
           <div class="product-body">
             <h3>${product.name}</h3>
+            <p class="in-house-production-note">Made in-house on bespoke 3D printers owned and operated by MicroCD Labs.</p>
             <strong class="product-price">${escapeHtml(getDisplayPrice(product))}</strong>
             <label class="product-option-field">
               <span>Option</span>
@@ -1569,8 +1589,14 @@ function renderCredits() {
     .map(
       (image) => `
         <li>
-          <a href="${image.source}" target="_blank" rel="noreferrer">${image.credit}</a>
-          <span>${image.license}</span>
+          <a href="${image.source}" target="_blank" rel="noreferrer">${escapeHtml(image.title || image.credit)}</a>
+          <span>by ${escapeHtml(image.credit)}</span>
+          ${
+            image.licenseUrl
+              ? `<a href="${image.licenseUrl}" target="_blank" rel="noreferrer">${escapeHtml(image.license)}</a>`
+              : `<span>${escapeHtml(image.license)}</span>`
+          }
+          ${image.modifications ? `<span>${escapeHtml(image.modifications)}</span>` : ""}
         </li>
       `,
     )
@@ -1615,6 +1641,7 @@ function renderProductDetail() {
         <div class="product-detail-copy">
           <p class="eyebrow">${escapeHtml(categoryLabel)}</p>
           <h1 id="product-detail-title">${escapeHtml(product.name)}</h1>
+          <p class="in-house-production-note">Made in-house using bespoke 3D printers owned and operated by MicroCD Labs.</p>
           <strong class="product-detail-price">${escapeHtml(detailPrice)}</strong>
           <label class="product-option-field product-option-field-detail">
             <span>Available option</span>
@@ -1639,7 +1666,11 @@ function renderProductDetail() {
             </div>
             <div>
               <dt>Catalog source</dt>
-              <dd>${escapeHtml(detailPack.brand)}</dd>
+              <dd>Made in-house by MicroCD Labs</dd>
+            </div>
+            <div>
+              <dt>Production equipment</dt>
+              <dd>Bespoke 3D printers owned and operated by MicroCD Labs</dd>
             </div>
             <div>
               <dt>Order type</dt>
@@ -1680,7 +1711,7 @@ function renderProductDetail() {
           <p>${escapeHtml(detailPack.documentationNote)}</p>
         </article>
       </div>
-      <p class="catalog-disclaimer">Catalog details describe MicroCD Labs generic product families for research planning and quote review. No third-party branded product is offered, and no manufacturer, authorized-reseller, or distribution relationship is implied. Specifications, source, documentation, availability, and final price must be confirmed in writing before an order is accepted.</p>
+      <p class="catalog-disclaimer"><strong>Every catalog item is made in-house using bespoke 3D printers owned and operated by MicroCD Labs.</strong> Catalog details describe MicroCD Labs product families for research planning and quote review. Specifications, documentation, availability, and final price must be confirmed in writing before an order is accepted.</p>
     </section>
   `;
   document.title = `${product.name} | MicroCD Labs Catalog`;

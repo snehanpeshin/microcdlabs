@@ -16,8 +16,9 @@ MicroCD Labs is a division of Karigari Home LLC. Website content describes resea
 - [Fittings and connectors](https://www.microcdlabs.com/microfluidic-fittings-connectors/): Luer, barbed, compression, PEEK, manifold, and reservoir interfaces
 - [Pumps and flow control](https://www.microcdlabs.com/microfluidic-pumps-flow-control/): Syringe and peristaltic pumps, pressure controllers, valves, and sensors
 - [Lateral flow assay materials](https://www.microcdlabs.com/lateral-flow-assay-materials/): Membranes, pads, housings, consumables, and development support
-- [MicroCD SonoMap](https://www.microcdlabs.com/products/sonomap/): Early-stage phone-connected ultrasound concept for directional tissue-mapping research
-- [About](https://www.microcdlabs.com/about.html): Founder background and areas of technical experience
+- [InvertaDx Lab-on-Disc Research Concept](https://www.microcdlabs.com/products/invertadx/): Early-stage origami-inspired centrifugal microfluidic concept for staged sample preparation and assay research
+- [Clip-On Ultrasound Research Concept](https://www.microcdlabs.com/products/clip-on-ultrasound/): Early-stage phone-connected concept for directional tissue-mapping research
+- [About](https://www.microcdlabs.com/about.html): Company background and areas of technical experience
 - [News](https://www.microcdlabs.com/news.html): Research, software, and company updates
 - [Technical consultation](https://www.microcdlabs.com/consultation.html): Non-confidential project inquiry
 
@@ -42,4 +43,4 @@ MicroCD Labs is a division of Karigari Home LLC. Website content describes resea
 
 Do not submit patient information, protected health information, proprietary formulations, or confidential technical material through public website forms or messaging.
 
-MicroCD SonoMap is a research concept in development. It is not a medical device and has no established regulatory clearance, clinical validation, or clinical performance.
+InvertaDx and the clip-on ultrasound platform are research concepts in development. They are not finished or validated medical devices and have no established regulatory clearance, clinical validation, or clinical performance.

@@ -1,59 +1,14 @@
 const microcdCompanyEmail = "info@microcdlabs.com";
 
 function injectLabOpsLinks() {
-  const toolsMenu = Array.from(document.querySelectorAll(".nav-menu")).find((menu) => menu.querySelector("summary")?.textContent.trim() === "Tools");
-  const toolsList = toolsMenu?.querySelector(".nav-menu-list");
-  if (toolsList && !toolsList.querySelector('[href="https://labops.microcdlabs.com"]')) {
-    const link = document.createElement("a");
-    link.href = "https://labops.microcdlabs.com";
-    link.rel = "noreferrer";
-    link.innerHTML = "MicroCD LabOps <span>Engineering reports and traceability workspace</span>";
-    const relatedWellnessLink = toolsList.querySelector('[href$="daily-wellness-lens-instructions.html"]');
-    toolsList.insertBefore(link, relatedWellnessLink || null);
-  }
-
   const footerLinks = document.querySelector(".site-footer > p");
-  if (footerLinks && !footerLinks.querySelector('[href="https://labops.microcdlabs.com"]')) {
+  if (footerLinks && !footerLinks.querySelector('[href^="https://labops.microcdlabs.com"]')) {
     const link = document.createElement("a");
-    link.href = "https://labops.microcdlabs.com";
+    link.href = "https://labops.microcdlabs.com/";
     link.rel = "noreferrer";
     link.textContent = "MicroCD LabOps";
     footerLinks.appendChild(link);
   }
-}
-
-function injectSonoMapLink() {
-  const productsMenu = Array.from(document.querySelectorAll(".nav-menu")).find((menu) => menu.querySelector("summary")?.textContent.trim() === "Products");
-  const productsList = productsMenu?.querySelector(".nav-menu-list");
-  if (!productsList || productsList.querySelector('[href$="/products/sonomap/"], [href="./"][aria-current="page"]')) return;
-
-  const link = document.createElement("a");
-  link.href = "/products/sonomap/";
-  link.innerHTML = "SonoMap <span>Directional ultrasound research concept</span>";
-  const catalogLink = productsList.querySelector('[href$="products.html"]');
-  catalogLink?.insertAdjacentElement("afterend", link);
-}
-
-function injectCatalogCategoryLinks() {
-  const productsMenu = Array.from(document.querySelectorAll(".nav-menu")).find((menu) => menu.querySelector("summary")?.textContent.trim() === "Products");
-  const productsList = productsMenu?.querySelector(".nav-menu-list");
-  if (!productsList || productsList.querySelector('[data-seo-category-link="true"]')) return;
-
-  const categoryLinks = [
-    ["/microfluidic-chips/", "Microfluidic chips", "PDMS, glass, COC, PMMA, and custom chips"],
-    ["/microfluidic-tubing/", "Microfluidic tubing", "Materials, dimensions, and fluid paths"],
-    ["/microfluidic-fittings-connectors/", "Fittings and connectors", "Interfaces, manifolds, and reservoirs"],
-    ["/microfluidic-pumps-flow-control/", "Pumps and flow control", "Pumps, controllers, valves, and sensors"],
-    ["/lateral-flow-assay-materials/", "LFIA materials", "Membranes, pads, housings, and development"],
-  ];
-  const reference = productsList.querySelector('[href$="recommendations.html"]') || productsList.children[1] || null;
-  categoryLinks.reverse().forEach(([href, label, description]) => {
-    const link = document.createElement("a");
-    link.href = href;
-    link.dataset.seoCategoryLink = "true";
-    link.innerHTML = `${label} <span>${description}</span>`;
-    productsList.insertBefore(link, reference);
-  });
 }
 
 function initPageNavigationAids() {
@@ -356,10 +311,10 @@ function initRecommendationForm() {
   });
 }
 
-function initSonoMapInquiryForm() {
-  const form = document.querySelector("#sonomapInquiryForm");
+function initUltrasoundConceptInquiryForm() {
+  const form = document.querySelector("#ultrasound-conceptInquiryForm");
   if (!form) return;
-  const status = document.querySelector("#sonomapInquiryStatus");
+  const status = document.querySelector("#ultrasound-conceptInquiryStatus");
   const submit = form.querySelector('button[type="submit"]');
 
   form.addEventListener("input", (event) => {
@@ -379,9 +334,9 @@ function initSonoMapInquiryForm() {
     }
 
     const data = new FormData(form);
-    const subject = encodeURIComponent(`SonoMap research collaboration — ${data.get("organization")}`);
+    const subject = encodeURIComponent(`Clip-on ultrasound research collaboration - ${data.get("organization")}`);
     const body = encodeURIComponent([
-      "MicroCD SonoMap research collaboration inquiry",
+      "MicroCD Labs clip-on ultrasound research collaboration inquiry",
       "",
       `Name: ${data.get("name")}`,
       `Organization: ${data.get("organization")}`,
@@ -407,11 +362,9 @@ function initSonoMapInquiryForm() {
 }
 
 injectLabOpsLinks();
-injectSonoMapLink();
-injectCatalogCategoryLinks();
 initPageNavigationAids();
 initSiteNavigation();
 initHeroDots();
 initProjectInquiryForm();
 initRecommendationForm();
-initSonoMapInquiryForm();
+initUltrasoundConceptInquiryForm();
