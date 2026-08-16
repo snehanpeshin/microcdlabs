@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { renderSiteNavigation } from "./site-navigation.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const buildDate = "2026-07-28";
+const buildDate = "2026-08-15";
 const siteUrl = "https://www.microcdlabs.com";
 
 const categoryDefinitions = [
@@ -210,7 +210,7 @@ function productMain(product) {
           <div class="product-detail-copy">
             <p class="eyebrow">${escapeHtml(categoryLabel)}</p>
             <h1 id="product-detail-title">${escapeHtml(product.name)}</h1>
-            <p class="in-house-production-note">Made in-house using bespoke 3D printers owned and operated by MicroCD Labs.</p>
+            <p class="in-house-production-note">Research-use product family; source and production route confirmed by quote.</p>
             <strong class="product-detail-price">${escapeHtml(price)}</strong>
             <label class="product-option-field product-option-field-detail">
               <span>Available option</span>
@@ -222,8 +222,8 @@ function productMain(product) {
               <div><dt>MicroCD Cat. No.</dt><dd>${escapeHtml(product.sku)}</dd></div>
               <div><dt>Classification</dt><dd>${escapeHtml(categoryLabel)}</dd></div>
               <div><dt>Subclass</dt><dd>${escapeHtml(product.subclass)}</dd></div>
-              <div><dt>Catalog source</dt><dd>Made in-house by MicroCD Labs</dd></div>
-              <div><dt>Production equipment</dt><dd>Bespoke 3D printers owned and operated by MicroCD Labs</dd></div>
+              <div><dt>Catalog source</dt><dd>Confirmed with written quote</dd></div>
+              <div><dt>Production route</dt><dd>Confirmed for the selected configuration</dd></div>
               <div><dt>Order type</dt><dd>Generic research-use family reviewed by written quote</dd></div>
             </dl>
             <p>${escapeHtml(product.description)}</p>
@@ -248,7 +248,7 @@ function productMain(product) {
             <p>${escapeHtml(detail.documentationNote)}</p>
           </article>
         </div>
-        <p class="catalog-disclaimer"><strong>Every catalog item is made in-house using bespoke 3D printers owned and operated by MicroCD Labs.</strong> Catalog details describe MicroCD Labs product families for research planning and quote review. Specifications, documentation, availability, and final price must be confirmed in writing before an order is accepted.</p>
+        <p class="catalog-disclaimer"><strong>Quote-reviewed research catalog.</strong> Source, production route, specifications, documentation, availability, and final price must be confirmed in writing before an order is accepted.</p>
       </section>
       <!-- SEO_PRODUCT_END -->
     </main>`;
@@ -303,7 +303,7 @@ function categoryCard(product) {
             <div>
               <p class="eyebrow">${escapeHtml(product.subclass)}</p>
               <h2><a href="../catalog/${product.id}.html">${escapeHtml(product.name)}</a></h2>
-              <p class="in-house-production-note">Made in-house on bespoke 3D printers owned and operated by MicroCD Labs.</p>
+              <p class="in-house-production-note">Source and production route confirmed by quote.</p>
               <p>${escapeHtml(product.description)}</p>
               <dl><div><dt>Catalog no.</dt><dd>${escapeHtml(product.sku)}</dd></div><div><dt>Price status</dt><dd>${escapeHtml(product.price)}</dd></div></dl>
               <a class="text-link" href="../catalog/${product.id}.html">View specifications <span aria-hidden="true">&rarr;</span></a>
@@ -388,7 +388,7 @@ ${renderSiteNavigation("../")}
       </section>
       <section class="seo-direct-answer section" aria-labelledby="selection-answer-title"><div><p class="eyebrow">Selection answer</p><h2 id="selection-answer-title">How should you choose?</h2></div><div><p>${escapeHtml(definition.answer)}</p><p class="seo-review-note">Technical content reviewed by MicroCD Labs · Updated July 28, 2026. Confirm final selection against the written quote, applicable source documentation, and the complete research system.</p></div></section>
       <section class="seo-considerations section" aria-labelledby="considerations-title"><div class="section-heading"><div><p class="eyebrow">Before requesting a quote</p><h2 id="considerations-title">Confirm the complete system requirement</h2></div><p>MicroCD Labs reviews compatibility, documentation, final pricing, availability, and lead time before payment.</p></div><div class="seo-consideration-grid">${definition.considerations.map(([title, copy]) => `<article><h3>${escapeHtml(title)}</h3><p>${escapeHtml(copy)}</p></article>`).join("")}</div></section>
-      <section id="category-products" class="seo-category-products section" aria-labelledby="category-products-title"><div class="section-heading"><div><p class="eyebrow">Research-use catalog</p><h2 id="category-products-title">${escapeHtml(definition.eyebrow)} products and product families</h2></div><p>Every item is made in-house using bespoke 3D printers owned and operated by MicroCD Labs. Open an item for variants, specifications, documentation, and quote status.</p></div><div class="seo-product-grid">${products.map(categoryCard).join("")}</div></section>
+      <section id="category-products" class="seo-category-products section" aria-labelledby="category-products-title"><div class="section-heading"><div><p class="eyebrow">Research-use catalog</p><h2 id="category-products-title">${escapeHtml(definition.eyebrow)} products and product families</h2></div><p>Open an item for variants, specifications, source and production-route review, documentation, and quote status.</p></div><div class="seo-product-grid">${products.map(categoryCard).join("")}</div></section>
       <section class="seo-category-cta section"><div><p class="eyebrow">Technical review</p><h2>Not sure which components fit together?</h2><p>Share the fluid, target flow or pressure, interface sizes, and intended research workflow. We can help build a compatible shortlist.</p></div><a class="button button-primary" href="../consultation.html?project=technical-consulting">Request a technical consultation</a></section>
     </main>
     <footer class="site-footer"><div><img class="footer-logo" src="../assets/microcd-labs-wordmark.svg?v=boxed" alt="microcd labs" /><p class="company-legal">MicroCD Labs, a division of Karigari Home LLC</p><p>Microfluidics parts supplier and product-development support for research teams.</p></div><p>Products are for non-clinical research use unless stated otherwise. <a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a> <a href="../privacy.html">Privacy</a> <a href="../terms.html">Terms</a></p></footer>

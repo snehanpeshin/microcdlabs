@@ -135,7 +135,7 @@ function initSiteNavigation() {
 
 function initHeroDots() {
   const canvas = document.querySelector("#heroDotField");
-  const hero = canvas?.closest(".hero");
+  const hero = canvas?.closest(".hero, .clair-home-hero");
   const context = canvas?.getContext("2d");
   if (!canvas || !hero || !context) return;
 
@@ -169,7 +169,7 @@ function initHeroDots() {
       const influence = pointer.active && !reduceMotion.matches ? Math.max(0, 1 - distance / 150) : 0;
       context.beginPath();
       context.arc(dot.x, dot.y, 1.05 + influence * 2.15, 0, Math.PI * 2);
-      context.fillStyle = influence > 0.02 ? `rgba(31, 207, 143, ${0.3 + influence * 0.66})` : "rgba(49, 95, 120, 0.16)";
+      context.fillStyle = influence > 0.02 ? `rgba(31, 207, 143, ${0.3 + influence * 0.66})` : "rgba(255, 255, 255, 0.22)";
       context.shadowColor = influence > 0.02 ? "rgba(31, 207, 143, 0.55)" : "transparent";
       context.shadowBlur = influence * 14;
       context.fill();

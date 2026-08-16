@@ -1,12 +1,14 @@
 # MicroCD Labs
 
-> MicroCD Labs supports diagnostic, life-sciences, and laboratory-product teams with microfluidic systems, cartridges, consumables, lab-on-disc development, engineering design, prototype coordination, supplier identification, verification planning, and technical commercialization work.
+> MicroCD Labs is developing CLAIR, a centrifugal microfluidic veterinary saliva platform, and supports selected diagnostic and life-sciences teams with lab-on-disc development, contract CAD, prototype coordination, verification planning, and technical commercialization work.
 
 MicroCD Labs is a division of Karigari Home LLC. Website content describes research-use products, technical capabilities, software tools, and early product-development support. It does not claim regulatory approval, clinical validation, certified manufacturing, or laboratory accreditation.
 
 ## Primary pages
 
-- [Home](https://www.microcdlabs.com/): Company positioning, development focus, and contact options
+- [Home](https://www.microcdlabs.com/): CLAIR flagship platform, evidence boundaries, available tools, and collaboration options
+- [CLAIR](https://www.microcdlabs.com/clair/): In-development veterinary saliva platform architecture, workflow, initial application, and validation needs
+- [Tools](https://www.microcdlabs.com/tools.html): LabOps, Microfluidic Modeler, and Kinetic Assay Enhancer with maturity status
 - [Services](https://www.microcdlabs.com/services.html): Microfluidic and diagnostic product-development capabilities
 - [Diagnostics](https://www.microcdlabs.com/diagnostics.html): Assay development, LFIA, lab-on-disc, and kinetic-analysis focus
 - [OEM workflows](https://www.microcdlabs.com/automation.html): Microfluidic equipment integration and end-user workflow support
@@ -43,4 +45,4 @@ MicroCD Labs is a division of Karigari Home LLC. Website content describes resea
 
 Do not submit patient information, protected health information, proprietary formulations, or confidential technical material through public website forms or messaging.
 
-InvertaDx and the clip-on ultrasound platform are research concepts in development. They are not finished or validated medical devices and have no established regulatory clearance, clinical validation, or clinical performance.
+CLAIR is in development and is not for sale or clinical use. Its analytical performance, workflow timing, and clinical utility have not been established. InvertaDx and the clip-on ultrasound platform are exploratory research concepts, not finished or validated medical devices.

@@ -1200,14 +1200,14 @@ function getMarketPosition(product) {
       ? "configured by quote"
       : "shown with an indicative catalog range";
 
-  return `Made in-house using bespoke 3D printers owned and operated by MicroCD Labs; ${quoteNote}. Availability, specifications, final price, tax, shipping, and lead time are confirmed in writing before any order is accepted.`;
+  return `Research-use product family ${quoteNote}. Source, production route, availability, specifications, final price, tax, shipping, and lead time are confirmed in writing before any order is accepted.`;
 }
 
 function getDocumentationNote(product) {
   if (product.category === "services" || product.category === "starter-kits") {
     return "A MicroCD Labs scope, bill of materials, and applicable component documentation are provided with the final written quote.";
   }
-  return "Available specifications and applicable in-house production documentation are confirmed with the final written quote.";
+  return "Available specifications, source, production route, and applicable documentation are confirmed with the final written quote.";
 }
 
 function getProductDetailPack(product) {
@@ -1520,7 +1520,7 @@ function renderProducts(filter = null) {
           </a>
           <div class="product-body">
             <h3>${product.name}</h3>
-            <p class="in-house-production-note">Made in-house on bespoke 3D printers owned and operated by MicroCD Labs.</p>
+            <p class="in-house-production-note">Source and production route confirmed by quote.</p>
             <strong class="product-price">${escapeHtml(getDisplayPrice(product))}</strong>
             <label class="product-option-field">
               <span>Option</span>
@@ -1641,7 +1641,7 @@ function renderProductDetail() {
         <div class="product-detail-copy">
           <p class="eyebrow">${escapeHtml(categoryLabel)}</p>
           <h1 id="product-detail-title">${escapeHtml(product.name)}</h1>
-          <p class="in-house-production-note">Made in-house using bespoke 3D printers owned and operated by MicroCD Labs.</p>
+          <p class="in-house-production-note">Research-use product family; source and production route confirmed by quote.</p>
           <strong class="product-detail-price">${escapeHtml(detailPrice)}</strong>
           <label class="product-option-field product-option-field-detail">
             <span>Available option</span>
@@ -1666,11 +1666,11 @@ function renderProductDetail() {
             </div>
             <div>
               <dt>Catalog source</dt>
-              <dd>Made in-house by MicroCD Labs</dd>
+              <dd>Confirmed with written quote</dd>
             </div>
             <div>
-              <dt>Production equipment</dt>
-              <dd>Bespoke 3D printers owned and operated by MicroCD Labs</dd>
+              <dt>Production route</dt>
+              <dd>Confirmed for the selected configuration</dd>
             </div>
             <div>
               <dt>Order type</dt>
@@ -1711,7 +1711,7 @@ function renderProductDetail() {
           <p>${escapeHtml(detailPack.documentationNote)}</p>
         </article>
       </div>
-      <p class="catalog-disclaimer"><strong>Every catalog item is made in-house using bespoke 3D printers owned and operated by MicroCD Labs.</strong> Catalog details describe MicroCD Labs product families for research planning and quote review. Specifications, documentation, availability, and final price must be confirmed in writing before an order is accepted.</p>
+      <p class="catalog-disclaimer"><strong>Quote-reviewed research catalog.</strong> Source, production route, specifications, documentation, availability, and final price must be confirmed in writing before an order is accepted.</p>
     </section>
   `;
   document.title = `${product.name} | MicroCD Labs Catalog`;
