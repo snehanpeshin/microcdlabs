@@ -3348,10 +3348,51 @@ h3 {
 .clair-application,
 .clair-evidence,
 .clair-collaboration,
+.clair-concept-figure,
 .tools-hero,
 .tool-detail-section,
 .tools-clair-band {
   padding-inline: max(24px, calc((100vw - 1240px) / 2));
+}
+
+.clair-concept-figure {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+
+.clair-concept-figure-muted {
+  background: #eef4f2;
+}
+
+.clair-concept-figure figure {
+  margin: 32px 0 0;
+}
+
+.clair-concept-figure a {
+  display: block;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fff;
+}
+
+.clair-concept-figure a:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+
+.clair-concept-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.clair-concept-figure figcaption {
+  max-width: 900px;
+  margin-top: 11px;
+  color: var(--muted);
+  font-size: 0.72rem;
 }
 
 .clair-home-intro {
@@ -3869,6 +3910,7 @@ h3 {
   .clair-application,
   .clair-evidence,
   .clair-collaboration,
+  .clair-concept-figure,
   .tools-hero,
   .tool-detail-section,
   .tools-clair-band {
