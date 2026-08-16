@@ -3395,6 +3395,12 @@ h3 {
   font-size: 0.72rem;
 }
 
+.project-inquiry-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 .clair-home-intro {
   display: grid;
   grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
