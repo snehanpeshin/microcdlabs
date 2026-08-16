@@ -23,11 +23,11 @@
     <meta property="og:title" content="CLAIR Veterinary Saliva Platform | MicroCD Labs" />
     <meta property="og:description" content="A hardware-light, cartridge-led platform in development for more controlled veterinary saliva assay workflows." />
     <meta property="og:url" content="https://www.microcdlabs.com/clair/" />
-    <meta property="og:image" content="https://www.microcdlabs.com/assets/clair/clair-foldable-kit.png" />
+    <meta property="og:image" content="https://www.microcdlabs.com/assets/clair/deck/clair-platform-hero.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="../assets/microcd-tab-icon.svg" type="image/svg+xml" />
-    <link rel="preload" href="../assets/clair/clair-foldable-kit.png" as="image" fetchpriority="high" />
-    <link rel="stylesheet" href="../styles.css?v=20260815b" />
+    <link rel="preload" href="../assets/clair/deck/clair-platform-hero.png" as="image" fetchpriority="high" />
+    <link rel="stylesheet" href="../styles.css?v=20260816b" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -36,7 +36,7 @@
         "brand": { "@type": "Brand", "name": "MicroCD Labs" },
         "manufacturer": { "@type": "Organization", "name": "MicroCD Labs", "url": "https://www.microcdlabs.com/" },
         "url": "https://www.microcdlabs.com/clair/",
-        "image": "https://www.microcdlabs.com/assets/clair/clair-foldable-kit.png",
+        "image": "https://www.microcdlabs.com/assets/clair/deck/clair-platform-hero.png",
         "description": "An in-development centrifugal microfluidic platform designed to standardize veterinary saliva preparation, assay timing, and smartphone optical readout.",
         "additionalProperty": [
           { "@type": "PropertyValue", "name": "Development status", "value": "In development; not available for clinical use" },
@@ -52,16 +52,13 @@
       </a>
       <nav class="main-nav" aria-label="Primary navigation">
         <a class="nav-primary-link" href="../clair/">CLAIR</a>
-        <a class="nav-primary-link" href="../tools.html">Tools</a>
         <details class="nav-menu nav-menu-wide">
           <summary>Capabilities</summary>
           <div class="nav-menu-list">
-            <a class="nav-menu-overview" href="../services.html">Engineering &amp; diagnostic capabilities <span>Focused support behind CLAIR and customer development programs</span></a>
+            <a class="nav-menu-overview" href="../services.html">Engineering &amp; diagnostic capabilities <span>Focused support behind CLAIR and selected customer development programs</span></a>
             <a href="../services.html#microfluidic-development">Microfluidics &amp; lab-on-disc <span>Architecture, workflows, cartridges, and test strategy</span></a>
             <a href="../services.html#engineering-design">Contract CAD &amp; prototyping <span>Mechanical design, interfaces, fixtures, and fabrication handoff</span></a>
             <a href="../diagnostics.html">Assay &amp; diagnostic development <span>LFIA, kinetic analysis, and evidence planning</span></a>
-            <a href="../automation.html">OEM workflow design <span>Simpler operation for fluidic instruments and devices</span></a>
-            <a href="../products.html">Research-use catalog <span>Quote-reviewed components, consumables, and kits</span></a>
           </div>
         </details>
         <details class="nav-menu">
@@ -69,17 +66,11 @@
           <div class="nav-menu-list">
             <a href="../news.html">Research updates <span>Publications, concepts, and company progress</span></a>
             <a href="../diagnostics.html#publication">Kinetic assay preprint <span>Time-resolved signal extraction research</span></a>
-            <a href="../news.html#experimental-concepts">Experimental concepts <span>Clearly labeled exploratory hardware and research directions</span></a>
+            <a href="../modeler/">Microfluidic Modeler <span>Browser-based early geometry workspace</span></a>
+            <a href="../analyzer/">Kinetic Assay Enhancer <span>Research demonstration for time-series analysis</span></a>
           </div>
         </details>
-        <details class="nav-menu">
-          <summary>Company</summary>
-          <div class="nav-menu-list">
-            <a href="../about.html">About <span>Technical focus and company background</span></a>
-            <a href="../partners.html">Partners <span>Supplier and collaboration approach</span></a>
-            <a href="../careers.html">Careers <span>Internship and technical opportunities</span></a>
-          </div>
-        </details>
+        <a class="nav-primary-link" href="../about.html">About</a>
         <a class="nav-primary-link" href="../consultation.html">Contact</a>
       </nav>
       <div class="header-actions">
@@ -101,10 +92,6 @@
           </div>
           <p class="clair-boundary"><strong>Development boundary:</strong> CLAIR is not for sale or clinical use. Analytical performance, workflow timing, and clinical utility remain to be established for each panel.</p>
         </div>
-        <figure>
-          <img src="../assets/clair/clair-foldable-kit.png" width="1672" height="941" fetchpriority="high" alt="Concept rendering of the CLAIR foldable reader, smartphone, disposable centrifugal disc, and oral swab" />
-          <figcaption>Concept rendering. Final hardware, consumables, software, and workflow may change.</figcaption>
-        </figure>
       </section>
 
       <section class="clair-problem section" aria-labelledby="clair-problem-title">
@@ -116,18 +103,6 @@
           <article><span>01</span><div><strong>Variable sample biology</strong><p>Dilution, debris, viscosity, and collection conditions can change the sample before measurement begins.</p></div></article>
           <article><span>02</span><div><strong>Manual preparation</strong><p>Pipetting, timing, mixing, and transfer steps introduce operator-dependent variability.</p></div></article>
           <article><span>03</span><div><strong>Uncontrolled readout</strong><p>Phone position, illumination, focus, and endpoint timing can make quantitative interpretation less reproducible.</p></div></article>
-        </div>
-      </section>
-
-      <section class="clair-system section" aria-labelledby="clair-system-title">
-        <div class="home-section-heading">
-          <div><p class="eyebrow">One controlled system</p><h2 id="clair-system-title">The disc prepares. The reader standardizes. The assay informs.</h2></div>
-          <p>CLAIR is being engineered as a hardware-light system in which each component has a defined role.</p>
-        </div>
-        <div class="clair-system-grid">
-          <article><span>01</span><h3>Disposable assay disc</h3><p>Designed to meter the sample, support sedimentation or separation, mix reagents, and control reaction timing inside a single-use centrifugal cartridge.</p></article>
-          <article><span>02</span><h3>Reusable optical reader</h3><p>Designed to position a customer smartphone with fixed illumination and optics for time-resolved and endpoint image acquisition.</p></article>
-          <article><span>03</span><h3>Panel-specific chemistry</h3><p>Pairs the fluidic workflow with candidate markers selected for a defined veterinary decision and validated panel by panel.</p></article>
         </div>
       </section>
 
@@ -147,49 +122,16 @@
         </figure>
       </section>
 
-      <section id="clair-workflow" class="clair-product-workflow section" aria-labelledby="clair-workflow-title">
-        <div class="clair-product-workflow-copy">
-          <p class="eyebrow">Intended workflow</p>
-          <h2 id="clair-workflow-title">From oral swab to structured readout.</h2>
-          <ol>
-            <li><span>1</span><div><strong>Collect</strong><p>Obtain a saliva sample using an oral swab.</p></div></li>
-            <li><span>2</span><div><strong>Load</strong><p>Transfer the sample into a panel-specific disposable disc.</p></div></li>
-            <li><span>3</span><div><strong>Process</strong><p>Use controlled rotational steps to support metering, separation, mixing, and reaction.</p></div></li>
-            <li><span>4</span><div><strong>Read</strong><p>Acquire standardized smartphone images for kinetic and endpoint analysis.</p></div></li>
-          </ol>
-        </div>
+      <section id="clair-workflow" class="clair-development-section section" aria-labelledby="clair-application-title">
         <figure>
-          <img src="../assets/clair/clair-load-disc.png" width="1672" height="941" loading="lazy" alt="Concept rendering of a swab sample being loaded into a CLAIR centrifugal microfluidic disc" />
-          <figcaption>Concept workflow visualization; not a validated operating procedure.</figcaption>
-        </figure>
-      </section>
-
-      <section class="clair-concept-figure clair-concept-figure-muted section" aria-labelledby="clair-disc-operations-title">
-        <div class="home-section-heading">
-          <div>
-            <p class="eyebrow">Disc operations</p>
-            <h2 id="clair-disc-operations-title">Control the steps that commonly add assay variability.</h2>
-          </div>
-          <p>The disc concept organizes metering, separation, mixing, controlled imaging, and time-resolved analysis into a repeatable sequence.</p>
-        </div>
-        <figure>
-          <a href="../assets/clair/deck/clair-disc-operations.png" target="_blank" rel="noreferrer" aria-label="Open the full-size CLAIR disc operations concept">
-            <img src="../assets/clair/deck/clair-disc-operations.png" width="1672" height="941" loading="lazy" alt="Five-stage CLAIR disc concept showing sample routing and metering, separation, reagent reconstitution and mixing, controlled optical reading, and kinetic analysis" />
-          </a>
-          <figcaption>Concept sequence for engineering discussion. Disc geometry, operations, assays, and software are under development and may change. Select the figure to enlarge.</figcaption>
-        </figure>
-      </section>
-
-      <section class="clair-application section" aria-labelledby="clair-application-title">
-        <figure>
-          <img src="../assets/clair/clair-oral-swab.png" width="1672" height="941" loading="lazy" alt="Concept rendering of a veterinary professional collecting an oral swab beside the CLAIR platform" />
-          <figcaption>Planned initial application: supervised veterinary saliva testing.</figcaption>
+          <a href="../assets/clair/deck/clair-disc-operations.png" target="_blank" rel="noreferrer" aria-label="Open the full CLAIR disc operations concept"><img src="../assets/clair/deck/clair-disc-operations.png" width="1672" height="941" loading="lazy" alt="CLAIR pitch-deck concept showing sample routing and metering, separation, reagent mixing, controlled imaging, and kinetic analysis" /></a>
+          <figcaption>Concept sequence from the MicroCD Labs CLAIR pitch deck. Disc geometry, operations, assays, and software may change.</figcaption>
         </figure>
         <div>
           <p class="eyebrow">Initial development focus</p>
           <h2 id="clair-application-title">Canine oral-health decision support research.</h2>
           <p>The first planned panel is intended to study the clinical gray zone between routine monitoring and escalation to a more comprehensive dental workup.</p>
-          <h3>Candidate panel dimensions</h3>
+          <h3>Candidate dimensions</h3>
           <ul>
             <li><strong>LDH</strong><span>Tissue activity or periodontal injury</span></li>
             <li><strong>MPO</strong><span>Inflammatory activity</span></li>
@@ -222,7 +164,7 @@
       <div><img class="footer-logo" src="../assets/microcd-labs-wordmark.svg?v=boxed" alt="MicroCD Labs" /><p class="company-legal">MicroCD Labs, a division of Karigari Home LLC</p><p>CLAIR is an in-development research platform and is not available for clinical use.</p></div>
       <p><a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a> <a href="https://www.linkedin.com/company/microcd-labs/" target="_blank" rel="noreferrer">LinkedIn</a> <a href="../privacy.html">Privacy</a> <a href="../terms.html">Terms</a></p>
     </footer>
-    <script src="../site.js?v=20260815b"></script>
+    <script src="../site.js?v=20260816b"></script>
     <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=f6f042c5-f6ce-4381-8555-2da23e6aebd1"></script>
   </body>
 </html>

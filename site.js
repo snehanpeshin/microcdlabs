@@ -1,16 +1,5 @@
 const microcdCompanyEmail = "info@microcdlabs.com";
 
-function injectLabOpsLinks() {
-  const footerLinks = document.querySelector(".site-footer > p");
-  if (footerLinks && !footerLinks.querySelector('[href^="https://labops.microcdlabs.com"]')) {
-    const link = document.createElement("a");
-    link.href = "https://labops.microcdlabs.com/";
-    link.rel = "noreferrer";
-    link.textContent = "MicroCD LabOps";
-    footerLinks.appendChild(link);
-  }
-}
-
 function initPageNavigationAids() {
   const main = document.querySelector("main");
   if (main && !document.querySelector(".skip-link")) {
@@ -382,7 +371,6 @@ function initUltrasoundConceptInquiryForm() {
   });
 }
 
-injectLabOpsLinks();
 initPageNavigationAids();
 initSiteNavigation();
 initHeroDots();

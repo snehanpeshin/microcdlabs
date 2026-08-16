@@ -6,27 +6,16 @@ MicroCD Labs is a division of Karigari Home LLC. Website content describes resea
 
 ## Primary pages
 
-- [Home](https://www.microcdlabs.com/): CLAIR flagship platform, evidence boundaries, available tools, and collaboration options
+- [Home](https://www.microcdlabs.com/): CLAIR flagship platform, evidence boundaries, capabilities, and collaboration options
 - [CLAIR](https://www.microcdlabs.com/clair/): In-development veterinary saliva platform architecture, workflow, initial application, and validation needs
-- [Tools](https://www.microcdlabs.com/tools.html): LabOps, Microfluidic Modeler, and Kinetic Assay Enhancer with maturity status
 - [Services](https://www.microcdlabs.com/services.html): Microfluidic and diagnostic product-development capabilities
 - [Diagnostics](https://www.microcdlabs.com/diagnostics.html): Assay development, LFIA, lab-on-disc, and kinetic-analysis focus
-- [OEM workflows](https://www.microcdlabs.com/automation.html): Microfluidic equipment integration and end-user workflow support
-- [Products](https://www.microcdlabs.com/products.html): Research-use parts, consumables, kits, and equipment catalog
-- [Microfluidic chips](https://www.microcdlabs.com/microfluidic-chips/): PDMS, glass, COC, PMMA, functional chips, and custom chip-development options
-- [Microfluidic tubing](https://www.microcdlabs.com/microfluidic-tubing/): PTFE, FEP, PEEK, silicone, flexible laboratory, and microbore tubing selection
-- [Fittings and connectors](https://www.microcdlabs.com/microfluidic-fittings-connectors/): Luer, barbed, compression, PEEK, manifold, and reservoir interfaces
-- [Pumps and flow control](https://www.microcdlabs.com/microfluidic-pumps-flow-control/): Syringe and peristaltic pumps, pressure controllers, valves, and sensors
-- [Lateral flow assay materials](https://www.microcdlabs.com/lateral-flow-assay-materials/): Membranes, pads, housings, consumables, and development support
-- [InvertaDx Lab-on-Disc Research Concept](https://www.microcdlabs.com/products/invertadx/): Early-stage origami-inspired centrifugal microfluidic concept for staged sample preparation and assay research
-- [Clip-On Ultrasound Research Concept](https://www.microcdlabs.com/products/clip-on-ultrasound/): Early-stage phone-connected concept for directional tissue-mapping research
 - [About](https://www.microcdlabs.com/about.html): Company background and areas of technical experience
-- [News](https://www.microcdlabs.com/news.html): Research, software, and company updates
+- [News](https://www.microcdlabs.com/news.html): Research and company updates
 - [Technical consultation](https://www.microcdlabs.com/consultation.html): Non-confidential project inquiry
 
 ## Software tools
 
-- [MicroCD LabOps](https://labops.microcdlabs.com/): Engineering documentation and supplier traceability workspace
 - [Microfluidic Modeler](https://www.microcdlabs.com/platform.html): Cartridge geometry and early design workspace
 - [Kinetic Assay Enhancer](https://www.microcdlabs.com/analyzer/): Time-series assay image and kinetic-feature analysis
 
