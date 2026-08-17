@@ -3256,7 +3256,7 @@ h3 {
   padding: clamp(76px, 11vw, 138px) max(24px, calc((100vw - 1240px) / 2)) 64px;
   overflow: hidden;
   color: #fff;
-  background: #121b23 url("assets/clair/deck/clair-platform-hero.png") center / cover no-repeat;
+  background: #08131a url("assets/clair/concept/clair-concept-hero.png") right center / auto 82% no-repeat;
 }
 
 .clair-home-overlay {
@@ -3419,10 +3419,19 @@ h3 {
 }
 
 .clair-home-architecture img,
+.clair-home-research img,
 .clair-development-section img {
   display: block;
   width: 100%;
   height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
+.clair-explainer-image {
+  aspect-ratio: auto;
+  object-fit: contain !important;
+  object-position: center;
 }
 
 .clair-home-architecture figcaption,
@@ -3713,9 +3722,13 @@ h3 {
   min-height: min(720px, calc(100vh - 76px));
   padding-block: clamp(60px, 8vw, 100px);
   color: #fff;
-  background:
+  background-color: #08131a;
+  background-image:
     linear-gradient(90deg, #08131a 0%, #08131a 45%, rgba(8, 19, 26, 0.84) 58%, rgba(8, 19, 26, 0.18) 100%),
-    #14262d url("assets/clair/deck/clair-platform-hero.png") center / cover no-repeat;
+    url("assets/clair/concept/clair-concept-hero.png");
+  background-position: center, right center;
+  background-size: cover, auto 82%;
+  background-repeat: no-repeat;
 }
 
 .clair-product-hero-copy {
@@ -3965,7 +3978,8 @@ h3 {
   .clair-home-hero {
     min-height: 620px;
     padding: 88px 18px 46px;
-    background-position: 61% center;
+    background-position: right -20px center;
+    background-size: auto 60%;
   }
 
   .clair-home-hero h1 {
@@ -4008,7 +4022,8 @@ h3 {
 
   .clair-product-hero {
     min-height: 640px;
-    background-position: 68% center;
+    background-position: center, right -20px center;
+    background-size: cover, auto 60%;
   }
 
   .clair-home-proof article {
