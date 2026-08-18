@@ -6122,12 +6122,12 @@ body {
   font-size: 0.8rem;
 }
 
-/* Clip-on ultrasound research concept */
-.ultrasound-concept-page {
+/* Shared exploratory product presentation */
+.concept-product-page {
   background: var(--paper);
 }
 
-.ultrasound-concept-hero {
+.concept-product-hero {
   display: grid;
   grid-template-columns: minmax(320px, 0.82fr) minmax(460px, 1.18fr);
   gap: clamp(34px, 5vw, 74px);
@@ -6139,15 +6139,15 @@ body {
     #f7f9fa;
 }
 
-.ultrasound-concept-hero-copy {
+.concept-product-hero-copy {
   max-width: 650px;
 }
 
-.ultrasound-concept-hero-copy .development-status {
+.concept-product-hero-copy .development-status {
   margin: 7px 0 18px;
 }
 
-.ultrasound-concept-hero h1 {
+.concept-product-hero h1 {
   max-width: 690px;
   margin: 0;
   font-size: clamp(2.55rem, 5.1vw, 4.65rem);
@@ -6155,7 +6155,7 @@ body {
   letter-spacing: 0;
 }
 
-.ultrasound-concept-lead {
+.concept-product-lead {
   max-width: 660px;
   margin: 24px 0 0;
   color: #3f4d5b;
@@ -6170,14 +6170,14 @@ body {
   line-height: 1.55;
 }
 
-.ultrasound-concept-hero-copy .concept-notice {
+.concept-product-hero-copy .concept-notice {
   max-width: 620px;
   margin: 22px 0 0;
   border-left: 3px solid #9bb8b3;
   padding-left: 13px;
 }
 
-.ultrasound-concept-hero-visual {
+.concept-product-hero-visual {
   overflow: hidden;
   margin: 0;
   border: 1px solid #d2dce0;
@@ -6186,7 +6186,7 @@ body {
   box-shadow: var(--shadow-strong);
 }
 
-.ultrasound-concept-hero-visual img {
+.concept-product-hero-visual img {
   display: block;
   width: 100%;
   height: auto;
@@ -6194,55 +6194,55 @@ body {
   object-fit: cover;
 }
 
-.ultrasound-concept-hero-visual figcaption {
+.concept-product-hero-visual figcaption {
   padding: 10px 14px;
   color: var(--muted);
   background: var(--paper);
   font-size: 0.72rem;
 }
 
-.ultrasound-concept-problem,
-.ultrasound-concept-fit,
-.ultrasound-concept-collaboration {
+.concept-product-problem,
+.concept-product-fit,
+.concept-product-collaboration {
   display: grid;
   grid-template-columns: minmax(280px, 0.72fr) minmax(380px, 1fr);
   gap: clamp(34px, 6vw, 88px);
   align-items: start;
 }
 
-.ultrasound-concept-section-intro {
+.concept-product-section-intro {
   max-width: 790px;
 }
 
-.ultrasound-concept-section-intro h2,
-.ultrasound-concept-problem h2,
-.ultrasound-concept-fit h2,
-.ultrasound-concept-collaboration h2 {
+.concept-product-section-intro h2,
+.concept-product-problem h2,
+.concept-product-fit h2,
+.concept-product-collaboration h2 {
   margin: 0;
   font-size: clamp(1.8rem, 3.2vw, 2.85rem);
   line-height: 1.12;
   letter-spacing: 0;
 }
 
-.ultrasound-concept-section-intro > p:not(.eyebrow),
-.ultrasound-concept-problem-copy p,
-.ultrasound-concept-collaboration-copy > p:not(.eyebrow, .confidentiality-note) {
+.concept-product-section-intro > p:not(.eyebrow),
+.concept-product-problem-copy p,
+.concept-product-collaboration-copy > p:not(.eyebrow, .confidentiality-note) {
   color: var(--muted);
   font-size: 0.96rem;
   line-height: 1.7;
 }
 
-.ultrasound-concept-problem-copy {
+.concept-product-problem-copy {
   max-width: 720px;
 }
 
-.ultrasound-concept-problem-copy p:first-child {
+.concept-product-problem-copy p:first-child {
   margin-top: 0;
   color: var(--ink);
   font-size: 1.08rem;
 }
 
-.ultrasound-concept-steps {
+.concept-product-steps {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1px;
@@ -6255,7 +6255,7 @@ body {
   list-style: none;
 }
 
-.ultrasound-concept-steps li {
+.concept-product-steps li {
   display: grid;
   align-content: start;
   min-height: 230px;
@@ -6263,35 +6263,35 @@ body {
   background: var(--paper);
 }
 
-.ultrasound-concept-steps li > span {
+.concept-product-steps li > span {
   color: var(--teal);
   font-size: 0.72rem;
   font-weight: 850;
 }
 
-.ultrasound-concept-steps h3 {
+.concept-product-steps h3 {
   margin: 46px 0 8px;
   font-size: 1.15rem;
 }
 
-.ultrasound-concept-steps p {
+.concept-product-steps p {
   margin: 0;
   color: var(--muted);
   font-size: 0.88rem;
 }
 
-.ultrasound-concept-modes {
+.concept-product-modes {
   display: grid;
   grid-template-columns: minmax(280px, 0.65fr) minmax(480px, 1.2fr);
   gap: clamp(38px, 7vw, 100px);
   background: #f2f5f6;
 }
 
-.ultrasound-concept-mode-list {
+.concept-product-mode-list {
   border-top: 1px solid var(--line-strong);
 }
 
-.ultrasound-concept-mode-list article {
+.concept-product-mode-list article {
   display: grid;
   grid-template-columns: minmax(180px, 0.55fr) minmax(260px, 1fr);
   gap: 28px;
@@ -6299,45 +6299,45 @@ body {
   border-bottom: 1px solid var(--line-strong);
 }
 
-.ultrasound-concept-mode-list h3,
-.ultrasound-concept-mode-list p {
+.concept-product-mode-list h3,
+.concept-product-mode-list p {
   margin: 0;
 }
 
-.ultrasound-concept-mode-list h3 {
+.concept-product-mode-list h3 {
   font-size: 0.98rem;
 }
 
-.ultrasound-concept-mode-list p {
+.concept-product-mode-list p {
   color: var(--muted);
   font-size: 0.86rem;
 }
 
-.ultrasound-concept-architecture {
+.concept-product-architecture {
   color: #f5f8f8;
   background: #172630;
 }
 
-.ultrasound-concept-architecture-inner .section-heading h2 {
+.concept-product-architecture-inner .section-heading h2 {
   color: var(--white);
 }
 
-.ultrasound-concept-architecture-inner .section-heading > p {
+.concept-product-architecture-inner .section-heading > p {
   color: #b9c8cd;
 }
 
-.ultrasound-concept-architecture-inner .eyebrow {
+.concept-product-architecture-inner .eyebrow {
   color: #76d1bd;
 }
 
-.ultrasound-concept-architecture-flow {
+.concept-product-architecture-flow {
   display: grid;
   grid-template-columns: repeat(7, auto);
   align-items: center;
   margin-top: 34px;
 }
 
-.ultrasound-concept-architecture-flow div {
+.concept-product-architecture-flow div {
   display: grid;
   align-content: start;
   min-height: 142px;
@@ -6345,25 +6345,25 @@ body {
   padding: 18px 10px 0 0;
 }
 
-.ultrasound-concept-architecture-flow strong {
+.concept-product-architecture-flow strong {
   font-size: 0.94rem;
 }
 
-.ultrasound-concept-architecture-flow span {
+.concept-product-architecture-flow span {
   max-width: 200px;
   margin-top: 8px;
   color: #b9c8cd;
   font-size: 0.78rem;
 }
 
-.ultrasound-concept-architecture-flow i {
+.concept-product-architecture-flow i {
   width: clamp(26px, 4vw, 60px);
   height: 1px;
   margin: 0 12px;
   background: #65818b;
 }
 
-.ultrasound-concept-roadmap-list {
+.concept-product-roadmap-list {
   display: grid;
   margin: 30px 0 0;
   padding: 0;
@@ -6371,7 +6371,7 @@ body {
   list-style: none;
 }
 
-.ultrasound-concept-roadmap-list li {
+.concept-product-roadmap-list li {
   display: grid;
   grid-template-columns: minmax(170px, 0.36fr) minmax(360px, 1fr);
   gap: 34px;
@@ -6379,22 +6379,22 @@ body {
   border-bottom: 1px solid var(--line);
 }
 
-.ultrasound-concept-roadmap-list strong {
+.concept-product-roadmap-list strong {
   color: var(--teal-dark);
 }
 
-.ultrasound-concept-roadmap-list span {
+.concept-product-roadmap-list span {
   color: var(--muted);
 }
 
-.ultrasound-concept-applications {
+.concept-product-applications {
   display: grid;
   grid-template-columns: minmax(280px, 0.7fr) minmax(420px, 1fr);
   gap: clamp(36px, 7vw, 100px);
   background: #eef3f4;
 }
 
-.ultrasound-concept-application-list {
+.concept-product-application-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0 28px;
@@ -6404,7 +6404,7 @@ body {
   list-style: none;
 }
 
-.ultrasound-concept-application-list li {
+.concept-product-application-list li {
   min-height: 78px;
   border-bottom: 1px solid var(--line-strong);
   padding: 18px 0 16px 24px;
@@ -6412,7 +6412,7 @@ body {
   font-weight: 720;
 }
 
-.ultrasound-concept-application-list li::before {
+.concept-product-application-list li::before {
   content: "";
   display: inline-block;
   width: 8px;
@@ -6422,44 +6422,44 @@ body {
   background: var(--teal);
 }
 
-.ultrasound-concept-basis {
+.concept-product-basis {
   display: grid;
   grid-template-columns: minmax(280px, 0.72fr) minmax(420px, 1fr);
   gap: clamp(38px, 7vw, 100px);
 }
 
-.ultrasound-concept-reference-list {
+.concept-product-reference-list {
   border-top: 1px solid var(--line);
 }
 
-.ultrasound-concept-reference-list p {
+.concept-product-reference-list p {
   margin: 0;
   border-bottom: 1px solid var(--line);
   padding: 18px 0;
   color: var(--muted);
 }
 
-.ultrasound-concept-reference-list a {
+.concept-product-reference-list a {
   color: var(--teal-dark);
   font-weight: 750;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
-.ultrasound-concept-fit {
+.concept-product-fit {
   color: var(--white);
   background: #20313b;
 }
 
-.ultrasound-concept-fit .eyebrow {
+.concept-product-fit .eyebrow {
   color: #76d1bd;
 }
 
-.ultrasound-concept-fit-points {
+.concept-product-fit-points {
   border-top: 1px solid rgba(255, 255, 255, 0.24);
 }
 
-.ultrasound-concept-fit-points p {
+.concept-product-fit-points p {
   display: grid;
   grid-template-columns: minmax(170px, 0.5fr) minmax(250px, 1fr);
   gap: 28px;
@@ -6468,24 +6468,24 @@ body {
   padding: 20px 0;
 }
 
-.ultrasound-concept-fit-points span {
+.concept-product-fit-points span {
   color: #c2ced2;
 }
 
-.ultrasound-concept-collaboration {
+.concept-product-collaboration {
   background: #f4f7f7;
 }
 
-.ultrasound-concept-collaboration-copy {
+.concept-product-collaboration-copy {
   position: sticky;
   top: 104px;
 }
 
-.ultrasound-concept-form {
+.concept-product-form {
   box-shadow: none;
 }
 
-.ultrasound-concept-form select {
+.concept-product-form select {
   width: 100%;
   min-height: 44px;
   border: 1px solid #cad8e5;
@@ -6495,14 +6495,14 @@ body {
   background: var(--paper);
 }
 
-.ultrasound-concept-form input:focus,
-.ultrasound-concept-form select:focus,
-.ultrasound-concept-form textarea:focus {
+.concept-product-form input:focus,
+.concept-product-form select:focus,
+.concept-product-form textarea:focus {
   border-color: var(--teal);
   outline: 3px solid rgba(18, 107, 100, 0.14);
 }
 
-.ultrasound-concept-form [aria-invalid="true"] {
+.concept-product-form [aria-invalid="true"] {
   border-color: #a83c35;
   outline: 3px solid rgba(168, 60, 53, 0.12);
 }
@@ -6770,38 +6770,38 @@ body {
     justify-self: start;
   }
 
-  .ultrasound-concept-hero {
+  .concept-product-hero {
     grid-template-columns: 1fr;
     min-height: auto;
   }
 
-  .ultrasound-concept-hero-copy {
+  .concept-product-hero-copy {
     max-width: 780px;
   }
 
-  .ultrasound-concept-hero-visual {
+  .concept-product-hero-visual {
     max-width: 880px;
   }
 
-  .ultrasound-concept-steps {
+  .concept-product-steps {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .ultrasound-concept-architecture-flow {
+  .concept-product-architecture-flow {
     grid-template-columns: 1fr;
     gap: 0;
   }
 
-  .ultrasound-concept-architecture-flow div {
+  .concept-product-architecture-flow div {
     min-height: auto;
     padding: 18px 0;
   }
 
-  .ultrasound-concept-architecture-flow span {
+  .concept-product-architecture-flow span {
     max-width: none;
   }
 
-  .ultrasound-concept-architecture-flow i {
+  .concept-product-architecture-flow i {
     width: 1px;
     height: 28px;
     margin: 0 0 0 12px;
@@ -6869,48 +6869,48 @@ body {
   }
 
   .research-platform-grid,
-  .ultrasound-concept-problem,
-  .ultrasound-concept-modes,
-  .ultrasound-concept-applications,
-  .ultrasound-concept-basis,
-  .ultrasound-concept-fit,
-  .ultrasound-concept-collaboration {
+  .concept-product-problem,
+  .concept-product-modes,
+  .concept-product-applications,
+  .concept-product-basis,
+  .concept-product-fit,
+  .concept-product-collaboration {
     grid-template-columns: 1fr;
   }
 
-  .ultrasound-concept-hero {
+  .concept-product-hero {
     gap: 30px;
     padding: 54px 18px;
   }
 
-  .ultrasound-concept-hero h1 {
+  .concept-product-hero h1 {
     font-size: clamp(2.35rem, 12vw, 3.4rem);
   }
 
-  .ultrasound-concept-steps {
+  .concept-product-steps {
     grid-template-columns: 1fr;
   }
 
-  .ultrasound-concept-steps li {
+  .concept-product-steps li {
     min-height: auto;
   }
 
-  .ultrasound-concept-steps h3 {
+  .concept-product-steps h3 {
     margin-top: 24px;
   }
 
-  .ultrasound-concept-mode-list article,
-  .ultrasound-concept-roadmap-list li,
-  .ultrasound-concept-fit-points p {
+  .concept-product-mode-list article,
+  .concept-product-roadmap-list li,
+  .concept-product-fit-points p {
     grid-template-columns: 1fr;
     gap: 8px;
   }
 
-  .ultrasound-concept-application-list {
+  .concept-product-application-list {
     grid-template-columns: 1fr;
   }
 
-  .ultrasound-concept-collaboration-copy {
+  .concept-product-collaboration-copy {
     position: static;
   }
 

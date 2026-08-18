@@ -321,59 +321,8 @@ function initRecommendationForm() {
   });
 }
 
-function initUltrasoundConceptInquiryForm() {
-  const form = document.querySelector("#ultrasound-conceptInquiryForm");
-  if (!form) return;
-  const status = document.querySelector("#ultrasound-conceptInquiryStatus");
-  const submit = form.querySelector('button[type="submit"]');
-
-  form.addEventListener("input", (event) => {
-    const field = event.target.closest("input, select, textarea");
-    if (!field) return;
-    field.removeAttribute("aria-invalid");
-    const error = form.querySelector(`[data-error-for="${field.id}"]`);
-    if (error) error.textContent = "";
-  });
-
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    if (!validateProjectForm(form)) {
-      setFormStatus(status, "Please review the highlighted fields.", "error");
-      form.querySelector('[aria-invalid="true"]')?.focus();
-      return;
-    }
-
-    const data = new FormData(form);
-    const subject = encodeURIComponent(`Clip-on ultrasound research collaboration - ${data.get("organization")}`);
-    const body = encodeURIComponent([
-      "MicroCD Labs clip-on ultrasound research collaboration inquiry",
-      "",
-      `Name: ${data.get("name")}`,
-      `Organization: ${data.get("organization")}`,
-      `Work email: ${data.get("email")}`,
-      `Area of interest: ${data.get("interest")}`,
-      "",
-      "Intended research application:",
-      data.get("application"),
-      "",
-      "This initial inquiry is non-confidential and does not include patient information.",
-    ].join("\n"));
-
-    submit.disabled = true;
-    submit.setAttribute("aria-busy", "true");
-    setFormStatus(status, "Preparing your collaboration email…", "loading");
-    window.setTimeout(() => {
-      window.location.href = `mailto:${microcdCompanyEmail}?subject=${subject}&body=${body}`;
-      submit.disabled = false;
-      submit.removeAttribute("aria-busy");
-      setFormStatus(status, "Your email app should open with the inquiry prepared. Review it before sending.", "success");
-    }, 250);
-  });
-}
-
 initPageNavigationAids();
 initSiteNavigation();
 initHeroDots();
 initProjectInquiryForm();
 initRecommendationForm();
-initUltrasoundConceptInquiryForm();

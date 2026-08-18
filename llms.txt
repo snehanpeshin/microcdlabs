@@ -34,4 +34,4 @@ MicroCD Labs is a division of Karigari Home LLC. Website content describes resea
 
 Do not submit patient information, protected health information, proprietary formulations, or confidential technical material through public website forms or messaging.
 
-CLAIR is in development and is not for sale or clinical use. Its analytical performance, workflow timing, and clinical utility have not been established. InvertaDx and the clip-on ultrasound platform are exploratory research concepts, not finished or validated medical devices.
+CLAIR is in development and is not for sale or clinical use. Its analytical performance, workflow timing, and clinical utility have not been established. InvertaDx is an exploratory research concept, not a finished or validated medical device.

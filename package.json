@@ -1,0 +1,12 @@
+{
+  "name": "microcdlabs-static-products",
+  "private": true,
+  "version": "2.0.0-beta.1",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "typecheck": "node --check assets/scientific-ui.js && node --check modeler/modeler.js && node --check analyzer/analyzer.js",
+    "lint": "node tests/static-quality.mjs",
+    "build": "node tests/build-check.mjs"
+  }
+}

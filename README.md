@@ -41,7 +41,23 @@ microfluidics-supply-site
 
 The included `amplify.yml` publishes the static files directly and does not need an npm build.
 
-The marketing site uses `site.js` for shared navigation, responsive behavior, and consultation forms. Catalog pages also load `script.js`, which contains the product data and quote-cart behavior. The exported `analyzer/` and `modeler/` tools are deployed as static artifacts; their original framework source and package manifests are not currently included in this repository.
+The marketing site uses `site.js` for shared navigation, responsive behavior, and consultation forms. Catalog pages also load `script.js`, which contains the product data and quote-cart behavior. The original framework source and package manifests for the historical product exports are not included in this repository.
+
+## Scientific applications beta
+
+- `/modeler/` is a dependency-free, local-first parametric 2D microfluidic workspace. It retains the compiled legacy 3D/GLB workspace as a separate preview.
+- `/analyzer/` is the Kinetic Assay Analyzer guided workflow. CSV and image processing runs in the browser; raw files are not uploaded or stored by the site.
+- Both applications share `assets/scientific-ui.css` and `assets/scientific-ui.js` for design tokens, accessible controls, dialogs, tabs, notifications, and exports.
+- Product architecture and known gaps are documented in `docs/architecture-and-gap-assessment.md`. Scientific formulas and assumptions are documented in `docs/methodology.md`.
+
+Run product checks with Node 20 or newer:
+
+```bash
+npm test
+npm run typecheck
+npm run lint
+npm run build
+```
 
 ## Payment setup
 
