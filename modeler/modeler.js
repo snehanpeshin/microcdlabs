@@ -4,6 +4,8 @@ export const PROJECT_SCHEMA = "microcd.modeler.project";
 export const PROJECT_VERSION = 2;
 const STORAGE_KEY = "microcd-modeler-autosave-v2";
 const SCALE = 6;
+export const CONNECTION_TOLERANCE_MM = 0.25;
+export const NEAR_CONNECTION_TOLERANCE_MM = 3;
 
 export const COMPONENTS = {
   "straight-channel": { name: "Straight channel", length: 30, width: 1, depth: .2 },
@@ -38,9 +40,12 @@ export function createProject(name = "Untitled microfluidic project") {
   return {
     schema: PROJECT_SCHEMA, version: PROJECT_VERSION, appVersion: APP_VERSION, id: uid("project"), name,
     createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), units: "mm",
-    canvas: { width: 200, height: 120, grid: .5, snap: true },
+    canvas: { width: 200, height: 120, grid: .5, snap: true, connectionTolerance: CONNECTION_TOLERANCE_MM, nearConnectionTolerance: NEAR_CONNECTION_TOLERANCE_MM },
     layers: [{ id: uid("layer"), name: "Flow layer", visible: true, locked: false }],
-    features: [], profile: { ...DEFAULT_PROFILE }, engineering: { flowRateUlMin: "", densityKgM3: "", viscosityPaS: "" }
+    features: [], profile: { ...DEFAULT_PROFILE }, engineering: {
+      inputMode: "flow", flowRateUlMin: "", inletPressureKPa: "", outletPressureKPa: "0",
+      densityKgM3: "1000", viscosityPaS: "0.001", diffusivityUm2S: "", surfaceTensionMnM: ""
+    }
   };
 }
 
@@ -98,6 +103,46 @@ export function featureBounds(feature) {
   return { x: feature.position.x - length / 2, y: feature.position.y - width / 2, width: length, height: width };
 }
 
+function rotatePoint(point, degrees) {
+  const radians = finite(degrees, 0) * Math.PI / 180;
+  const cosine = Math.cos(radians); const sine = Math.sin(radians);
+  return { x: point.x * cosine - point.y * sine, y: point.x * sine + point.y * cosine };
+}
+
+export function connectionAnchors(feature) {
+  const p = feature.parameters; const length = finite(p.length, 10); const width = finite(p.width, 8); const diameter = finite(p.diameter, 0);
+  let local;
+  if (["inlet", "outlet"].includes(feature.type)) local = [{ role: "center", x: 0, y: 0 }];
+  else if (feature.type === "circular-chamber") {
+    const radius = diameter / 2; local = [{ role: "left", x: -radius, y: 0 }, { role: "right", x: radius, y: 0 }, { role: "top", x: 0, y: -radius }, { role: "bottom", x: 0, y: radius }];
+  } else if (feature.type === "t-junction") local = [{ role: "left", x: -length / 2, y: -length / 4 }, { role: "right", x: length / 2, y: -length / 4 }, { role: "branch", x: 0, y: length / 4 }];
+  else if (feature.type === "y-junction") local = [{ role: "stem", x: 0, y: length / 4 }, { role: "left", x: -length / 2, y: -length / 4 }, { role: "right", x: length / 2, y: -length / 4 }];
+  else if (["straight-channel", "curved-channel", "serpentine", "radial-channel"].includes(feature.type)) local = [{ role: "start", x: -length / 2, y: 0 }, { role: "end", x: length / 2, y: 0 }];
+  else local = [{ role: "left", x: -length / 2, y: 0 }, { role: "right", x: length / 2, y: 0 }, { role: "top", x: 0, y: -width / 2 }, { role: "bottom", x: 0, y: width / 2 }];
+  return local.map((anchor) => { const rotated = rotatePoint(anchor, feature.rotation); return { ...anchor, x: feature.position.x + rotated.x, y: feature.position.y + rotated.y }; });
+}
+
+export function nearestConnection(feature, others, tolerance = CONNECTION_TOLERANCE_MM, nearTolerance = NEAR_CONNECTION_TOLERANCE_MM) {
+  let nearest = null;
+  for (const other of others) {
+    if (!other || other.id === feature.id || other.layerId !== feature.layerId) continue;
+    for (const source of connectionAnchors(feature)) for (const target of connectionAnchors(other)) {
+      const distance = Math.hypot(target.x - source.x, target.y - source.y);
+      if (!nearest || distance < nearest.distance) nearest = { featureId: feature.id, otherId: other.id, source, target, dx: target.x - source.x, dy: target.y - source.y, distance };
+    }
+  }
+  if (!nearest) return null;
+  nearest.state = nearest.distance <= tolerance ? "connected" : nearest.distance <= nearTolerance ? "near" : "separate";
+  return nearest;
+}
+
+export function autoConnectFeature(feature, others, nearTolerance = NEAR_CONNECTION_TOLERANCE_MM) {
+  const nearest = nearestConnection(feature, others, CONNECTION_TOLERANCE_MM, nearTolerance);
+  if (!nearest || nearest.distance > nearTolerance) return null;
+  feature.position.x += nearest.dx; feature.position.y += nearest.dy;
+  return { ...nearest, correctedDistance: 0 };
+}
+
 export function validateProject(project) {
   const issues = [];
   const profile = project.profile;
@@ -121,7 +166,9 @@ export function validateProject(project) {
     const a = project.features[i], b = project.features[j], ab = featureBounds(a), bb = featureBounds(b);
     const overlapX = Math.min(ab.x + ab.width, bb.x + bb.width) - Math.max(ab.x, bb.x);
     const overlapY = Math.min(ab.y + ab.height, bb.y + bb.height) - Math.max(ab.y, bb.y);
-    if (overlapX > .05 && overlapY > .05) add("warning", "FEATURE_OVERLAP", `${a.name} overlaps ${b.name}.`, [a.id, b.id], `${Math.min(overlapX, overlapY).toFixed(2)} mm`, "0 mm", "Separate features or confirm the overlap is an intentional connection.");
+    const anchorConnection = nearestConnection(a, [b], project.canvas.connectionTolerance, project.canvas.nearConnectionTolerance);
+    const intentionalFlowConnection = anchorConnection?.state === "connected" && [a.type,b.type].some((type)=>type.includes("channel")||type.includes("junction")||type==="serpentine");
+    if (overlapX > .05 && overlapY > .05 && !intentionalFlowConnection) add("warning", "FEATURE_OVERLAP", `${a.name} overlaps ${b.name}.`, [a.id, b.id], `${Math.min(overlapX, overlapY).toFixed(2)} mm`, "0 mm", "Separate features or confirm the overlap is an intentional connection.");
     else {
       const gapX=Math.max(0,Math.max(ab.x,bb.x)-Math.min(ab.x+ab.width,bb.x+bb.width));const gapY=Math.max(0,Math.max(ab.y,bb.y)-Math.min(ab.y+ab.height,bb.y+bb.height));const gap=Math.hypot(gapX,gapY);
       if(gap>0&&gap<profile.minSpacing)add("warning","MIN_FEATURE_SPACING",`${a.name} and ${b.name} are closer than the configured feature spacing.`,[a.id,b.id],`${gap.toFixed(2)} mm`,`${profile.minSpacing} mm`,"Increase spacing or review the process profile.");
@@ -131,8 +178,9 @@ export function validateProject(project) {
   }
   if (ports.length === 1) add("warning", "PORT_CLEARANCE", "Only one port is defined; a complete flow path normally needs an inlet and outlet.", [ports[0].id], 1, 2, "Add the missing port.");
   project.features.filter((feature)=>feature.type.includes("channel")||feature.type.includes("junction")||feature.type==="serpentine").forEach((feature)=>{
-    const bounds=featureBounds(feature);const connected=project.features.some((other)=>{if(other.id===feature.id)return false;const b=featureBounds(other);return !(bounds.x+bounds.width<b.x||b.x+b.width<bounds.x||bounds.y+bounds.height<b.y||b.y+b.height<bounds.y);});
-    if(!connected)add("warning","DISCONNECTED_FLOW_PATH",`${feature.name} is not connected to another feature by the current 2D bounding-box check.`,[feature.id],"Disconnected","Connected","Move it into contact with a port, chamber, or channel.");
+    const nearest = nearestConnection(feature, project.features, project.canvas.connectionTolerance, project.canvas.nearConnectionTolerance);
+    if (nearest?.state === "near") add("warning", "NEAR_NOT_CONNECTED", `${feature.name} is close to ${project.features.find((item)=>item.id===nearest.otherId)?.name || "another component"}, but its anchors do not meet.`, [feature.id, nearest.otherId], `${nearest.distance.toFixed(2)} mm gap`, `≤ ${project.canvas.connectionTolerance} mm`, "Use Auto-connect to close the measured anchor gap.");
+    if (!nearest || nearest.state === "separate") add("warning", "DISCONNECTED_FLOW_PATH", `${feature.name} has no connected component anchor.`, [feature.id], nearest ? `${nearest.distance.toFixed(2)} mm to nearest anchor` : "No other component", `≤ ${project.canvas.connectionTolerance} mm`, `Move it within ${project.canvas.nearConnectionTolerance} mm, then use Auto-connect.`);
   });
   return issues;
 }
@@ -147,19 +195,36 @@ export function engineeringEstimates(feature, inputs = {}) {
     { key: "hydraulicDiameter", label: "Hydraulic diameter", value: dh * 1000, unit: "mm", method: "Dh = 2wh/(w+h)" },
     { key: "volume", label: "Internal volume", value: volume * 1e9, unit: "µL", method: "Rectangular prism, V = w·h·L" }
   ];
-  const q = Number(inputs.flowRateUlMin) * 1e-9 / 60, rho = Number(inputs.densityKgM3), mu = Number(inputs.viscosityPaS);
-  if (!(q > 0)) return results.concat({ key: "flow", label: "Not calculated", value: "Flow rate required", unit: "", method: "Flow-dependent estimates", warning: true });
-  const area = wm * hm, velocity = q / area;
-  results.push({ key: "residence", label: "Residence time", value: volume / q, unit: "s", method: "t = V/Q" });
-  if (!(rho > 0) || !(mu > 0)) return results.concat({ key: "fluid", label: "Not calculated", value: "Density and viscosity required", unit: "", method: "Reynolds / pressure estimates", warning: true });
+  const rho = Number(inputs.densityKgM3), mu = Number(inputs.viscosityPaS);
+  if (!(mu > 0)) return results.concat({ key: "fluid", label: "Not calculated", value: "Viscosity required", unit: "", method: "Flow / pressure estimates", warning: true });
   const alpha = Math.min(hm, wm) / Math.max(hm, wm);
   const correction = Math.max(1 - .63 * alpha, .1);
   const resistance = 12 * mu * lm / (Math.max(wm, hm) * Math.pow(Math.min(wm, hm), 3) * correction);
+  const pressureDriven = inputs.inputMode === "pressure";
+  const inletPressure = Number(inputs.inletPressureKPa); const outletPressure = Number(inputs.outletPressureKPa || 0);
+  let q = Number(inputs.flowRateUlMin) * 1e-9 / 60;
+  if (pressureDriven) {
+    const pressurePa = (inletPressure - outletPressure) * 1000;
+    if (!(pressurePa > 0)) return results.concat({ key: "pressureInput", label: "Not calculated", value: "Inlet pressure must exceed outlet pressure", unit: "", method: "Pressure-driven flow", warning: true });
+    q = pressurePa / resistance;
+  }
+  if (!(q > 0)) return results.concat({ key: "flow", label: "Not calculated", value: "Positive flow rate required", unit: "", method: "Flow-driven estimates", warning: true });
+  const area = wm * hm, velocity = q / area; const pressureDropPa = resistance * q;
   results.push(
-    { key: "reynolds", label: "Reynolds number", value: rho * velocity * dh / mu, unit: "", method: "Re = ρvDh/µ", warning: alpha > 1 },
+    { key: "flowRate", label: pressureDriven ? "Calculated flow rate" : "Inlet flow rate", value: q * 60 * 1e9, unit: "µL/min", method: pressureDriven ? "Q = ΔP/R" : "User inlet condition" },
+    { key: "velocity", label: "Mean velocity", value: velocity * 1000, unit: "mm/s", method: "v = Q/(w·h)" },
+    { key: "residence", label: "Residence time", value: volume / q, unit: "s", method: "t = V/Q" },
     { key: "resistance", label: "Hydraulic resistance", value: resistance, unit: "Pa·s/m³", method: "Rectangular-channel approximation" },
-    { key: "pressure", label: "Pressure drop", value: resistance * q / 1000, unit: "kPa", method: "ΔP = RQ", warning: true }
+    { key: "pressure", label: pressureDriven ? "Applied pressure drop" : "Required pressure drop", value: pressureDropPa / 1000, unit: "kPa", method: "ΔP = RQ", warning: true },
+    { key: "shearRate", label: "Wall shear-rate estimate", value: 6 * velocity / Math.min(wm, hm), unit: "s⁻¹", method: "γ̇ ≈ 6v/h (parallel-plate estimate)", warning: true },
+    { key: "wallShear", label: "Wall shear-stress estimate", value: mu * 6 * velocity / Math.min(wm, hm), unit: "Pa", method: "τ ≈ µγ̇", warning: true }
   );
+  if (rho > 0) results.push({ key: "reynolds", label: "Reynolds number", value: rho * velocity * dh / mu, unit: "", method: "Re = ρvDh/µ" });
+  else results.push({ key: "density", label: "Reynolds number", value: "Density required", unit: "", method: "Re = ρvDh/µ", warning: true });
+  const diffusivity = Number(inputs.diffusivityUm2S) * 1e-12;
+  if (diffusivity > 0) results.push({ key: "peclet", label: "Péclet number", value: velocity * dh / diffusivity, unit: "", method: "Pe = vDh/D" });
+  const surfaceTension = Number(inputs.surfaceTensionMnM) / 1000;
+  if (surfaceTension > 0) results.push({ key: "capillary", label: "Capillary number", value: mu * velocity / surfaceTension, unit: "", method: "Ca = µv/γ" });
   return results;
 }
 
@@ -172,7 +237,7 @@ function init() {
   if ("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("/modeler/sw.js").catch(() => {});
   setupTabs();
   let project = recoverProject(); let selected = new Set(); let activeType = null; let history = []; let future = []; let dragging = null;
-  const canvas = document.querySelector("#design-canvas"); const geometry = document.querySelector("#geometry-layer");
+  const canvas = document.querySelector("#design-canvas"); const geometry = document.querySelector("#geometry-layer"); const selectionLayer = document.querySelector("#selection-layer");
   const projectTree = document.querySelector("#project-tree"); const inspector = document.querySelector("#inspector-body");
   const projectName = document.querySelector("#project-name"); const exportDialog = document.querySelector("#export-dialog");
   bindDialog(exportDialog, [document.querySelector('[data-action="export"]')]);
@@ -192,10 +257,36 @@ function init() {
 
   function render() {
     projectName.value = project.name; document.querySelector("#grid-size").value = String(project.canvas.grid); document.querySelector("#snap-enabled").checked = project.canvas.snap;
-    geometry.replaceChildren(...project.features.map(renderFeature));
+    geometry.replaceChildren(...project.features.map(renderFeature)); renderConnectionGuide();
     renderTree(); renderInspector(); renderIssues(); renderEstimates();
     document.querySelector("#selection-count").textContent = selected.size ? `${selected.size} selected` : "None";
     document.querySelectorAll('[data-action="duplicate"],[data-action="mirror"],[data-action="pattern"],[data-action="delete"]').forEach((button) => { button.disabled = !selected.size; });
+  }
+
+  function selectedConnection() {
+    if (selected.size !== 1) return null;
+    const feature = project.features.find((item) => selected.has(item.id));
+    return feature ? { feature, nearest: nearestConnection(feature, project.features, project.canvas.connectionTolerance, project.canvas.nearConnectionTolerance) } : null;
+  }
+
+  function renderConnectionGuide() {
+    selectionLayer.replaceChildren();
+    const status = document.querySelector("#connection-status"); const autoButton = document.querySelector('[data-action="auto-connect"]'); const connection = selectedConnection();
+    const connectedTolerance=project.canvas.connectionTolerance;const nearTolerance=project.canvas.nearConnectionTolerance;
+    document.querySelector("#connected-threshold").textContent=`Connected ≤ ${formatNumber(connectedTolerance)} mm`;
+    document.querySelector("#near-threshold").textContent=`Near: ${formatNumber(connectedTolerance)}–${formatNumber(nearTolerance)} mm`;
+    document.querySelector("#separate-threshold").textContent=`Separate > ${formatNumber(nearTolerance)} mm`;
+    autoButton.disabled = true; status.removeAttribute("data-state");
+    if (!connection) { status.textContent = selected.size > 1 ? "Select one component to check its connection" : "Select a component to check its connection"; return; }
+    const { nearest } = connection;
+    if (!nearest) { status.dataset.state = "separate"; status.textContent = "No other component on this layer"; return; }
+    const labels = { connected: "Connected", near: "Near, not connected", separate: "Not connected" };
+    status.dataset.state = nearest.state; status.textContent = `${labels[nearest.state]} · ${nearest.distance.toFixed(2)} mm anchor gap`;
+    autoButton.disabled = nearest.state !== "near";
+    const ns = "http://www.w3.org/2000/svg"; const line = document.createElementNS(ns, "line");
+    line.setAttribute("x1", nearest.source.x * SCALE); line.setAttribute("y1", nearest.source.y * SCALE); line.setAttribute("x2", nearest.target.x * SCALE); line.setAttribute("y2", nearest.target.y * SCALE); line.classList.add("connection-guide", `connection-guide--${nearest.state}`);
+    const anchors = [nearest.source, nearest.target].map((point) => { const circle = document.createElementNS(ns, "circle"); circle.setAttribute("cx", point.x * SCALE); circle.setAttribute("cy", point.y * SCALE); circle.setAttribute("r", "5"); circle.classList.add("connection-anchor", `connection-anchor--${nearest.state}`); return circle; });
+    selectionLayer.append(line, ...anchors);
   }
 
   function renderFeature(feature) {
@@ -226,12 +317,15 @@ function init() {
   function renderIssues() {
     const issues = validateProject(project); document.querySelector("#issue-count").textContent = String(issues.length);
     document.querySelectorAll("[data-profile]").forEach((input)=>{input.value=project.profile[input.dataset.profile]});
-    document.querySelector("#issues").innerHTML = issues.length ? issues.map((issue,index)=>`<button class="issue" data-issue="${index}"><span class="status-badge status-badge--${issue.severity==='error'?'error':'warn'}">${issue.severity}</span><span><strong>${issue.ruleId}</strong> — ${escapeHtml(issue.explanation)}<br><small>Actual: ${escapeHtml(issue.actual)} · Configured: ${escapeHtml(issue.required)} · ${escapeHtml(issue.action)}</small></span><span>Focus →</span></button>`).join("") : '<div class="empty-state"><span class="status-badge status-badge--ok">No advisory issues</span><span>All configured checks pass. This is not manufacturing validation.</span></div>';
-    document.querySelectorAll("[data-issue]").forEach((button)=>button.addEventListener("click",()=>{ const issue=issues[Number(button.dataset.issue)]; selected=new Set(issue.featureIds); render(); }));
+    document.querySelectorAll("[data-canvas]").forEach((input)=>{input.value=project.canvas[input.dataset.canvas]});
+    document.querySelector("#issues").innerHTML = issues.length ? issues.map((issue,index)=>`<div class="issue"><span class="status-badge status-badge--${issue.severity==='error'?'error':'warn'}">${issue.severity}</span><span><strong>${issue.ruleId}</strong> — ${escapeHtml(issue.explanation)}<br><small>Actual: ${escapeHtml(issue.actual)} · Target: ${escapeHtml(issue.required)} · ${escapeHtml(issue.action)}</small></span><span class="issue-actions"><button data-issue-focus="${index}">Focus</button>${issue.ruleId === "NEAR_NOT_CONNECTED" ? `<button class="issue-fix" data-issue-fix="${index}">Fix now</button>` : ""}</span></div>`).join("") : '<div class="empty-state"><span class="status-badge status-badge--ok">No advisory issues</span><span>All configured checks pass. This is not manufacturing validation.</span></div>';
+    document.querySelectorAll("[data-issue-focus]").forEach((button)=>button.addEventListener("click",()=>{ const issue=issues[Number(button.dataset.issueFocus)]; selected=new Set(issue.featureIds); render(); }));
+    document.querySelectorAll("[data-issue-fix]").forEach((button)=>button.addEventListener("click",()=>{ const issue=issues[Number(button.dataset.issueFix)]; const feature=project.features.find((item)=>item.id===issue.featureIds[0]); if(!feature)return; mutate(()=>{autoConnectFeature(feature,project.features,project.canvas.nearConnectionTolerance);selected=new Set([feature.id]);},"Near-miss corrected and anchors connected"); }));
   }
   function renderEstimates() {
     const feature = project.features.find((item)=>selected.has(item.id)); const results=engineeringEstimates(feature,project.engineering);
-    document.querySelector("#estimates").innerHTML = `<div class="estimate-inputs field-row"><label class="field">Flow rate (µL/min)<input data-engineering="flowRateUlMin" type="number" step="0.1" value="${project.engineering.flowRateUlMin}"></label><label class="field">Density (kg/m³)<input data-engineering="densityKgM3" type="number" step="1" value="${project.engineering.densityKgM3}"></label><label class="field">Viscosity (Pa·s)<input data-engineering="viscosityPaS" type="number" step="0.0001" value="${project.engineering.viscosityPaS}"></label></div><div class="estimate-grid">${results.map((result)=>`<div class="estimate"><span>${result.label}</span><strong>${typeof result.value==='number'?formatNumber(result.value):escapeHtml(result.value)} ${result.unit}</strong><small>${result.method}${result.warning?' · Review assumptions':''}</small></div>`).join("") || '<div class="empty-state">Select a rectangular channel with valid dimensions.</div>'}</div>`;
+    const pressureMode = project.engineering.inputMode === "pressure";
+    document.querySelector("#estimates").innerHTML = `<div class="estimate-inputs"><label class="field">Inlet control<select data-engineering="inputMode"><option value="flow" ${pressureMode?'':'selected'}>Flow rate</option><option value="pressure" ${pressureMode?'selected':''}>Pressure</option></select></label>${pressureMode?`<label class="field">Inlet pressure (kPa)<input data-engineering="inletPressureKPa" type="number" step="0.1" value="${project.engineering.inletPressureKPa}"></label><label class="field">Outlet pressure (kPa)<input data-engineering="outletPressureKPa" type="number" step="0.1" value="${project.engineering.outletPressureKPa}"></label>`:`<label class="field">Inlet flow rate (µL/min)<input data-engineering="flowRateUlMin" type="number" step="0.1" value="${project.engineering.flowRateUlMin}"></label>`}<label class="field">Density (kg/m³)<input data-engineering="densityKgM3" type="number" step="1" value="${project.engineering.densityKgM3}"></label><label class="field">Viscosity (Pa·s)<input data-engineering="viscosityPaS" type="number" step="0.0001" value="${project.engineering.viscosityPaS}"></label><label class="field">Diffusivity (µm²/s, optional)<input data-engineering="diffusivityUm2S" type="number" step="1" value="${project.engineering.diffusivityUm2S}"></label><label class="field">Surface tension (mN/m, optional)<input data-engineering="surfaceTensionMnM" type="number" step="0.1" value="${project.engineering.surfaceTensionMnM}"></label><p class="estimate-note">Calculations use the selected rectangular channel and inlet conditions. Pressure, shear, and transport values are reduced-order research estimates; verify with the complete network and fabrication geometry.</p></div><div class="estimate-grid">${results.map((result)=>`<div class="estimate"><span>${result.label}</span><strong>${typeof result.value==='number'?formatNumber(result.value):escapeHtml(result.value)} ${result.unit}</strong><small>${result.method}${result.warning?' · Review assumptions':''}</small></div>`).join("") || '<div class="empty-state">Select a channel with valid width, depth, and length.</div>'}</div>`;
   }
 
   document.addEventListener("click", (event) => {
@@ -254,6 +348,7 @@ function init() {
     if(event.target.id==="grid-size"){mutate(()=>project.canvas.grid=Number(event.target.value),"Grid updated");return;}
     if(event.target.id==="snap-enabled"){mutate(()=>project.canvas.snap=event.target.checked,"Snapping updated");return;}
     if(event.target.dataset.profile){mutate(()=>{project.profile[event.target.dataset.profile]=Number(event.target.value);project.profile.name="Custom";},"Advisory profile updated");return;}
+    if(event.target.dataset.canvas){const key=event.target.dataset.canvas;const value=Number(event.target.value);if(!(value>0)){toast("Connection distances must be positive.","error");render();return;}mutate(()=>{project.canvas[key]=key==="nearConnectionTolerance"?Math.max(value,project.canvas.connectionTolerance):Math.min(value,project.canvas.nearConnectionTolerance);},"Connection guidance updated");return;}
     if(event.target.id==="profile-preset"){const preset=PROFILES[event.target.value];if(preset)mutate(()=>project.profile={...preset},"Fabrication starting defaults loaded");return;}
     const feature=project.features.find(x=>selected.has(x.id)); if(!feature)return;
     if(event.target.dataset.param) mutate(()=>feature.parameters[event.target.dataset.param]=Number(event.target.value),"Dimension updated");
@@ -273,6 +368,7 @@ function init() {
     if(action==="duplicate")mutate(()=>{const copies=project.features.filter(x=>selected.has(x.id)).map(x=>({...structuredClone(x),id:uid("feature"),name:`${x.name} copy`,position:{x:x.position.x+3,y:x.position.y+3}}));project.features.push(...copies);selected=new Set(copies.map(x=>x.id));},"Features duplicated");
     if(action==="mirror")mutate(()=>{project.features.filter(x=>selected.has(x.id)).forEach(x=>{x.position.x=project.canvas.width-x.position.x;x.rotation=(360-x.rotation)%360;});},"Features mirrored across vertical centerline");
     if(action==="pattern")mutate(()=>{const copies=[];project.features.filter(x=>selected.has(x.id)).forEach(x=>{for(let i=1;i<=3;i++)copies.push({...structuredClone(x),id:uid("feature"),name:`${x.name} ${i+1}`,position:{x:x.position.x+i*5,y:x.position.y}})});project.features.push(...copies);selected=new Set(copies.map(x=>x.id));},"Linear pattern created");
+    if(action==="auto-connect"){const connection=selectedConnection();if(connection?.nearest?.state==="near")mutate(()=>{autoConnectFeature(connection.feature,project.features,project.canvas.nearConnectionTolerance);selected=new Set([connection.feature.id]);},"Component snapped to the nearest connection anchor");else toast("Move one selected component within 3 mm of another anchor first.","error");}
     if(action==="add-layer")mutate(()=>project.layers.push({id:uid("layer"),name:`Layer ${project.layers.length+1}`,visible:true,locked:false}),"Layer added");
     if(action==="fit"||action==="reset-view")canvas.setAttribute("viewBox","0 0 1200 720");
   }

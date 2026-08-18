@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { COMPONENTS, createProject, engineeringEstimates, makeFeature, migrateProject, PROJECT_SCHEMA, validateProject } from "../modeler/modeler.js";
+import { autoConnectFeature, COMPONENTS, createProject, engineeringEstimates, makeFeature, migrateProject, nearestConnection, PROJECT_SCHEMA, validateProject } from "../modeler/modeler.js";
 
 test("all domain components serialize through v2 schema", () => {
   const project=createProject("Fixture");
@@ -22,4 +22,19 @@ test("DRC reports missing ports and invalid dimensions", () => {
 test("rectangular channel estimates match hand calculation", () => {
   const feature={type:"straight-channel",parameters:{width:1,depth:.5,length:10}};const results=engineeringEstimates(feature,{flowRateUlMin:60,densityKgM3:1000,viscosityPaS:.001});
   const byKey=Object.fromEntries(results.map(result=>[result.key,result.value]));assert.ok(Math.abs(byKey.hydraulicDiameter-.6666667)<1e-6);assert.ok(Math.abs(byKey.volume-5)<1e-9);assert.ok(Math.abs(byKey.residence-5)<1e-9);assert.ok(byKey.reynolds>1&&byKey.reynolds<2);
+});
+
+test("near component anchors are distinguished from connected anchors and can auto-correct", () => {
+  const project=createProject();const layer=project.layers[0].id;
+  const channel=makeFeature("straight-channel",{x:30,y:30},layer);const inlet=makeFeature("inlet",{x:47,y:30},layer);
+  project.features=[channel,inlet];
+  const before=nearestConnection(channel,project.features);assert.equal(before.state,"near");assert.ok(Math.abs(before.distance-2)<1e-9);
+  const correction=autoConnectFeature(channel,project.features);assert.ok(correction);assert.equal(nearestConnection(channel,project.features).state,"connected");assert.equal(channel.position.x,32);
+});
+
+test("pressure-driven inlet mode derives flow, velocity, shear, and pressure", () => {
+  const feature={type:"straight-channel",parameters:{width:1,depth:.5,length:10}};
+  const results=engineeringEstimates(feature,{inputMode:"pressure",inletPressureKPa:2,outletPressureKPa:0,densityKgM3:1000,viscosityPaS:.001,diffusivityUm2S:100,surfaceTensionMnM:72});
+  const byKey=Object.fromEntries(results.map(result=>[result.key,result.value]));
+  assert.ok(byKey.flowRate>0);assert.ok(byKey.velocity>0);assert.ok(byKey.shearRate>0);assert.ok(byKey.wallShear>0);assert.ok(byKey.reynolds>0);assert.ok(byKey.peclet>0);assert.ok(byKey.capillary>0);assert.ok(Math.abs(byKey.pressure-2)<1e-9);
 });

@@ -1,4 +1,4 @@
-const CACHE = "microcd-modeler-v2.0.0-beta.1";
+const CACHE = "microcd-modeler-v2.0.0-beta.2";
 const CORE = [
   "/modeler/", "/modeler/index.html", "/modeler/workspace.css", "/modeler/modeler.js",
   "/assets/scientific-ui.css", "/assets/scientific-ui.js", "/modeler/icon-192.png", "/modeler/icon-512.png"

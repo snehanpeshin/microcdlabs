@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#101923">
   <meta name="description" content="MicroCD Labs Microfluidic Modeler beta for early research-use design and advisory checks.">
   <link rel="manifest" href="/modeler/manifest.webmanifest">
-  <link rel="stylesheet" href="/assets/scientific-ui.css?v=2.0.0-beta.1">
-  <link rel="stylesheet" href="/modeler/workspace.css?v=2.0.0-beta.1">
+  <link rel="stylesheet" href="/assets/scientific-ui.css?v=2.0.0-beta.2">
+  <link rel="stylesheet" href="/modeler/workspace.css?v=2.0.0-beta.2">
   <title>Microfluidic Modeler · MicroCD Labs</title>
 </head>
 <body>
@@ -63,10 +63,12 @@
           <button class="icon-button" data-action="duplicate" disabled>Duplicate</button>
           <button class="icon-button" data-action="mirror" disabled>Mirror</button>
           <button class="icon-button" data-action="pattern" disabled>Pattern</button>
+          <button class="icon-button button--connect" data-action="auto-connect" disabled title="Snap the selected component's nearest anchor to a component within 3 mm">Auto-connect</button>
           <button class="icon-button button--danger" data-action="delete" disabled>Delete</button>
           <span class="toolbar-spacer"></span>
           <label class="compact-field">Grid <select id="grid-size"><option value="0.1">0.1 mm</option><option value="0.25">0.25 mm</option><option value="0.5" selected>0.5 mm</option><option value="1">1 mm</option></select></label>
           <label class="toggle"><input id="snap-enabled" type="checkbox" checked> Snap</label>
+          <span id="connection-status" class="connection-status" aria-live="polite">Select a component to check its connection</span>
           <button class="icon-button" data-action="fit">Fit</button>
           <button class="icon-button" data-action="reset-view">Reset</button>
         </div>
@@ -80,7 +82,7 @@
             <rect class="grid-background" width="1200" height="720" fill="url(#grid)"/>
             <g id="geometry-layer"></g><g id="selection-layer"></g>
           </svg>
-          <div class="canvas-hint">Click to place · Shift-click to multi-select · drag to move · Esc cancels · Delete removes</div>
+          <div class="canvas-hint"><span><i class="connection-dot connection-dot--connected"></i><span id="connected-threshold">Connected ≤ 0.25 mm</span></span><span><i class="connection-dot connection-dot--near"></i><span id="near-threshold">Near: 0.25–3 mm</span></span><span><i class="connection-dot connection-dot--separate"></i><span id="separate-threshold">Separate &gt; 3 mm</span></span></div>
         </div>
         <div id="canvas-3d" class="tab-panel legacy-stage" role="tabpanel" hidden>
           <div class="legacy-notice"><strong>Legacy 3D geometry workspace</strong><span>Preserved without modification. Save its GLB separately; it does not synchronize with the 2D beta project.</span></div>
@@ -96,7 +98,7 @@
       <section class="results-panel panel">
         <div class="tabs" role="tablist" aria-label="Validation and results">
           <button class="tab" role="tab" aria-selected="true" aria-controls="validation-tab">Validation <span id="issue-count" class="status-badge">0</span></button>
-          <button class="tab" role="tab" aria-selected="false" aria-controls="estimates-tab" tabindex="-1">Engineering estimates</button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="estimates-tab" tabindex="-1">Flow calculator</button>
           <button class="tab" role="tab" aria-selected="false" aria-controls="project-tab" tabindex="-1">Project details</button>
         </div>
         <div id="validation-tab" class="tab-panel results-scroll" role="tabpanel"><div id="issues"></div></div>
@@ -109,6 +111,8 @@
             <label class="field">Edge clearance (mm)<input data-profile="edgeClearance" type="number" step="0.1"></label>
             <label class="field">Port clearance (mm)<input data-profile="portClearance" type="number" step="0.1"></label>
             <label class="field">Min internal radius (mm)<input data-profile="minRadius" type="number" step="0.01"></label>
+            <label class="field">Connected anchor tolerance (mm)<input data-canvas="connectionTolerance" type="number" min="0.01" step="0.05"></label>
+            <label class="field">Near-connection hint range (mm)<input data-canvas="nearConnectionTolerance" type="number" min="0.05" step="0.25"></label>
           </div>
           <p><strong>Autosave:</strong> local browser storage after every change. Raw project state is never uploaded.</p>
           <p><strong>Schema:</strong> <code>microcd.modeler.project</code> v2 with v1 migration.</p>
@@ -120,6 +124,6 @@
 
   <input id="project-file" class="sr-only" type="file" accept="application/json,.json">
   <dialog id="export-dialog" class="dialog"><div class="dialog__header"><h2>Export project</h2><button class="icon-button" data-dialog-close aria-label="Close">×</button></div><div class="dialog__body export-grid"><button class="button" data-export="json">Native JSON</button><button class="button" data-export="svg">SVG geometry</button><button class="button" data-export="png">PNG snapshot</button><button class="button" data-export="csv">CSV feature list</button><button class="button" data-export="glb">Open legacy GLB workspace</button><button class="button" disabled title="The current kernel cannot guarantee a valid solid interchange file.">STEP / DXF — roadmap</button></div><div class="dialog__footer"><button class="button" data-dialog-close>Close</button></div></dialog>
-  <script type="module" src="/modeler/modeler.js?v=2.0.0-beta.1"></script>
+  <script type="module" src="/modeler/modeler.js?v=2.0.0-beta.2"></script>
 </body>
 </html>

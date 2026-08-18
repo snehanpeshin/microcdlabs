@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.0-beta.2 — 2026-08-17
+
+- Added measured component-anchor connection states with live canvas guides and explicit connected, near, and separate thresholds.
+- Added one-click Auto-connect and validation-level Fix now actions for correcting near-miss geometry.
+- Expanded engineering estimates with flow- or pressure-driven inlet modes, velocity, pressure/flow derivation, wall shear, Reynolds number, and optional Péclet and capillary numbers.
+
 ## 2.0.0-beta.1 — 2026-08-17
 
 - Added a shared MicroCD Labs scientific design system with responsive, keyboard-visible states.

@@ -7,10 +7,13 @@
 - Mean velocity: `v = Q / (wh)`; residence time: `t = V/Q`.
 - Reynolds number: `Re = ρ v Dh / μ`.
 - Hydraulic resistance uses the common low-aspect-ratio rectangular-channel approximation `R ≈ 12 μ L / [W H³ (1 − 0.63 H/W)]`, where `H ≤ W`; pressure drop is `ΔP = RQ`.
+- Pressure-driven mode calculates `Q = ΔP/R` from inlet minus outlet pressure.
+- Wall shear rate and stress use the parallel-plate estimates `γ̇ ≈ 6v/H` and `τ ≈ μγ̇`, where `H` is the smaller channel dimension.
+- Optional transport estimates are `Pe = vDh/D` and `Ca = μv/γ`.
 
 These are reduced-order, steady, single-phase, rigid-channel estimates. Entrance effects, compressibility, non-Newtonian behavior, surface effects, roughness, deformation and network junction losses are not modeled. Results are not CFD or validated simulation.
 
-Design-rule checks compare feature bounding boxes and configured dimensions against editable advisory profiles. Overlap may represent an intentional connection and therefore remains a warning requiring review.
+Connection checks compare explicit component anchors on the same layer. An anchor gap of `≤ 0.25 mm` is reported as connected, `0.25–3 mm` as near, and `> 3 mm` as separate. Auto-connect translates one selected component so the nearest pair of anchors coincide; it does not rotate components or validate network topology. Other design-rule checks compare feature bounding boxes and configured dimensions against editable advisory profiles.
 
 ## Analyzer
 
