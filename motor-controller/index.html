@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CLAIR Motor Controller | MicroCD Labs</title>
+    <meta name="description" content="Browser-based engineering console for controlling and monitoring CLAIR Platform motor firmware over USB serial." />
+    <link rel="canonical" href="https://www.microcdlabs.com/motor-controller/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="CLAIR Motor Controller | MicroCD Labs" />
+    <meta property="og:description" content="A research-use Web Serial console for CLAIR motor-control engineering." />
+    <meta property="og:url" content="https://www.microcdlabs.com/motor-controller/" />
+    <link rel="icon" href="../assets/microcd-tab-icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../styles.css?v=20260816c" />
+    <link rel="stylesheet" href="motor-controller.css?v=20260902a" />
+  </head>
+  <body class="motor-app" data-theme="dark">
+    <header class="site-header">
+      <a class="brand" href="../index.html#top" aria-label="MicroCD Labs home"><img class="brand-logo" src="../assets/microcd-labs-wordmark.svg?v=boxed" alt="MicroCD Labs" /></a>
+      <nav class="main-nav" aria-label="Primary navigation">
+        <a class="nav-primary-link" href="../clair/">CLAIR</a>
+        <details class="nav-menu nav-menu-wide">
+          <summary>Capabilities</summary>
+          <div class="nav-menu-list">
+            <a class="nav-menu-overview" href="../services.html">Engineering &amp; diagnostic capabilities <span>Focused support behind CLAIR and selected customer development programs</span></a>
+            <a href="../services.html#microfluidic-development">Microfluidics &amp; lab-on-disc <span>Architecture, workflows, cartridges, and test strategy</span></a>
+            <a href="../services.html#engineering-design">Contract CAD &amp; prototyping <span>Mechanical design, interfaces, fixtures, and fabrication handoff</span></a>
+            <a href="../diagnostics.html">Assay &amp; diagnostic development <span>LFIA, kinetic analysis, and evidence planning</span></a>
+          </div>
+        </details>
+        <details class="nav-menu">
+          <summary>Research</summary>
+          <div class="nav-menu-list">
+            <a href="../news.html">Research updates <span>Publications, concepts, and company progress</span></a>
+            <a href="../diagnostics.html#publication">Kinetic assay preprint <span>Time-resolved signal extraction research</span></a>
+            <a href="../modeler/">Microfluidic Modeler <span>Browser-based early geometry workspace</span></a>
+            <a href="../analyzer/">Kinetic Assay Enhancer <span>Research demonstration for time-series analysis</span></a>
+            <a href="../motor-controller/">Motor Controller <span>USB serial console for CLAIR engineering</span></a>
+            <a href="https://labops.microcdlabs.com">LabOps <span>Engineering evidence, traceability, and regulatory-readiness workspace</span></a>
+          </div>
+        </details>
+        <a class="nav-primary-link" href="../about.html">About</a>
+        <a class="nav-primary-link" href="../consultation.html">Contact</a>
+      </nav>
+      <div class="header-actions"><button id="theme-toggle" class="app-quiet-button" type="button">Light theme</button></div>
+    </header>
+
+    <div class="motor-safety-banner" role="alert">⚠ Motor may spin when RPM command is sent. Keep disc enclosed.</div>
+
+    <main class="motor-shell">
+      <header class="motor-titlebar">
+        <div><p class="motor-kicker">MICROCDLABS / CLAIR PLATFORM</p><h1>Motor Control Console</h1><p>Engineering access to ESP32 + SimpleFOC firmware over USB serial.</p></div>
+        <div class="browser-badge" id="browser-support">Checking Web Serial support…</div>
+      </header>
+
+      <section class="motor-card connection-card" aria-labelledby="connection-title">
+        <h2 id="connection-title">Serial connection</h2>
+        <div class="connection-grid">
+          <label>Baud rate <input id="baud-rate" type="number" min="1200" max="4000000" step="9600" value="115200" /></label>
+          <button id="connect-button" class="app-primary-button" type="button">Connect USB device</button>
+          <div class="connection-state"><span id="connection-dot" aria-hidden="true"></span><strong id="connection-status">Disconnected</strong></div>
+        </div>
+      </section>
+
+      <div class="motor-workspace">
+        <div class="motor-column">
+          <section class="motor-card" aria-labelledby="manual-title">
+            <h2 id="manual-title">Manual control</h2>
+            <div class="inline-control"><label class="grow">Target RPM <input id="rpm-input" type="number" min="-100000" max="100000" step="0.1" value="50" /></label><button id="send-rpm" class="app-primary-button requires-connection" type="button">Send RPM</button></div>
+            <div class="preset-grid" aria-label="RPM presets">
+              <button class="preset requires-connection" data-rpm="50" type="button">50 RPM</button><button class="preset requires-connection" data-rpm="100" type="button">100 RPM</button><button class="preset requires-connection" data-rpm="150" type="button">150 RPM</button><button class="preset requires-connection" data-rpm="200" type="button">200 RPM</button>
+            </div>
+            <button id="emergency-stop" class="emergency-button" type="button" disabled>Emergency stop</button>
+          </section>
+
+          <section class="motor-card" aria-labelledby="limits-title">
+            <h2 id="limits-title">Safety settings <span>firmware support required</span></h2>
+            <div class="limit-grid">
+              <label>Application max RPM <input id="max-rpm" type="number" min="0" max="100000" step="1" value="200" /></label><button id="send-max" class="requires-connection" type="button">Send MAX</button>
+              <label>Motor voltage limit <input id="voltage-limit" type="number" min="0" max="100" step="0.1" value="3" /></label><button id="send-limit" class="requires-connection" type="button">Send LIMIT</button>
+            </div>
+            <p class="app-note">The current firmware does not implement MAX or LIMIT. Application-side RPM limits remain active.</p>
+          </section>
+
+          <section class="motor-card profile-card" aria-labelledby="profile-title">
+            <h2 id="profile-title">RPM profile</h2>
+            <div class="profile-table-wrap"><table><thead><tr><th>RPM</th><th>Hold time (s)</th><th><span class="sr-only">Remove</span></th></tr></thead><tbody id="profile-body"></tbody></table></div>
+            <div class="profile-actions"><button id="add-step" type="button">Add step</button><button id="import-profile" type="button">Import JSON</button><button id="export-profile" type="button">Export JSON</button><input id="profile-file" type="file" accept="application/json,.json" hidden /></div>
+            <div class="profile-run-row"><span id="profile-status">Idle</span><button id="run-profile" class="app-primary-button requires-connection" type="button">Run profile</button><button id="stop-profile" type="button" disabled>Stop profile</button></div>
+          </section>
+        </div>
+
+        <div class="motor-column motor-column-wide">
+          <section class="motor-card" aria-labelledby="telemetry-title">
+            <h2 id="telemetry-title">Live telemetry</h2>
+            <div class="telemetry-grid"><div><strong id="target-rpm">—</strong><span>Target RPM</span></div><div><strong id="measured-rpm">—</strong><span>Measured RPM</span></div><div><strong id="error-rpm">—</strong><span>Error RPM</span></div></div>
+            <p class="last-status"><span>Last status</span><strong id="last-status">Waiting for connection</strong></p>
+          </section>
+
+          <section class="motor-card plot-card" aria-labelledby="plot-title"><h2 id="plot-title">RPM history <span>last 300 samples</span></h2><div class="plot-legend"><span class="target-key">Target RPM</span><span class="measured-key">Measured RPM</span></div><canvas id="rpm-plot" width="900" height="340" aria-label="Target and measured RPM history plot"></canvas></section>
+
+          <section class="motor-card log-card" aria-labelledby="log-title">
+            <h2 id="log-title">Serial log</h2>
+            <div class="log-actions"><button id="start-logging" type="button">Start CSV logging</button><button id="stop-logging" type="button" disabled>Stop &amp; download CSV</button><button id="clear-log" type="button">Clear view</button><span id="logging-state">Not logging</span></div>
+            <pre id="serial-log" aria-live="polite"></pre>
+          </section>
+        </div>
+      </div>
+
+      <p class="motor-boundary"><strong>Research and engineering use only.</strong> Web Serial requires a compatible Chromium browser and a secure HTTPS connection. This interface is not a certified safety system; use an independent physical power disconnect for hazardous setups.</p>
+    </main>
+    <script src="motor-controller.js?v=20260902a" type="module"></script>
+  </body>
+</html>

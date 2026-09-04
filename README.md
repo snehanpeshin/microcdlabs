@@ -47,7 +47,8 @@ The marketing site uses `site.js` for shared navigation, responsive behavior, an
 
 - `/modeler/` is a dependency-free, local-first parametric 2D microfluidic workspace. It retains the compiled legacy 3D/GLB workspace as a separate preview.
 - `/analyzer/` is the Kinetic Assay Analyzer guided workflow. CSV and image processing runs in the browser; raw files are not uploaded or stored by the site.
-- Both applications share `assets/scientific-ui.css` and `assets/scientific-ui.js` for design tokens, accessible controls, dialogs, tabs, notifications, and exports.
+- `/motor-controller/` is the CLAIR Motor Controller engineering beta. It uses the browser Web Serial API to communicate directly with supported USB serial hardware; serial data remains in the browser unless the user downloads a log or report.
+- The Modeler and Analyzer share `assets/scientific-ui.css` and `assets/scientific-ui.js`; the Motor Controller uses its own hardware-console stylesheet and module alongside the main site theme.
 - Product architecture and known gaps are documented in `docs/architecture-and-gap-assessment.md`. Scientific formulas and assumptions are documented in `docs/methodology.md`.
 
 Run product checks with Node 20 or newer:

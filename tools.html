@@ -12,7 +12,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Microfluidic Development Tools | MicroCD Labs</title>
-    <meta name="description" content="Explore MicroCD Labs research tools for early microfluidic geometry and kinetic assay analysis." />
+    <meta name="description" content="Explore MicroCD Labs research tools for microfluidic geometry, kinetic assay analysis, and CLAIR motor control." />
     <link rel="canonical" href="https://www.microcdlabs.com/tools.html" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Microfluidic Development Tools | MicroCD Labs" />
@@ -21,7 +21,7 @@
     <meta property="og:image" content="https://www.microcdlabs.com/modeler/icon-512.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="assets/microcd-tab-icon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="styles.css?v=20260817a" />
+    <link rel="stylesheet" href="styles.css?v=20260816c" />
   </head>
   <body class="tools-page">
     <header class="site-header">
@@ -44,6 +44,7 @@
             <a href="diagnostics.html#publication">Kinetic assay preprint <span>Time-resolved signal extraction research</span></a>
             <a href="modeler/">Microfluidic Modeler <span>Browser-based early geometry workspace</span></a>
             <a href="analyzer/">Kinetic Assay Enhancer <span>Research demonstration for time-series analysis</span></a>
+            <a href="motor-controller/">Motor Controller <span>USB serial console for CLAIR engineering</span></a>
             <a href="https://labops.microcdlabs.com">LabOps <span>Engineering evidence, traceability, and regulatory-readiness workspace</span></a>
           </div>
         </details>
@@ -56,7 +57,7 @@
     <main>
       <section class="tools-hero section" aria-labelledby="tools-page-title">
         <div><p class="eyebrow">MicroCD Labs tools</p><h1 id="tools-page-title">Focused workspaces for engineering and assay development.</h1><p>Each tool has a defined job and a visible maturity level. Use them with non-sensitive research or engineering data unless a project-specific agreement says otherwise.</p></div>
-        <aside><strong>Choose by task</strong><a href="#modeler">Sketch and export</a><a href="#enhancer">Explore assay kinetics</a></aside>
+        <aside><strong>Choose by task</strong><a href="#modeler">Sketch and export</a><a href="#enhancer">Explore assay kinetics</a><a href="#motor-controller">Control CLAIR motor hardware</a></aside>
       </section>
 
       <section class="tool-detail-section section" aria-label="MicroCD Labs software tools">
@@ -69,13 +70,18 @@
           <figure><img src="assets/news/cloud-kinetic-assay-platform.jpg" alt="Kinetic assay analysis workflow with time-series image processing and reporting" /></figure>
           <div><div class="tool-status"><span>Research demo</span><span>Public static deployment</span></div><p class="eyebrow">Assay analysis</p><h2>Kinetic Assay Enhancer</h2><p>Explore endpoint and rate-based signal analysis with demo experiments, region-of-interest concepts, signal trajectories, and kinetic features.</p><ul><li>Demo time-series analysis and dashboard</li><li>Endpoint, slope, area-under-curve, and SNR concepts</li><li>Calibration and report workflow preview</li></ul><p class="tool-boundary">The public static demo does not provide the full backend image-processing or PDF-generation workflow. It is not a clinical decision system.</p><a class="button button-primary" href="analyzer/">Open research demo</a></div>
         </article>
+
+        <article id="motor-controller" class="tool-detail">
+          <figure class="tool-icon-figure"><img src="assets/microcd-clarity-connection-mark.svg" width="512" height="512" alt="MicroCD Labs Clarity Connection mark" /></figure>
+          <div><div class="tool-status"><span>Engineering beta</span><span>Chrome or Edge · USB serial</span></div><p class="eyebrow">CLAIR hardware control</p><h2>Motor Controller</h2><p>Connect directly to the CLAIR Platform ESP32 from a compatible browser to command RPM, monitor SimpleFOC telemetry, run timed profiles, and capture engineering logs.</p><ul><li>Web Serial connection at 115200 baud</li><li>Live target and measured RPM chart</li><li>Emergency stop, CSV logging, JSON profiles, and run reports</li></ul><p class="tool-boundary">Motor hardware may move when a command is sent. Keep the disc enclosed and use an independent physical power disconnect. Web Serial requires a compatible Chromium browser over HTTPS.</p><a class="button button-primary" href="motor-controller/">Open Motor Controller</a></div>
+        </article>
       </section>
 
       <section class="tools-clair-band section" aria-labelledby="tools-clair-title"><div><p class="eyebrow">From software to system</p><h2 id="tools-clair-title">CLAIR connects controlled fluid handling with standardized imaging.</h2><p>The flagship platform applies the same engineering disciplines to an in-development veterinary saliva workflow.</p></div><a class="button button-light" href="clair/">Explore CLAIR</a></section>
     </main>
 
     <footer class="site-footer"><div><img class="footer-logo" src="assets/microcd-labs-wordmark.svg?v=boxed" alt="MicroCD Labs" /><p class="company-legal">MicroCD Labs, a division of Karigari Home LLC</p><p>Microfluidic systems, diagnostic development, and engineering tools.</p></div><p><a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a> <a href="https://www.linkedin.com/company/microcd-labs/" target="_blank" rel="noreferrer">LinkedIn</a> <a href="privacy.html">Privacy</a> <a href="terms.html">Terms</a></p></footer>
-    <script src="site.js?v=20260817a"></script>
+    <script src="site.js?v=20260816c"></script>
     <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=f6f042c5-f6ce-4381-8555-2da23e6aebd1"></script>
   </body>
 </html>
