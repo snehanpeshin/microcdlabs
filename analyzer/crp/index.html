@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101923"><meta name="description" content="Local CRP latex-bead assay image analysis with calibration, reaction-change measurement and saved research records.">
+<link rel="canonical" href="https://www.microcdlabs.com/analyzer/crp/">
+<link rel="stylesheet" href="/assets/scientific-ui.css?v=2.0.0-beta.1"><link rel="stylesheet" href="/analyzer/crp.css?v=2.1.0-beta.1">
+<title>CRP Camera · Kinetic Assay Analyzer · MicroCD Labs</title>
+</head>
+<body>
+<header class="topbar"><a class="topbar__brand" href="/analyzer/"><span class="brand-mark" aria-hidden="true">CD</span><span class="brand-copy"><strong>Kinetic Assay Analyzer</strong><small>CRP Camera &amp; latex-bead assays</small></span></a><nav class="topbar__commands" aria-label="Analyzer tools"><a class="command" href="/analyzer/">Kinetics workspace</a><a class="command" href="#saved">Saved measurements</a><a class="command" href="#assays">Assay reference</a></nav><div class="topbar__meta"><span class="status-badge status-badge--ruo">Research use</span><span>v2.1 beta</span></div></header>
+<div class="crp-notice">Images are processed on this device. Records are saved in this browser only when you choose Save. Export a copy: clearing browser data can remove saved records.</div>
+<main class="crp-main">
+<div class="crp-heading"><div><h1>Measure the bead reaction</h1><p>Read a chamber image or compare early and final images from a canine CRP latex-agglutination assay.</p></div><span class="status-badge">Experimental · not saliva-validated</span></div>
+<div class="crp-layout">
+<section class="panel"><div class="panel__header"><h2>1 · Chamber images</h2></div><div class="panel__body crp-stack">
+<div class="crp-row"><label class="field">Measurement mode<select id="mode"><option value="endpoint">Final image</option><option value="change">Change from early to final image</option></select></label><label class="field">Color channel<select id="channel"><option value="green">Green · iPhone prototype</option><option value="red">Red</option><option value="blue">Blue</option></select></label></div>
+<p class="help">Use a stationary disc, fixed phone holder and diffuse transmitted light. Include the same reference window in every image. Keep timing, camera settings and geometry identical for standards and samples.</p>
+<div class="crp-row"><label class="field">Final image<input id="endpoint-file" type="file" accept="image/jpeg,image/png,image/webp" capture="environment"><small>PNG, JPEG or WebP · up to 20 MB</small></label><label class="field" id="early-field" hidden>Early image<input id="early-file" type="file" accept="image/jpeg,image/png,image/webp" capture="environment"><small>Same image dimensions and alignment as the final image</small></label></div>
+<div class="crp-actions"><button class="button" id="start-camera">Open live camera</button><label class="field" id="capture-target-label" hidden>Capture as<select id="capture-target"><option value="endpoint">Final image</option><option value="early">Early image</option></select></label></div>
+<div id="live-camera" hidden><video id="camera-video" autoplay playsinline muted></video><div class="crp-actions"><button class="button" id="lock-camera">Lock available controls</button><button class="button button--primary" id="capture-frame" disabled>Capture frame</button><button class="button" id="stop-camera">Close camera</button></div></div>
+<p id="camera-status" class="help" role="status">Photo uploads have unknown camera settings. Browser camera controls vary by device; native iPhone capture offers stronger control.</p>
+<p id="image-status" role="status"></p>
+<div id="image-workspace" hidden>
+<div class="crp-row"><label class="field">Select region<select id="region"><option value="sample">S · chamber liquid</option><option value="reference">R · reference window</option></select></label><label class="field">View image<select id="view-image"><option value="endpoint">Final image</option><option value="early">Early image</option></select></label></div>
+<canvas id="chamber-canvas" width="600" height="400" tabindex="0" aria-label="Chamber image: tap to position the selected measurement region, or use the position fields below"></canvas>
+<div class="crp-row"><label class="field">Selected region X (%)<input id="region-x" type="number" min="4" max="96" step="1" value="35"></label><label class="field">Selected region Y (%)<input id="region-y" type="number" min="4" max="96" step="1" value="50"></label></div>
+<p class="help">Orange S = chamber; blue R = reference. Each box is 8% of the image dimensions. Avoid bubbles, beads settled on the floor, glare and chamber edges. Selections apply to both images.</p>
+</div></div></section>
+<section class="panel"><div class="panel__header"><h2>2 · Calibration &amp; result</h2></div><div class="panel__body crp-stack">
+<label class="field">Sample ID<input id="crp-sample-id" placeholder="e.g. canine-saliva-01" maxlength="200"></label>
+<label class="field">Assay / capture profile<input id="profile" placeholder="Reagent lot, saliva matrix, phone, lighting, endpoint time" maxlength="1000"></label>
+<label class="field">Measured standards · concentration (mg/L), signal<textarea id="calibration" rows="6" spellcheck="false" placeholder="One measured standard per line. No demo calibration is supplied."></textarea></label>
+<p class="help">Include a zero-CRP blank and at least two nonzero standards. Match the selected measurement mode and color channel. Signals must increase with concentration; no extrapolation is used.</p>
+<label class="toggle"><input type="checkbox" id="confirmed"> I confirmed that the calibration matches this assay, sample matrix and capture setup.</label>
+<div class="crp-result" aria-live="polite"><span>Optical signal</span><strong id="optical-signal">No image yet</strong><p id="crp-result">Add an image and choose chamber and reference regions.</p></div>
+<p class="help">This is an image attenuation index, not physical absorbance or a direct measurement at 600 nm. Neither a zero standard nor interpolation establishes a saliva detection limit. Visible cloudiness alone does not confirm CRP.</p>
+<div class="crp-actions"><button id="save-record" class="button button--primary" disabled>Save image &amp; measurement</button><button id="export-record" class="button" disabled>Export record</button></div><p id="save-status" role="status"></p>
+</div></section>
+</div>
+<section class="panel" id="saved"><div class="panel__header"><h2>Saved measurements</h2><button class="button" id="refresh-records">Refresh</button></div><div class="panel__body"><p class="help">Records retain their original result, calibration, image regions and capture details. They are not changed when you edit the current calibration.</p><div id="record-list" class="crp-stack" aria-live="polite">Loading saved measurements…</div></div></section>
+<section class="panel" id="assays"><div class="panel__header"><h2>Assays that produce bead agglutination</h2></div><div class="panel__body crp-stack">
+<p><strong>Canine CRP + anti-canine CRP antibodies on latex beads → aggregates → increased turbidity.</strong> The beads carry antibodies, not CRP. Small aggregates can change light transmission without forming visible clumps.</p>
+<div class="crp-row"><article><h3>Turbovet Canine CRP</h3><p>Acuvet kit AC/CCRPT02 includes reagents, calibrator and controls. The published serum method uses 3 µL sample, 230 µL buffer and 70 µL immunoparticles, measured at 600 nm. The study reported a quantification limit of 1.4 mg/L.</p><a href="https://www.acuvetbiotech.com/en/turbovet-canine-crp/" target="_blank" rel="noopener">Manufacturer</a> · <a href="https://recursos.acvlab.es/wp-content/uploads/2021/09/2018-article-VCP2018-CRPc.pdf" target="_blank" rel="noopener">Published method</a></article><article><h3>Gentian Canine CRP</h3><p>Reagent kit 1501 contains assay buffer and antibody-coated polystyrene particles. Calibrator 1551 and controls 1519 are separate. Established for serum/plasma; measurement settings and sensitivity depend on the analyzer.</p><a href="https://www.gentian.com/products/canine-crp-assay-blood-test" target="_blank" rel="noopener">Manufacturer and assay details</a></article></div>
+<p><strong>Saliva remains a development step.</strong> Verify reagent blanks, known canine CRP standards and matched unspiked/spiked saliva with a laboratory optical reader before relying on photographs. A strong spike demonstrates the reaction, not sensitivity to natural salivary CRP. <a href="https://pubmed.ncbi.nlm.nih.gov/15825494/" target="_blank" rel="noopener">Canine saliva study</a></p>
+<p class="help">Disc concept: sample chamber → channel → transparent reaction chamber with suspended antibody-coated beads and buffer. Dry-bead storage, mixing and rehydration require separate development.</p>
+</div></section>
+</main>
+<dialog id="record-dialog"><div class="crp-actions"><h2 id="record-title">Saved measurement</h2><button class="button" id="close-record">Close</button></div><div id="record-detail"></div><button class="button button--primary" id="download-saved">Export saved record</button></dialog>
+<script type="module" src="/analyzer/crp.js?v=2.1.0-beta.1"></script>
+</body></html>

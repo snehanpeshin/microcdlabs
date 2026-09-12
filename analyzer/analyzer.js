@@ -1,4 +1,6 @@
-import { APP_VERSION, downloadText, safeFilename, sha256, toast } from "../assets/scientific-ui.js";
+import { downloadText, safeFilename, sha256, toast } from "../assets/scientific-ui.js";
+
+const APP_VERSION = "2.1.0-beta.1";
 
 export const ANALYSIS_METHODS = {
   endpoint: "last-observation-v1", initialSlope: "ols-initial-window-v1", maximumSlope: "adjacent-maximum-v1",

@@ -6,6 +6,10 @@ const required = [
   "modeler/core.html",
   "analyzer/index.html",
   "analyzer/analyzer.js",
+  "analyzer/crp/index.html",
+  "analyzer/crp.js",
+  "analyzer/crp-core.js",
+  "analyzer/crp.css",
   "motor-controller/index.html",
   "motor-controller/motor-controller.css",
   "motor-controller/motor-controller.js",
@@ -15,7 +19,7 @@ const required = [
 
 for (const file of required) await access(new URL(`../${file}`, import.meta.url));
 
-for (const entry of ["modeler/index.html", "analyzer/index.html", "motor-controller/index.html"]) {
+for (const entry of ["modeler/index.html", "analyzer/index.html", "analyzer/crp/index.html", "motor-controller/index.html"]) {
   const html = await readFile(new URL(`../${entry}`, import.meta.url), "utf8");
   for (const match of html.matchAll(/(?:src|href)="(\/[^\"]+)"/g)) {
     const path = match[1].split("?")[0];

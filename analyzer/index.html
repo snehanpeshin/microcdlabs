@@ -14,8 +14,8 @@
   <div class="app-shell analyzer-shell">
     <header class="topbar">
       <a class="topbar__brand" href="/analyzer/"><span class="brand-mark" aria-hidden="true">CD</span><span class="brand-copy"><strong>Kinetic Assay Analyzer</strong><small>MicroCD Labs guided workflow</small></span></a>
-      <div class="topbar__commands"><button class="command" data-action="demo">Load demo</button><button class="command" data-action="reset">New experiment</button><button class="command" data-action="export-manifest" disabled>Analysis JSON</button><button class="command" data-action="print" disabled>Print report</button><a class="command" href="/docs/analyzer-quick-start.md" target="_blank">Help</a></div>
-      <div class="topbar__meta"><span class="status-badge status-badge--ruo">RUO</span><span>v2.0 beta</span></div>
+      <div class="topbar__commands"><a class="command" href="/analyzer/crp/">CRP Camera</a><button class="command" data-action="demo">Load demo</button><button class="command" data-action="reset">New experiment</button><button class="command" data-action="export-manifest" disabled>Analysis JSON</button><button class="command" data-action="print" disabled>Print report</button><a class="command" href="/docs/analyzer-quick-start.md" target="_blank">Help</a></div>
+      <div class="topbar__meta"><span class="status-badge status-badge--ruo">RUO</span><span>v2.1 beta</span></div>
     </header>
     <div class="privacy-strip" role="note"><strong>Local analysis:</strong> files remain in this browser. No data is uploaded or persisted by MicroCD Labs.</div>
     <nav class="stage-nav" aria-label="Analysis stages">
@@ -33,6 +33,7 @@
           <article class="panel"><div class="panel__header"><h2>Data source</h2></div><div class="panel__body source-options">
             <label class="drop-zone" id="drop-zone"><input id="file-input" type="file" multiple accept=".csv,text/csv,image/png,image/jpeg,image/tiff,.tif,.tiff"><strong>Choose files</strong><span>CSV or ordered PNG/JPEG/TIFF sequence</span><small>Maximum 200 files · 20 MB each · 250 MB total</small></label>
             <button class="button" data-action="demo">Use demo time-series</button>
+            <a class="button" href="/analyzer/crp/">Analyze a CRP bead reaction</a>
             <div id="import-errors" aria-live="polite"></div>
           </div></article>
           <article class="panel"><div class="panel__header"><h2>Experiment metadata</h2></div><div class="panel__body form-grid">
@@ -99,6 +100,6 @@
       </section>
     </main>
   </div>
-  <script type="module" src="/analyzer/analyzer.js?v=2.0.0-beta.1"></script>
+  <script type="module" src="/analyzer/analyzer.js?v=2.1.0-beta.1"></script>
 </body>
 </html>
