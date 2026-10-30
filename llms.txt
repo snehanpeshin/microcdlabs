@@ -1,13 +1,13 @@
 # MicroCD Labs
 
-> MicroCD Labs is developing CLAIR, a centrifugal microfluidic veterinary saliva platform, and supports selected diagnostic and life-sciences teams with lab-on-disc development, contract CAD, prototype coordination, verification planning, and technical commercialization work.
+> MicroCD Labs is developing CLAIR, a saliva-based adjunct in development for canine oral-health triage alongside the oral examination, powered by centrifugal microfluidics, and supports selected diagnostic and life-sciences teams with lab-on-disc development, contract CAD, prototype coordination, verification planning, and technical commercialization work.
 
 MicroCD Labs is a division of Karigari Home LLC. Website content describes research-use products, technical capabilities, software tools, and early product-development support. It does not claim regulatory approval, clinical validation, certified manufacturing, or laboratory accreditation.
 
 ## Primary pages
 
 - [Home](https://www.microcdlabs.com/): CLAIR flagship platform, evidence boundaries, capabilities, and collaboration options
-- [CLAIR](https://www.microcdlabs.com/clair/): In-development veterinary saliva platform architecture, workflow, initial application, and validation needs
+- [CLAIR](https://www.microcdlabs.com/clair/): Canine oral-health triage concept, candidate saliva panel, sample-validity controls, clinic workflow, and validation gates
 - [Services](https://www.microcdlabs.com/services.html): Microfluidic and diagnostic product-development capabilities
 - [Diagnostics](https://www.microcdlabs.com/diagnostics.html): Assay development, LFIA, lab-on-disc, and kinetic-analysis focus
 - [About](https://www.microcdlabs.com/about.html): Company background and areas of technical experience
