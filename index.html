@@ -37,6 +37,7 @@
     <meta property="og:image" content="https://www.microcdlabs.com/assets/clair/concept/clair-concept-hero.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="assets/microcd-tab-icon.svg" type="image/svg+xml" />
+    <link rel="preload" href="assets/clair/concept/clair-concept-hero.png" as="image" fetchpriority="high" />
     <link rel="preload" href="assets/microcd-labs-wordmark.svg?v=boxed" as="image" />
     <link rel="stylesheet" href="styles.css?v=20261028-disc" />
     <script type="application/ld+json">
@@ -119,8 +120,8 @@
     </header>
 
     <main id="top">
-      <section class="clair-home-hero disc-home-hero" aria-labelledby="hero-title">
-        <div class="clair-home-hero-copy">
+      <section class="clair-home-hero clair-product-hero" aria-labelledby="hero-title">
+        <div class="clair-home-hero-copy clair-product-hero-copy">
           <p class="eyebrow">CLAIR · Canine oral-health triage</p>
           <h1 id="hero-title">Better evidence for <span>canine dental triage.</span></h1>
           <p>CLAIR is a saliva-based adjunct in development to support the oral examination and conversations about further dental assessment. Lab-on-disc centrifugal microfluidics brings controlled sample handling and optical readout into one proposed point-of-care workflow.</p>
@@ -131,55 +132,6 @@
           <div class="disc-platform-note"><span>First application, focused development</span><p>Designed for general veterinary practices with active dental services. Proposed benefits, workflow fit, and willingness to pay require validation with clinical teams.</p></div>
           <p class="clair-home-boundary">CLAIR is a concept platform in development. Not for sale or clinical use. Performance has not been established.</p>
         </div>
-        <figure class="disc-hero-figure">
-          <div class="disc-visual-heading"><span>The lab-on-disc approach</span><span>Concept illustration</span></div>
-          <svg class="disc-workflow-visual" viewBox="0 0 600 430" role="img" aria-labelledby="disc-visual-title disc-visual-description">
-            <title id="disc-visual-title">Centrifugal microfluidic disc and optical readout</title>
-            <desc id="disc-visual-description">An abstract disc with radial fluid paths connects to an optical readout screen. The illustration represents loading, centrifugal processing, and reading an assay, not a working cartridge design.</desc>
-            <defs>
-              <radialGradient id="disc-surface"><stop stop-color="#244b53"/><stop offset="1" stop-color="#102e38"/></radialGradient>
-              <linearGradient id="disc-fluid" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a9f0d4"/><stop offset="1" stop-color="#4eb3bf"/></linearGradient>
-            </defs>
-            <ellipse cx="231" cy="341" rx="181" ry="20" fill="#061a23" opacity=".6"/>
-            <circle cx="230" cy="210" r="164" fill="none" stroke="#426670" stroke-width="1"/>
-            <circle cx="230" cy="210" r="151" fill="url(#disc-surface)" stroke="#94c7c8" stroke-width="2"/>
-            <circle cx="230" cy="210" r="130" fill="none" stroke="#547f87" stroke-width="1"/>
-            <g fill="none" stroke="#436a76" stroke-width="16" stroke-linecap="round">
-              <path d="M230 166V112M268 188l47-27M268 232l47 27M230 254v54M192 232l-47 27M192 188l-47-27"/>
-            </g>
-            <g fill="none" stroke="url(#disc-fluid)" stroke-width="5" stroke-linecap="round">
-              <path d="M230 166V112M268 188l47-27M268 232l47 27M230 254v54M192 232l-47 27M192 188l-47-27"/>
-            </g>
-            <g fill="#91dcc6" stroke="#c5f9e6" stroke-width="1.5">
-              <rect x="213" y="93" width="34" height="27" rx="9"/>
-              <rect x="303" y="147" width="34" height="27" rx="9" transform="rotate(60 320 160.5)"/>
-              <rect x="303" y="252" width="34" height="27" rx="9" transform="rotate(-60 320 265.5)"/>
-              <rect x="213" y="300" width="34" height="27" rx="9"/>
-              <rect x="123" y="252" width="34" height="27" rx="9" transform="rotate(60 140 265.5)"/>
-              <rect x="123" y="147" width="34" height="27" rx="9" transform="rotate(-60 140 160.5)"/>
-            </g>
-            <circle cx="230" cy="210" r="46" fill="#173b46" stroke="#7cabb3" stroke-width="2"/>
-            <circle cx="230" cy="210" r="21" fill="#091f2a" stroke="#9cc9ce" stroke-width="2"/>
-            <path d="M100 81a183 183 0 0 1 242 0" fill="none" stroke="#b2e9d7" stroke-width="2"/>
-            <path d="m331 80 13 3-3-13" fill="none" stroke="#b2e9d7" stroke-width="2"/>
-            <text x="230" y="24" text-anchor="middle" fill="#bdd8dc" font-size="13" font-family="system-ui, sans-serif" letter-spacing="2">CENTRIFUGAL PROCESSING</text>
-            <path d="M383 210h33" stroke="#91dcc6" stroke-width="2"/>
-            <path d="m409 204 7 6-7 6" fill="none" stroke="#91dcc6" stroke-width="2"/>
-            <rect x="435" y="123" width="118" height="208" rx="19" fill="#0a202b" stroke="#91b8c2" stroke-width="2"/>
-            <rect x="445" y="151" width="98" height="147" rx="7" fill="#173d47"/>
-            <path d="M476 137h36" stroke="#91b8c2" stroke-width="3" stroke-linecap="round"/>
-            <path d="M457 274v-82M457 274h72" fill="none" stroke="#759ca7" stroke-width="1"/>
-            <path d="m460 260 12-3 12-9 11-23 11-13 11-4 11-1" fill="none" stroke="#a9f0d4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            <text x="494" y="179" text-anchor="middle" fill="#d2eee8" font-size="10" font-family="system-ui, sans-serif" letter-spacing="1">ASSAY SIGNAL</text>
-            <path d="M482 314h24" stroke="#759ca7" stroke-width="3" stroke-linecap="round"/>
-            <text x="230" y="388" text-anchor="middle" fill="#e4f3f1" font-size="16" font-family="system-ui, sans-serif">Microfluidic assay disc</text>
-            <text x="494" y="388" text-anchor="middle" fill="#e4f3f1" font-size="16" font-family="system-ui, sans-serif">Optical readout</text>
-          </svg>
-          <ol class="disc-workflow-steps" aria-label="Concept workflow">
-            <li><span>01</span> Load sample</li><li><span>02</span> Spin &amp; process</li><li><span>03</span> Read assay</li>
-          </ol>
-          <figcaption>Illustrative workflow only. Not final hardware, cartridge geometry, or validated performance.</figcaption>
-        </figure>
       </section>
 
       <section class="clair-home-intro section" aria-labelledby="clair-home-intro-title">
