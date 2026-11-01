@@ -218,6 +218,9 @@ function initProjectInquiryForm() {
   const copyRequest = form.querySelector("#copyProjectInquiry");
   const requestedProject = new URLSearchParams(window.location.search).get("project");
   const projectAliases = {
+    clair: "CLAIR clinic collaboration or pilot discussion",
+    research: "Research or technical partnership",
+    "diagnostic-development": "Diagnostic cartridge or consumable",
     "microfluidic-development": "Microfluidic product development",
     "diagnostic-cartridge": "Diagnostic cartridge or consumable",
     "lab-on-disc": "Lab-on-disc or centrifugal microfluidics",
@@ -326,3 +329,17 @@ initSiteNavigation();
 initHeroDots();
 initProjectInquiryForm();
 initRecommendationForm();
+
+// Open a capability when visitors follow a section link from another page.
+function initCapabilityLinks() {
+  if (!document.querySelector('.mcd-capability')) return;
+  function reveal() {
+    let id;
+    try { id = decodeURIComponent(window.location.hash.slice(1)); } catch { return; }
+    const target = document.getElementById(id);
+    if (target?.matches('.mcd-capability')) target.open = true;
+  }
+  reveal();
+  window.addEventListener('hashchange', reveal);
+}
+initCapabilityLinks();

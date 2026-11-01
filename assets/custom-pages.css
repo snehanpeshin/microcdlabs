@@ -1,0 +1,264 @@
+/* Custom MicroCD Labs pages: clinical story, engineering directory, research notebook. */
+.mcd-custom { --mcd-ink:#102e34; --mcd-green:#176254; --mcd-paper:#fafbf7; background:var(--mcd-paper); color:var(--mcd-ink); font-size:16px; }
+.mcd-custom main { overflow-wrap:break-word; }
+.mcd-custom h1,.mcd-custom h2,.mcd-custom h3 { color:var(--mcd-ink); text-wrap:balance; }
+.mcd-custom h1 { font-size:clamp(2.7rem,5.2vw,5.2rem); line-height:1.03; letter-spacing:-.055em; }
+.mcd-custom h2 { font-size:clamp(2rem,3.5vw,3.5rem); line-height:1.12; letter-spacing:-.04em; margin:0 0 24px; }
+.mcd-custom h3 { font-size:1.32rem; line-height:1.25; letter-spacing:-.025em; }
+.mcd-custom p { line-height:1.75; }
+.mcd-custom .eyebrow { color:var(--mcd-green); font-size:.68rem; line-height:1.6; font-weight:750; letter-spacing:.14em; text-transform:uppercase; margin:0 0 25px; }
+.mcd-custom :is(a,button,input,select,textarea,summary):focus-visible { outline:3px solid #338d77; outline-offset:5px; }
+.mcd-custom .button { min-height:48px; border-radius:4px; font-size:.84rem; padding:14px 22px; font-weight:700; gap:18px; }
+.mcd-custom .button-primary { background:#176254; border-color:#176254; color:white; box-shadow:none; }
+.mcd-custom .button-primary:hover { background:#104b40; }
+.mcd-custom .button-ghost-light { color:#f6fcf8; background:transparent; border-color:#9bbab8; }
+.mcd-custom .text-link { display:inline-flex; align-items:center; gap:30px; color:#176254; font-size:.88rem; font-weight:750; border-bottom:1px solid #7d9d92; padding:10px 0; }
+.mcd-custom .text-link:hover { border-color:#102e34; color:#102e34; }
+.mcd-custom :is(.mcd-section,.section) { padding:clamp(56px,7vw,100px) max(24px,calc((100vw - 1200px)/2)); }
+.mcd-custom .mcd-section { border-bottom:1px solid #dbe3dc; }
+.mcd-custom .mcd-section img { display:block; max-width:100%; height:auto; }
+.mcd-custom figure { min-width:0; }
+.mcd-custom figcaption { font-size:.71rem; color:#596f6b; line-height:1.65; margin-top:14px; }
+.mcd-custom em { font-family:Georgia,serif; font-weight:400; color:#397261; }
+.mcd-custom .site-header { background:#fafbf7; border-color:#e0e6df; }
+.mcd-custom .utility-bar { font-size:.68rem; background:#102e34; }
+.mcd-custom .header-cta { background:#176254; border-color:#176254; color:#fff; border-radius:4px; box-shadow:none; }
+.mcd-custom .site-footer { background:#102e34; }
+.mcd-custom [id] { scroll-margin-top:110px; }
+/* Keep the shared CLAIR concept image and dark overlay requested for both heroes. */
+.mcd-custom .clair-product-hero { min-height:660px; padding-top:92px; padding-bottom:78px; }
+.mcd-custom .clair-product-hero :is(h1,h2) { color:#fff; }
+.mcd-custom .clair-product-hero h1 { max-width:760px; font-size:clamp(2.8rem,5.3vw,5rem); letter-spacing:-.045em; }
+.mcd-custom .clair-product-hero-copy { max-width:690px; }
+.mcd-custom .clair-product-hero .eyebrow { color:#a7e4ca; margin:20px 0 18px; }
+.mcd-custom .clair-product-hero p { max-width:620px; }
+.mcd-custom .clair-product-hero .clair-boundary { margin-top:26px; font-size:.73rem; line-height:1.7; }
+.mcd-custom .clair-home-boundary { font-size:.7rem; line-height:1.7; }
+.mcd-kicker { display:flex; align-items:center; gap:10px; font-size:.64rem; text-transform:uppercase; letter-spacing:.12em; color:#c0d9d2; margin-bottom:26px; }
+.mcd-kicker span { width:7px; height:7px; background:#b6e8c7; border-radius:50%; }
+.mcd-custom .disc-platform-note { border-left:1px solid #87b4a7; background:transparent; padding:0 0 0 16px; margin-top:28px; max-width:580px; }
+.mcd-custom .disc-platform-note span { color:#c2e8d4; font-size:.72rem; }
+.mcd-custom .disc-platform-note p { color:#aec4c1; font-size:.77rem; margin:8px 0 0; }
+.mcd-chapters { display:flex; flex-wrap:wrap; gap:14px 28px; align-items:center; padding:24px max(24px,calc((100vw - 1200px)/2)); background:#eaf0e8; border-bottom:1px solid #d2ddd1; }
+.mcd-chapters > span { font-size:.62rem; text-transform:uppercase; letter-spacing:.12em; margin-right:auto; color:#547164; }
+.mcd-chapters a { font-size:.76rem; color:#163e35; font-weight:650; border-bottom:1px solid transparent; }
+.mcd-chapters a:hover { border-color:#176254; }
+.mcd-introduction { display:grid; grid-template-columns:1fr 2.2fr; gap:50px; background:#fafbf7; }
+.mcd-introduction > div { max-width:790px; }
+.mcd-lead { font-size:1.2rem; color:#335c50; line-height:1.75; max-width:740px; }
+.mcd-section-heading { margin-bottom:44px; }
+.mcd-section-heading > p:last-child:not(.eyebrow) { max-width:650px; color:#597069; }
+.mcd-system { background:#eef3ed; }
+.mcd-system figure { margin:0; background:white; padding:clamp(14px,3vw,32px); border:1px solid #dce5da; }
+.mcd-system figure img { width:100%; }
+.mcd-process { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); list-style:none; padding:0; margin:44px 0 0; }
+.mcd-process li { padding:4px 30px 0; border-left:1px solid #b8cbc0; }
+.mcd-process li:first-child { padding-left:0; border:0; }
+.mcd-process span { font-size:.65rem; text-transform:uppercase; letter-spacing:.1em; color:#4b7562; }
+.mcd-process h3 { margin:18px 0 10px; }
+.mcd-process p { color:#597069; font-size:.86rem; margin:0; }
+.mcd-panel-story { display:grid; grid-template-columns:1fr 1fr; gap:32px 90px; background:#fafbf7; }
+.mcd-panel-story > div { align-self:center; }
+.mcd-signal-list { margin:0; border-top:1px solid #bacdbf; }
+.mcd-signal-list > div { display:grid; grid-template-columns:1fr 1fr; align-items:baseline; gap:20px; border-bottom:1px solid #d4e0d3; padding:24px 0; }
+.mcd-signal-list dt { font-size:1.15rem; font-weight:650; letter-spacing:-.025em; }
+.mcd-signal-list dd { margin:0; font-size:.83rem; color:#607167; }
+.mcd-custom .mcd-footnote { font-size:.74rem; color:#617168; max-width:900px; }
+.mcd-panel-story > .mcd-footnote { grid-column:1 / -1; border-top:1px solid #e0e6dc; padding-top:22px; margin-bottom:0; }
+.mcd-paths { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:0; background:#e4eee3; }
+.mcd-paths > .mcd-section-heading { grid-column:1 / -1; }
+.mcd-paths > a { position:relative; padding:32px 30px 65px; border-top:1px solid #9bb49d; border-left:1px solid #c0d0bc; transition:background .15s; }
+.mcd-paths > a:nth-child(2) { padding-left:0; border-left:0; }
+.mcd-paths > a:hover { background:#d9e6d7; }
+.mcd-paths > a > span { font-size:.66rem; text-transform:uppercase; letter-spacing:.09em; color:#3f6854; }
+.mcd-paths h3 { max-width:290px; font-size:1.6rem; margin:25px 0 18px; }
+.mcd-paths p { font-size:.84rem; color:#516b5a; max-width:300px; }
+.mcd-paths b { position:absolute; bottom:22px; right:30px; font-size:1.6rem; font-weight:400; }
+.mcd-research-band { display:grid; grid-template-columns:1.2fr 1fr; gap:20px 80px; background:#102e34; color:#d1e1dc; }
+.mcd-research-band > .eyebrow { grid-column:1 / -1; color:#a7d9bf; }
+.mcd-research-band h2 { color:#f8fbf5; font-size:clamp(2.4rem,4vw,4rem); }
+.mcd-research-band > div { align-self:end; }
+.mcd-research-band p { max-width:510px; margin:0 0 24px; }
+.mcd-closing { text-align:center; background:#fafbf7; }
+.mcd-closing h2 { font-size:clamp(2.5rem,4.7vw,4.8rem); margin:0 0 34px; }
+.mcd-closing > .text-link { display:table; margin:20px auto 0; }
+.mcd-boundary { border-left:2px solid #b2c7ae; padding:16px 22px; background:#edf2e9; font-size:.84rem; color:#466250; margin-top:28px; }
+.mcd-roadmap { display:grid; grid-template-columns:1fr 1.4fr; gap:70px; background:#102e34; }
+.mcd-roadmap .mcd-section-heading { position:sticky; top:120px; align-self:start; }
+.mcd-roadmap h2,.mcd-roadmap h3 { color:#f3f7f0; }
+.mcd-roadmap .eyebrow { color:#a7d9bf; }
+.mcd-roadmap .mcd-section-heading > p:last-child { color:#b1c7be; }
+.mcd-roadmap > ol { list-style:none; margin:0; padding:0; }
+.mcd-roadmap li { display:grid; grid-template-columns:45px 1fr; gap:20px; padding:32px 0; border-top:1px solid #3e5c59; }
+.mcd-roadmap li > span { color:#8eb8a5; font:italic 1.7rem Georgia,serif; }
+.mcd-roadmap li p:not(.eyebrow) { color:#bbcec5; font-size:.86rem; }
+.mcd-roadmap li .eyebrow { margin-bottom:10px; }
+.mcd-roadmap li h3 { font-size:1.55rem; margin:0 0 18px; }
+.mcd-clinic-section { display:grid; grid-template-columns:1fr 1fr; gap:80px; background:#e8efe3; }
+.mcd-clinic-section .button { margin-top:24px; }
+.mcd-clinic-notes article { padding:15px 0; border-bottom:1px solid #bdcfb9; }
+.mcd-clinic-notes h3 { font-size:1.04rem; margin:0 0 8px; }
+.mcd-clinic-notes p { font-size:.85rem; }
+.mcd-foundation > p:not(.eyebrow) { max-width:760px; }
+.mcd-filing { margin-top:36px; border-top:1px solid #cbd8c5; padding-top:22px; font-size:.8rem; }
+.mcd-filing summary { cursor:pointer; font-weight:700; }
+/* Capabilities: a technical directory with real deliverables. */
+.mcd-capabilities .mcd-capability-hero { display:grid; grid-template-columns:1.6fr 1fr; gap:80px; background:#e8efe3; align-items:center; }
+.mcd-capabilities .mcd-capability-hero h1 { max-width:820px; }
+.mcd-capabilities .store-hero-panel { background:#102e34; border:0; border-radius:0; padding:36px; box-shadow:none; min-height:300px; display:flex; flex-direction:column; justify-content:center; }
+.mcd-capabilities .store-hero-panel strong { font-size:2.5rem; letter-spacing:-.045em; line-height:1.15; color:#f3f9ef; margin:24px 0; }
+.mcd-index-label { text-transform:uppercase; letter-spacing:.1em; font-size:.64rem; color:#a8cdbb; }
+.mcd-capabilities .development-service-list { display:block; border-top:1px solid #afc5ac; }
+.mcd-capability { border-bottom:1px solid #c8d7c1; }
+.mcd-capability summary { display:grid; grid-template-columns:55px 1fr 30px; gap:20px; padding:30px 0; cursor:pointer; list-style:none; align-items:center; }
+.mcd-capability summary::-webkit-details-marker { display:none; }
+.mcd-capability summary > span { font-family:Georgia,serif; font-style:italic; font-size:1.4rem; color:#66845f; }
+.mcd-capability h3 { margin:0; font-size:clamp(1.15rem,2.2vw,1.65rem); }
+.mcd-expand { font-size:1.5rem; font-weight:400; transition:transform .15s; }
+.mcd-capability[open] .mcd-expand { transform:rotate(45deg); }
+.mcd-capability-content { display:grid; grid-template-columns:1fr 1.5fr; gap:20px 55px; padding:0 50px 35px 75px; }
+.mcd-capability-question { margin:0; color:#507049; font-size:1.05rem; }
+.mcd-capability-content > div { font-size:.88rem; }
+.mcd-capability-content > div small { display:block; color:#536b50; margin-top:20px; line-height:1.75; }
+.mcd-capability-content > a { grid-column:2; justify-self:start; }
+.mcd-capabilities .clair-home-capabilities { background:#102e34; }
+/* Research: original work first, then an editorial archive. */
+.mcd-research .news-hero { background:#e8efe3; display:grid; grid-template-columns:1.8fr 1fr; gap:80px; }
+.mcd-research .news-hero h1 { max-width:800px; }
+.mcd-research .news-hero-meta { display:flex; flex-direction:column; align-self:end; gap:18px; background:transparent; border:0; border-left:1px solid #a5bda0; padding:12px 0 12px 35px; border-radius:0; }
+.mcd-research .news-hero-meta a { font-size:.9rem; border-bottom:1px solid #c4d2bc; padding-bottom:15px; }
+.mcd-research #latest-paper { background:#fafbf7; }
+.mcd-research .news-feature-card { background:transparent; border:0; border-radius:0; box-shadow:none; gap:55px; padding:0; }
+.mcd-research .news-feature-copy h2 { font-size:clamp(1.85rem,3vw,2.8rem); }
+.mcd-research .news-feature-visual img { border-radius:0; }
+.mcd-research .news-figure-grid { margin-top:45px; }
+.mcd-research .news-figure-grid figure { border-radius:0; box-shadow:none; background:#eef3e9; }
+.mcd-development-note { display:grid; grid-template-columns:1fr 2fr; gap:60px; background:#102e34; color:#c4d8cd; }
+.mcd-development-note h2 { color:#f7fbf3; }
+.mcd-development-note .eyebrow,.mcd-development-note .text-link { color:#b3dfc4; }
+.mcd-archive-heading { background:#edf2e8; padding-bottom:24px!important; border-bottom:0!important; }
+.mcd-research .news-field-note { background:transparent; border-radius:0; box-shadow:none; border:0; padding:0; gap:55px; }
+.mcd-research .news-feature-section:not(#latest-paper) { background:#edf2e8; border-top:1px solid #c2d2bb; }
+.mcd-research .news-field-note-summary { background:#e0e9da; border:0; border-radius:0; padding:30px; }
+.mcd-research .news-field-note-summary h3 { font-size:1.3rem; }
+/* About: company identity, then evidence from working prototypes. */
+.mcd-about .mcd-about-hero { display:grid; grid-template-columns:1.5fr 1fr; gap:80px; background:#e8efe3; align-items:center; }
+.mcd-about .company-card { background:#102e34; border:0; border-radius:0; box-shadow:none; padding:38px; }
+.mcd-about .company-card dl > div { padding:17px 0; border-color:#38574f; }
+.mcd-about .company-story { background:#fafbf7; }
+.mcd-about .company-focus { gap:0; background:#fafbf7; }
+.mcd-about .company-focus article { border-radius:0; box-shadow:none; border:0; border-top:1px solid #bbcdb4; border-right:1px solid #d0ddc9; padding:25px; background:transparent; }
+.mcd-about .development-evidence-section { background:#102e34; color:#c8d9d1; }
+.mcd-about .development-evidence-section h2,.mcd-about .development-evidence-section strong { color:#f3f8ef; }
+.mcd-about .development-evidence-section .eyebrow { color:#a7d9bf; }
+.mcd-about .development-evidence-section figcaption { color:#aabfb5; }
+.mcd-about .development-evidence-visual { border-radius:0; }
+.mcd-about .evidence-section { background:#fafbf7; }
+.mcd-about .growth-section { background:#e8efe3; }
+/* Contact: audience choice and a straightforward inquiry workspace. */
+.mcd-contact .consultation-hero { background:#102e34; color:#c4d9d1; gap:80px; }
+.mcd-contact .consultation-hero h1 { color:#fff; }
+.mcd-contact .consultation-hero .eyebrow { color:#addbbf; }
+.mcd-contact .consultation-expectations { border:1px solid #46665a; background:transparent; color:#c9dad2; border-radius:0; box-shadow:none; padding:30px; }
+.mcd-contact .consultation-expectations strong { color:#f6faf1; }
+.mcd-inquiry-paths { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); padding:0 max(24px,calc((100vw - 1200px)/2)); background:#e8efe3; }
+.mcd-inquiry-paths a { padding:30px 25px; border-right:1px solid #bfceb6; position:relative; }
+.mcd-inquiry-paths a:first-child { padding-left:0; }
+.mcd-inquiry-paths a:last-child { border-right:0; }
+.mcd-inquiry-paths a:hover { background:#dde8d6; }
+.mcd-inquiry-paths span { display:block; font-size:.65rem; color:#526c48; text-transform:uppercase; letter-spacing:.08em; margin-bottom:18px; }
+.mcd-inquiry-paths strong { display:block; font-size:1.2rem; }
+.mcd-inquiry-paths p { font-size:.8rem; max-width:290px; }
+.mcd-inquiry-paths b { position:absolute; right:15px; top:27px; font-size:1.25rem; font-weight:400; }
+.mcd-contact .inquiry-section { background:#fafbf7; gap:75px; align-items:start; }
+.mcd-contact .inquiry-copy { position:sticky; top:110px; }
+.mcd-contact .contact-form { border:1px solid #d6e0cf; border-radius:0; box-shadow:none; background:white; padding:32px; }
+.mcd-contact .contact-form :is(input,select,textarea) { border-radius:3px; border-color:#c4d3bb; min-height:46px; background:#fafcf8; }
+.mcd-contact .confidentiality-note { border:0; border-left:2px solid #b7c9a9; border-radius:0; background:#edf2e7; }
+/* Diagnostics: an assay-development page with its own research emphasis. */
+.mcd-diagnostics .mcd-diagnostic-hero { display:grid; grid-template-columns:1.6fr 1fr; gap:65px; align-items:center; background:#102e34; color:#c4d8d0; }
+.mcd-diagnostics .mcd-diagnostic-hero h1 { color:#fff; }
+.mcd-diagnostics .mcd-diagnostic-hero .eyebrow { color:#addcbd; }
+.mcd-diagnostics .mcd-diagnostic-hero .store-hero-panel { background:transparent; border:1px solid #4e6d5e; border-radius:0; box-shadow:none; color:#c4d8d0; }
+.mcd-diagnostics .mcd-diagnostic-hero .store-hero-panel strong { color:#f4f9ee; }
+.mcd-diagnostics .product-back-link { color:#e2f2e5; }
+.mcd-diagnostics .use-case-section { background:#fafbf7; }
+.mcd-diagnostics .use-case-grid article { border-radius:0; box-shadow:none; }
+.mcd-diagnostics .publication-section { background:#e8efe3; }
+.mcd-diagnostics .publication-card { border:0; border-radius:0; box-shadow:none; background:transparent; }
+@media (prefers-reduced-motion:reduce) { .mcd-custom { scroll-behavior:auto; } .mcd-custom * { transition:none!important; } }
+@media (max-width:1000px) {
+ .mcd-custom .clair-product-hero { min-height:620px; }
+ .mcd-custom :is(.mcd-capability-hero,.mcd-about-hero,.mcd-diagnostic-hero),.mcd-research .news-hero { grid-template-columns:1.5fr 1fr; gap:35px; }
+ .mcd-introduction { grid-template-columns:1fr 2fr; gap:30px; }
+ .mcd-panel-story,.mcd-roadmap,.mcd-clinic-section { gap:45px; }
+ .mcd-paths h3 { font-size:1.35rem; }
+ .mcd-capability-content { padding-left:0; padding-right:0; }
+ .mcd-contact .inquiry-section { gap:35px; }
+}
+@media (max-width:760px) {
+ .mcd-custom :is(.mcd-section,.section) { padding:52px 22px; }
+ .mcd-custom h1 { font-size:clamp(2.45rem,10vw,3.8rem); }
+ .mcd-custom h2 { font-size:clamp(1.9rem,8vw,2.8rem); }
+ .mcd-custom .clair-product-hero { min-height:660px; padding:65px 22px 46px; background-size:cover,auto 52%; background-position:center,right -110px center; }
+ .mcd-custom .clair-product-hero h1 { font-size:clamp(2.55rem,10vw,3.6rem); }
+ .mcd-custom .clair-product-hero-copy { max-width:100%; }
+ .mcd-custom .clair-product-hero-copy > p:not(.eyebrow):not(.clair-boundary):not(.clair-home-boundary):not(.mcd-kicker) { font-size:.95rem; }
+ .mcd-kicker { font-size:.56rem; }
+ .mcd-chapters { gap:12px 20px; padding:22px; }
+ .mcd-chapters > span { flex-basis:100%; }
+ .mcd-introduction,.mcd-panel-story,.mcd-roadmap,.mcd-clinic-section,.mcd-research-band,.mcd-development-note { grid-template-columns:1fr; gap:24px; }
+ .mcd-lead { font-size:1.07rem; }
+ .mcd-process { grid-template-columns:1fr; margin-top:24px; }
+ .mcd-process li,.mcd-process li:first-child { padding:22px 0; border:0; border-bottom:1px solid #c3d1bd; }
+ .mcd-process h3 { margin-top:10px; }
+ .mcd-paths { grid-template-columns:1fr; }
+ .mcd-paths > a,.mcd-paths > a:nth-child(2) { padding:28px 0 50px; border-left:0; }
+ .mcd-paths h3 { font-size:1.5rem; max-width:100%; margin:16px 0; }
+ .mcd-paths p { max-width:100%; }
+ .mcd-paths b { right:5px; bottom:18px; }
+ .mcd-roadmap .mcd-section-heading,.mcd-contact .inquiry-copy { position:static; }
+ .mcd-roadmap li { grid-template-columns:30px 1fr; gap:15px; }
+ .mcd-custom :is(.mcd-capability-hero,.mcd-about-hero,.mcd-diagnostic-hero),.mcd-research .news-hero { grid-template-columns:1fr; gap:35px; }
+ .mcd-capabilities .store-hero-panel { min-height:0; padding:25px; }
+ .mcd-capabilities .store-hero-panel strong { font-size:2rem; }
+ .mcd-capability summary { grid-template-columns:28px 1fr 20px; gap:12px; padding:25px 0; }
+ .mcd-capability-content { grid-template-columns:1fr; gap:22px; }
+ .mcd-capability-content > a { grid-column:1; }
+ .mcd-research .news-hero-meta { padding-left:20px; }
+ .mcd-research .news-feature-card,.mcd-research .news-field-note { gap:30px; }
+ .mcd-research .news-field-note-summary { padding:24px; }
+ .mcd-about .company-focus article { border-right:0; padding:24px 0; }
+ .mcd-inquiry-paths { grid-template-columns:1fr; padding:0 22px; }
+ .mcd-inquiry-paths a,.mcd-inquiry-paths a:first-child { padding:25px 0; border:0; border-bottom:1px solid #bfceb6; }
+ .mcd-inquiry-paths p { max-width:100%; }
+ .mcd-contact .inquiry-section { grid-template-columns:1fr; }
+ .mcd-contact .contact-form { padding:22px; }
+}
+/* Guard against legacy layout minimums at tablet widths. */
+.mcd-custom main :is(section,article,figure,form,div) { min-width:0; }
+.mcd-contact .consultation-hero p,.mcd-contact .consultation-expectations li { color:#c4d9d1; }
+.mcd-custom .mcd-system figure img { width:100%; height:auto; aspect-ratio:auto; object-fit:contain; }
+@media (max-width:1000px) {
+ .mcd-about :is(.company-story,.experience-section,.evidence-section,.development-evidence-section,.growth-section),.mcd-contact .inquiry-section { grid-template-columns:1fr; }
+ .mcd-about .experience-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .mcd-contact .inquiry-copy { position:static; }
+}
+@media (max-width:760px) {
+ .mcd-about .experience-grid { grid-template-columns:1fr; }
+}
+.mcd-capabilities .store-hero-panel > span:not(.mcd-index-label) { color:#c4d9d1; }
+.mcd-capabilities .clair-home-capabilities h2 { color:#f3f8ef; }
+.mcd-capabilities .clair-home-capabilities .eyebrow { color:#addcbd; }
+.mcd-about .development-evidence-copy > p:not(.eyebrow),.mcd-about .development-evidence-list span { color:#c4d9d1; }
+@media (max-width:1000px) {
+ .mcd-about .founder-section { grid-template-columns:1fr; }
+}
+.mcd-custom .button-secondary { color:#244b3b; background:#fff; border-color:#bdcdb5; }
+.mcd-about .mcd-about-hero > div > p:not(.eyebrow) { color:#4b6857; }
+.mcd-about .home-contact h2 { color:#f3f8ef; }
+.mcd-about .home-contact .eyebrow { color:#addcbd; }
+.mcd-about .development-evidence-copy > p.development-evidence-note { color:#49634f; background:#edf2e7; }
+.mcd-about .development-evidence-visual { background:transparent; border:0; }
+.mcd-diagnostics .mcd-diagnostic-hero .store-hero-panel > span { color:#c4d9d1; }
+.mcd-diagnostics .product-back-link { color:#244b3b; background:white; }

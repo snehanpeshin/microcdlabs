@@ -44,8 +44,9 @@
         ]
       }
     </script>
+  <link rel="stylesheet" href="../assets/custom-pages.css?v=20261101" />
   </head>
-  <body class="clair-page">
+  <body class="clair-page mcd-custom mcd-clair">
     <header class="site-header">
       <a class="brand" href="../index.html#top" aria-label="MicroCD Labs home">
         <img class="brand-logo" src="../assets/microcd-labs-wordmark.svg?v=boxed" alt="MicroCD Labs" />
@@ -81,8 +82,7 @@
       </div>
     </header>
 
-    <main>
-      <section class="clair-product-hero" aria-labelledby="clair-product-title">
+    <main><section class="clair-product-hero" aria-labelledby="clair-product-title">
         <div class="clair-product-hero-copy">
           <div class="clair-status-line"><span>Flagship platform</span><span>In development</span></div>
           <p class="eyebrow">CLAIR by MicroCD Labs</p>
@@ -90,102 +90,24 @@
           <p>CLAIR is a saliva-based adjunct in development for use alongside the oral examination. The proposed workflow combines collection, controlled processing on a centrifugal microfluidic disc, and optical readout to support triage and the owner conversation.</p>
           <div class="hero-actions">
             <a class="button button-primary" href="../consultation.html?project=clair">Discuss a CLAIR pilot</a>
-            <a class="button button-secondary" href="#clair-workflow">See the workflow</a>
+            <a class="button button-ghost-light" href="#clair-workflow">See the workflow</a>
           </div>
           <p class="clair-boundary"><strong>Development boundary:</strong> CLAIR is not for sale or clinical use. Analytical performance, workflow timing, and clinical utility remain to be established for each panel.</p>
         </div>
       </section>
-
-      <section class="clair-problem section" aria-labelledby="clair-problem-title">
-        <div>
-          <p class="eyebrow">The proposed clinical role</p>
-          <h2 id="clair-problem-title">Support the examination. Explain the next step.</h2>
-        </div>
-        <div class="clair-problem-list">
-          <article><span>01</span><div><strong>Evidence alongside the awake exam</strong><p>The first development question is whether a quantitative saliva panel adds useful information when considering further dental assessment.</p></div></article>
-          <article><span>02</span><div><strong>A clearer owner conversation</strong><p>The proposed benefit is a clearer explanation of the recommendation for further assessment. Owner understanding must be tested.</p></div></article>
-          <article><span>03</span><div><strong>Clinical judgment remains central</strong><p>CLAIR is not a replacement for indicated dental assessment, probing, or radiographs. A low result must not delay otherwise indicated care.</p></div></article>
-        </div>
-      </section>
-
-      <section class="clair-concept-figure section" aria-labelledby="clair-architecture-title">
-        <div class="home-section-heading">
-          <div>
-            <p class="eyebrow">Platform architecture</p>
-            <h2 id="clair-architecture-title">Collect saliva. Process on disc. Read and interpret.</h2>
-          </div>
-          <p>The current engineering concept assigns sample preparation, reaction control, imaging, and interpretation to defined parts of one workflow.</p>
-        </div>
-        <figure>
-          <a href="../assets/clair/concept/clair-concept-workflow.png" target="_blank" rel="noreferrer" aria-label="Open the full conceptual CLAIR workflow visual">
-            <img class="clair-explainer-image" src="../assets/clair/concept/clair-concept-workflow.png" width="1672" height="941" loading="lazy" alt="Abstract concept showing a sample swab, generic centrifugal cartridge, closed reader, and smartphone result screen" />
-          </a>
-          <figcaption>Public-facing concept visual. It communicates the intended workflow without representing final hardware, internal architecture, timing, or validated performance. Select the figure to enlarge.</figcaption>
-        </figure>
-      </section>
-
-      <section id="clair-workflow" class="clair-development-section section" aria-labelledby="clair-application-title">
-        <figure>
-          <a href="../assets/clair/concept/clair-concept-process.png" target="_blank" rel="noreferrer" aria-label="Open the full conceptual assay-control visual"><img class="clair-explainer-image" src="../assets/clair/concept/clair-concept-process.png" width="1672" height="941" loading="lazy" alt="Abstract five-stage concept representing sample introduction, separation, mixing, controlled optical reading, and data interpretation" /></a>
-          <figcaption>Abstract process visual. It intentionally omits implementable cartridge geometry and proprietary engineering details.</figcaption>
-        </figure>
-        <div>
-          <p class="eyebrow">Initial development focus</p>
-          <h2 id="clair-application-title">Four candidate measurements, a blood signal, and validity controls.</h2>
-          <p>The first planned panel studies whether combined saliva evidence can support canine oral-health triage alongside the oral exam. Quantitative results and sample checks are a differentiation hypothesis, not established clinical performance.</p>
-          <h3>Candidate dimensions</h3>
-          <ul>
-            <li><strong>LDH</strong> <span>Candidate tissue-activity signal</span></li>
-            <li><strong>MPO</strong> <span>Inflammatory activity</span></li>
-            <li><strong>Phosphorus and pH</strong> <span>Oral chemistry context</span></li>
-            <li><strong>Occult blood</strong> <span>Bleeding signal and potential interference</span></li>
-            <li><strong>Sample validity</strong> <span>Collection and process checks</span></li>
-          </ul>
-          <p class="clair-boundary">These markers are candidates for product development. Panel composition, thresholds, performance, and clinical interpretation require analytical and clinical validation. Multiplexing alone does not establish disease specificity. CRP remains a separate research track.</p>
-        </div>
-      </section>
-
-      <section class="clair-evidence section" aria-labelledby="clair-evidence-title">
-        <div class="home-section-heading">
-          <div><p class="eyebrow">Evidence discipline</p><h2 id="clair-evidence-title">Platform foundation first. Product-specific proof next.</h2></div>
-          <p>MicroCD Labs is translating lab-on-disc, assay, imaging, and kinetic-analysis experience into a reproducible veterinary product workflow.</p>
-        </div>
-        <div class="clair-evidence-columns">
-          <div><strong>Foundation informing CLAIR</strong><ul><li>Lab-on-disc and centrifugal microfluidic development experience</li><li>Assay-development and time-resolved signal-analysis research</li><li>Prototype, motor-control, optical-reader, and cartridge engineering work</li><li>Patent applications and peer-reviewed technical work</li></ul></div>
-          <div><strong>Evidence still required</strong><ul><li>Panel-specific analytical sensitivity, precision, and interference studies</li><li>Transfer repeatability across discs, readers, operators, and sites</li><li>Veterinary workflow validation and multi-clinic pilot evidence</li><li>Manufacturing process, quality-control, regulatory, and commercialization planning</li></ul></div>
-        </div>
-        <p class="clair-filing-note"><strong>Patent filing note:</strong> U.S. provisional application 64/126,200 was received August 5, 2026 for <cite>Portable Centrifugal Diagnostic Platform with Mobile-Device Optical and Kinetic Assay Analysis</cite>. A provisional filing is not an issued patent or a determination of patentability.</p>
-      </section>
-
-      <section class="clair-evidence section" aria-labelledby="clair-gates-title">
-        <div class="home-section-heading"><div><p class="eyebrow">Development plan</p><h2 id="clair-gates-title">Three gates before broader rollout.</h2></div><p>Clinical added value remains unproven. Study size and timing will follow feasibility, a funded protocol, and statistical planning.</p></div>
-        <div class="clair-problem-list">
-          <article><span>01</span><div><strong>Analytical readiness</strong><p>Evaluate repeatability, interference, sample recovery, and collection and process controls. Report invalid samples.</p></div></article>
-          <article><span>02</span><div><strong>Clinical added value</strong><p>Compare the awake exam, panel alone, and exam plus panel against a blinded reference assessment using anesthetized probing and dental radiographs. Lock the panel and thresholds before independent validation and include realistic confounders.</p></div></article>
-          <article><span>03</span><div><strong>Customer validation</strong><p>Test workflow fit, owner understanding, willingness to pay, support needs, and repeat use with veterinary practices.</p></div></article>
-        </div>
-      </section>
-
-      <section class="clair-evidence section" aria-labelledby="clair-clinics-title">
-        <div class="home-section-heading"><div><p class="eyebrow">First clinic segment</p><h2 id="clair-clinics-title">Built around the veterinary team's workflow.</h2></div><p>The proposed first customers are general practices with active dental services and an interest in structured pilot feedback.</p></div>
-        <div class="clair-evidence-columns">
-          <div><strong>Clinic participation</strong><ul><li>Practice owners and managers evaluate purchase and workflow fit.</li><li>Veterinarians and technicians evaluate collection, interpretation, and usability.</li><li>Dog owners and patients are the intended beneficiaries.</li></ul></div>
-          <div><strong>Proposed support model</strong><ul><li>Team onboarding for collection and sample validity</li><li>Interpretation guidance and owner-facing explanations</li><li>Troubleshooting, consumable replenishment, and feedback reviews</li></ul></div>
-        </div>
-        <p class="clair-boundary">These roles and support needs are working hypotheses. The proposed commercial model is per-test consumables supplied to clinics; reader and software pricing, unit costs, and repeat demand require validation.</p>
-      </section>
-
-      <section class="clair-collaboration section" aria-labelledby="clair-collaboration-title">
-        <div><p class="eyebrow">Build the product evidence</p><h2 id="clair-collaboration-title">MicroCD Labs is preparing CLAIR for focused veterinary and technical collaboration.</h2><p>We welcome non-confidential conversations with veterinary clinics, assay-development specialists, cartridge and manufacturing partners, and investors aligned with disciplined product validation.</p></div>
-        <div class="clair-collaboration-actions"><a class="button button-light" href="../consultation.html?project=clair">Discuss CLAIR</a><a href="../services.html">Engineering capabilities</a><a href="../diagnostics.html#publication">Scientific foundation</a></div>
-      </section>
-    </main>
+<nav class="mcd-chapters" aria-label="CLAIR page sections"><span>Inside CLAIR</span><a href="#clinical-role">Clinical role</a><a href="#clair-workflow">Workflow</a><a href="#candidate-panel">Candidate panel</a><a href="#validation">Evidence plan</a><a href="#clinic-partners">Clinic partners</a></nav>
+<section class="mcd-section mcd-introduction" id="clinical-role" aria-labelledby="clinical-role-title"><p class="eyebrow">01 / Intended role</p><div><h2 id="clinical-role-title">Support the examination.<br /><em>Explain the next step.</em></h2><p class="mcd-lead">A saliva-based adjunct for the conversation about further dental assessment.</p><p>CLAIR asks whether a quantitative saliva panel can add useful evidence alongside the awake oral exam. The first planned setting is general veterinary practices with active dental services.</p><div class="mcd-boundary">Clinical judgment remains central. CLAIR does not replace indicated dental assessment, probing, or radiographs. A low result must not delay otherwise indicated care.</div></div></section>
+<section class="mcd-section mcd-system" id="clair-workflow" aria-labelledby="workflow-title"><div class="mcd-section-heading"><p class="eyebrow">02 / Proposed workflow</p><h2 id="workflow-title">Collect. Process.<br />Read and interpret.</h2></div><figure><img src="../assets/clair/concept/clair-concept-workflow.png" width="1672" height="941" loading="lazy" alt="Conceptual collection swab, centrifugal cartridge, reader, and smartphone readout" /><figcaption>Concept illustration, not final hardware or validated timing or performance.</figcaption></figure><ol class="mcd-process"><li><span>01 / Sample</span><h3>Collection and validity</h3><p>Define oral collection and checks for sample quality.</p></li><li><span>02 / Disc</span><h3>Controlled handling</h3><p>Develop centrifugal processing, reaction control, and assay timing.</p></li><li><span>03 / Readout</span><h3>Structured interpretation</h3><p>Evaluate optical readout alongside the clinical context.</p></li></ol></section>
+<section class="mcd-section mcd-panel-story" id="candidate-panel" aria-labelledby="candidate-title"><div><p class="eyebrow">03 / Candidate saliva panel</p><h2 id="candidate-title">Measure the signals.<br />Check the sample.</h2><p>The combined panel and validity controls are a differentiation hypothesis. Multiplexing alone does not establish disease specificity.</p><p>Panel composition, thresholds, and interpretation require analytical and clinical validation. CRP remains a separate research track.</p></div><dl class="mcd-signal-list"><div><dt>LDH</dt><dd>Candidate tissue-activity signal</dd></div><div><dt>MPO</dt><dd>Inflammatory activity</dd></div><div><dt>Phosphorus + pH</dt><dd>Oral chemistry context</dd></div><div><dt>Occult blood</dt><dd>Bleeding signal and potential interference</dd></div><div><dt>Sample validity</dt><dd>Collection and process controls</dd></div></dl></section>
+<section class="mcd-section mcd-roadmap" id="validation" aria-labelledby="validation-title"><div class="mcd-section-heading"><p class="eyebrow">04 / Evidence before rollout</p><h2 id="validation-title">Three questions.<br />Three development gates.</h2><p>Clinical added value remains unproven. Study size and timing depend on feasibility, a funded protocol, and statistical planning.</p></div><ol><li><span>01</span><div><p class="eyebrow">Analytical readiness</p><h3>Can the panel measure reliably?</h3><p>Evaluate repeatability, interference, sample recovery, and collection and process controls. Report invalid samples.</p></div></li><li><span>02</span><div><p class="eyebrow">Independent clinical evaluation</p><h3>Does it add useful evidence?</h3><p>Compare the awake exam, panel alone, and exam plus panel against a blinded reference assessment using anesthetized probing and dental radiographs. Lock the panel and thresholds before independent validation and include realistic confounders.</p></div></li><li><span>03</span><div><p class="eyebrow">Customer validation</p><h3>Does it work for the clinic?</h3><p>Study workflow fit, owner understanding, willingness to pay, support needs, and repeat use with veterinary practices.</p></div></li></ol></section>
+<section class="mcd-section mcd-clinic-section" id="clinic-partners" aria-labelledby="clinic-title"><div><p class="eyebrow">05 / Clinic collaboration</p><h2 id="clinic-title">Help shape what<br />fits in practice.</h2><p class="mcd-lead">The proposed first partners are general veterinary practices with active dental services.</p><a class="button button-primary" href="../consultation.html?project=clair#inquiry-title">Discuss clinic participation <span aria-hidden="true">↗</span></a></div><div class="mcd-clinic-notes"><article><h3>Practice owners and managers</h3><p>Evaluate workflow, purchasing, and operating fit.</p></article><article><h3>Veterinarians and technicians</h3><p>Evaluate collection, interpretation, usability, and training needs.</p></article><article><h3>Dog owners and patients</h3><p>The intended beneficiaries of clearer oral-health conversations.</p></article><p class="mcd-footnote">Onboarding, interpretation guidance, troubleshooting, and consumable replenishment are proposed support needs. Reader, software, and per-test pricing require validation.</p></div></section>
+<section class="mcd-section mcd-foundation" aria-labelledby="foundation-title"><p class="eyebrow">Platform foundation</p><h2 id="foundation-title">Engineering experience.<br />Product-specific proof still ahead.</h2><p>CLAIR draws on lab-on-disc, assay-development, imaging, kinetic-analysis, motor-control, and cartridge engineering experience. Manufacturing, quality-control, and regulatory and commercialization planning remain part of development.</p><a class="text-link" href="../diagnostics.html#publication">Explore the scientific foundation <span aria-hidden="true">↗</span></a><details class="mcd-filing"><summary>Intellectual property filing note</summary><p>U.S. provisional application 64/126,200 was received August 5, 2026 for <cite>Portable Centrifugal Diagnostic Platform with Mobile-Device Optical and Kinetic Assay Analysis</cite>. A provisional filing is not an issued patent or a determination of patentability.</p></details></section></main>
 
     <footer class="site-footer">
       <div><img class="footer-logo" src="../assets/microcd-labs-wordmark.svg?v=boxed" alt="MicroCD Labs" /><p class="company-legal">MicroCD Labs, a division of Karigari Home LLC</p><p>CLAIR is an in-development research platform and is not available for clinical use.</p></div>
       <p><a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a> <a href="https://www.linkedin.com/company/microcd-labs/" target="_blank" rel="noreferrer">LinkedIn</a> <a href="../privacy.html">Privacy</a> <a href="../terms.html">Terms</a></p>
     </footer>
-    <script src="../site.js?v=20260816c"></script>
+    <script src="../site.js?v=20261101"></script>
     <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=f6f042c5-f6ce-4381-8555-2da23e6aebd1"></script>
     <script src="../assets/chat-widget.js?v=20261030-left"></script>
   </body>
