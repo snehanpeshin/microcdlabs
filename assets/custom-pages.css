@@ -262,3 +262,21 @@
 .mcd-about .development-evidence-visual { background:transparent; border:0; }
 .mcd-diagnostics .mcd-diagnostic-hero .store-hero-panel > span { color:#c4d9d1; }
 .mcd-diagnostics .product-back-link { color:#244b3b; background:white; }
+
+/* Human and veterinary program navigation. */
+.mcd-programs { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:30px 70px; background:#e8efe3; }
+.mcd-programs > .mcd-section-heading,.mcd-programs > .mcd-footnote { grid-column:1 / -1; }
+.mcd-programs > article { border-top:1px solid #a9bea2; padding:30px 0 0; }
+.mcd-programs h3 { font-size:clamp(1.5rem,2.4vw,2.1rem); margin:0 0 20px; }
+.mcd-programs article p:not(.eyebrow) { color:#4a6552; }
+.mcd-track-back { display:flex; flex-wrap:wrap; align-items:center; gap:14px; padding:22px max(24px,calc((100vw - 1200px)/2)); background:#e8efe3; font-size:.78rem; }
+.mcd-track-back a:last-child { margin-left:auto; font-weight:700; }
+.mcd-paths-four { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.mcd-paths-four > a:nth-child(4) { border-left:0; padding-left:0; }
+.mcd-inquiry-four { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.mcd-inquiry-four a { border-top:1px solid #bfceb6; }
+.mcd-inquiry-four a:nth-child(3) { padding-left:0; }
+.mcd-inquiry-four a:nth-child(even) { border-right:0; }
+.mcd-closing .hero-actions { justify-content:center; }
+@media(max-width:760px) { .mcd-programs,.mcd-paths-four,.mcd-inquiry-four { grid-template-columns:1fr; } .mcd-track-back a:last-child { margin-left:0; flex-basis:100%; } .mcd-paths-four > a:nth-child(4) { padding:28px 0 50px; } }
+.mcd-roadmap li > span { white-space:nowrap; }

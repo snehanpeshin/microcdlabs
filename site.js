@@ -218,7 +218,9 @@ function initProjectInquiryForm() {
   const copyRequest = form.querySelector("#copyProjectInquiry");
   const requestedProject = new URLSearchParams(window.location.search).get("project");
   const projectAliases = {
-    clair: "CLAIR clinic collaboration or pilot discussion",
+    clair: "CLAIR veterinary clinic collaboration",
+    "clair-human": "CLAIR human oral-health research",
+    "clair-veterinary": "CLAIR veterinary clinic collaboration",
     research: "Research or technical partnership",
     "diagnostic-development": "Diagnostic cartridge or consumable",
     "microfluidic-development": "Microfluidic product development",
