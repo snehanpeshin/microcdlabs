@@ -38,3 +38,5 @@ CLAIR is in development and is not for sale or clinical use. Its analytical perf
 
 - [CLAIR Human](https://www.microcdlabs.com/clair/human.html): Exploratory human periodontal assessment research, professional dental use-case definition, panel selection, and human-specific validation. Not for sale or clinical use.
 - [CLAIR Veterinary](https://www.microcdlabs.com/clair/veterinary.html): Canine oral-health triage development, candidate panel, sample controls, and veterinary clinical validation. Not for sale or clinical use.
+
+Clinical positioning: recognition must lead to appropriate professional assessment, treatment and follow-up. Gingivitis differs from periodontitis. Canine prevalence estimates are study-specific. CLAIR does not assign tooth-level AVDC stages. Detection gains, welfare improvements and net cost savings are unproven.

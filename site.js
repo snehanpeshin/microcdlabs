@@ -345,3 +345,16 @@ function initCapabilityLinks() {
   window.addEventListener('hashchange', reveal);
 }
 initCapabilityLinks();
+
+function initImpactPlanner() {
+ const form=document.querySelector('#impactForm');if(!form)return;
+ form.addEventListener('submit',(event)=>{event.preventDefault();if(!form.reportValidity())return;
+ const value=id=>Number(document.getElementById(id).value);
+ const recognized=value('impactCohort')*value('impactGain')/100;
+ const care=recognized*value('impactTreatment')/100;
+ const followup=care*value('impactFollowup')/100;
+ const fmt=n=>n.toLocaleString(undefined,{maximumFractionDigits:1});
+ document.querySelector('#impactResults').textContent=`Planning example: ${fmt(recognized)} additional recognized cases, ${fmt(care)} starting appropriate care, and ${fmt(followup)} completing follow-up. These are assumed counts, not measured CLAIR outcomes.`;
+ });
+}
+initImpactPlanner();

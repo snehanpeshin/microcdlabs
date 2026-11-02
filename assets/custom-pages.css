@@ -280,3 +280,31 @@
 .mcd-closing .hero-actions { justify-content:center; }
 @media(max-width:760px) { .mcd-programs,.mcd-paths-four,.mcd-inquiry-four { grid-template-columns:1fr; } .mcd-track-back a:last-child { margin-left:0; flex-basis:100%; } .mcd-paths-four > a:nth-child(4) { padding:28px 0 50px; } }
 .mcd-roadmap li > span { white-space:nowrap; }
+
+/* Disease burden, care pathway, stakeholder value, and transparent impact planning. */
+.mcd-evidence-story { display:grid; grid-template-columns:1fr 1.15fr; gap:65px; background:#fafbf7; }
+.mcd-study-list article { padding:22px 0; border-top:1px solid #c6d4bf; }
+.mcd-study-list strong { font-size:clamp(1.4rem,3vw,2.7rem); color:#176254; letter-spacing:-.035em; }
+.mcd-study-list h3 { margin:15px 0; }
+.mcd-study-list p { font-size:.9rem; }
+.mcd-study-list a,.mcd-source-line a { color:#176254; text-decoration:underline; text-underline-offset:3px; }
+.mcd-care-section { background:#e8efe3; }
+.mcd-table-scroll { overflow-x:auto; margin:30px 0; }
+.mcd-evidence-table { width:100%; border-collapse:collapse; font-size:.9rem; text-align:left; }
+.mcd-evidence-table caption { text-align:left; padding:0 0 18px; color:#4e695c; font-size:.8rem; }
+.mcd-evidence-table :is(th,td) { border-bottom:1px solid #b6c9ac; padding:22px 16px; vertical-align:top; }
+.mcd-evidence-table thead { color:#fafbf7; background:#102e34; }
+.mcd-source-line { font-size:.75rem; color:#4e695c; }
+.mcd-benefits { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:30px; background:#fafbf7; }
+.mcd-benefits > .mcd-section-heading { grid-column:1 / -1; }
+.mcd-benefits article { border-top:1px solid #a9bea2; padding-top:28px; }
+.mcd-benefits article h3 { font-size:1.5rem; }
+.mcd-benefits article p:not(.eyebrow) { font-size:.9rem; color:#4e695c; }
+.mcd-benefits small { display:block; padding-top:18px; color:#176254; line-height:1.7; }
+.mcd-impact { display:grid; grid-template-columns:1fr 1fr; gap:70px; background:#e8efe3; }
+.mcd-impact-form { display:grid; gap:14px; background:#fafbf7; border:1px solid #c6d4bf; padding:30px; }
+.mcd-impact-form label { font-size:.86rem; font-weight:650; margin-top:10px; }
+.mcd-impact-form input { width:100%; min-height:46px; padding:10px; border:1px solid #b6c9ac; border-radius:3px; color:#102e34; background:white; }
+#impactResults { font-size:1.02rem; font-weight:700; color:#176254; line-height:1.7; border-top:1px solid #c6d4bf; padding-top:22px; margin-top:10px; }
+@media(max-width:900px) { .mcd-evidence-story,.mcd-impact { grid-template-columns:1fr; gap:35px; } .mcd-benefits { grid-template-columns:1fr; } }
+@media(max-width:760px) { .mcd-evidence-table :is(th,td) { padding:15px 9px; font-size:.78rem; } .mcd-impact-form { padding:20px; } }
