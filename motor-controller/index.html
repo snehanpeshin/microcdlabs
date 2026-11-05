@@ -19,22 +19,16 @@
       <a class="brand" href="../index.html#top" aria-label="MicroCD Labs home"><img class="brand-logo" src="../assets/microcd-labs-wordmark.svg?v=boxed" alt="MicroCD Labs" /></a>
       <nav class="main-nav" aria-label="Primary navigation">
         <a class="nav-primary-link" href="../clair/">CLAIR</a>
-        <details class="nav-menu nav-menu-wide">
-          <summary>Capabilities</summary>
-          <div class="nav-menu-list">
-            <a class="nav-menu-overview" href="../services.html">Engineering &amp; diagnostic capabilities <span>Focused support behind CLAIR and selected customer development programs</span></a>
-            <a href="../services.html#microfluidic-development">Microfluidics &amp; lab-on-disc <span>Architecture, workflows, cartridges, and test strategy</span></a>
-            <a href="../services.html#engineering-design">Contract CAD &amp; prototyping <span>Mechanical design, interfaces, fixtures, and fabrication handoff</span></a>
-            <a href="../diagnostics.html">Assay &amp; diagnostic development <span>LFIA, kinetic analysis, and evidence planning</span></a>
-          </div>
-        </details>
+        <a class="nav-primary-link" href="../services.html">Engineering Services</a>
         <details class="nav-menu">
-          <summary>Research</summary>
+          <summary>Research &amp; Tools</summary>
           <div class="nav-menu-list">
+            <a href="../diagnostics.html">Assay development <span>Methods and research context</span></a>
+            <a href="../tools.html">All research tools <span>Browse tools and engineering workspaces</span></a>
             <a href="../news.html">Research updates <span>Publications, concepts, and company progress</span></a>
             <a href="../diagnostics.html#publication">Kinetic assay preprint <span>Time-resolved signal extraction research</span></a>
             <a href="../modeler/">Microfluidic Modeler <span>Browser-based early geometry workspace</span></a>
-            <a href="../analyzer/">Kinetic Assay Enhancer <span>Research demonstration for time-series analysis</span></a>
+            <a href="../analyzer/">Kinetic Assay Analyzer <span>Research demonstration for time-series analysis</span></a>
             <a href="../motor-controller/">Motor Controller <span>USB serial console for CLAIR engineering</span></a>
             <a href="https://labops.microcdlabs.com">LabOps <span>Engineering evidence, traceability, and regulatory-readiness workspace</span></a>
           </div>
@@ -85,7 +79,7 @@
           <section class="motor-card profile-card" aria-labelledby="profile-title">
             <h2 id="profile-title">RPM profile</h2>
             <div class="profile-table-wrap"><table><thead><tr><th>RPM</th><th>Hold time (s)</th><th><span class="sr-only">Remove</span></th></tr></thead><tbody id="profile-body"></tbody></table></div>
-            <div class="profile-actions"><button id="add-step" type="button">Add step</button><button id="import-profile" type="button">Import JSON</button><button id="export-profile" type="button">Export JSON</button><input id="profile-file" type="file" accept="application/json,.json" hidden /></div>
+            <div class="profile-actions"><button id="add-step" type="button">Add step</button><button id="import-profile" type="button">Import JSON</button><button id="export-profile" type="button">Export JSON</button><input id="profile-file" aria-label="Import motor profile JSON" type="file" accept="application/json,.json" hidden /></div>
             <div class="profile-run-row"><span id="profile-status">Idle</span><button id="run-profile" class="app-primary-button requires-connection" type="button">Run profile</button><button id="stop-profile" type="button" disabled>Stop profile</button></div>
           </section>
         </div>
@@ -109,6 +103,6 @@
 
       <p class="motor-boundary"><strong>Research and engineering use only.</strong> Web Serial requires a compatible Chromium browser and a secure HTTPS connection. This interface is not a certified safety system; use an independent physical power disconnect for hazardous setups.</p>
     </main>
-    <script src="motor-controller.js?v=20260902a" type="module"></script>
+    <script src="motor-controller.js?v=20261105-labels" type="module"></script>
   </body>
 </html>

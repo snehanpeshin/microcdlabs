@@ -117,7 +117,13 @@ function initSiteNavigation() {
     }
   });
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") closeMobileNavigation();
+    if (event.key === "Escape") {
+      const wasMobileOpen = header.classList.contains("mobile-nav-open");
+      const focusedMenu = document.activeElement.closest?.(".nav-menu[open]");
+      closeMobileNavigation();
+      if (wasMobileOpen) toggle.focus();
+      else focusedMenu?.querySelector("summary")?.focus();
+    }
   });
   desktopWidth.addEventListener("change", () => closeMobileNavigation());
 }
@@ -199,7 +205,7 @@ function validateProjectForm(form) {
     const message = empty
       ? "This field is required."
       : invalidEmail
-        ? "Enter a valid work email."
+        ? "Enter a valid email address."
         : tooShort
           ? `Please add at least ${field.minLength} characters.`
           : "";
@@ -210,93 +216,126 @@ function validateProjectForm(form) {
   return valid;
 }
 
+
 function initProjectInquiryForm() {
   const form = document.querySelector("#projectInquiryForm");
   if (!form) return;
   const status = document.querySelector("#projectInquiryStatus");
   const submit = form.querySelector('button[type="submit"]');
-  const copyRequest = form.querySelector("#copyProjectInquiry");
-  const requestedProject = new URLSearchParams(window.location.search).get("project");
-  const projectAliases = {
+  const copy = form.querySelector("#copyProjectInquiry");
+  const purpose = form.querySelector("#projectType");
+  const requested = new URLSearchParams(location.search).get("project");
+  const aliases = {
     clair: "CLAIR veterinary clinic collaboration",
     "clair-human": "CLAIR human oral-health research",
     "clair-veterinary": "CLAIR veterinary clinic collaboration",
     research: "Research or technical partnership",
-    "diagnostic-development": "Diagnostic cartridge or consumable",
     "microfluidic-development": "Microfluidic product development",
+    "diagnostic-development": "Diagnostic cartridge or consumable",
     "diagnostic-cartridge": "Diagnostic cartridge or consumable",
+    diagnostics: "Diagnostic cartridge or consumable",
     "lab-on-disc": "Lab-on-disc or centrifugal microfluidics",
     "engineering-design": "Engineering design or prototyping",
     "verification-planning": "Verification and validation planning",
-    "system-integration": "Microfluidic product development",
-    diagnostics: "Diagnostic cartridge or consumable",
+    "supplier-coordination": "Supplier or manufacturing coordination",
     "technical-consulting": "Technical consulting or commercialization",
+    "system-integration": "Microfluidic product development",
   };
-  const projectSelect = form.querySelector("#projectType");
-  if (requestedProject && projectSelect && projectAliases[requestedProject]) {
-    projectSelect.value = projectAliases[requestedProject];
+  if (aliases[requested]) purpose.value = aliases[requested];
+  const stage = form.querySelector("#developmentStage");
+  const context = form.querySelector("#engineeringContext");
+  const heading = document.querySelector("#inquiry-title");
+  const description = document.querySelector("#inquiry-description");
+  const message = form.querySelector("#projectDescription");
+  const messageLabel = form.querySelector("#inquiry-message-label");
+  const contextLabel = form.querySelector("#inquiry-context-label");
+  function adaptPurpose() {
+    const human = purpose.value === aliases["clair-human"];
+    const vet = purpose.value === aliases["clair-veterinary"];
+    const research = human || vet || purpose.value === aliases.research;
+    context.hidden = research;
+    stage.disabled = research;
+    stage.required = false;
+    heading.textContent = !purpose.value ? "Choose the conversation you need." : human ? "Discuss human oral-health research." : vet ? "Discuss veterinary clinic workflow." : research ? "Explore a research collaboration." : "What engineering decision comes next?";
+    description.textContent = human ? "Tell us about your periodontal assessment or saliva-research question and where professional input could help." : vet ? "Tell us about oral assessment, saliva collection, or the practical evidence your clinic would need." : research ? "Share the scientific question, methods, or expertise you would like to discuss." : "Share the technical challenge and the decision or deliverable your team needs. A finished scope is not required.";
+    const label = human ? "Research question" : vet ? "Clinic or workflow question" : research ? "Collaboration question" : "Technical question";
+    messageLabel.replaceChildren(document.createTextNode(label + " "));
+    const star = document.createElement("span"); star.setAttribute("aria-hidden", "true"); star.textContent = "*"; messageLabel.append(star);
+    message.placeholder = human ? "Which research question or assessment workflow would you like to discuss?" : vet ? "What would you like to discuss about canine oral assessment, collection, or clinic workflow?" : "What are you trying to resolve, and what next step would be useful?";
+    contextLabel.textContent = vet ? "Clinical role or practice context (optional)" : human ? "Research role or study context (optional)" : "Constraints or relevant context (optional)";
+    form.dataset.purpose = human ? "clair-human" : vet ? "clair-veterinary" : research ? "research" : "engineering";
+    document.querySelectorAll(".mcd-inquiry-paths a").forEach(a => {
+      const query = new URL(a.href).searchParams.get("project");
+      if (aliases[query] === purpose.value) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");
+    });
+    setFormStatus(status, "Required: purpose, name, email, and question. No inquiry has been sent.");
   }
-
-  form.addEventListener("input", (event) => {
+  form.querySelectorAll("[data-error-for]").forEach(error => {
+    const field = document.getElementById(error.dataset.errorFor);
+    if (field && error.id) field.setAttribute("aria-describedby", error.id);
+  });
+  adaptPurpose();
+  purpose.addEventListener("change", adaptPurpose);
+  form.addEventListener("input", event => {
     const field = event.target.closest("input, select, textarea");
     if (!field) return;
     field.removeAttribute("aria-invalid");
-    const error = form.querySelector(`[data-error-for="${field.id}"]`);
+    const error = form.querySelector('[data-error-for="' + field.id + '"]');
     if (error) error.textContent = "";
   });
-
-  function prepareProjectInquiry() {
+  function prepare() {
     if (!validateProjectForm(form)) {
-      setFormStatus(status, "Please review the highlighted fields.", "error");
+      setFormStatus(status, "Please review the highlighted fields. No inquiry has been sent.", "error");
       form.querySelector('[aria-invalid="true"]')?.focus();
       return null;
     }
-
     const data = new FormData(form);
     const lines = [
-      `To: ${microcdCompanyEmail}`,
-      "",
-      "MicroCD Labs technical consultation request",
-      "",
-      `Name: ${data.get("name")}`,
-      `Organization: ${data.get("organization")}`,
-      `Work email: ${data.get("email")}`,
-      `Project type: ${data.get("projectType")}`,
-      `Development stage: ${data.get("developmentStage")}`,
-      `Preferred next step: ${data.get("nextStep")}`,
-      "",
-      "Project description:",
-      data.get("description"),
+      "MicroCD Labs inquiry", "",
+      "Purpose: " + data.get("projectType"),
+      "Name: " + data.get("name").trim(),
+      "Email: " + data.get("email").trim(),
+      ...(data.get("organization")?.trim() ? ["Organization: " + data.get("organization").trim()] : []),
+      ...(data.get("developmentStage") ? ["Development stage: " + data.get("developmentStage")] : []),
+      ...(data.get("nextStep") ? ["Preferred next step: " + data.get("nextStep")] : []),
+      "", "Question:", data.get("description").trim(),
+      ...(data.get("context")?.trim() ? ["", "Additional context:", data.get("context").trim()] : []),
     ];
-    return { data, lines };
+    return {data, lines};
   }
-
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", event => {
     event.preventDefault();
-    const inquiry = prepareProjectInquiry();
+    const inquiry = prepare();
     if (!inquiry) return;
-    const { data, lines } = inquiry;
     submit.disabled = true;
     submit.setAttribute("aria-busy", "true");
-    setFormStatus(status, "Preparing your consultation email…", "loading");
+    setFormStatus(status, "Preparing an email draft. Nothing is being sent…", "loading");
     window.setTimeout(() => {
-      const subject = encodeURIComponent(`Technical consultation request — ${data.get("organization")}`);
-      const body = encodeURIComponent(lines.join("\n"));
-      window.location.href = `mailto:${microcdCompanyEmail}?subject=${subject}&body=${body}`;
-      submit.disabled = false;
-      submit.removeAttribute("aria-busy");
-      setFormStatus(status, "Your email app should open with the project details prepared. Review the message before sending.", "success");
-    }, 250);
+      try {
+        const subject = encodeURIComponent("MicroCD Labs — " + inquiry.data.get("projectType"));
+        const body = encodeURIComponent(inquiry.lines.join("\n"));
+        window.location.href = "mailto:" + microcdCompanyEmail + "?subject=" + subject + "&body=" + body;
+        setFormStatus(status, "Draft prepared; no inquiry has been sent. Review and send it in your email app. If it did not open, use Copy inquiry or email " + microcdCompanyEmail + " directly.", "info");
+      } catch {
+        setFormStatus(status, "The email app could not be opened. No inquiry has been sent. Copy your inquiry or email " + microcdCompanyEmail + " directly.", "error");
+      } finally {
+        submit.disabled = false;
+        submit.removeAttribute("aria-busy");
+      }
+    }, 200);
   });
-
-  copyRequest?.addEventListener("click", async () => {
-    const inquiry = prepareProjectInquiry();
+  copy?.addEventListener("click", async () => {
+    const inquiry = prepare();
     if (!inquiry) return;
+    copy.disabled = true;
+    copy.setAttribute("aria-busy", "true");
     try {
       await navigator.clipboard.writeText(inquiry.lines.join("\n"));
-      setFormStatus(status, `Request details copied. Paste them into a new email to ${microcdCompanyEmail}.`, "success");
+      setFormStatus(status, "Inquiry copied; nothing has been sent. Paste it into an email to " + microcdCompanyEmail + " and send it yourself.", "info");
     } catch {
-      setFormStatus(status, `Copying was blocked by the browser. Email the request directly to ${microcdCompanyEmail}.`, "error");
+      setFormStatus(status, "Copying was blocked. No inquiry has been sent. Select your text and email " + microcdCompanyEmail + " directly.", "error");
+    } finally {
+      copy.disabled = false; copy.removeAttribute("aria-busy");
     }
   });
 }
@@ -358,3 +397,19 @@ function initImpactPlanner() {
  });
 }
 initImpactPlanner();
+
+function initSupportingAnchors() {
+  function reveal() {
+    let id;
+    try { id = decodeURIComponent(location.hash.slice(1)); } catch { return; }
+    const target = document.getElementById(id);
+    if (!target) return;
+    let parent = target.parentElement;
+    while (parent) { if (parent.tagName === "DETAILS") parent.open = true; parent = parent.parentElement; }
+    if (target.tagName === "DETAILS") target.open = true;
+    if (location.hash) requestAnimationFrame(() => target.scrollIntoView({block:"start"}));
+  }
+  reveal();
+  window.addEventListener("hashchange", reveal);
+}
+initSupportingAnchors();

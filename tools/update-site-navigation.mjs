@@ -27,8 +27,8 @@ for (const file of collectHtmlFiles(root)) {
   const prefix = "../".repeat(depth);
   const nextHtml = html
     .replace(navigationPattern, renderSiteNavigation(prefix))
-    .replace(/styles\.css\?v=[^"]+/g, "styles.css?v=20260816c")
-    .replace(/site\.js\?v=[^"]+/g, "site.js?v=20260816c");
+    .replace(/site\.js\?v=[^"]+/g, "site.js?v=20261105-review")
+    .replace(/chat-widget\.js\?v=[^"]+/g, "chat-widget.js?v=20261105");
 
   if (nextHtml !== html) {
     fs.writeFileSync(file, nextHtml);

@@ -181,7 +181,7 @@ function sendRpm(value) {
 
 function addProfileRow(rpm = 0, hold = 1) {
   const row = document.createElement("tr");
-  row.innerHTML = `<td><input class="step-rpm" type="number" step="0.1" value="${rpm}"></td><td><input class="step-hold" type="number" min="0.001" step="0.1" value="${hold}"></td><td><button class="remove-step" type="button" aria-label="Remove profile step">Remove</button></td>`;
+  row.innerHTML = `<td><input aria-label="Profile step target RPM" class="step-rpm" type="number" step="0.1" value="${rpm}"></td><td><input aria-label="Profile step hold time in seconds" class="step-hold" type="number" min="0.001" step="0.1" value="${hold}"></td><td><button class="remove-step" type="button" aria-label="Remove profile step">Remove</button></td>`;
   row.querySelector(".remove-step").addEventListener("click", () => row.remove());
   $("#profile-body").append(row);
 }

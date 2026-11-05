@@ -23,7 +23,7 @@ const commercialCategoryDirectories = [
   "lateral-flow-assay-materials",
 ];
 const commercialCategoryPages = commercialCategoryDirectories.map((directory) => path.join(directory, "index.html"));
-const standaloneDirectoryPages = [path.join("clair", "index.html")];
+const standaloneDirectoryPages = [path.join("clair", "index.html"), path.join("clair", "human.html"), path.join("clair", "veterinary.html")];
 const pages = [...topLevelPages, ...catalogPages, ...researchProductPages, ...commercialCategoryPages, ...standaloneDirectoryPages];
 const failures = [];
 const warnings = [];

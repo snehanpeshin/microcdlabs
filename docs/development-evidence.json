@@ -1,0 +1,50 @@
+{
+  "review_date": "2026-11-05",
+  "baseline_commit": "984dbe4",
+  "claims": [
+    {
+      "item": "CLAIR architecture",
+      "sources": [
+        "clair/index.html at baseline",
+        "clair/veterinary.html at baseline",
+        "https://www.preprints.org/manuscript/202606.2104/v1"
+      ],
+      "supported": "Proposed disposable centrifugal disc and controlled optical readout. Smartphone-compatible acquisition is research context, not final integrated hardware.",
+      "unverified": "Final reader, camera, smartphone, software and cloud architecture."
+    },
+    {
+      "item": "Motor-profile software",
+      "sources": [
+        "assets/about/motor-controller-profile-software.png",
+        "about.html#motor-controller-title",
+        "motor-controller/"
+      ],
+      "source_date": "2026-07-11",
+      "date_basis": "First repository commit adding screenshot: fd4bf4a.",
+      "boundary": "Existing documented software prototype and bench communication, not independent hardware testing or assay validation."
+    },
+    {
+      "item": "Kinetic-analysis preprint",
+      "source": "https://www.preprints.org/manuscript/202606.2104/v1",
+      "source_date": "2026-06-29",
+      "boundary": "Version 1 preprint; not peer reviewed. No CLAIR-specific validation implied."
+    },
+    {
+      "item": "Analytical and clinical roadmap",
+      "sources": [
+        "clair/human.html#human-validation",
+        "clair/veterinary.html#validation"
+      ],
+      "date_basis": "Content as of 2026-11-05, not study completion.",
+      "boundary": "Planned studies; no results or funded protocols claimed."
+    }
+  ],
+  "verification_needed": [
+    "Final reader/camera/mobile/software architecture and approved public system diagram.",
+    "Approved dated working-hardware photographs or CAD views.",
+    "Analytical or clinical datasets ready for public presentation.",
+    "Legal relationship: legacy pages use both d/b/a and a division of Karigari Home LLC. Verify phone details before standardizing legal pages."
+  ],
+  "contact": "Static repository with no supported inquiry submission endpoint. Email draft and copy flow retained. Nothing is sent by the form.",
+  "widget_api": "https://developer.zendesk.com/api-reference/widget-messaging/web/core/"
+}
