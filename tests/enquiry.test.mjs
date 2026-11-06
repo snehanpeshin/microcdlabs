@@ -8,7 +8,7 @@ test("PDMS is a sourced enquiry with independent unknown facts, never a purchasa
  const p=sandbox.model.products.find(p=>p.id==="pdms-microfluidic-chips"),h=sandbox.model.getEnquiryDetailHTML(p);assert.equal(p.sku,"MCD-MF-001");
  for(const text of ["Custom Sourcing &amp; Fabrication Enquiry","Specification review required","Pricing after specification review","Source, availability, and lead time to be confirmed","Enquiry reference","Representative illustration","Requirements to discuss"])assert.ok(h.includes(text),text);
  for(const bad of ["Quote confirmed","Available option","Configured option","Catalog source","manufacturer part number",'"@type":"Product"'])assert.ok(!h.includes(bad),bad);
- assert.equal(sandbox.model.getProductOptions(p).length,1);assert.equal(p.commercialRole,"Unconfirmed");assert.equal(p.pricing.basis,null);
+ assert.equal(sandbox.model.getProductOptions(p).length,1);assert.ok(!h.includes("MicroCD Labs"),"Listing copy must remain vendor-neutral");assert.equal(p.commercialRole,"Unconfirmed");assert.equal(p.pricing.basis,null);
  assert.ok(!h.includes("<option >Glass"));assert.ok(h.includes('href="glass-microfluidic-chips.html"'));
 });
 test("shared request serialization carries requirements, quantity and unresolved facts safely",()=>{
