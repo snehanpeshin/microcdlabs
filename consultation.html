@@ -32,31 +32,28 @@
      crossorigin="anonymous"></script>
   <link rel="stylesheet" href="assets/custom-pages.css?v=20261101-oral" />
   <link rel="stylesheet" href="assets/review.css?v=20261105" />
-</head>
+<link rel="stylesheet" href="assets/marketing.css?v=20261106-enquiry2"></head>
   <body class="mcd-custom mcd-contact">
-    <header class="site-header">
-      <a class="brand" href="index.html#top" aria-label="MicroCD Labs home"><img class="brand-logo" src="assets/microcd-labs-wordmark.svg?v=boxed" alt="MicroCD Labs" /></a>
-      <nav class="main-nav" aria-label="Primary navigation">
+    <header class="site-header"><a class="brand" href="index.html#top" aria-label="MicroCD Labs home"><img class="brand-logo" src="assets/microcd-labs-wordmark.svg?v=boxed" width="154" height="34" alt="MicroCD Labs"></a>      <nav class="main-nav" aria-label="Primary navigation">
         <a class="nav-primary-link" href="clair/">CLAIR</a>
         <a class="nav-primary-link" href="services.html">Engineering Services</a>
         <details class="nav-menu">
           <summary>Research &amp; Tools</summary>
           <div class="nav-menu-list">
+            <a href="products.html">Research components &amp; sourcing <span>Component selection, sourcing and fabrication enquiries</span></a>
             <a href="diagnostics.html">Assay development <span>Methods and research context</span></a>
             <a href="tools.html">All research tools <span>Browse tools and engineering workspaces</span></a>
             <a href="news.html">Research updates <span>Publications, concepts, and company progress</span></a>
             <a href="diagnostics.html#publication">Kinetic assay preprint <span>Time-resolved signal extraction research</span></a>
             <a href="modeler/">Microfluidic Modeler <span>Browser-based early geometry workspace</span></a>
             <a href="analyzer/">Kinetic Assay Analyzer <span>Research demonstration for time-series analysis</span></a>
-            <a href="motor-controller/">Motor Controller <span>USB serial console for CLAIR engineering</span></a>
+            <a href="motor-controller/">CLAIR Motor Controller <span>USB serial console for CLAIR engineering</span></a>
             <a href="https://labops.microcdlabs.com">LabOps <span>Engineering evidence, traceability, and regulatory-readiness workspace</span></a>
           </div>
         </details>
         <a class="nav-primary-link" href="about.html">About</a>
         <a class="nav-primary-link" href="consultation.html">Contact</a>
-      </nav>
-      <div class="header-actions"><a class="header-cta" href="mailto:info@microcdlabs.com">Email directly</a></div>
-    </header>
+      </nav><div class="header-actions"><a class="header-cta" href="consultation.html">Contact</a></div></header>
 
     <main>
       <section class="consultation-hero section" aria-labelledby="consultation-title">
@@ -88,17 +85,17 @@ We’ll find the next step.</h1>
 <label for="inquiryContext" id="inquiry-context-label">Constraints or relevant context (optional)</label><textarea id="inquiryContext" name="context" rows="3" maxlength="2000"></textarea>
 <label for="preferredNextStep">Preferred next step (optional)</label><select id="preferredNextStep" name="nextStep"><option value="">Not specified</option><option>Initial discussion</option><option>Written technical review</option><option>Scoped development proposal</option><option>Supplier or component recommendation</option><option>Recommend a path</option></select></div></details>
 <p class="review-form-notice" id="deliveryNotice"><strong>This form does not send your inquiry.</strong> It prepares an email draft or copies the details. Review and send the message yourself to <a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a>.</p>
-<div class="project-inquiry-actions"><button class="button button-primary" type="submit">Prepare email draft</button><button class="button button-secondary" id="copyProjectInquiry" type="button">Copy inquiry</button></div>
+<details class="review-disclosure"><summary>Preview the prepared inquiry</summary><div><label for="inquiryPreview">Draft details (not sent)</label><textarea id="inquiryPreview" rows="10" readonly></textarea><p>Edit the form to update this preview. Nothing is sent until you send the message from your email application.</p></div></details><div class="project-inquiry-actions"><button id="previewInquiry" class="button button-secondary" type="button">Review draft</button><button class="button button-primary" type="submit">Prepare email draft</button><button class="button button-secondary" id="copyProjectInquiry" type="button">Copy inquiry</button></div>
 <p id="projectInquiryStatus" class="form-status" role="status" aria-live="polite" aria-atomic="true">Required: purpose, name, email, and question. This form does not store your details.</p>
 </form>
       </section>
     </main>
 
-    <footer class="site-footer review-footer"><div><img class="footer-logo" src="assets/microcd-labs-wordmark.svg?v=boxed" width="154" height="50" loading="lazy" alt="MicroCD Labs" /><p>Engineering for microfluidics, assays, and diagnostic development.</p><a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a></div><nav aria-label="Footer navigation"><a href="clair/">CLAIR</a><a href="services.html">Engineering Services</a><a href="news.html">Research &amp; Tools</a><a href="about.html">About</a><a href="consultation.html">Contact</a><a href="tools.html">All tools</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms &amp; Payments</a><a href="accessibility.html">Accessibility</a></nav><p class="review-footer-note">CLAIR is in development. Not for sale or clinical use. Performance has not been established.</p></footer>
-    <script src="site.js?v=20261105-review"></script>
+    <footer class="site-footer review-footer"><div><img class="footer-logo" src="assets/microcd-labs-wordmark.svg?v=boxed" width="154" height="34" loading="lazy" alt="MicroCD Labs"><p>Engineering for microfluidics, assays, and diagnostic development.</p><a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a><p><a href="https://www.linkedin.com/company/microcd-labs/" target="_blank" rel="noreferrer">LinkedIn</a></p></div><nav aria-label="Footer navigation"><a href="clair/">CLAIR</a><a href="services.html">Engineering Services</a><a href="tools.html">Research Tools</a><a href="products.html">Research components &amp; sourcing</a><a href="about.html">About</a><a href="consultation.html">Contact</a><a href="privacy.html">Website Privacy</a><a href="terms.html">Terms & Payments</a><a href="accessibility.html">Accessibility</a><a href="credits.html">Image Credits</a></nav><p class="review-footer-note">CLAIR is in development, not for sale or clinical use. Research components are enquiry categories; source and supply require review. Images may be representative. <a href="refunds.html">Refunds & Returns</a></p></footer>
+    <script src="site.js?v=20261106-enquiry2"></script>
       <!-- Start of microcdlabs Zendesk Widget script -->
-    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=f6f042c5-f6ce-4381-8555-2da23e6aebd1"></script>
-    <script src="assets/chat-widget.js?v=20261105"></script>
+
+    <script src="assets/chat-widget.js?v=20261106"></script>
     <!-- End of microcdlabs Zendesk Widget script -->
   </body>
 </html>

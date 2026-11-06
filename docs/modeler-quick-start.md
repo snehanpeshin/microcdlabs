@@ -12,3 +12,7 @@
 Keyboard: Escape cancels the active placement tool, Delete removes selected features, and Command/Ctrl+Z undoes. Layer visibility and locking are available in the project tree.
 
 The fabrication profiles and design rules are editable starting assumptions, not validated manufacturing limits. The engineering panel reports reduced-order estimates, not CFD.
+
+## First use and saving
+
+A blank project offers setup guidance; connection and geometry validation begins after adding components. Example is optional and illustrative. Loading it into an existing design requires confirmation. Tools directory attempts to save the current 2D project before leaving. If browser storage fails, download native JSON. Legacy 3D has its own independent save/GLB workflow; it is not synchronized with 2D. Browser exports are native JSON, SVG, PNG and CSV. STEP/DXF remain disabled. Native iOS capabilities must be checked separately.

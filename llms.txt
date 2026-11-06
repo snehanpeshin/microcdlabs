@@ -17,7 +17,7 @@ MicroCD Labs is a division of Karigari Home LLC. Website content describes resea
 ## Software tools
 
 - [Microfluidic Modeler](https://www.microcdlabs.com/platform.html): Cartridge geometry and early design workspace
-- [Kinetic Assay Enhancer](https://www.microcdlabs.com/analyzer/): Time-series assay image and kinetic-feature analysis
+- [Kinetic Assay Analyzer](https://www.microcdlabs.com/analyzer/): Time-series assay image and kinetic-feature analysis
 
 ## Policies
 

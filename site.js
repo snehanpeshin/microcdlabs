@@ -230,6 +230,7 @@ function initProjectInquiryForm() {
     "clair-human": "CLAIR human oral-health research",
     "clair-veterinary": "CLAIR veterinary clinic collaboration",
     research: "Research or technical partnership",
+    sourcing: "Supplier or manufacturing coordination",
     "microfluidic-development": "Microfluidic product development",
     "diagnostic-development": "Diagnostic cartridge or consumable",
     "diagnostic-cartridge": "Diagnostic cartridge or consumable",
@@ -253,17 +254,18 @@ function initProjectInquiryForm() {
     const human = purpose.value === aliases["clair-human"];
     const vet = purpose.value === aliases["clair-veterinary"];
     const research = human || vet || purpose.value === aliases.research;
-    context.hidden = research;
-    stage.disabled = research;
+    const sourcing=purpose.value===aliases["supplier-coordination"];
+    context.hidden = research || sourcing;
+    stage.disabled = research || sourcing;
     stage.required = false;
-    heading.textContent = !purpose.value ? "Choose the conversation you need." : human ? "Discuss human oral-health research." : vet ? "Discuss veterinary clinic workflow." : research ? "Explore a research collaboration." : "What engineering decision comes next?";
-    description.textContent = human ? "Tell us about your periodontal assessment or saliva-research question and where professional input could help." : vet ? "Tell us about oral assessment, saliva collection, or the practical evidence your clinic would need." : research ? "Share the scientific question, methods, or expertise you would like to discuss." : "Share the technical challenge and the decision or deliverable your team needs. A finished scope is not required.";
-    const label = human ? "Research question" : vet ? "Clinic or workflow question" : research ? "Collaboration question" : "Technical question";
+    heading.textContent = !purpose.value ? "Choose the conversation you need." : sourcing ? "Discuss sourcing or manufacturing coordination." : human ? "Discuss human oral-health research." : vet ? "Discuss veterinary clinic workflow." : research ? "Explore a research collaboration." : "What engineering decision comes next?";
+    description.textContent = sourcing ? "Share the component or supplier question, required specifications, quantity, destination, and compatibility needs. For catalog items, use the quotation basket." : human ? "Tell us about your periodontal assessment or saliva-research question and where professional input could help." : vet ? "Tell us about oral assessment, saliva collection, or the practical evidence your clinic would need." : research ? "Share the scientific question, methods, or expertise you would like to discuss." : "Share the technical challenge and the decision or deliverable your team needs. A finished scope is not required.";
+    const label = sourcing ? "Sourcing question" : human ? "Research question" : vet ? "Clinic or workflow question" : research ? "Collaboration question" : "Technical question";
     messageLabel.replaceChildren(document.createTextNode(label + " "));
     const star = document.createElement("span"); star.setAttribute("aria-hidden", "true"); star.textContent = "*"; messageLabel.append(star);
     message.placeholder = human ? "Which research question or assessment workflow would you like to discuss?" : vet ? "What would you like to discuss about canine oral assessment, collection, or clinic workflow?" : "What are you trying to resolve, and what next step would be useful?";
     contextLabel.textContent = vet ? "Clinical role or practice context (optional)" : human ? "Research role or study context (optional)" : "Constraints or relevant context (optional)";
-    form.dataset.purpose = human ? "clair-human" : vet ? "clair-veterinary" : research ? "research" : "engineering";
+    form.dataset.purpose = sourcing ? "sourcing" : human ? "clair-human" : vet ? "clair-veterinary" : research ? "research" : "engineering";
     document.querySelectorAll(".mcd-inquiry-paths a").forEach(a => {
       const query = new URL(a.href).searchParams.get("project");
       if (aliases[query] === purpose.value) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");
@@ -283,14 +285,7 @@ function initProjectInquiryForm() {
     const error = form.querySelector('[data-error-for="' + field.id + '"]');
     if (error) error.textContent = "";
   });
-  function prepare() {
-    if (!validateProjectForm(form)) {
-      setFormStatus(status, "Please review the highlighted fields. No inquiry has been sent.", "error");
-      form.querySelector('[aria-invalid="true"]')?.focus();
-      return null;
-    }
-    const data = new FormData(form);
-    const lines = [
+  function draftLines(data){return [
       "MicroCD Labs inquiry", "",
       "Purpose: " + data.get("projectType"),
       "Name: " + data.get("name").trim(),
@@ -300,9 +295,28 @@ function initProjectInquiryForm() {
       ...(data.get("nextStep") ? ["Preferred next step: " + data.get("nextStep")] : []),
       "", "Question:", data.get("description").trim(),
       ...(data.get("context")?.trim() ? ["", "Additional context:", data.get("context").trim()] : []),
-    ];
+    ];}
+  function updateDraftPreview(){
+    const target=document.querySelector("#inquiryPreview");if(!target)return;
+    const data=new FormData(form);
+    target.value=draftLines(data).join("\n");
+  }
+  form.addEventListener("input",updateDraftPreview);form.addEventListener("change",updateDraftPreview);updateDraftPreview();
+  function prepare() {
+    if (!validateProjectForm(form)) {
+      setFormStatus(status, "Please review the highlighted fields. No inquiry has been sent.", "error");
+      form.querySelector('[aria-invalid="true"]')?.focus();
+      return null;
+    }
+    const data = new FormData(form);
+    const lines = draftLines(data);
     return {data, lines};
   }
+  document.querySelector("#previewInquiry")?.addEventListener("click",()=>{
+    const inquiry=prepare();if(!inquiry)return;
+    const target=document.querySelector("#inquiryPreview");target.value=inquiry.lines.join("\n");target.closest("details").open=true;target.focus();
+    setFormStatus(status,"Review the draft. Nothing has been sent.","info");
+  });
   form.addEventListener("submit", event => {
     event.preventDefault();
     const inquiry = prepare();
@@ -314,8 +328,8 @@ function initProjectInquiryForm() {
       try {
         const subject = encodeURIComponent("MicroCD Labs — " + inquiry.data.get("projectType"));
         const body = encodeURIComponent(inquiry.lines.join("\n"));
-        window.location.href = "mailto:" + microcdCompanyEmail + "?subject=" + subject + "&body=" + body;
-        setFormStatus(status, "Draft prepared; no inquiry has been sent. Review and send it in your email app. If it did not open, use Copy inquiry or email " + microcdCompanyEmail + " directly.", "info");
+        window.location.href = "mailto:" + microcdCompanyEmail + "?subject=" + subject + "";
+        setFormStatus(status, "Subject-only email draft opened; nothing has been sent. Copy the reviewed inquiry, paste it into the draft and send it yourself, or email " + microcdCompanyEmail + " directly.", "info");
       } catch {
         setFormStatus(status, "The email app could not be opened. No inquiry has been sent. Copy your inquiry or email " + microcdCompanyEmail + " directly.", "error");
       } finally {
@@ -367,6 +381,13 @@ function initRecommendationForm() {
 
 initPageNavigationAids();
 initSiteNavigation();
+function initHeaderOffset(){
+ const header=document.querySelector(".site-header");if(!header)return;
+ const update=()=>document.documentElement.style.setProperty("--site-header-offset",(header.getBoundingClientRect().height+16)+"px");
+ update();if(typeof ResizeObserver!=="undefined")new ResizeObserver(update).observe(header);
+ window.addEventListener("resize",update);
+}
+initHeaderOffset();
 initHeroDots();
 initProjectInquiryForm();
 initRecommendationForm();
@@ -407,7 +428,7 @@ function initSupportingAnchors() {
     let parent = target.parentElement;
     while (parent) { if (parent.tagName === "DETAILS") parent.open = true; parent = parent.parentElement; }
     if (target.tagName === "DETAILS") target.open = true;
-    if (location.hash) requestAnimationFrame(() => target.scrollIntoView({block:"start"}));
+    if (location.hash) requestAnimationFrame(() => { const header=document.querySelector(".site-header");if(header)document.documentElement.style.setProperty("--site-header-offset",(header.getBoundingClientRect().height+16)+"px");target.scrollIntoView({block:"start"}); });
   }
   reveal();
   window.addEventListener("hashchange", reveal);

@@ -6,19 +6,19 @@
   <meta name="theme-color" content="#101923">
   <meta name="description" content="Local-first research-use kinetic assay analysis with reproducible methods and quality checks.">
   <link rel="canonical" href="https://www.microcdlabs.com/analyzer/">
-  <link rel="stylesheet" href="/assets/scientific-ui.css?v=2.0.0-beta.1">
-  <link rel="stylesheet" href="/analyzer/analyzer.css?v=2.0.0-beta.1">
+  <link rel="stylesheet" href="/assets/scientific-ui.css?v=2.1.0-beta.2">
+  <link rel="stylesheet" href="/analyzer/analyzer.css?v=2.1.0-beta.2">
   <title>Kinetic Assay Analyzer · MicroCD Labs</title>
-</head>
-<body>
+<meta property="og:type" content="website"><meta property="og:url" content="https://www.microcdlabs.com/analyzer/"><meta property="og:title" content="Kinetic Assay Analyzer · MicroCD Labs"><meta property="og:description" content="Local CSV/image workflows, transparent preprocessing, research-use metrics and printable reports."><meta property="og:image" content="https://www.microcdlabs.com/assets/tools/analyzer-social.jpg"><meta name="twitter:card" content="summary_large_image"></head>
+<body><a class="skip-link" href="#analyzer-main">Skip to analysis</a>
   <div class="app-shell analyzer-shell">
     <header class="topbar">
       <a class="topbar__brand" href="/analyzer/"><span class="brand-mark" aria-hidden="true">CD</span><span class="brand-copy"><strong>Kinetic Assay Analyzer</strong><small>MicroCD Labs guided workflow</small></span></a>
-      <div class="topbar__commands"><a class="command" href="/analyzer/crp/">CRP Camera</a><button class="command" data-action="demo">Load demo</button><button class="command" data-action="reset">New experiment</button><button class="command" data-action="export-manifest" disabled>Analysis JSON</button><button class="command" data-action="print" disabled>Print report</button><a class="command" href="/docs/analyzer-quick-start.md" target="_blank">Help</a></div>
-      <div class="topbar__meta"><span class="status-badge status-badge--ruo">RUO</span><span>v2.1 beta</span></div>
+      <div class="topbar__commands"><a class="command" href="/tools.html" target="_blank" rel="noopener">Tools directory ↗</a><a class="command" href="/analyzer/crp/">CRP Camera</a><button class="command" data-action="demo">Load demo</button><button class="command" data-action="reset">New experiment</button><button class="command" data-action="export-manifest" disabled>Analysis JSON</button><button class="command" data-action="print" disabled>Print report</button><a class="command" href="/docs/analyzer-quick-start.md" target="_blank">Help</a></div>
+      <div class="topbar__meta"><span class="status-badge status-badge--ruo">RUO</span><span class="analyzer-version">v2.1.0-beta.2</span></div>
     </header>
     <div class="privacy-strip" role="note"><strong>Local analysis:</strong> files remain in this browser. No data is uploaded or persisted by MicroCD Labs.</div>
-    <nav class="stage-nav" aria-label="Analysis stages">
+    <div id="analyzer-progress" class="app-progress" role="status" aria-live="polite">Start with data or load the demo.</div><nav class="stage-nav" aria-label="Analysis stages">
       <button class="stage is-active" data-stage="import"><span>1</span>Import<small>Raw data</small></button>
       <button class="stage" data-stage="map"><span>2</span>Map & preprocess<small>ROIs and pipeline</small></button>
       <button class="stage" data-stage="analyze"><span>3</span>Analyze<small>Methods</small></button>
@@ -26,15 +26,15 @@
       <button class="stage" data-stage="report"><span>5</span>Report<small>Reproducibility</small></button>
     </nav>
 
-    <main class="analyzer-main">
-      <section class="stage-panel is-active" data-stage-panel="import">
+    <main class="analyzer-main" id="analyzer-main">
+      <section id="import" class="stage-panel is-active" data-stage-panel="import">
         <div class="stage-heading"><div><p class="eyebrow">Stage 1</p><h1>Import raw observations</h1><p>Start with tidy CSV time-series data or an ordered image sequence. Preview and confirm before analysis.</p></div><span id="raw-badge" class="status-badge">No data</span></div>
         <div class="import-grid">
           <article class="panel"><div class="panel__header"><h2>Data source</h2></div><div class="panel__body source-options">
-            <label class="drop-zone" id="drop-zone"><input id="file-input" type="file" multiple accept=".csv,text/csv,image/png,image/jpeg,image/tiff,.tif,.tiff"><strong>Choose files</strong><span>CSV or ordered PNG/JPEG/TIFF sequence</span><small>Maximum 200 files · 20 MB each · 250 MB total</small></label>
+            <label class="drop-zone" id="drop-zone"><input id="file-input" type="file" multiple accept=".csv,text/csv,image/png,image/jpeg,image/tiff,.tif,.tiff"><strong>Choose files</strong><span>One CSV OR an ordered PNG/JPEG sequence; TIFF requires browser decoding support.</span><small>Maximum 200 files · 20 MB each · 250 MB total</small></label>
             <button class="button" data-action="demo">Use demo time-series</button>
             <a class="button" href="/analyzer/crp/">Analyze a CRP bead reaction</a>
-            <div id="import-errors" aria-live="polite"></div>
+            <details class="app-guide"><summary>CSV and image instructions</summary><p><strong>CSV:</strong> include time and signal columns, optional background, control, sample, and replicate. Set units in metadata; times must increase within each series.</p><p><strong>Images:</strong> use matching image dimensions and consistent capture conditions. Numeric filenames supply timestamps; otherwise frame order is used. Set the time unit accordingly and review every ROI.</p><a href="/analyzer/demo-series.csv" download>Download the exact built-in demo CSV</a><p>The demo is illustrative. With default background subtraction, no normalization or smoothing, the first-three-point slope is 11.5 a.u./min, endpoint 199 a.u., and trapezoidal AUC 1272.5 a.u.·min.</p></details><div id="import-errors" aria-live="polite"></div>
           </div></article>
           <article class="panel"><div class="panel__header"><h2>Experiment metadata</h2></div><div class="panel__body form-grid">
             <label class="field">Experiment name<input id="experiment-name" value="Untitled kinetic experiment"></label>
@@ -49,9 +49,9 @@
         <div class="stage-actions"><span class="help">Raw observations remain unchanged and separately downloadable.</span><button class="button button--primary" data-next="map" disabled>Confirm import and continue</button></div>
       </section>
 
-      <section class="stage-panel" data-stage-panel="map" hidden>
+      <section id="map" class="stage-panel" data-stage-panel="map" hidden>
         <div class="stage-heading"><div><p class="eyebrow">Stage 2</p><h1>Map regions and configure preprocessing</h1><p>ROIs apply across all image frames. For CSV data, configure the same deterministic numerical pipeline.</p></div></div>
-        <div class="map-grid">
+        <p id="mapping-mode" class="workflow-note"></p><div class="map-grid">
           <article class="panel roi-workspace"><div class="panel__header"><h2>Visual ROI editor</h2><div><button class="icon-button" data-roi-action="add">Draw ROI</button><button class="icon-button" data-roi-action="overlay">Overlay</button></div></div>
             <div class="roi-canvas-wrap"><canvas id="roi-canvas" width="900" height="480" aria-label="ROI editor canvas"></canvas><div id="roi-empty" class="empty-state">Image data not loaded. ROI templates can still be defined numerically.</div></div>
             <div class="frame-controls"><button class="icon-button" data-frame="prev">◀</button><input id="frame-scrubber" type="range" min="0" max="0" value="0" aria-label="Frame"><button class="icon-button" data-frame="next">▶</button><span id="frame-label">Frame 0 / 0</span></div>
@@ -69,7 +69,7 @@
         <div class="stage-actions"><button class="button" data-next="import">Back</button><button class="button button--primary" data-next="analyze">Continue to analysis</button></div>
       </section>
 
-      <section class="stage-panel" data-stage-panel="analyze" hidden>
+      <section id="analyze" class="stage-panel" data-stage-panel="analyze" hidden>
         <div class="stage-heading"><div><p class="eyebrow">Stage 3</p><h1>Select analysis methods</h1><p>Every result carries units and method provenance. No default positive/negative call is produced.</p></div></div>
         <div class="analysis-layout">
           <aside class="panel"><div class="panel__header"><h2>Parameters</h2></div><div class="panel__body form-stack">
@@ -85,21 +85,21 @@
         <div class="stage-actions"><button class="button" data-next="map">Back</button><button class="button button--primary" data-next="validate" disabled>Continue to validation</button></div>
       </section>
 
-      <section class="stage-panel" data-stage-panel="validate" hidden>
+      <section id="validate" class="stage-panel" data-stage-panel="validate" hidden>
         <div class="stage-heading"><div><p class="eyebrow">Stage 4</p><h1>Review quality and assumptions</h1><p>Resolve or document quality flags before interpreting the result.</p></div><span id="qc-badge" class="status-badge">Not run</span></div>
         <div class="validation-grid"><article class="panel"><div class="panel__header"><h2>Quality flags</h2></div><div id="qc-list" class="panel__body"></div></article><article class="panel"><div class="panel__header"><h2>Method trace</h2></div><div id="method-trace" class="panel__body"></div></article></div>
         <article class="panel"><div class="panel__header"><h2>Replicate and calibration readiness</h2></div><div class="panel__body"><p id="readiness-note">Provide multiple sample and replicate series to calculate replicate SD/CV and linear calibration confidence. LoB/LoD/LoQ estimates require a selected method plus sufficient blank and low-concentration replicates and are not enabled for incomplete data.</p></div></article>
         <div class="stage-actions"><button class="button" data-next="analyze">Back</button><button class="button button--primary" data-next="report">Continue to report</button></div>
       </section>
 
-      <section class="stage-panel" data-stage-panel="report" hidden>
+      <section id="report" class="stage-panel" data-stage-panel="report" hidden>
         <div class="stage-heading"><div><p class="eyebrow">Stage 5</p><h1>Export a reproducible analysis package</h1><p>Raw observations, transformations, calculations, assumptions and interpretation remain clearly separated.</p></div></div>
         <div class="report-grid"><article class="panel"><div class="panel__header"><h2>Export data</h2></div><div class="panel__body export-list"><button class="button" data-report="raw">Tidy raw CSV</button><button class="button" data-report="processed">Processed CSV</button><button class="button" data-report="results">Results CSV</button><button class="button" data-report="manifest">Analysis JSON</button><button class="button" data-report="plot">Plot SVG</button><button class="button" data-action="print">Printable report</button></div></article><article class="panel"><div class="panel__header"><h2>Analysis summary</h2></div><div id="report-summary" class="panel__body"></div></article></div>
         <article class="panel report-disclaimer"><div class="panel__body"><strong>Research use only.</strong> Results are analytical development estimates, not clinical classifications, validated diagnostic performance, or regulatory evidence.</div></article>
-        <div class="stage-actions"><button class="button" data-next="validate">Back</button><a class="button button--primary" href="mailto:hello@microcdlabs.com?subject=Kinetic%20Assay%20Analyzer%20feedback">Send feedback</a></div>
+        <div class="stage-actions"><button class="button" data-next="validate">Back</button><a class="button button--primary" href="mailto:info@microcdlabs.com?subject=Kinetic%20Assay%20Analyzer%20feedback">Send feedback</a></div>
       </section>
     </main>
   </div>
-  <script type="module" src="/analyzer/analyzer.js?v=2.1.0-beta.1"></script>
+  <script type="module" src="/analyzer/analyzer.js?v=2.1.0-beta.2"></script>
 </body>
 </html>

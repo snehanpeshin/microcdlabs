@@ -18,65 +18,49 @@
     <meta property="og:title" content="Microfluidic Development Tools | MicroCD Labs" />
     <meta property="og:description" content="Research tools for early microfluidic geometry and kinetic assay analysis." />
     <meta property="og:url" content="https://www.microcdlabs.com/tools.html" />
-    <meta property="og:image" content="https://www.microcdlabs.com/modeler/icon-512.png" />
+    <meta property="og:image" content="https://www.microcdlabs.com/assets/tools/analyzer-social.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="assets/microcd-tab-icon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css?v=20260816c" />
-  </head>
+  <link rel="stylesheet" href="assets/marketing.css?v=20261106-enquiry2"></head>
   <body class="tools-page">
-    <header class="site-header">
-      <a class="brand" href="index.html#top" aria-label="MicroCD Labs home"><img class="brand-logo" src="assets/microcd-labs-wordmark.svg?v=boxed" alt="MicroCD Labs" /></a>
-      <nav class="main-nav" aria-label="Primary navigation">
+    <header class="site-header"><a class="brand" href="index.html#top" aria-label="MicroCD Labs home"><img class="brand-logo" src="assets/microcd-labs-wordmark.svg?v=boxed" width="154" height="34" alt="MicroCD Labs"></a>      <nav class="main-nav" aria-label="Primary navigation">
         <a class="nav-primary-link" href="clair/">CLAIR</a>
         <a class="nav-primary-link" href="services.html">Engineering Services</a>
         <details class="nav-menu">
           <summary>Research &amp; Tools</summary>
           <div class="nav-menu-list">
+            <a href="products.html">Research components &amp; sourcing <span>Component selection, sourcing and fabrication enquiries</span></a>
             <a href="diagnostics.html">Assay development <span>Methods and research context</span></a>
             <a href="tools.html">All research tools <span>Browse tools and engineering workspaces</span></a>
             <a href="news.html">Research updates <span>Publications, concepts, and company progress</span></a>
             <a href="diagnostics.html#publication">Kinetic assay preprint <span>Time-resolved signal extraction research</span></a>
             <a href="modeler/">Microfluidic Modeler <span>Browser-based early geometry workspace</span></a>
             <a href="analyzer/">Kinetic Assay Analyzer <span>Research demonstration for time-series analysis</span></a>
-            <a href="motor-controller/">Motor Controller <span>USB serial console for CLAIR engineering</span></a>
+            <a href="motor-controller/">CLAIR Motor Controller <span>USB serial console for CLAIR engineering</span></a>
             <a href="https://labops.microcdlabs.com">LabOps <span>Engineering evidence, traceability, and regulatory-readiness workspace</span></a>
           </div>
         </details>
         <a class="nav-primary-link" href="about.html">About</a>
         <a class="nav-primary-link" href="consultation.html">Contact</a>
-      </nav>
-      <div class="header-actions"><a class="social-icon-link" href="https://www.linkedin.com/company/microcd-labs/" target="_blank" rel="noreferrer" aria-label="MicroCD Labs on LinkedIn"><span aria-hidden="true">in</span></a><a class="header-cta" href="consultation.html">Discuss a workflow</a></div>
-    </header>
+      </nav><div class="header-actions"><a class="header-cta" href="consultation.html">Contact</a></div></header>
 
     <main>
       <section class="tools-hero section" aria-labelledby="tools-page-title">
         <div><p class="eyebrow">MicroCD Labs tools</p><h1 id="tools-page-title">Focused workspaces for engineering and assay development.</h1><p>Each tool has a defined job and a visible maturity level. Use them with non-sensitive research or engineering data unless a project-specific agreement says otherwise.</p></div>
-        <aside><strong>Choose by task</strong><a href="#modeler">Sketch and export</a><a href="#enhancer">Explore assay kinetics</a><a href="#motor-controller">Control CLAIR motor hardware</a></aside>
+        <aside><strong>Choose by task</strong><a href="modeler/">Open the 2D Modeler</a><a href="analyzer/">Open Kinetic Assay Analyzer</a><a href="motor-controller/">Review motor-console requirements</a></aside>
       </section>
 
-      <section class="tool-detail-section section" aria-label="MicroCD Labs software tools">
-        <article id="modeler" class="tool-detail">
-          <figure class="tool-icon-figure"><img src="modeler/icon-512.png" width="512" height="512" alt="Microfluidic Modeler app icon" /></figure>
-          <div><div class="tool-status"><span>Available now</span><span>Browser and App Store</span></div><p class="eyebrow">Geometry workspace</p><h2>Microfluidic Modeler</h2><p>Build early cartridge and channel concepts with ports, cuts, and common fluidic features, then export design data for the next engineering step.</p><ul><li>Client-side geometry creation</li><li>JSON, SVG, DXF, STL, and OBJ export</li><li>Useful for concept definition and design communication</li></ul><p class="tool-boundary">The Modeler is a research and design aid. Exported geometry requires independent engineering review before fabrication or regulated use.</p><div class="tool-actions"><a class="button button-primary" href="modeler/">Open browser tool</a><a class="button button-secondary" href="https://apps.apple.com/us/app/microfluidic-modeler/id6788555232" target="_blank" rel="noreferrer">View on App Store</a></div></div>
-        </article>
+      <span id="enhancer"></span><section class="tool-detail-section section" aria-label="MicroCD Labs software tools"><article id="modeler" class="tool-detail"><figure><img src="assets/tools/modeler-workspace.webp" width="960" height="640" loading="lazy" alt="Illustrative built-in flow path in the local 2D workspace; not fabrication-ready."><figcaption>Illustrative built-in flow path in the local 2D workspace; not fabrication-ready.</figcaption></figure><div><div class="tool-status"><span>Research beta</span><span>2.1.0-beta.2</span></div><p class="eyebrow">Modern browser; legacy 3D requires WebGL</p><h2>Microfluidic Modeler</h2><p>Sketch 2D flow paths, inspect geometry and connection guidance, and save a native project.</p><p><strong>Browser exports:</strong> Native JSON, SVG, PNG, CSV.</p><p><strong>Legacy:</strong> Separate legacy 3D workspace: GLB, not synchronized with 2D. STEP/DXF remain disabled roadmap items; STL and OBJ are not advertised browser exports.</p><p><strong>iOS:</strong> Separate App Store listing; current native-build capabilities are not verified by this checkout. <a href="https://apps.apple.com/us/app/microfluidic-modeler/id6788555232">See the separate App Store listing</a>.</p><p class="tool-boundary"><strong>Data:</strong> 2D autosave in local storage; offline asset cache; no project upload. Research and engineering use; no clinical performance claim.</p><a class="button button-primary" href="modeler/">Open Microfluidic Modeler</a></div></article>
+<article id="analyzer" class="tool-detail"><figure><img src="assets/tools/analyzer-workspace.webp" width="960" height="640" loading="lazy" alt="Built-in demo analyzed locally with default background subtraction; illustrative data."><figcaption>Built-in demo analyzed locally with default background subtraction; illustrative data.</figcaption></figure><div><div class="tool-status"><span>Research beta</span><span>2.1.0-beta.2</span></div><p class="eyebrow">Modern browser; decoding and print-to-PDF depend on browser</p><h2>Kinetic Assay Analyzer</h2><p>Analyze one CSV or an ordered image sequence locally. Review preprocessing, numerical methods, quality flags, and a reproducible export package.</p><p><strong>Inputs:</strong> One CSV; Ordered PNG/JPEG sequence; TIFF if browser decoding succeeds.</p><p><strong>Outputs:</strong> Raw CSV; Processed CSV; Results CSV; Analysis JSON; Plot SVG; Browser print / Save as PDF. Browser printing can save a PDF where supported. No backend PDF is generated.</p><p>CSV and image workflows have separate onboarding; CRP Camera has its own local-record workflow.</p><p class="tool-boundary"><strong>Data:</strong> CSV/images processed in browser memory, without automatic persistence or upload. Research and engineering use; no clinical performance claim.</p><a class="button button-primary" href="analyzer/">Open Kinetic Assay Analyzer</a></div></article>
+<article id="motor-controller" class="tool-detail"><figure><img src="assets/tools/motor-profile.webp" width="960" height="727" loading="lazy" alt="Existing motor-profile software prototype; not a validated commercial controller."><figcaption>Existing motor-profile software prototype; not a validated commercial controller.</figcaption></figure><div><div class="tool-status"><span>Engineering beta</span><span>Firmware-dependent</span></div><p class="eyebrow">Web Serial in supported desktop Chromium; HTTPS or localhost</p><h2>CLAIR Motor Controller</h2><p>Engineering console for compatible ESP32 / SimpleFOC firmware over USB serial. Define timed RPM profiles, inspect telemetry, and download logs.</p><p><strong>Exports:</strong> Profile JSON, Telemetry CSV, Run report JSON.</p><p>MAX/LIMIT unsupported by documented firmware. Software stop is not a safety-rated emergency stop.</p><p>Confirm hardware, enclosure, firmware protocol, and physical power-disconnect arrangements before connecting.</p><p class="tool-boundary"><strong>Data:</strong> Serial data stays in browser until downloaded. Research and engineering use; no clinical performance claim.</p><a class="button button-primary" href="motor-controller/">Open CLAIR Motor Controller</a></div></article></section>
 
-        <article id="enhancer" class="tool-detail">
-          <figure><img src="assets/news/cloud-kinetic-assay-platform.jpg" alt="Kinetic assay analysis workflow with time-series image processing and reporting" /></figure>
-          <div><div class="tool-status"><span>Research demo</span><span>Public static deployment</span></div><p class="eyebrow">Assay analysis</p><h2>Kinetic Assay Enhancer</h2><p>Explore endpoint and rate-based signal analysis with demo experiments, region-of-interest concepts, signal trajectories, and kinetic features.</p><ul><li>Demo time-series analysis and dashboard</li><li>Endpoint, slope, area-under-curve, and SNR concepts</li><li>Calibration and report workflow preview</li></ul><p class="tool-boundary">The public static demo does not provide the full backend image-processing or PDF-generation workflow. It is not a clinical decision system.</p><a class="button button-primary" href="analyzer/">Open research demo</a></div>
-        </article>
-
-        <article id="motor-controller" class="tool-detail">
-          <figure class="tool-icon-figure"><img src="assets/microcd-clarity-connection-mark.svg" width="512" height="512" alt="MicroCD Labs Clarity Connection mark" /></figure>
-          <div><div class="tool-status"><span>Engineering beta</span><span>Chrome or Edge · USB serial</span></div><p class="eyebrow">CLAIR hardware control</p><h2>Motor Controller</h2><p>Connect directly to the CLAIR Platform ESP32 from a compatible browser to command RPM, monitor SimpleFOC telemetry, run timed profiles, and capture engineering logs.</p><ul><li>Web Serial connection at 115200 baud</li><li>Live target and measured RPM chart</li><li>Emergency stop, CSV logging, JSON profiles, and run reports</li></ul><p class="tool-boundary">Motor hardware may move when a command is sent. Keep the disc enclosed and use an independent physical power disconnect. Web Serial requires a compatible Chromium browser over HTTPS.</p><a class="button button-primary" href="motor-controller/">Open Motor Controller</a></div>
-        </article>
-      </section>
-
-      <section class="tools-clair-band section" aria-labelledby="tools-clair-title"><div><p class="eyebrow">From software to system</p><h2 id="tools-clair-title">CLAIR connects controlled fluid handling with standardized imaging.</h2><p>The flagship platform applies the same engineering disciplines to an in-development veterinary saliva workflow.</p></div><a class="button button-light" href="clair/">Explore CLAIR</a></section>
+      <section class="tools-clair-band section" aria-labelledby="tools-clair-title"><div><p class="eyebrow">From software to system</p><h2 id="tools-clair-title">CLAIR connects controlled fluid handling with standardized imaging.</h2><p>The flagship platform applies the same engineering disciplines to separate human and veterinary oral-health research programs.</p></div><a class="button button-light" href="clair/">Explore CLAIR</a></section>
     </main>
 
-    <footer class="site-footer"><div><img class="footer-logo" src="assets/microcd-labs-wordmark.svg?v=boxed" alt="MicroCD Labs" /><p class="company-legal">MicroCD Labs, a division of Karigari Home LLC</p><p>Microfluidic systems, diagnostic development, and engineering tools.</p></div><p><a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a> <a href="https://www.linkedin.com/company/microcd-labs/" target="_blank" rel="noreferrer">LinkedIn</a> <a href="privacy.html">Privacy</a> <a href="terms.html">Terms</a></p></footer>
-    <script src="site.js?v=20261105-review"></script>
-    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=f6f042c5-f6ce-4381-8555-2da23e6aebd1"></script>
-    <script src="assets/chat-widget.js?v=20261105"></script>
+    <footer class="site-footer review-footer"><div><img class="footer-logo" src="assets/microcd-labs-wordmark.svg?v=boxed" width="154" height="34" loading="lazy" alt="MicroCD Labs"><p>Engineering for microfluidics, assays, and diagnostic development.</p><a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a><p><a href="https://www.linkedin.com/company/microcd-labs/" target="_blank" rel="noreferrer">LinkedIn</a></p></div><nav aria-label="Footer navigation"><a href="clair/">CLAIR</a><a href="services.html">Engineering Services</a><a href="tools.html">Research Tools</a><a href="products.html">Research components &amp; sourcing</a><a href="about.html">About</a><a href="consultation.html">Contact</a><a href="privacy.html">Website Privacy</a><a href="terms.html">Terms & Payments</a><a href="accessibility.html">Accessibility</a><a href="credits.html">Image Credits</a></nav><p class="review-footer-note">CLAIR is in development, not for sale or clinical use. Research components are enquiry categories; source and supply require review. Images may be representative. <a href="refunds.html">Refunds & Returns</a></p></footer>
+    <script src="site.js?v=20261106-enquiry2"></script>
+
+    <script src="assets/chat-widget.js?v=20261106"></script>
   </body>
 </html>

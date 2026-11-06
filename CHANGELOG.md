@@ -1,3 +1,11 @@
+## November 6, 2026 — tools and quotation consistency
+- Shared capability definitions and generated tool descriptions; current browser and legacy/iOS boundaries separated.
+- Modeler example, setup guidance, safe return, scoped cache cleanup, wrapping controls, and unchanged v2/v1 project support.
+- Analyzer stage prerequisites, explicit demo provenance, stale-result invalidation, readable plots and local print report; numerical formulas unchanged.
+- Versioned session quotation basket preserving SKU/configuration/quantity/specifications; no generic payment shortcut before review.
+- Shared marketing chrome, on-request support chat, inquiry preview, privacy/storage descriptions and maintained sitemap coverage.
+- Browser regressions do not connect hardware or send motor commands.
+
 # Changelog
 
 ## 2.0.0-beta.2 — 2026-08-17

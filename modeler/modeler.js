@@ -1,4 +1,4 @@
-import { APP_VERSION, bindDialog, downloadBlob, downloadText, safeFilename, setupTabs, toast } from "../assets/scientific-ui.js";
+import { APP_VERSION, bindDialog, downloadBlob, downloadText, safeFilename, setupTabs, toast } from "../assets/scientific-ui.js?v=2.1.0-beta.2";
 
 export const PROJECT_SCHEMA = "microcd.modeler.project";
 export const PROJECT_VERSION = 2;
@@ -49,6 +49,11 @@ export function createProject(name = "Untitled microfluidic project") {
   };
 }
 
+export function createExampleProject() {
+ const p=createProject("Example — straight flow path"), layer=p.layers[0].id;
+ p.features=[makeFeature("inlet",{x:65,y:50},layer),makeFeature("straight-channel",{x:80,y:50},layer),makeFeature("outlet",{x:95,y:50},layer)];
+ p.engineering.flowRateUlMin="10"; return p;
+}
 export function migrateProject(input) {
   if (!input || typeof input !== "object") throw new Error("Project must be a JSON object.");
   if (input.schema === PROJECT_SCHEMA && input.version === 2) return normalizeProject(input);
@@ -236,6 +241,15 @@ if (typeof document !== "undefined") init();
 function init() {
   if ("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("/modeler/sw.js").catch(() => {});
   setupTabs();
+  const legacyFrame=document.querySelector("#canvas-3d iframe");
+  const loadLegacy=()=>{if(!legacyFrame.getAttribute("src"))legacyFrame.src=legacyFrame.dataset.src;};
+  new MutationObserver(()=>{if(!document.querySelector("#canvas-3d").hidden)loadLegacy();}).observe(document.querySelector("#canvas-3d"),{attributes:true,attributeFilter:["hidden"]});
+  document.querySelector('[aria-controls="canvas-3d"]').addEventListener("click",loadLegacy);
+  document.querySelector('[aria-controls="canvas-3d"]').addEventListener("keydown",()=>setTimeout(()=>{if(!document.querySelector("#canvas-3d").hidden)loadLegacy();}));
+  document.querySelector("#modeler-leave").addEventListener("click",()=>{
+    try{localStorage.setItem(STORAGE_KEY,JSON.stringify(project));}catch{if(!confirm("Storage is unavailable. Download native JSON first to keep this design. Leave anyway?"))return;}location.href="/tools.html";
+  });
+
   let project = recoverProject(); let selected = new Set(); let activeType = null; let history = []; let future = []; let dragging = null;
   const canvas = document.querySelector("#design-canvas"); const geometry = document.querySelector("#geometry-layer"); const selectionLayer = document.querySelector("#selection-layer");
   const projectTree = document.querySelector("#project-tree"); const inspector = document.querySelector("#inspector-body");
@@ -248,7 +262,7 @@ function init() {
     catch { return createProject(); }
   }
   function snapshot() { history.push(JSON.stringify(project)); if (history.length > 80) history.shift(); future = []; }
-  function commit(message) { project.updatedAt = new Date().toISOString(); localStorage.setItem(STORAGE_KEY, JSON.stringify(project)); document.querySelector("#save-state").textContent = "Autosaved just now"; updateHistoryButtons(); render(); if (message) toast(message); }
+  function commit(message) { project.updatedAt = new Date().toISOString(); try {localStorage.setItem(STORAGE_KEY,JSON.stringify(project)); document.querySelector("#save-state").textContent="Autosaved just now";} catch {document.querySelector("#save-state").textContent="Not saved — download JSON";toast("Storage unavailable. Download native JSON before leaving.","error");} updateHistoryButtons(); render(); if (message) toast(message); }
   function mutate(action, message) { snapshot(); action(); commit(message); }
   function updateHistoryButtons() { document.querySelector('[data-action="undo"]').disabled = !history.length; document.querySelector('[data-action="redo"]').disabled = !future.length; }
   function currentLayer() { return project.layers.find((layer) => !layer.locked) || project.layers[0]; }
@@ -315,6 +329,13 @@ function init() {
     inspector.innerHTML = `<section class="inspector-section"><h3>Identity</h3><label class="field">Name<input data-feature-field="name" value="${escapeHtml(feature.name)}"></label><label class="field">Type<input value="${escapeHtml(feature.type)}" disabled></label><label class="field">Layer<select data-feature-field="layerId">${project.layers.map((l)=>`<option value="${l.id}" ${l.id===feature.layerId?'selected':''}>${escapeHtml(l.name)}</option>`).join("")}</select></label></section><section class="inspector-section"><h3>Position</h3><div class="field-row"><label class="field">X<input data-position="x" type="number" step="0.1" value="${feature.position.x}"></label><label class="field">Y<input data-position="y" type="number" step="0.1" value="${feature.position.y}"></label></div><label class="field">Rotation<input data-feature-field="rotation" type="number" step="1" value="${feature.rotation}"><span class="help">degrees</span></label></section><section class="inspector-section"><h3>Dimensions</h3>${fields}</section><section class="inspector-section"><h3>Measurements</h3><p>Length: ${formatNumber(feature.parameters.length||b.width)} mm<br>Diameter: ${feature.parameters.diameter?`${formatNumber(feature.parameters.diameter)} mm`:"Not applicable"}<br>Plan area: ${formatNumber(area)} mm²<br>Bounding volume: ${depth>0?`${formatNumber(volume)} µL`:"Not calculated — depth required"}</p></section>`;
   }
   function renderIssues() {
+    document.querySelectorAll("[data-profile]").forEach(input=>input.value=project.profile[input.dataset.profile]);
+    document.querySelectorAll("[data-canvas]").forEach(input=>input.value=project.canvas[input.dataset.canvas]);
+    if (!project.features.length) {
+     document.querySelector("#issue-count").textContent="Start here";
+     document.querySelector("#issues").innerHTML='<div class="empty-state"><strong>Start a flow path.</strong><span>Add an inlet, channel, and outlet, or use the optional example. Connection and geometry checks begin when features exist.</span><button type="button" class="button" id="empty-example">Load illustrative example</button></div>';
+     document.querySelector("#empty-example").addEventListener("click",()=>runAction("example")); return;
+    }
     const issues = validateProject(project); document.querySelector("#issue-count").textContent = String(issues.length);
     document.querySelectorAll("[data-profile]").forEach((input)=>{input.value=project.profile[input.dataset.profile]});
     document.querySelectorAll("[data-canvas]").forEach((input)=>{input.value=project.canvas[input.dataset.canvas]});
@@ -359,6 +380,8 @@ function init() {
   document.addEventListener("keydown",(event)=>{if(["INPUT","TEXTAREA","SELECT"].includes(event.target.tagName))return;if(event.key==="Escape"){activeType=null;selected.clear();document.querySelector('[data-tool="select"]').click();render();}if((event.key==="Delete"||event.key==="Backspace")&&selected.size)runAction("delete");if((event.metaKey||event.ctrlKey)&&event.key.toLowerCase()==="z"){event.preventDefault();runAction(event.shiftKey?"redo":"undo");}});
   document.querySelectorAll("[data-action]").forEach((button)=>button.addEventListener("click",()=>runAction(button.dataset.action)));
   function runAction(action){
+    if(action==="example"&&(!project.features.length||confirm("Replace this design with an illustrative example? Download native JSON first to keep a copy."))){snapshot();project=createExampleProject();selected.clear();commit("Illustrative example loaded — not fabrication-ready");}
+
     if(action==="new"&&confirm("Start a new project? Download the current project first if needed.")){history=[];future=[];selected.clear();project=createProject();commit("New project created");}
     if(action==="open"||action==="import")document.querySelector("#project-file").click();
     if(action==="save")exportJSON();

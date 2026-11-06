@@ -118,3 +118,13 @@ button:disabled { opacity: .46; cursor: not-allowed; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+.skip-link{position:fixed;left:12px;top:-100px;z-index:9999;padding:12px;background:#fff;color:#102e34}.skip-link:focus{top:12px}
+.topbar{flex-wrap:wrap;height:auto;min-height:64px;gap:12px}.topbar__commands{flex-wrap:wrap;overflow:visible}.topbar__commands .command{min-height:38px}
+.app-guide{padding:12px;font-size:.85rem;border-bottom:1px solid var(--line)}.app-guide summary{cursor:pointer;font-weight:700}.app-guide ol{padding-left:20px;line-height:1.65}
+.app-progress{padding:12px 20px;background:#e9f3ef;color:#184f43;font-size:.92rem}
+dialog{max-width:calc(100vw - 32px);max-height:calc(100dvh - 40px);overflow:auto}
+@media(max-width:760px){.topbar__brand{flex:1 1 100%}.topbar__commands{width:100%;gap:6px}.topbar__commands .command{font-size:.8rem;min-height:40px}.topbar__meta{margin-left:0}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+:focus-visible{outline:3px solid #087067;outline-offset:3px}.topbar :focus-visible{outline-color:#afe5cd}.tree-icon{min-width:28px;min-height:28px;}

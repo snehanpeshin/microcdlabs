@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { renderSiteNavigation } from "./site-navigation.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const buildDate = "2026-08-15";
+const buildDate = "2026-11-06";
 const siteUrl = "https://www.microcdlabs.com";
 
 const categoryDefinitions = [
@@ -103,7 +103,8 @@ globalThis.__seoCatalog = {
   productCategoryLabels,
   getProductDetailPack,
   getProductOptions,
-  getOptionPriceLabel
+  getOptionPriceLabel,
+  getEnquiryDetailHTML
 };`;
   const document = {
     querySelector: () => null,
@@ -130,6 +131,7 @@ globalThis.__seoCatalog = {
     encodeURIComponent,
   };
   vm.createContext(sandbox);
+  vm.runInContext(fs.readFileSync(path.join(root,"assets/quote-state.js"),"utf8"),sandbox);
   vm.runInContext(source, sandbox);
   return sandbox.__seoCatalog;
 }
@@ -182,77 +184,7 @@ function productStructuredData(product, detail, imageUrl) {
   };
 }
 
-function productMain(product) {
-  const categoryLabel = catalog.productCategoryLabels[product.category] || product.category;
-  const detail = catalog.getProductDetailPack(product);
-  const options = catalog.getProductOptions(product);
-  const price = catalog.getOptionPriceLabel(product, options[0]);
-  const imageUrl = localImageUrl(product) || fallbackImage(product);
-  const alt = product.image?.alt || `${product.name} representative research-use catalog image`;
-  const requestSubject = encodeURIComponent(`MicroCD Labs quote request: ${product.name}`);
-  const requestBody = encodeURIComponent(
-    `Hello MicroCD Labs,\n\nPlease confirm availability, final price, lead time, shipping, compatible options, and documentation for:\n\n${product.name}\nMicroCD Cat. No. ${product.sku}\n\nIntended research-use application:\n\nDestination country:\n`,
-  );
-
-  return `    <main id="productDetail">
-      <!-- SEO_PRODUCT_START -->
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="../index.html">Home</a><span aria-hidden="true">/</span>
-        <a href="../products.html">Products</a><span aria-hidden="true">/</span>
-        <span aria-current="page">${escapeHtml(product.name)}</span>
-      </nav>
-      <section class="section product-detail-section" aria-labelledby="product-detail-title">
-        <div class="product-detail-layout">
-          <div class="product-detail-media">
-            <img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(alt)}" width="960" height="640" />
-            ${product.image ? `<span class="image-credit">${escapeHtml(product.image.credit)}</span>` : '<span class="image-credit">Representative category image</span>'}
-          </div>
-          <div class="product-detail-copy">
-            <p class="eyebrow">${escapeHtml(categoryLabel)}</p>
-            <h1 id="product-detail-title">${escapeHtml(product.name)}</h1>
-            <p class="in-house-production-note">Research-use product family; source and production route confirmed by quote.</p>
-            <strong class="product-detail-price">${escapeHtml(price)}</strong>
-            <label class="product-option-field product-option-field-detail">
-              <span>Available option</span>
-              <select aria-label="Available options for ${escapeHtml(product.name)}">
-                ${options.map((option) => `<option>${escapeHtml(option.label)} - ${escapeHtml(option.priceLabel)}</option>`).join("")}
-              </select>
-            </label>
-            <dl class="product-detail-specs">
-              <div><dt>MicroCD Cat. No.</dt><dd>${escapeHtml(product.sku)}</dd></div>
-              <div><dt>Classification</dt><dd>${escapeHtml(categoryLabel)}</dd></div>
-              <div><dt>Subclass</dt><dd>${escapeHtml(product.subclass)}</dd></div>
-              <div><dt>Catalog source</dt><dd>Confirmed with written quote</dd></div>
-              <div><dt>Production route</dt><dd>Confirmed for the selected configuration</dd></div>
-              <div><dt>Order type</dt><dd>Generic research-use family reviewed by written quote</dd></div>
-            </dl>
-            <p>${escapeHtml(product.description)}</p>
-            <p>${escapeHtml(detail.role)}</p>
-            <div class="product-meta">${product.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>
-            <div class="product-detail-actions">
-              <a class="button button-primary" href="mailto:info@microcdlabs.com?subject=${requestSubject}&body=${requestBody}">Request quote for this item</a>
-              <a class="button product-back-link" href="../products.html#catalog">Back to catalog</a>
-            </div>
-          </div>
-        </div>
-        <div class="product-detail-grid" aria-label="Detailed product information">
-          <article class="detail-panel detail-panel-wide">
-            <h2>Catalog status</h2>
-            <p>${escapeHtml(detail.marketPosition)}</p>
-            <p>MicroCD Labs uses catalog number <strong>${escapeHtml(product.sku)}</strong> for quoting, compatible variants, substitutions, and order review.</p>
-          </article>
-          <article class="detail-panel"><h2>Available variants</h2><ul>${detail.variants.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></article>
-          <article class="detail-panel"><h2>Specification checklist</h2><ul>${detail.checklist.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></article>
-          <article class="detail-panel">
-            <h2>Documentation and order review</h2>
-            <p>${escapeHtml(detail.documentationNote)}</p>
-          </article>
-        </div>
-        <p class="catalog-disclaimer"><strong>Quote-reviewed research catalog.</strong> Source, production route, specifications, documentation, availability, and final price must be confirmed in writing before an order is accepted.</p>
-      </section>
-      <!-- SEO_PRODUCT_END -->
-    </main>`;
-}
+function productMain(product){return '<main id="productDetail">'+catalog.getEnquiryDetailHTML(product,"../")+'</main>';}
 
 async function updateProductPages() {
   await Promise.all(catalog.products.map(async (product) => {
@@ -263,8 +195,8 @@ async function updateProductPages() {
     const image = localImageUrl(product, `${siteUrl}/`) || `${siteUrl}/${fallbackImage(product, "")}`;
     const description = uniqueDescription(product);
     const generatedHead = `    <!-- SEO_PRODUCT_META_START -->
-    <meta property="og:type" content="product" />
-    <meta property="og:title" content="${escapeHtml(product.name)} | MicroCD Labs Catalog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="${escapeHtml(product.name)} | MicroCD Labs Sourcing" />
     <meta property="og:description" content="${escapeHtml(description)}" />
     <meta property="og:url" content="${siteUrl}/catalog/${product.id}.html" />
     <meta property="og:image" content="${escapeHtml(image)}" />
@@ -276,13 +208,13 @@ ${JSON.stringify(productStructuredData(product, detail, image), null, 6)}
 `;
 
     html = html
-      .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(product.name)} | MicroCD Labs Catalog</title>`)
+      .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(product.name)} | MicroCD Labs Sourcing</title>`)
       .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${escapeHtml(description)}" />`)
       .replace(/<link rel="canonical" href="[^"]*" \/>/, `<link rel="canonical" href="${siteUrl}/catalog/${product.id}.html" />`)
-      .replace(/script\.js\?v=[^"]+/, "script.js?v=20260728b")
+      .replace(/script\.js\?v=[^"]+/, "script.js?v=20261106-enquiry2")
       .replace(/\s*<!-- SEO_PRODUCT_META_START -->[\s\S]*?<!-- SEO_PRODUCT_META_END -->\s*/g, "\n")
       .replace("</head>", `${generatedHead}  </head>`)
-      .replace(/    <main id="productDetail">[\s\S]*?<\/main>/, productMain(product));
+      .replace(/<main id="productDetail">[\s\S]*?<\/main>/, productMain(product));
     await fs.promises.writeFile(file, html);
   }));
 }
@@ -303,10 +235,10 @@ function categoryCard(product) {
             <div>
               <p class="eyebrow">${escapeHtml(product.subclass)}</p>
               <h2><a href="../catalog/${product.id}.html">${escapeHtml(product.name)}</a></h2>
-              <p class="in-house-production-note">Source and production route confirmed by quote.</p>
+              <p class="in-house-production-note">Specification review required. Source, availability and lead time to be confirmed.</p>
               <p>${escapeHtml(product.description)}</p>
-              <dl><div><dt>Catalog no.</dt><dd>${escapeHtml(product.sku)}</dd></div><div><dt>Price status</dt><dd>${escapeHtml(product.price)}</dd></div></dl>
-              <a class="text-link" href="../catalog/${product.id}.html">View specifications <span aria-hidden="true">&rarr;</span></a>
+              <dl><div><dt>Enquiry reference</dt><dd>${escapeHtml(product.sku)}</dd></div><div><dt>Price status</dt><dd>${escapeHtml(catalog.getOptionPriceLabel(product))}</dd></div></dl>
+              <a class="text-link" href="../catalog/${product.id}.html">Describe requirements <span aria-hidden="true">&rarr;</span></a>
             </div>
           </article>`;
 }
@@ -344,6 +276,7 @@ function categoryStructuredData(definition, products) {
 }
 
 function categoryPage(definition) {
+  definition={...definition,title:definition.eyebrow+" Sourcing Enquiries | MicroCD Labs",description:definition.description+" Enquiry categories only: specification, source, availability and lead time require review."};
   const products = catalog.products.filter((product) => productMatchesCategory(product, definition));
   return `<!doctype html>
 <html lang="en">
@@ -383,12 +316,12 @@ ${renderSiteNavigation("../")}
     <main>
       <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../index.html">Home</a><span aria-hidden="true">/</span><a href="../products.html">Products</a><span aria-hidden="true">/</span><span aria-current="page">${escapeHtml(definition.eyebrow)}</span></nav>
       <section class="seo-category-hero section" aria-labelledby="category-title">
-        <div><p class="eyebrow">${escapeHtml(definition.eyebrow)}</p><h1 id="category-title">${escapeHtml(definition.h1)}</h1><p>${escapeHtml(definition.description)}</p><div class="hero-actions"><a class="button button-primary" href="#category-products">Browse ${products.length} items</a><a class="button button-secondary" href="../recommendations.html">Get a parts recommendation</a></div></div>
+        <div><p class="eyebrow">${escapeHtml(definition.eyebrow)}</p><h1 id="category-title">${escapeHtml(definition.h1)}</h1><p>${escapeHtml(definition.description)}</p><div class="hero-actions"><a class="button button-primary" href="#category-products">Browse ${products.length} items</a><a class="button button-secondary" href="../consultation.html?project=sourcing#inquiry-title">Discuss sourcing requirements</a></div></div>
         <img src="${escapeHtml(definition.image)}" alt="${escapeHtml(definition.eyebrow)} arranged for research system planning" width="960" height="640" />
       </section>
-      <section class="seo-direct-answer section" aria-labelledby="selection-answer-title"><div><p class="eyebrow">Selection answer</p><h2 id="selection-answer-title">How should you choose?</h2></div><div><p>${escapeHtml(definition.answer)}</p><p class="seo-review-note">Technical content reviewed by MicroCD Labs · Updated July 28, 2026. Confirm final selection against the written quote, applicable source documentation, and the complete research system.</p></div></section>
-      <section class="seo-considerations section" aria-labelledby="considerations-title"><div class="section-heading"><div><p class="eyebrow">Before requesting a quote</p><h2 id="considerations-title">Confirm the complete system requirement</h2></div><p>MicroCD Labs reviews compatibility, documentation, final pricing, availability, and lead time before payment.</p></div><div class="seo-consideration-grid">${definition.considerations.map(([title, copy]) => `<article><h3>${escapeHtml(title)}</h3><p>${escapeHtml(copy)}</p></article>`).join("")}</div></section>
-      <section id="category-products" class="seo-category-products section" aria-labelledby="category-products-title"><div class="section-heading"><div><p class="eyebrow">Research-use catalog</p><h2 id="category-products-title">${escapeHtml(definition.eyebrow)} products and product families</h2></div><p>Open an item for variants, specifications, source and production-route review, documentation, and quote status.</p></div><div class="seo-product-grid">${products.map(categoryCard).join("")}</div></section>
+      <section class="seo-direct-answer section" aria-labelledby="selection-answer-title"><div><p class="eyebrow">Selection answer</p><h2 id="selection-answer-title">How should you choose?</h2></div><div><p>${escapeHtml(definition.answer)}</p><p class="seo-review-note">Technical content reviewed by MicroCD Labs · Updated November 6, 2026. These are general selection considerations, not verified specifications for a listed item.</p></div></section>
+      <section class="seo-considerations section" aria-labelledby="considerations-title"><div class="section-heading"><div><p class="eyebrow">Before requesting a quote</p><h2 id="considerations-title">Confirm the complete system requirement</h2></div><p>Define requirements first. Source, documentation, pricing, availability and lead time require confirmation in the proposal.</p></div><div class="seo-consideration-grid">${definition.considerations.map(([title, copy]) => `<article><h3>${escapeHtml(title)}</h3><p>${escapeHtml(copy)}</p></article>`).join("")}</div></section>
+      <section id="category-products" class="seo-category-products section" aria-labelledby="category-products-title"><div class="section-heading"><div><p class="eyebrow">Research components &amp; custom sourcing</p><h2 id="category-products-title">${escapeHtml(definition.eyebrow)} enquiry categories</h2></div><p>Open an enquiry for requirements to discuss. Listings do not imply inventory, specified products, or manufacturing by MicroCD.</p></div><div class="seo-product-grid">${products.map(categoryCard).join("")}</div></section>
       <section class="seo-category-cta section"><div><p class="eyebrow">Technical review</p><h2>Not sure which components fit together?</h2><p>Share the fluid, target flow or pressure, interface sizes, and intended research workflow. We can help build a compatible shortlist.</p></div><a class="button button-primary" href="../consultation.html?project=technical-consulting">Request a technical consultation</a></section>
     </main>
     <footer class="site-footer"><div><img class="footer-logo" src="../assets/microcd-labs-wordmark.svg?v=boxed" alt="microcd labs" /><p class="company-legal">MicroCD Labs, a division of Karigari Home LLC</p><p>Microfluidics parts supplier and product-development support for research teams.</p></div><p>Products are for non-clinical research use unless stated otherwise. <a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a> <a href="../privacy.html">Privacy</a> <a href="../terms.html">Terms</a></p></footer>

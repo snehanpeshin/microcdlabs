@@ -6,11 +6,11 @@
   <meta name="theme-color" content="#101923">
   <meta name="description" content="MicroCD Labs Microfluidic Modeler beta for early research-use design and advisory checks.">
   <link rel="manifest" href="/modeler/manifest.webmanifest">
-  <link rel="stylesheet" href="/assets/scientific-ui.css?v=2.0.0-beta.2">
-  <link rel="stylesheet" href="/modeler/workspace.css?v=2.0.0-beta.2">
-  <title>Microfluidic Modeler · MicroCD Labs</title>
-</head>
-<body>
+  <link rel="stylesheet" href="/assets/scientific-ui.css?v=2.1.0-beta.2">
+  <link rel="stylesheet" href="/modeler/workspace.css?v=2.1.0-beta.2">
+  <link rel="canonical" href="https://www.microcdlabs.com/modeler/"><meta property="og:title" content="Microfluidic Modeler · MicroCD Labs"><meta property="og:description" content="Local 2D design with native JSON, SVG, PNG and CSV export; legacy 3D is a separate workspace."><meta property="og:image" content="https://www.microcdlabs.com/modeler/icon-512.png"><title>Microfluidic Modeler · MicroCD Labs</title>
+<meta property="og:type" content="website"><meta property="og:url" content="https://www.microcdlabs.com/modeler/"><meta name="twitter:card" content="summary_large_image"></head>
+<body><a class="skip-link" href="#modeler-workspace">Skip to workspace</a>
   <div class="app-shell modeler-shell">
     <header class="topbar">
       <a class="topbar__brand" href="/modeler/" aria-label="MicroCD Labs Microfluidic Modeler home">
@@ -18,7 +18,7 @@
         <span class="brand-copy"><strong>Microfluidic Modeler</strong><small>MicroCD Labs scientific workspace</small></span>
       </a>
       <nav class="topbar__commands" aria-label="Project commands">
-        <button class="command" data-action="new">New</button>
+        <button class="command" id="modeler-leave">Tools directory</button><button class="command" data-action="example">Example</button><button class="command" data-action="new">New</button>
         <button class="command" data-action="open">Open</button>
         <button class="command" data-action="save">Save</button>
         <button class="command" data-action="undo" disabled>Undo</button>
@@ -27,12 +27,12 @@
         <button class="command" data-action="export">Export</button>
         <a class="command" href="/docs/modeler-quick-start.md" target="_blank">Help</a>
       </nav>
-      <div class="topbar__meta"><span class="status-badge status-badge--ruo">RUO</span><span class="version">v2.0 beta</span></div>
+      <div class="topbar__meta"><span class="status-badge status-badge--ruo">RUO</span><span class="version">v2.1.0-beta.2</span></div>
     </header>
 
-    <main class="workspace">
+    <main class="workspace" id="modeler-workspace"><h1 class="sr-only">Microfluidic Modeler — 2D workspace</h1>
       <aside class="domain-toolbar" aria-label="Component tools">
-        <strong>Components</strong>
+        <strong>Tools</strong>
         <button class="tool is-active" data-tool="select" title="Select (V)"><span>↖</span>Select</button>
         <button class="tool" data-component="straight-channel"><span>━</span>Channel</button>
         <button class="tool" data-component="curved-channel"><span>⌒</span>Curve</button>
@@ -54,7 +54,7 @@
       <section class="project-panel panel" aria-label="Project tree">
         <div class="panel__header"><h2>Project</h2><button class="icon-button" data-action="add-layer" title="Add layer">＋</button></div>
         <div class="project-name-row"><input id="project-name" aria-label="Project name" value="Untitled microfluidic project"><span id="save-state" class="help">Saved locally</span></div>
-        <div id="project-tree" class="project-tree" role="tree"></div>
+        <details class="app-guide"><summary>First-use guide</summary><ol><li>Add components, then click the canvas to place them.</li><li>Select a feature to edit dimensions.</li><li>Review advisory geometry and connection checks.</li><li>Download native JSON for a portable backup. Legacy 3D is separate.</li></ol></details><div id="project-tree" class="project-tree" role="tree"></div>
       </section>
 
       <section class="canvas-area">
@@ -86,7 +86,7 @@
         </div>
         <div id="canvas-3d" class="tab-panel legacy-stage" role="tabpanel" hidden>
           <div class="legacy-notice"><strong>Legacy 3D geometry workspace</strong><span>Preserved without modification. Save its GLB separately; it does not synchronize with the 2D beta project.</span></div>
-          <iframe title="Legacy 3D geometry workspace" loading="lazy" src="/modeler/core.html"></iframe>
+          <iframe title="Legacy 3D geometry workspace" loading="lazy" data-src="/modeler/core.html"></iframe>
         </div>
       </section>
 
@@ -116,14 +116,14 @@
           </div>
           <p><strong>Autosave:</strong> local browser storage after every change. Raw project state is never uploaded.</p>
           <p><strong>Schema:</strong> <code>microcd.modeler.project</code> v2 with v1 migration.</p>
-          <p><a href="/docs/modeler-quick-start.md" target="_blank">Quick start</a> · <a href="/docs/methodology.md" target="_blank">Methods</a> · <a href="mailto:hello@microcdlabs.com?subject=Modeler%20beta%20feedback">Feedback</a></p>
+          <p><a href="/docs/modeler-quick-start.md" target="_blank">Quick start</a> · <a href="/docs/methodology.md" target="_blank">Methods</a> · <a href="mailto:info@microcdlabs.com?subject=Modeler%20beta%20feedback">Feedback</a></p>
         </div>
       </section>
     </main>
   </div>
 
-  <input id="project-file" class="sr-only" type="file" accept="application/json,.json">
-  <dialog id="export-dialog" class="dialog"><div class="dialog__header"><h2>Export project</h2><button class="icon-button" data-dialog-close aria-label="Close">×</button></div><div class="dialog__body export-grid"><button class="button" data-export="json">Native JSON</button><button class="button" data-export="svg">SVG geometry</button><button class="button" data-export="png">PNG snapshot</button><button class="button" data-export="csv">CSV feature list</button><button class="button" data-export="glb">Open legacy GLB workspace</button><button class="button" disabled title="The current kernel cannot guarantee a valid solid interchange file.">STEP / DXF — roadmap</button></div><div class="dialog__footer"><button class="button" data-dialog-close>Close</button></div></dialog>
-  <script type="module" src="/modeler/modeler.js?v=2.0.0-beta.2"></script>
+  <input aria-label="Import native project JSON" id="project-file" class="sr-only" type="file" accept="application/json,.json">
+  <dialog id="export-dialog" class="dialog" aria-labelledby="export-title"><div class="dialog__header"><h2 id="export-title">Export project</h2><button class="icon-button" data-dialog-close aria-label="Close">×</button></div><div class="dialog__body export-grid"><button class="button" data-export="json">Native JSON</button><button class="button" data-export="svg">SVG geometry</button><button class="button" data-export="png">PNG snapshot</button><button class="button" data-export="csv">CSV feature list</button><button class="button" data-export="glb">Open legacy GLB workspace</button><button class="button" disabled title="The current kernel cannot guarantee a valid solid interchange file.">STEP / DXF — roadmap</button></div><div class="dialog__footer"><button class="button" data-dialog-close>Close</button></div></dialog>
+  <script type="module" src="/modeler/modeler.js?v=2.1.0-beta.2"></script>
 </body>
 </html>

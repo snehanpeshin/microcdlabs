@@ -1,0 +1,9 @@
+time,signal,background,control,sample,replicate
+0,18,12,110,demo-low,rep-1
+1,25,12,112,demo-low,rep-1
+2,42,13,111,demo-low,rep-1
+4,78,13,114,demo-low,rep-1
+6,121,14,116,demo-low,rep-1
+8,166,14,115,demo-low,rep-1
+10,198,15,117,demo-low,rep-1
+12,214,15,118,demo-low,rep-1

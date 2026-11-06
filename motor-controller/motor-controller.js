@@ -44,6 +44,7 @@ function setConnectionState(connected, label = connected ? "Connected" : "Discon
   $("#connect-button").textContent = connected ? "Disconnect" : "Connect USB device";
   $("#baud-rate").disabled = connected;
   $$(".requires-connection").forEach((element) => { element.disabled = !connected; });
+  $("#send-max").disabled=true; $("#send-limit").disabled=true;
   // Hardware safety: STOP remains enabled for the full connected lifetime.
   $("#emergency-stop").disabled = !connected;
   $("#stop-profile").disabled = !connected || !state.profileToken;

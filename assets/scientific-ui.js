@@ -1,4 +1,5 @@
-export const APP_VERSION = "2.0.0-beta.2";
+import { SCIENTIFIC_RELEASE } from "./tool-definitions.js?v=2.1.0-beta.2";
+export const APP_VERSION = SCIENTIFIC_RELEASE;
 
 export function toast(message, tone = "info") {
   let region = document.querySelector(".toast-region");
@@ -61,7 +62,9 @@ function activateTab(tab, tabs) {
 }
 
 export function bindDialog(dialog, openers, closeSelector = "[data-dialog-close]") {
-  openers.forEach((opener) => opener.addEventListener("click", () => dialog.showModal()));
+  let returnFocus;
+  openers.forEach((opener) => opener.addEventListener("click", () => { returnFocus=opener; dialog.showModal(); }));
+  dialog.addEventListener("close",()=>returnFocus?.focus());
   dialog.querySelectorAll(closeSelector).forEach((closer) => closer.addEventListener("click", () => dialog.close()));
 }
 
