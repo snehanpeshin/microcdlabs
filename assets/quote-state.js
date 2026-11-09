@@ -7,6 +7,8 @@
   const type=p.offeringType||(p.category==='services'?'Engineering service':p.category==='starter-kits'?'Curated kit':/custom.*fabrication|prototyping-services/.test(p.id)?'Custom fabrication enquiry':'Component sourcing enquiry');
   return {offeringType:type,commercialRole:p.commercialRole||(type==='Engineering service'?'Engineering provider':'Unconfirmed'),specificationCompleteness:p.specificationCompleteness||'Specification review required',supplyConfirmation:p.supplyConfirmation||'Source, availability, and lead time to be confirmed',pricing:p.pricing||{status:'Pricing after specification review',basis:null},configuration:p.configuration||'Configuration to be defined'};
  }
+ const fieldLimit=1000;
+ const newKey=product=>product.id+'::'+(globalThis.crypto?.randomUUID?.()||Date.now().toString(36)+'-'+Math.random().toString(36).slice(2));
  const field=(key,label,options)=>({key,label,options});
  function schema(p){
   if(p.offeringType==='Engineering service'||p.category==='services')return [field('deliverables','Deliverables sought'),field('inputs','Existing inputs / design files'),field('criteria','Review criteria / handoff needs')];
@@ -17,8 +19,8 @@
   if(p.category==='flow-control')return [field('range','Required flow / pressure / measurement range'),field('interfaces','Hardware / software interfaces'),field('fluid','Fluid and wetted-path requirements')];
   return [field('specifications','Material / dimensions / performance requirements'),field('interfaces','Interfaces / compatible equipment'),field('inclusions','Requested components / assembly scope')];
  }
- function requirements(p,value={}){const out={};for(const f of schema(p))out[f.key]=clean(value[f.key],500);for(const key of ['application','destination','date','documentation','configuration'])out[key]=clean(value[key],1000);return out;}
- function serialize(entries){return entries.map(e=>({id:e.product.id,optionIndex:e.optionIndex||0,quantity:quantity(e.quantity)||'To be determined',notes:clean(e.notes),requirements:requirements(e.product,e.requirements)}));}
+ function requirements(p,value={}){const out={};for(const f of schema(p))out[f.key]=clean(value[f.key],fieldLimit);for(const key of ['application','destination','date','documentation','configuration'])out[key]=clean(value[key],1000);return out;}
+ function serialize(entries){return entries.map(e=>({key:e.key||newKey(e.product),id:e.product.id,optionIndex:e.optionIndex||0,quantity:quantity(e.quantity)||'To be determined',notes:clean(e.notes),requirements:requirements(e.product,e.requirements)}));}
  function lines(entries){return entries.map(e=>{const p=e.product,s=classify(p),r=requirements(p,e.requirements);return [
   'Requested offering: '+p.name,'Internal enquiry reference: '+p.sku,'Enquiry type: '+s.offeringType,'Commercial role: '+s.commercialRole,
   'Requested configuration: '+(r.configuration||'Configuration to be defined'),'Quantity: '+(quantity(e.quantity)||'To be determined'),
@@ -28,5 +30,5 @@
  ].join('\n');}).join('\n\n');}
  function subject(entries){if(entries.length===1){const p=entries[0].product;return (p.id==='pdms-microfluidic-chips'?'PDMS chip sourcing enquiry':p.name+' enquiry')+' — '+p.sku;}return 'Research components & custom sourcing enquiry';}
  function request(entries,contact={}){return ['Research sourcing enquiry — requirements for review','',lines(entries),'','Name: '+clean(contact.name,120),'Organization: '+clean(contact.organisation,180),'Work email: '+clean(contact.email,254),'Additional enquiry notes: '+(clean(contact.notes)||'None provided'),'','This is an enquiry, not an order or confirmed quotation. Pricing, source, availability, lead time and fabrication responsibility remain to be confirmed in a written proposal. Any paid feasibility, sourcing or engineering scope requires separate agreement.'].join('\n');}
- globalThis.MicroCDQuote=Object.freeze({version:2,approvedPrices:Object.freeze({}),classify,schema,requirements,quantity,clampQuantity,cleanNotes:clean,serialize,lines,subject,request,fields:p=>schema(p).map(f=>f.label)});
+ globalThis.MicroCDQuote=Object.freeze({version:3,fieldLimit,newKey,approvedPrices:Object.freeze({}),classify,schema,requirements,quantity,clampQuantity,cleanNotes:clean,serialize,lines,subject,request,fields:p=>schema(p).map(f=>f.label)});
 })();

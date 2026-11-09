@@ -259,7 +259,7 @@ function initProjectInquiryForm() {
     stage.disabled = research || sourcing;
     stage.required = false;
     heading.textContent = !purpose.value ? "Choose the conversation you need." : sourcing ? "Discuss sourcing or manufacturing coordination." : human ? "Discuss human oral-health research." : vet ? "Discuss veterinary clinic workflow." : research ? "Explore a research collaboration." : "What engineering decision comes next?";
-    description.textContent = sourcing ? "Share the component or supplier question, required specifications, quantity, destination, and compatibility needs. For catalog items, use the quotation basket." : human ? "Tell us about your periodontal assessment or saliva-research question and where professional input could help." : vet ? "Tell us about oral assessment, saliva collection, or the practical evidence your clinic would need." : research ? "Share the scientific question, methods, or expertise you would like to discuss." : "Share the technical challenge and the decision or deliverable your team needs. A finished scope is not required.";
+    description.textContent = sourcing ? "Share the component or supplier question, required specifications, quantity, destination, and compatibility needs. For component-specific requirements, use the enquiry list." : human ? "Tell us about your periodontal assessment or saliva-research question and where professional input could help." : vet ? "Tell us about oral assessment, saliva collection, or the practical evidence your clinic would need." : research ? "Share the scientific question, methods, or expertise you would like to discuss." : "Share the technical challenge and the decision or deliverable your team needs. A finished scope is not required.";
     const label = sourcing ? "Sourcing question" : human ? "Research question" : vet ? "Clinic or workflow question" : research ? "Collaboration question" : "Technical question";
     messageLabel.replaceChildren(document.createTextNode(label + " "));
     const star = document.createElement("span"); star.setAttribute("aria-hidden", "true"); star.textContent = "*"; messageLabel.append(star);
@@ -327,9 +327,8 @@ function initProjectInquiryForm() {
     window.setTimeout(() => {
       try {
         const subject = encodeURIComponent("MicroCD Labs — " + inquiry.data.get("projectType"));
-        const body = encodeURIComponent(inquiry.lines.join("\n"));
-        window.location.href = "mailto:" + microcdCompanyEmail + "?subject=" + subject + "";
-        setFormStatus(status, "Subject-only email draft opened; nothing has been sent. Copy the reviewed inquiry, paste it into the draft and send it yourself, or email " + microcdCompanyEmail + " directly.", "info");
+        window.location.href = "mailto:" + microcdCompanyEmail + "?subject=" + subject;
+        setFormStatus(status, "Email app requested with a subject only; nothing has been sent. Copy the reviewed inquiry, paste it into the draft and send it yourself, or email " + microcdCompanyEmail + " directly.", "info");
       } catch {
         setFormStatus(status, "The email app could not be opened. No inquiry has been sent. Copy your inquiry or email " + microcdCompanyEmail + " directly.", "error");
       } finally {
@@ -347,6 +346,7 @@ function initProjectInquiryForm() {
       await navigator.clipboard.writeText(inquiry.lines.join("\n"));
       setFormStatus(status, "Inquiry copied; nothing has been sent. Paste it into an email to " + microcdCompanyEmail + " and send it yourself.", "info");
     } catch {
+      const preview=document.querySelector("#inquiryPreview");preview.value=inquiry.lines.join("\n");preview.closest("details").open=true;preview.focus();preview.select();
       setFormStatus(status, "Copying was blocked. No inquiry has been sent. Select your text and email " + microcdCompanyEmail + " directly.", "error");
     } finally {
       copy.disabled = false; copy.removeAttribute("aria-busy");

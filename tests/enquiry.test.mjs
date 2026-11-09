@@ -33,3 +33,11 @@ test("generated pages and all request entry routes use enquiry metadata and no i
  }
  for(const f of ["products.html","kits.html"]){const h=fs.readFileSync(new URL("../"+f,import.meta.url),"utf8");assert.ok(h.includes('id="quoteOrganisation" name="organisation" required'));assert.ok(h.includes("Open email draft"));assert.ok(!h.includes('id="stripePayLink"'));}
 });
+
+test("independent configurations keep stable identities and all permitted technical text",()=>{
+ const p=sandbox.model.products[0],longText="Geometry".repeat(125);
+ const entries=[{key:Q.newKey(p),product:p,quantity:"4",requirements:{application:"Design A",geometry:longText}},{key:Q.newKey(p),product:p,quantity:"8",requirements:{application:"Design B",geometry:"A different requested channel"}}];
+ assert.notEqual(entries[0].key,entries[1].key);
+ const saved=JSON.parse(JSON.stringify(Q.serialize(entries)));assert.equal(saved.length,2);assert.equal(saved[0].key,entries[0].key);assert.equal(saved[1].key,entries[1].key);
+ assert.equal(saved[0].requirements.geometry,longText);assert.ok(Q.request(entries).includes(longText));assert.ok(sandbox.model.getEnquiryDetailHTML(p).includes('maxlength="'+Q.fieldLimit+'"'));
+});

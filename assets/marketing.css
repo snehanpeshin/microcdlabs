@@ -60,3 +60,5 @@ body [hidden]{display:none!important}
 .seo-product-grid>*{min-width:0}.seo-product-card{min-width:0}.seo-product-card h2,.seo-product-card p{overflow-wrap:anywhere}
 @media(max-width:900px){.seo-category-hero,.seo-product-grid{grid-template-columns:minmax(0,1fr)}.seo-category-hero>*{min-width:0}.seo-category-hero img{max-width:100%}}
 @media(max-width:760px){.product-detail-layout{display:flex;flex-direction:column}.product-detail-copy{order:0}.product-detail-media{order:1;min-height:0;max-height:none}.product-detail-media img{height:220px;min-height:0;max-height:220px;object-fit:cover}.product-detail-media .image-credit{border-radius:0}.product-detail-copy h1{font-size:1.9rem}}
+
+.storage-notice{padding:16px;border:1px solid #94661e;border-left:4px solid #94661e;border-radius:6px;background:#fff3da;color:#533b14;line-height:1.65}#detailEnquiryFallback{grid-column:1/-1;width:100%;margin:16px 0}.mcd-inquiry-paths{flex-wrap:wrap}

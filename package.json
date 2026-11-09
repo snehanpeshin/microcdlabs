@@ -9,6 +9,6 @@
     "lint": "node tests/static-quality.mjs",
     "build": "node tests/build-check.mjs",
     "content": "node tools/sync-tool-content.mjs && node tools/build-seo-catalog.mjs && node tools/sync-marketing.mjs && node tools/sync-enquiry-pages.mjs",
-    "test:browser": "node tests/browser-regressions.cjs"
+    "test:browser": "node tests/browser-regressions.cjs && node tests/enquiry-workflow.cjs"
   }
 }

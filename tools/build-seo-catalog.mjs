@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { renderSiteNavigation } from "./site-navigation.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const buildDate = "2026-11-06";
+const buildDate = "2026-11-08";
 const siteUrl = "https://www.microcdlabs.com";
 
 const categoryDefinitions = [
@@ -211,7 +211,7 @@ ${JSON.stringify(productStructuredData(product, detail, image), null, 6)}
       .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(product.name)} | Research Sourcing</title>`)
       .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${escapeHtml(description)}" />`)
       .replace(/<link rel="canonical" href="[^"]*" \/>/, `<link rel="canonical" href="${siteUrl}/catalog/${product.id}.html" />`)
-      .replace(/script\.js\?v=[^"]+/, "script.js?v=20261106-enquiry3")
+      .replace(/script\.js\?v=[^"]+/, "script.js?v=20261108-flow1")
       .replace(/\s*<!-- SEO_PRODUCT_META_START -->[\s\S]*?<!-- SEO_PRODUCT_META_END -->\s*/g, "\n")
       .replace("</head>", `${generatedHead}  </head>`)
       .replace(/<main id="productDetail">[\s\S]*?<\/main>/, productMain(product));
