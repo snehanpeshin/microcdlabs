@@ -28,11 +28,11 @@
     "analyzer": {
       "name": "Kinetic Assay Analyzer",
       "status": "Research beta",
-      "version": "2.1.0-beta.2",
+      "version": "2.1.0-beta.3",
       "route": "analyzer/",
       "inputs": [
-        "One CSV",
-        "Ordered PNG/JPEG sequence",
+        "One CSV containing one sample/replicate series",
+        "One ordered image sequence with one visible test ROI",
         "TIFF if browser decoding succeeds"
       ],
       "exports": [
@@ -45,7 +45,7 @@
       ],
       "browser": "Modern browser; decoding and print-to-PDF depend on browser",
       "data": "CSV/images processed in browser memory, without automatic persistence or upload",
-      "boundary": "No backend PDF service; CRP Camera is a separate local-record workflow"
+      "boundary": "Single-series signal metrics only; no grouped replicate statistics, concentration calibration or LoB/LoD/LoQ estimation. No backend PDF service; CRP Camera is a separate local-record workflow"
     },
     "motor": {
       "name": "CLAIR Motor Controller",

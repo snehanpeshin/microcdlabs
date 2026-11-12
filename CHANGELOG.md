@@ -23,3 +23,12 @@
 - Added a five-stage, local-first Analyzer with validated CSV/image import, visual ROIs, deterministic preprocessing, pure metrics, QC, manifest checksums, reproducible exports, and printable reports.
 - Removed product advertising from the new hosted applications and from the native Modeler controller configuration.
 - Added architecture, methodology, and user quick-start documentation plus dependency-free tests.
+
+
+## Analyzer 2.1.0-beta.3 — 2026-11-12
+
+- Reject mixed sample/replicate series before import, preprocessing and metric calculation; reject duplicate metric timestamps and multiple visible test ROIs.
+- Clear prior results/report exports after rejected input or analysis; show accessible inline errors and support recovery.
+- State single-series scope, retain CSV identifiers, label signal-time AUC, and mark unimplemented replicate/calibration/decision-rule interfaces unavailable.
+- Preserve single-series numerical formulas, export schema and built-in demo results (199 / 11.5 / 1272.5).
+- Clarify the theoretical preprint and conceptual image on Diagnostics; experimental LoD improvement remains unvalidated.

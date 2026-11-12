@@ -8,8 +8,8 @@ const cards=[
  "Sketch 2D flow paths, inspect geometry and connection guidance, and save a native project.",
  '<p><strong>Browser exports:</strong> '+T.modeler.exports.join(", ")+'.</p><p><strong>Legacy:</strong> '+T.modeler.legacy+'. STEP/DXF remain disabled roadmap items; STL and OBJ are not advertised browser exports.</p><p><strong>iOS:</strong> '+T.modeler.ios+' <a href="https://apps.apple.com/us/app/microfluidic-modeler/id6788555232">See the separate App Store listing</a>.</p>'],
 ["analyzer",T.analyzer,"assets/tools/analyzer-workspace.webp","Built-in demo analyzed locally with default background subtraction; illustrative data.",
- "Analyze one CSV or an ordered image sequence locally. Review preprocessing, numerical methods, quality flags, and a reproducible export package.",
- '<p><strong>Inputs:</strong> '+T.analyzer.inputs.join("; ")+'.</p><p><strong>Outputs:</strong> '+T.analyzer.exports.join("; ")+'. Browser printing can save a PDF where supported. No backend PDF is generated.</p><p>CSV and image workflows have separate onboarding; CRP Camera has its own local-record workflow.</p>'],
+ "Analyze one sample/replicate series from a CSV or an ordered image sequence locally. Review preprocessing, numerical methods, quality flags, and a reproducible export package.",
+ '<p><strong>Inputs:</strong> '+T.analyzer.inputs.join("; ")+'.</p><p><strong>Outputs:</strong> '+T.analyzer.exports.join("; ")+'. Browser printing can save a PDF where supported. No backend PDF is generated.</p><p>CSV and image workflows have separate onboarding. Single-series signal metrics only; grouped replicate statistics, concentration calibration and LoB/LoD/LoQ estimation are not implemented. CRP Camera has its own local-record workflow.</p>'],
 ["motor-controller",T.motor,"assets/tools/motor-profile.webp","Existing motor-profile software prototype; not a validated commercial controller.",
  "Engineering console for compatible ESP32 / SimpleFOC firmware over USB serial. Define timed RPM profiles, inspect telemetry, and download logs.",
  '<p><strong>Exports:</strong> '+T.motor.exports.join(", ")+'.</p><p>'+T.motor.boundary+'</p><p>Confirm hardware, enclosure, firmware protocol, and physical power-disconnect arrangements before connecting.</p>']
@@ -23,12 +23,14 @@ fs.writeFileSync(path.join(root,"docs/tool-capabilities.json"),JSON.stringify({r
 console.log("Tool directory and capability reference synchronized from assets/tool-definitions.js.");
 
 for(const entry of ["modeler/index.html","analyzer/index.html"]){
+ const release=entry.startsWith("analyzer/")?T.analyzer.version:SCIENTIFIC_RELEASE;
  const file=path.join(root,entry);let h=fs.readFileSync(file,"utf8");
- h=h.replace(/(<span class="(?:version|analyzer-version)">)[^<]*/g,"$1v"+SCIENTIFIC_RELEASE).replace(/v=2\.[01]\.0-beta\.\d+/g,"v="+SCIENTIFIC_RELEASE);
+ h=h.replace(/(<span class="(?:version|analyzer-version)">)[^<]*/g,"$1v"+release).replace(/v=2\.[01]\.0-beta\.\d+/g,"v="+release);
  fs.writeFileSync(file,h);
 }
 
 for(const entry of ["modeler/modeler.js","analyzer/analyzer.js","assets/scientific-ui.js"]){
+ const release=entry.startsWith("analyzer/")?T.analyzer.version:SCIENTIFIC_RELEASE;
  const file=path.join(root,entry);let h=fs.readFileSync(file,"utf8");
- h=h.replace(/(scientific-ui\.js|tool-definitions\.js)\?v=[^"]+/g,"$1?v="+SCIENTIFIC_RELEASE);fs.writeFileSync(file,h);
+ h=h.replace(/(scientific-ui\.js|tool-definitions\.js)\?v=[^"]+/g,"$1?v="+release);fs.writeFileSync(file,h);
 }

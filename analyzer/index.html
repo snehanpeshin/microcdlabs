@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#101923">
   <meta name="description" content="Local-first research-use kinetic assay analysis with reproducible methods and quality checks.">
   <link rel="canonical" href="https://www.microcdlabs.com/analyzer/">
-  <link rel="stylesheet" href="/assets/scientific-ui.css?v=2.1.0-beta.2">
-  <link rel="stylesheet" href="/analyzer/analyzer.css?v=2.1.0-beta.2">
+  <link rel="stylesheet" href="/assets/scientific-ui.css?v=2.1.0-beta.3">
+  <link rel="stylesheet" href="/analyzer/analyzer.css?v=2.1.0-beta.3">
   <title>Kinetic Assay Analyzer · MicroCD Labs</title>
 <meta property="og:type" content="website"><meta property="og:url" content="https://www.microcdlabs.com/analyzer/"><meta property="og:title" content="Kinetic Assay Analyzer · MicroCD Labs"><meta property="og:description" content="Local CSV/image workflows, transparent preprocessing, research-use metrics and printable reports."><meta property="og:image" content="https://www.microcdlabs.com/assets/tools/analyzer-social.jpg"><meta name="twitter:card" content="summary_large_image"></head>
 <body><a class="skip-link" href="#analyzer-main">Skip to analysis</a>
@@ -15,7 +15,7 @@
     <header class="topbar">
       <a class="topbar__brand" href="/analyzer/"><span class="brand-mark" aria-hidden="true">CD</span><span class="brand-copy"><strong>Kinetic Assay Analyzer</strong><small>MicroCD Labs guided workflow</small></span></a>
       <div class="topbar__commands"><a class="command" href="/tools.html" target="_blank" rel="noopener">Tools directory ↗</a><a class="command" href="/analyzer/crp/">CRP Camera</a><button class="command" data-action="demo">Load demo</button><button class="command" data-action="reset">New experiment</button><button class="command" data-action="export-manifest" disabled>Analysis JSON</button><button class="command" data-action="print" disabled>Print report</button><a class="command" href="/docs/analyzer-quick-start.md" target="_blank">Help</a></div>
-      <div class="topbar__meta"><span class="status-badge status-badge--ruo">RUO</span><span class="analyzer-version">v2.1.0-beta.2</span></div>
+      <div class="topbar__meta"><span class="status-badge status-badge--ruo">RUO</span><span class="analyzer-version">v2.1.0-beta.3</span></div>
     </header>
     <div class="privacy-strip" role="note"><strong>Local analysis:</strong> files remain in this browser. No data is uploaded or persisted by MicroCD Labs.</div>
     <div id="analyzer-progress" class="app-progress" role="status" aria-live="polite">Start with data or load the demo.</div><nav class="stage-nav" aria-label="Analysis stages">
@@ -28,19 +28,19 @@
 
     <main class="analyzer-main" id="analyzer-main">
       <section id="import" class="stage-panel is-active" data-stage-panel="import">
-        <div class="stage-heading"><div><p class="eyebrow">Stage 1</p><h1>Import raw observations</h1><p>Start with tidy CSV time-series data or an ordered image sequence. Preview and confirm before analysis.</p></div><span id="raw-badge" class="status-badge">No data</span></div>
+        <div class="stage-heading"><div><p class="eyebrow">Stage 1</p><h1>Import raw observations</h1><p>Analyze one sample and one replicate at a time, from a CSV or an ordered image sequence. Mixed series are rejected; preview and confirm before analysis.</p></div><span id="raw-badge" class="status-badge">No data</span></div>
         <div class="import-grid">
           <article class="panel"><div class="panel__header"><h2>Data source</h2></div><div class="panel__body source-options">
-            <label class="drop-zone" id="drop-zone"><input id="file-input" type="file" multiple accept=".csv,text/csv,image/png,image/jpeg,image/tiff,.tif,.tiff"><strong>Choose files</strong><span>One CSV OR an ordered PNG/JPEG sequence; TIFF requires browser decoding support.</span><small>Maximum 200 files · 20 MB each · 250 MB total</small></label>
+            <label class="drop-zone" id="drop-zone"><input id="file-input" type="file" multiple accept=".csv,text/csv,image/png,image/jpeg,image/tiff,.tif,.tiff"><strong>Choose files</strong><span>One CSV containing one sample/replicate series OR one ordered PNG/JPEG sequence; TIFF requires browser decoding support.</span><small>Maximum 200 files · 20 MB each · 250 MB total</small></label>
             <button class="button" data-action="demo">Use demo time-series</button>
             <a class="button" href="/analyzer/crp/">Analyze a CRP bead reaction</a>
-            <details class="app-guide"><summary>CSV and image instructions</summary><p><strong>CSV:</strong> include time and signal columns, optional background, control, sample, and replicate. Set units in metadata; times must increase within each series.</p><p><strong>Images:</strong> use matching image dimensions and consistent capture conditions. Numeric filenames supply timestamps; otherwise frame order is used. Set the time unit accordingly and review every ROI.</p><a href="/analyzer/demo-series.csv" download>Download the exact built-in demo CSV</a><p>The demo is illustrative. With default background subtraction, no normalization or smoothing, the first-three-point slope is 11.5 a.u./min, endpoint 199 a.u., and trapezoidal AUC 1272.5 a.u.·min.</p></details><div id="import-errors" aria-live="polite"></div>
+            <details class="app-guide"><summary>CSV and image instructions</summary><p><strong>CSV:</strong> include time and signal columns, optional background, control, sample, and replicate. Sample and replicate columns may identify one series only. Analyze other series separately. Set units in metadata; timestamps must be unique within the series.</p><p><strong>Images:</strong> use matching image dimensions and consistent capture conditions. Numeric filenames supply timestamps; otherwise frame order is used. Set the time unit accordingly and review every ROI. Use exactly one visible test ROI per analysis.</p><a href="/analyzer/demo-series.csv" download>Download the exact built-in demo CSV</a><p>The demo is illustrative. With default background subtraction, no normalization or smoothing, the first-three-point slope is 11.5 a.u./min, endpoint 199 a.u., and trapezoidal AUC 1272.5 a.u.·min.</p></details><div id="import-errors" aria-live="polite"></div>
           </div></article>
           <article class="panel"><div class="panel__header"><h2>Experiment metadata</h2></div><div class="panel__body form-grid">
             <label class="field">Experiment name<input id="experiment-name" value="Untitled kinetic experiment"></label>
             <label class="field">Experiment ID<input id="experiment-id"></label>
-            <label class="field">Sample ID<input id="sample-id" value="sample-01"></label>
-            <label class="field">Replicate ID<input id="replicate-id" value="rep-1"></label>
+            <label class="field">Sample ID<input id="sample-id" value="sample-01"><span class="help">Retained from CSV; editable for images.</span></label>
+            <label class="field">Replicate ID<input id="replicate-id" value="rep-1"><span class="help">Retained from CSV; editable for images.</span></label>
             <label class="field">Time unit<select id="time-unit"><option value="min">minutes</option><option value="s">seconds</option></select></label>
             <label class="field">Signal unit<input id="signal-unit" value="a.u."></label>
           </div></article>
@@ -74,13 +74,13 @@
         <div class="analysis-layout">
           <aside class="panel"><div class="panel__header"><h2>Parameters</h2></div><div class="panel__body form-stack">
             <label class="field">Initial slope window<input id="slope-window" type="number" min="2" value="3"><span class="help">first N points</span></label>
-            <label class="field">AUC method<select id="auc-method"><option value="trapezoidal">Trapezoidal</option><option value="left-rectangle">Left rectangle</option></select></label>
+            <label class="field">Signal-time AUC method<select id="auc-method"><option value="trapezoidal">Trapezoidal</option><option value="left-rectangle">Left rectangle</option></select></label>
             <label class="field">Threshold<input id="threshold" type="number" value="120"><span class="help" id="threshold-unit">a.u.</span></label>
-            <label class="toggle"><input id="classification-enabled" type="checkbox"> Enable configured decision rule</label>
-            <label class="field">High replicate CV warning (%)<input id="cv-limit" type="number" value="20"></label>
+            <label class="toggle"><input id="classification-enabled" type="checkbox" disabled> Decision rules unavailable in this research workflow</label>
+            <label class="field">Replicate CV (unavailable)<input id="cv-limit" type="number" disabled placeholder="Not implemented"><span class="help">This workflow analyzes one replicate at a time.</span></label>
             <button class="button button--primary" data-action="run-analysis">Run analysis</button>
           </div></aside>
-          <section class="analysis-results"><div id="metric-cards" class="metric-grid"><div class="empty-state">Run analysis to calculate metrics.</div></div><article class="panel"><div class="panel__header"><h2>Kinetic curve</h2><button class="icon-button" data-action="export-chart" disabled>Export SVG</button></div><div id="kinetic-chart" class="chart-container"><div class="empty-state">No chart yet</div></div></article></section>
+          <section class="analysis-results"><p id="analysis-error" class="error-state" role="alert" tabindex="-1" hidden></p><div id="metric-cards" class="metric-grid"><div class="empty-state">Run analysis to calculate metrics.</div></div><article class="panel"><div class="panel__header"><h2>Kinetic curve</h2><button class="icon-button" data-action="export-chart" disabled>Export SVG</button></div><div id="kinetic-chart" class="chart-container"><div class="empty-state">No chart yet</div></div></article></section>
         </div>
         <div class="stage-actions"><button class="button" data-next="map">Back</button><button class="button button--primary" data-next="validate" disabled>Continue to validation</button></div>
       </section>
@@ -88,7 +88,7 @@
       <section id="validate" class="stage-panel" data-stage-panel="validate" hidden>
         <div class="stage-heading"><div><p class="eyebrow">Stage 4</p><h1>Review quality and assumptions</h1><p>Resolve or document quality flags before interpreting the result.</p></div><span id="qc-badge" class="status-badge">Not run</span></div>
         <div class="validation-grid"><article class="panel"><div class="panel__header"><h2>Quality flags</h2></div><div id="qc-list" class="panel__body"></div></article><article class="panel"><div class="panel__header"><h2>Method trace</h2></div><div id="method-trace" class="panel__body"></div></article></div>
-        <article class="panel"><div class="panel__header"><h2>Replicate and calibration readiness</h2></div><div class="panel__body"><p id="readiness-note">Provide multiple sample and replicate series to calculate replicate SD/CV and linear calibration confidence. LoB/LoD/LoQ estimates require a selected method plus sufficient blank and low-concentration replicates and are not enabled for incomplete data.</p></div></article>
+        <article class="panel"><div class="panel__header"><h2>Single-series scope and limitations</h2></div><div class="panel__body"><p id="readiness-note">This workflow calculates signal metrics for one sample/replicate series. Replicate SD/CV, concentration calibration and LoB/LoD/LoQ estimation are not implemented here. Signal-time AUC is not diagnostic ROC AUC.</p></div></article>
         <div class="stage-actions"><button class="button" data-next="analyze">Back</button><button class="button button--primary" data-next="report">Continue to report</button></div>
       </section>
 
@@ -100,6 +100,6 @@
       </section>
     </main>
   </div>
-  <script type="module" src="/analyzer/analyzer.js?v=2.1.0-beta.2"></script>
+  <script type="module" src="/analyzer/analyzer.js?v=2.1.0-beta.3"></script>
 </body>
 </html>
