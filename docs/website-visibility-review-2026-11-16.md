@@ -72,3 +72,22 @@ static build checks and the 90-page site validator passed. One pre-existing vali
 warning remains on karigari-wellness-lens-instructions.html (no shared behavior script).
 Post-deployment mobile and performance checks are recorded in the completion report;
 the baseline above is not a claim about the result of these changes.
+
+## Post-deployment checks
+
+The first implementation deployed in 465d6c5. A fresh mobile PageSpeed run returned:
+
+| Page | Performance before → after | LCP before → after | CLS before → after |
+| --- | --- | --- | --- |
+| Home | 71 → 98 | 4.0 s → 1.1 s | 0 → 0 |
+| Services | 47 → 100 | 4.9 s → 0.9 s | 0.638 → 0 |
+| Enquiry | 45 → 99 | 4.9 s → 0.9 s | 0.938 → 0.018 |
+
+These are individual laboratory runs, not a controlled experiment, field-user statistics
+or a promise of ranking or conversion gains. Accessibility, best-practices and technical
+SEO scores remained 100. A final copy-only adjustment shortens the mobile services hero.
+
+The email DNS check found no SPF record, DMARC `p=none` without aggregate reports, and
+no DKIM under 17 common selectors. A custom DKIM selector might exist; its absence cannot
+be proven by that probe. Configure sender authentication using the actual Google Workspace
+and SES settings before tightening DMARC. No DNS settings were changed.
