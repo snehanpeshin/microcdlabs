@@ -1,6 +1,6 @@
-// Public configuration only. Keep blank until the backend is deployed and tested.
+// Public configuration only. Clear endpoint to restore the email-draft fallback.
 window.microcdInquiryConfig = Object.freeze({
-  endpoint: "",
+  endpoint: "https://6yo6l9xbfa.execute-api.us-east-1.amazonaws.com/inquiries",
   // A NEW website lead conversion's AW-ID/LABEL, never a purchase or hosted-form label.
   googleAdsSendTo: ""
 });

@@ -1,7 +1,13 @@
 # Website lead submissions — activation checklist
 
-Status: implementation prepared; endpoint and Google Ads website conversion NOT provisioned.
-The default configuration intentionally keeps the existing email-draft flow working.
+Status (2026-11-16): backend deployed in us-east-1 as microcd-website-inquiries.
+The endpoint is configured on this branch. Google Ads website conversion is NOT provisioned.
+SES accepted one authorized test, and the receiving Gmail account confirmed it in INBOX.
+The test did not trigger a Google Ads conversion. Empty payload rejection (400) and
+browser preflight (204) passed. SES remains in the sandbox (200 emails/day).
+Sender and recipient are info@microcdlabs.com; that email identity is verified.
+Domain DKIM is not configured; monitor delivery and add domain authentication before scaling.
+The live frontend is unchanged until this branch is merged and deployed.
 Do not claim live website lead tracking until the checks below pass.
 
 ## Delivery architecture
