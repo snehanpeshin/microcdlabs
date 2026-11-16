@@ -1,14 +1,13 @@
 # Website lead submissions — activation checklist
 
-Status (2026-11-16): backend deployed in us-east-1 as microcd-website-inquiries.
-The endpoint is configured on this branch. Google Ads website conversion is NOT provisioned.
-SES accepted one authorized test, and the receiving Gmail account confirmed it in INBOX.
-The test did not trigger a Google Ads conversion. Empty payload rejection (400) and
-browser preflight (204) passed. SES remains in the sandbox (200 emails/day).
-Sender and recipient are info@microcdlabs.com; that email identity is verified.
+Status (2026-11-16): the enquiry backend and frontend are live. The website Google Ads
+conversion action is `Submit lead form` (7905770121), configured with
+`AW-18335791503/jrcbCIn14bkdEI_zl6dE`. The blank destination found in the connected
+Tag Assistant test was repaired in b4d1b4e. Successful test enquiries were accepted for
+email delivery. The deployed configuration is verified; a post-fix live conversion hit
+has not yet been confirmed. Do not create a duplicate conversion action.
+SES remains in the sandbox (200 emails/day). Sender and recipient are info@microcdlabs.com.
 Domain DKIM is not configured; monitor delivery and add domain authentication before scaling.
-The live frontend is unchanged until this branch is merged and deployed.
-Do not claim live website lead tracking until the checks below pass.
 
 ## Delivery architecture
 
@@ -43,10 +42,9 @@ Successful acceptance by SES is not proof of inbox delivery.
    Confirm it appears in the receiving inbox and Reply goes to the test sender.
    Verify failure handling with the endpoint unavailable. Do not enable conversion tracking
    for this test. A timeout is ambiguous: an email might have been accepted; do not auto-retry.
-5. In Google Ads account 677-709-8315, create a separate **website / submit lead form**
-   conversion named `Website engineering inquiry`, count **One**, and do not assign an
-   invented sales value. Obtain its actual `AW-…/label` from Google Ads and put it in
-   `googleAdsSendTo`. Do not reuse Purchase, Purchase (1), or the Google-hosted form action.
+5. In Google Ads account 677-709-8315, use the existing **website / submit lead form**
+   conversion `Submit lead form` (7905770121), count **One**. Its verified destination is
+   `AW-18335791503/jrcbCIn14bkdEI_zl6dE`, stored in `googleAdsSendTo`. Do not reuse Purchase, Purchase (1), or the Google-hosted form action.
 6. Test using Tag Assistant without fabricating an ad click. The conversion should fire
    only after a 200 JSON response containing `accepted: true` and a nonempty receipt.
    It must not fire on form views, copy, email links, validation errors or failed responses.

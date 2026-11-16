@@ -229,7 +229,7 @@ function initProjectInquiryForm() {
   let sent = false;
   if (online) {
     submit.textContent = "Send inquiry";
-    document.querySelector("#deliveryNotice").textContent = "Send these details to MicroCD Labs to discuss your inquiry. Please review our privacy policy before sending.";
+    document.querySelector("#deliveryNotice").innerHTML = 'Send these details to MicroCD Labs to discuss your inquiry. Please review our <a href="privacy.html">privacy policy</a> before sending.';
     document.querySelector("#inquiryHeroDescription").textContent = "Choose research collaboration, engineering support or component sourcing. Send a concise inquiry and we will review your question.";
     document.querySelector("#inquiryExpectations").innerHTML = "<li>Review your details and select Send inquiry.</li><li>We will review your question and follow up by email.</li><li>Scope, timing, and fees are agreed before paid work begins.</li>";
     document.querySelector("#inquiryPreviewHelp").textContent = "Review the details before selecting Send inquiry. Copy inquiry is available as an email fallback.";

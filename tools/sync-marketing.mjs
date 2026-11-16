@@ -6,6 +6,10 @@ function walk(dir){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>{i
 let count=0;for(const file of walk(root)){
  let h=fs.readFileSync(file,"utf8");if(!h.includes('class="site-header"'))continue;
  const relative=path.relative(root,file).split(path.sep).join("/"),prefix="../".repeat(relative.split("/").length-1);
+ // Lead pages should bring visitors to an enquiry without third-party publisher ads.
+ if(["index.html","services.html","consultation.html","about.html"].includes(relative)){
+  h=h.replace(/\s*<!-- Google AdSense site verification and ad loader -->/g,"").replace(/\s*<script\b[^>]*src="https:\/\/pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js[^"]*"[^>]*>\s*<\/script>/g,"");
+ }
  let action="consultation.html",label="Contact";
  if(relative==="clair/human.html"){action="consultation.html?project=clair-human#inquiry-title";label="Discuss human research";}
  else if(relative==="clair/veterinary.html"){action="consultation.html?project=clair-veterinary#inquiry-title";label="Discuss veterinary research";}
@@ -16,7 +20,8 @@ let count=0;for(const file of walk(root)){
  h=h.replace(/<header class="site-header">[\s\S]*?<\/header>/,finalHeader).replace(/<footer class="site-footer[^"]*">[\s\S]*?<\/footer>/,footer(prefix));
  h=h.replace(/<script[^>]+id="ze-snippet"[\s\S]*?<\/script>/g,"");
  if(!h.includes("assets/marketing.css"))h=h.replace("</head>",'<link rel="stylesheet" href="'+prefix+'assets/marketing.css?v=20261106"></head>');
- h=h.replace(/site\.js\?v=[^"]+/g,"site.js?v=20261108-flow1").replace(/chat-widget\.js\?v=[^"]+/g,"chat-widget.js?v=20261106").replace(/\sdata-coupon-dialog(?:="[^"]*")?/g,"");
+ const siteRevision=relative==="consultation.html"?"20261116-lead-journey":"20261108-flow1";
+ h=h.replace(/site\.js\?v=[^"]+/g,"site.js?v="+siteRevision).replace(/chat-widget\.js\?v=[^"]+/g,"chat-widget.js?v=20261106").replace(/\sdata-coupon-dialog(?:="[^"]*")?/g,"");
  h=h.split("\n").map(line=>line.trimEnd()).join("\n");fs.writeFileSync(file,h);count++;
 }
 console.log("Synchronized marketing headers, navigation and footers on "+count+" pages.");
