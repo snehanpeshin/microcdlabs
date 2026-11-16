@@ -222,6 +222,19 @@ function initProjectInquiryForm() {
   if (!form) return;
   const status = document.querySelector("#projectInquiryStatus");
   const submit = form.querySelector('button[type="submit"]');
+  const delivery = window.MicroCDInquiryDelivery;
+  const deliveryConfig = window.microcdInquiryConfig || {};
+  const online = Boolean(delivery && delivery.endpointURL(deliveryConfig.endpoint));
+  let sending = false;
+  let sent = false;
+  if (online) {
+    submit.textContent = "Send inquiry";
+    document.querySelector("#deliveryNotice").textContent = "Send these details to MicroCD Labs to discuss your inquiry. Please review our privacy policy before sending.";
+    document.querySelector("#inquiryHeroDescription").textContent = "Choose research collaboration, engineering support or component sourcing. Send a concise inquiry and we will review your question.";
+    document.querySelector("#inquiryExpectations").innerHTML = "<li>Review your details and select Send inquiry.</li><li>We will review your question and follow up by email.</li><li>Scope, timing, and fees are agreed before paid work begins.</li>";
+    document.querySelector("#inquiryPreviewHelp").textContent = "Review the details before selecting Send inquiry. Copy inquiry is available as an email fallback.";
+    form.querySelector("#copyProjectInquiry").textContent = "Copy inquiry";
+  }
   const copy = form.querySelector("#copyProjectInquiry");
   const purpose = form.querySelector("#projectType");
   const requested = new URLSearchParams(location.search).get("project");
@@ -317,10 +330,37 @@ function initProjectInquiryForm() {
     const target=document.querySelector("#inquiryPreview");target.value=inquiry.lines.join("\n");target.closest("details").open=true;target.focus();
     setFormStatus(status,"Review the draft. Nothing has been sent.","info");
   });
-  form.addEventListener("submit", event => {
+  form.addEventListener("submit", async event => {
     event.preventDefault();
+    if (sending || sent) return;
     const inquiry = prepare();
     if (!inquiry) return;
+    if (online) {
+      sending = true;
+      submit.disabled = true;
+      submit.setAttribute("aria-busy", "true");
+      setFormStatus(status, "Sending your inquiry…", "loading");
+      const payload = Object.fromEntries(inquiry.data.entries());
+      // Freeze inputs during submission, but preserve their contents if delivery fails.
+      const enabled = Array.from(form.querySelectorAll("input, select, textarea, button")).filter(el => !el.disabled && el !== submit);
+      enabled.forEach(el => { el.disabled = true; });
+      try {
+        const result = await delivery.deliver(deliveryConfig.endpoint, payload);
+        sent = true;
+        setFormStatus(status, "Your inquiry was accepted for email delivery to MicroCD Labs. We will follow up by email. Reference: " + result.receipt, "success");
+        submit.textContent = "Inquiry submitted";
+        // Measurement must never change the confirmed delivery result.
+        try { delivery.track(deliveryConfig, result.receipt, window.gtag); } catch { /* tracking may be blocked */ }
+      } catch (error) {
+        setFormStatus(status, error.name === "TypeError" ? "Delivery could not be confirmed. Your details are still here; contact info@microcdlabs.com before retrying if unsure." : error.message, "error");
+        enabled.forEach(el => { el.disabled = false; });
+      } finally {
+        sending = false;
+        submit.disabled = sent;
+        submit.removeAttribute("aria-busy");
+      }
+      return;
+    }
     submit.disabled = true;
     submit.setAttribute("aria-busy", "true");
     setFormStatus(status, "Preparing an email draft. Nothing is being sent…", "loading");
