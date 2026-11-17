@@ -31,3 +31,24 @@ test("separate single-series analyses retain the expected numerical results",()=
 test("direct metric callers cannot create a zero-time interval slope",()=>{
  assert.throws(()=>calculateMetrics([{time:0,processed:0},{time:0,processed:10},{time:1,processed:20}]),/duplicate time points/);
 });
+
+test("blank required CSV observations are not silently converted to zero",()=>{
+ for(const csv of ["time,signal\n0,\n1,10","time,signal\n,10\n1,20","time,signal\n0,\" \"\n1,10"])
+  assert.throws(()=>parseTimeSeriesCSV(csv),/invalid or missing time or signal/);
+ assert.equal(parseTimeSeriesCSV("time,signal\n0,0\n1,10")[0].signal,0);
+});
+test("optional CSV measurements preserve blanks and reject invalid numbers",()=>{
+ const rows=parseTimeSeriesCSV("time,signal,background,control\n0,10,,\n1,20");
+ assert.equal(rows[0].background,null);assert.equal(rows[1].control,null);
+ for(const field of ["background","control"])
+  assert.throws(()=>parseTimeSeriesCSV(`time,signal,${field}\n0,10,bad\n1,20,2`),/invalid .* value/);
+});
+test("baseline correction follows background subtraction and control normalization",()=>{
+ const rows=parseTimeSeriesCSV("time,signal,background,control\n0,10,2,100\n1,30,6,200\n2,50,10,200");
+ const before=structuredClone(rows);
+ const processed=applyPipeline(rows,{backgroundSubtract:true,controlNormalize:true,baselineCorrect:true,smoothing:"none"});
+ for(const [index,expected] of [0,.04,.12].entries())assert.ok(Math.abs(processed[index].processed-expected)<1e-12);
+ const metrics=calculateMetrics(processed,{slopeWindow:2,aucMethod:"trapezoidal"});
+ assert.ok(Math.abs(metrics.endpoint-.12)<1e-12);assert.ok(Math.abs(metrics.auc-.1)<1e-12);
+ assert.deepEqual(rows,before);
+});

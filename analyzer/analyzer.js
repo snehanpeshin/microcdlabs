@@ -1,6 +1,6 @@
-import { downloadText, safeFilename, sha256, toast } from "../assets/scientific-ui.js?v=2.1.0-beta.3";
+import { downloadText, safeFilename, sha256, toast } from "../assets/scientific-ui.js?v=2.1.0-beta.4";
 
-import { ANALYZER_RELEASE as APP_VERSION } from "../assets/tool-definitions.js?v=2.1.0-beta.3";
+import { ANALYZER_RELEASE as APP_VERSION } from "../assets/tool-definitions.js?v=2.1.0-beta.4";
 
 export const ANALYSIS_METHODS = {
   endpoint: "last-observation-v1", initialSlope: "ols-initial-window-v1", maximumSlope: "adjacent-maximum-v1",
@@ -21,8 +21,13 @@ export function parseTimeSeriesCSV(text) {
   if (columns.time < 0 || columns.signal < 0) throw new Error("CSV requires time and signal columns.");
   const rows = lines.slice(1).map((line, index) => {
     const values = parseCSVLine(line); const time = Number(values[columns.time]); const signal = Number(values[columns.signal]);
-    if (!Number.isFinite(time) || !Number.isFinite(signal)) throw new Error(`Row ${index + 2} has an invalid time or signal.`);
-    const optional = (column) => column >= 0 && values[column] !== "" ? Number(values[column]) : null;
+    if (!values[columns.time] || !values[columns.signal] || !Number.isFinite(time) || !Number.isFinite(signal)) throw new Error(`Row ${index + 2} has an invalid or missing time or signal.`);
+    const optional = (column) => {
+      if (column < 0 || values[column] == null || values[column] === "") return null;
+      const value = Number(values[column]);
+      if (!Number.isFinite(value)) throw new Error(`Row ${index + 2} has an invalid ${headers[column]} value.`);
+      return value;
+    };
     return { row: index + 1, time, signal, background: optional(columns.background), control: optional(columns.control), sampleId: columns.sample >= 0 ? values[columns.sample] || "sample-01" : "sample-01", replicateId: columns.replicate >= 0 ? values[columns.replicate] || "rep-1" : "rep-1" };
   });
   assertSingleSeries(rows);
@@ -39,14 +44,17 @@ function parseCSVLine(line) {
 
 export function applyPipeline(rows, config) {
   assertSingleSeries(rows);
-  const baseline = rows[0]?.signal ?? 0;
   let processed = rows.map((row) => {
     let value = row.signal;
     if (config.backgroundSubtract && Number.isFinite(row.background)) value -= row.background;
     if (config.controlNormalize && Number.isFinite(row.control) && row.control !== 0) value /= row.control;
-    if (config.baselineCorrect) value -= (config.backgroundSubtract && Number.isFinite(rows[0]?.background) ? baseline - rows[0].background : baseline);
     return { ...row, processed: value };
   });
+  // Correct in the same units as the transformed signal, after subtraction/normalization.
+  if (config.baselineCorrect) {
+    const baseline = processed[0]?.processed ?? 0;
+    processed = processed.map(row => ({...row, processed: row.processed - baseline}));
+  }
   if (config.smoothing === "moving-average") {
     const width=Math.max(1,Math.floor(Number(config.window)||3)); const radius=Math.floor(width/2);
     processed=processed.map((row,index)=>{const slice=processed.slice(Math.max(0,index-radius),Math.min(processed.length,index+radius+1));return{...row,processed:mean(slice.map(x=>x.processed))};});

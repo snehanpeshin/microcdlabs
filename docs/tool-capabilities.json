@@ -28,7 +28,7 @@
     "analyzer": {
       "name": "Kinetic Assay Analyzer",
       "status": "Research beta",
-      "version": "2.1.0-beta.3",
+      "version": "2.1.0-beta.4",
       "route": "analyzer/",
       "inputs": [
         "One CSV containing one sample/replicate series",

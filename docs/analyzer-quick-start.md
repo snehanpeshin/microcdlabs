@@ -21,3 +21,7 @@ The exact built-in fixture with background subtraction, no normalization/baselin
 ## Single-series safeguard
 
 Mixed sample or replicate identifiers are rejected before preprocessing and metrics. Duplicate timestamps are rejected. Analyze each series separately; this workflow does not provide grouped replicate SD/CV, concentration calibration or LoB/LoD/LoQ estimates. Signal-time AUC integrates signal against time and is not diagnostic ROC AUC. Formulas and the built-in single-series fixture are unchanged.
+
+## Numerical input and baseline correction (2.1.0-beta.4)
+
+Blank time or signal cells are rejected rather than interpreted as zero. Blank optional background/control cells remain missing values; non-numeric optional measurements are rejected. Baseline correction subtracts the first observation after background subtraction and control normalization, before smoothing, so both terms have the same units. Raw data remains unchanged. The default demo results above are unchanged. Earlier exports combining normalization and baseline correction should be rerun with this version.
