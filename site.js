@@ -239,6 +239,7 @@ function initProjectInquiryForm() {
   const purpose = form.querySelector("#projectType");
   const requested = new URLSearchParams(location.search).get("project");
   const aliases = {
+    labops: "LabOps workspace and team workflows",
     clair: "CLAIR veterinary clinic collaboration",
     "clair-human": "CLAIR human oral-health research",
     "clair-veterinary": "CLAIR veterinary clinic collaboration",
@@ -264,21 +265,22 @@ function initProjectInquiryForm() {
   const messageLabel = form.querySelector("#inquiry-message-label");
   const contextLabel = form.querySelector("#inquiry-context-label");
   function adaptPurpose() {
+    const labops = purpose.value === aliases.labops;
     const human = purpose.value === aliases["clair-human"];
     const vet = purpose.value === aliases["clair-veterinary"];
     const research = human || vet || purpose.value === aliases.research;
     const sourcing=purpose.value===aliases["supplier-coordination"];
-    context.hidden = research || sourcing;
-    stage.disabled = research || sourcing;
+    context.hidden = research || sourcing || labops;
+    stage.disabled = research || sourcing || labops;
     stage.required = false;
-    heading.textContent = !purpose.value ? "Choose the conversation you need." : sourcing ? "Discuss sourcing or manufacturing coordination." : human ? "Discuss human oral-health research." : vet ? "Discuss veterinary clinic workflow." : research ? "Explore a research collaboration." : "What engineering decision comes next?";
-    description.textContent = sourcing ? "Share the component or supplier question, required specifications, quantity, destination, and compatibility needs. For component-specific requirements, use the enquiry list." : human ? "Tell us about your periodontal assessment or saliva-research question and where professional input could help." : vet ? "Tell us about oral assessment, saliva collection, or the practical evidence your clinic would need." : research ? "Share the scientific question, methods, or expertise you would like to discuss." : "Share the technical challenge and the decision or deliverable your team needs. A finished scope is not required.";
-    const label = sourcing ? "Sourcing question" : human ? "Research question" : vet ? "Clinic or workflow question" : research ? "Collaboration question" : "Technical question";
+    heading.textContent = !purpose.value ? "Choose the conversation you need." : labops ? "Connect your team’s LabOps workflows." : sourcing ? "Discuss sourcing or manufacturing coordination." : human ? "Discuss human oral-health research." : vet ? "Discuss veterinary clinic workflow." : research ? "Explore a research collaboration." : "What engineering decision comes next?";
+    description.textContent = labops ? "Tell us your team size, priority workflows, and current review or traceability challenge. We will discuss workspace access, intended use, and next steps." : sourcing ? "Share the component or supplier question, required specifications, quantity, destination, and compatibility needs. For component-specific requirements, use the enquiry list." : human ? "Tell us about your periodontal assessment or saliva-research question and where professional input could help." : vet ? "Tell us about oral assessment, saliva collection, or the practical evidence your clinic would need." : research ? "Share the scientific question, methods, or expertise you would like to discuss." : "Share the technical challenge and the decision or deliverable your team needs. A finished scope is not required.";
+    const label = labops ? "Team workflow question" : sourcing ? "Sourcing question" : human ? "Research question" : vet ? "Clinic or workflow question" : research ? "Collaboration question" : "Technical question";
     messageLabel.replaceChildren(document.createTextNode(label + " "));
     const star = document.createElement("span"); star.setAttribute("aria-hidden", "true"); star.textContent = "*"; messageLabel.append(star);
     message.placeholder = human ? "Which research question or assessment workflow would you like to discuss?" : vet ? "What would you like to discuss about canine oral assessment, collection, or clinic workflow?" : "What are you trying to resolve, and what next step would be useful?";
     contextLabel.textContent = vet ? "Clinical role or practice context (optional)" : human ? "Research role or study context (optional)" : "Constraints or relevant context (optional)";
-    form.dataset.purpose = sourcing ? "sourcing" : human ? "clair-human" : vet ? "clair-veterinary" : research ? "research" : "engineering";
+    form.dataset.purpose = labops ? "labops" : sourcing ? "sourcing" : human ? "clair-human" : vet ? "clair-veterinary" : research ? "research" : "engineering";
     document.querySelectorAll(".mcd-inquiry-paths a").forEach(a => {
       const query = new URL(a.href).searchParams.get("project");
       if (aliases[query] === purpose.value) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");

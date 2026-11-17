@@ -23,7 +23,7 @@ let count=0;for(const file of walk(root)){
  h=h.replace(/<header class="site-header">[\s\S]*?<\/header>/,finalHeader).replace(/<footer class="site-footer[^"]*">[\s\S]*?<\/footer>/,footer(prefix));
  h=h.replace(/<script[^>]+id="ze-snippet"[\s\S]*?<\/script>/g,"");
  if(!h.includes("assets/marketing.css"))h=h.replace("</head>",'<link rel="stylesheet" href="'+prefix+'assets/marketing.css?v=20261106"></head>');
- const siteRevision=relative==="consultation.html"?"20261116-lead-journey":"20261108-flow1";
+ const siteRevision=relative==="consultation.html"?"20261117-labops":"20261108-flow1";
  h=h.replace(/site\.js\?v=[^"]+/g,"site.js?v="+siteRevision).replace(/chat-widget\.js\?v=[^"]+/g,"chat-widget.js?v=20261106").replace(/\sdata-coupon-dialog(?:="[^"]*")?/g,"");
  h=h.split("\n").map(line=>line.trimEnd()).join("\n");fs.writeFileSync(file,h);count++;
 }

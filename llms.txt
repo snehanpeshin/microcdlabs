@@ -43,3 +43,9 @@ CLAIR is in development and is not for sale or clinical use. Its analytical perf
 - [CLAIR Veterinary](https://www.microcdlabs.com/clair/veterinary.html): Canine oral-health triage development, candidate panel, sample controls, and veterinary clinical validation. Not for sale or clinical use.
 
 Clinical positioning: recognition must lead to appropriate professional assessment, treatment and follow-up. Gingivitis differs from periodontitis. Canine prevalence estimates are study-specific. CLAIR does not assign tooth-level AVDC stages. Detection gains, welfare improvements and net cost savings are unproven.
+
+## LabOps operations workspace
+- Overview: https://www.microcdlabs.com/labops.html
+- Workspace: https://labops.microcdlabs.com/app
+- Nine operations dashboards, 26 workflow templates, editable due-date timelines, evidence links, revision history, and independent reviews.
+- Role-based team invitations; workspace access required. No FDA certification, automatic regulatory filing, or automatic product release is claimed.
