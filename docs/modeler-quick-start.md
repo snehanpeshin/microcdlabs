@@ -16,3 +16,7 @@ The fabrication profiles and design rules are editable starting assumptions, not
 ## First use and saving
 
 A blank project offers setup guidance; connection and geometry validation begins after adding components. Example is optional and illustrative. Loading it into an existing design requires confirmation. Tools directory attempts to save the current 2D project before leaving. If browser storage fails, download native JSON. Legacy 3D has its own independent save/GLB workflow; it is not synchronized with 2D. Browser exports are native JSON, SVG, PNG and CSV. STEP/DXF remain disabled. Native iOS capabilities must be checked separately.
+
+## Geometry checks (2.1.0-beta.3)
+
+Boundary, overlap and spacing checks use rotation-aware bounding boxes. Curves and junctions include their drawn extents; straight-channel width follows its dimension rather than a 3 mm display minimum. Boxes around rotated or curved shapes are conservative and can flag gaps that need manual review. Pairwise checks apply within each layer; this does not verify inter-layer vias or bonding. A missing layer reference is an error. Inspector area/volume values are bounding-box estimates, not exact fluid volume. Existing project geometry is retained; review and re-export older layouts because displayed straight-channel widths are now corrected.

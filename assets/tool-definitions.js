@@ -1,4 +1,4 @@
-export const SCIENTIFIC_RELEASE = "2.1.0-beta.2";
+export const SCIENTIFIC_RELEASE = "2.1.0-beta.3";
 export const ANALYZER_RELEASE = "2.1.0-beta.5";
 export const TOOL_DEFINITIONS = Object.freeze({
  modeler:{name:"Microfluidic Modeler",status:"Research beta",version:SCIENTIFIC_RELEASE,route:"modeler/",inputs:["Native v2 JSON","Migrated v1 JSON"],exports:["Native JSON","SVG","PNG","CSV"],legacy:"Separate legacy 3D workspace: GLB, not synchronized with 2D",roadmap:["STEP","DXF"],browser:"Modern browser; legacy 3D requires WebGL",data:"2D autosave in local storage; offline asset cache; no project upload",ios:"Separate App Store listing; current native-build capabilities are not verified by this checkout."},

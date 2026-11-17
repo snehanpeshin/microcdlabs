@@ -1,4 +1,4 @@
-import { SCIENTIFIC_RELEASE } from "./tool-definitions.js?v=2.1.0-beta.2";
+import { SCIENTIFIC_RELEASE } from "./tool-definitions.js?v=2.1.0-beta.3";
 export const APP_VERSION = SCIENTIFIC_RELEASE;
 
 export function toast(message, tone = "info") {

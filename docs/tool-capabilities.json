@@ -1,10 +1,10 @@
 {
-  "release": "2.1.0-beta.2",
+  "release": "2.1.0-beta.3",
   "tools": {
     "modeler": {
       "name": "Microfluidic Modeler",
       "status": "Research beta",
-      "version": "2.1.0-beta.2",
+      "version": "2.1.0-beta.3",
       "route": "modeler/",
       "inputs": [
         "Native v2 JSON",

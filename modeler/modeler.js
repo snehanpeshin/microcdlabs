@@ -1,4 +1,4 @@
-import { APP_VERSION, bindDialog, downloadBlob, downloadText, safeFilename, setupTabs, toast } from "../assets/scientific-ui.js?v=2.1.0-beta.2";
+import { APP_VERSION, bindDialog, downloadBlob, downloadText, safeFilename, setupTabs, toast } from "../assets/scientific-ui.js?v=2.1.0-beta.3";
 
 export const PROJECT_SCHEMA = "microcd.modeler.project";
 export const PROJECT_VERSION = 2;
@@ -99,13 +99,31 @@ function normalizeFeature(feature, layerId) {
   };
 }
 
-export function featureBounds(feature) {
+function localFeatureBounds(feature) {
   const p = feature.parameters;
   if (["inlet", "outlet", "circular-chamber"].includes(feature.type)) {
     const d = finite(p.diameter, 0); return { x: feature.position.x - d / 2, y: feature.position.y - d / 2, width: d, height: d };
   }
-  const length = finite(p.length, 10); const width = feature.type.includes("channel") || feature.type.includes("junction") || feature.type === "serpentine" ? Math.max(finite(p.width, 1), 3) : finite(p.width, 8);
+  const length = finite(p.length, 10), width = finite(p.width, 8);
+  const stroke = Math.max(width, 3 / SCALE);
+  if (feature.type === "curved-channel") {
+    const rise = Math.abs(finite(p.radius, 0)) / 2;
+    return {x:feature.position.x-length/2-stroke/2,y:feature.position.y-rise-stroke/2,width:length+stroke,height:rise+stroke};
+  }
+  if (["t-junction", "y-junction"].includes(feature.type)) return {x:feature.position.x-length/2-stroke/2,y:feature.position.y-length/4-stroke/2,width:length+stroke,height:length/2+stroke};
+  if (feature.type === "serpentine") {
+    const rise = Math.sqrt(3); // extrema of the rendered cubic paths, with 6 mm control offsets
+    return {x:feature.position.x-length/2-stroke/2,y:feature.position.y-rise-stroke/2,width:length+stroke,height:2*rise+stroke};
+  }
   return { x: feature.position.x - length / 2, y: feature.position.y - width / 2, width: length, height: width };
+}
+
+export function featureBounds(feature) {
+  const origin={x:0,y:0}, b=localFeatureBounds({...feature,position:origin});
+  if (["inlet","outlet","circular-chamber"].includes(feature.type)) return localFeatureBounds(feature);
+  const corners=[[b.x,b.y],[b.x+b.width,b.y],[b.x,b.y+b.height],[b.x+b.width,b.y+b.height]].map(([x,y])=>rotatePoint({x,y},feature.rotation));
+  const xs=corners.map(p=>p.x),ys=corners.map(p=>p.y),x=Math.min(...xs),y=Math.min(...ys);
+  return {x:feature.position.x+x,y:feature.position.y+y,width:Math.max(...xs)-x,height:Math.max(...ys)-y};
 }
 
 function rotatePoint(point, degrees) {
@@ -156,6 +174,7 @@ export function validateProject(project) {
   if (!project.features.some((feature) => feature.type === "inlet")) add("error", "FLOW_MISSING_INLET", "No inlet is present.", [], 0, 1, "Add at least one inlet.");
   if (!project.features.some((feature) => feature.type === "outlet")) add("error", "FLOW_MISSING_OUTLET", "No outlet is present.", [], 0, 1, "Add at least one outlet.");
   project.features.forEach((feature) => {
+    if (!project.layers.some(layer=>layer.id===feature.layerId)) add("error","LAYER_MISSING",`${feature.name} references a missing layer.`,[feature.id],feature.layerId,"Existing layer","Assign the feature to an existing layer.");
     const p = feature.parameters;
     const dimensional = Object.entries(p).filter(([key]) => ["length", "width", "depth", "diameter", "radius"].includes(key));
     dimensional.forEach(([key, value]) => { if (!Number.isFinite(Number(value)) || Number(value) <= 0) add("error", "DIM_INVALID", `${feature.name} has an invalid ${key}.`, [feature.id], value, "> 0", `Enter a positive ${key}.`); });
@@ -168,6 +187,7 @@ export function validateProject(project) {
     if (edge < profile.edgeClearance) add("warning", "EDGE_CLEARANCE", `${feature.name} is close to the design boundary.`, [feature.id], `${edge.toFixed(2)} mm`, `${profile.edgeClearance} mm`, "Move the feature inward or revise the configured clearance.");
   });
   for (let i = 0; i < project.features.length; i += 1) for (let j = i + 1; j < project.features.length; j += 1) {
+    if (project.features[i].layerId !== project.features[j].layerId) continue;
     const a = project.features[i], b = project.features[j], ab = featureBounds(a), bb = featureBounds(b);
     const overlapX = Math.min(ab.x + ab.width, bb.x + bb.width) - Math.max(ab.x, bb.x);
     const overlapY = Math.min(ab.y + ab.height, bb.y + bb.height) - Math.max(ab.y, bb.y);
@@ -312,7 +332,7 @@ function init() {
     else if (feature.type === "serpentine") { shape = document.createElementNS(ns, "path"); const l=p.length*SCALE/2, amp=12*SCALE/2; shape.setAttribute("d", `M ${-l} 0 C ${-l*.7} ${-amp},${-l*.3} ${amp},0 0 C ${l*.3} ${-amp},${l*.7} ${amp},${l} 0`); shape.setAttribute("fill", "none"); shape.setAttribute("stroke-width", String(Math.max(p.width*SCALE,3))); }
     else if (feature.type === "t-junction") { shape = document.createElementNS(ns, "path"); const l=p.length*SCALE/2; shape.setAttribute("d", `M ${-l} ${-l/2} H ${l} M 0 ${-l/2} V ${l/2}`); shape.setAttribute("fill", "none"); shape.setAttribute("stroke-width", String(Math.max(p.width*SCALE,3))); }
     else if (feature.type === "y-junction") { shape = document.createElementNS(ns, "path"); const l=p.length*SCALE/2; shape.setAttribute("d", `M 0 ${l/2} V 0 M 0 0 L ${-l} ${-l/2} M 0 0 L ${l} ${-l/2}`); shape.setAttribute("fill", "none"); shape.setAttribute("stroke-width", String(Math.max(p.width*SCALE,3))); }
-    else { shape = document.createElementNS(ns, "rect"); const b=featureBounds({ ...feature, position:{x:0,y:0} }); shape.setAttribute("x", String(-b.width*SCALE/2)); shape.setAttribute("y", String(-b.height*SCALE/2)); shape.setAttribute("width", String(b.width*SCALE)); shape.setAttribute("height", String(b.height*SCALE)); shape.setAttribute("rx", feature.type.includes("channel") ? "4" : "8"); }
+    else { shape = document.createElementNS(ns, "rect"); const b=localFeatureBounds({ ...feature, position:{x:0,y:0} }); shape.setAttribute("x", String(b.x*SCALE)); shape.setAttribute("y", String(b.y*SCALE)); shape.setAttribute("width", String(b.width*SCALE)); shape.setAttribute("height", String(b.height*SCALE)); shape.setAttribute("rx", feature.type.includes("channel") ? "4" : "8"); }
     shape.classList.add("feature-shape"); if (selected.has(feature.id)) shape.classList.add("is-selected");
     shape.setAttribute("tabindex", "0"); shape.setAttribute("role", "button"); shape.setAttribute("aria-label", feature.name);
     group.append(shape); return group;
@@ -326,7 +346,7 @@ function init() {
     if (features.length !== 1) { inspector.innerHTML = `<div class="empty-state">${features.length ? "Multiple features selected. Use toolbar commands for group operations." : "Select a feature to edit dimensions and parameters."}</div>`; return; }
     const feature = features[0]; const fields = Object.entries(feature.parameters).map(([key,value]) => `<label class="field">${labelize(key)} <input data-param="${key}" type="number" step="0.01" value="${Number(value)}"><span class="help">${["turns","angle"].includes(key) ? (key === "angle" ? "degrees" : "count") : project.units}</span></label>`).join("");
     const b=featureBounds(feature),depth=Number(feature.parameters.depth)||0,area=b.width*b.height,volume=area*depth;
-    inspector.innerHTML = `<section class="inspector-section"><h3>Identity</h3><label class="field">Name<input data-feature-field="name" value="${escapeHtml(feature.name)}"></label><label class="field">Type<input value="${escapeHtml(feature.type)}" disabled></label><label class="field">Layer<select data-feature-field="layerId">${project.layers.map((l)=>`<option value="${l.id}" ${l.id===feature.layerId?'selected':''}>${escapeHtml(l.name)}</option>`).join("")}</select></label></section><section class="inspector-section"><h3>Position</h3><div class="field-row"><label class="field">X<input data-position="x" type="number" step="0.1" value="${feature.position.x}"></label><label class="field">Y<input data-position="y" type="number" step="0.1" value="${feature.position.y}"></label></div><label class="field">Rotation<input data-feature-field="rotation" type="number" step="1" value="${feature.rotation}"><span class="help">degrees</span></label></section><section class="inspector-section"><h3>Dimensions</h3>${fields}</section><section class="inspector-section"><h3>Measurements</h3><p>Length: ${formatNumber(feature.parameters.length||b.width)} mm<br>Diameter: ${feature.parameters.diameter?`${formatNumber(feature.parameters.diameter)} mm`:"Not applicable"}<br>Plan area: ${formatNumber(area)} mm²<br>Bounding volume: ${depth>0?`${formatNumber(volume)} µL`:"Not calculated — depth required"}</p></section>`;
+    inspector.innerHTML = `<section class="inspector-section"><h3>Identity</h3><label class="field">Name<input data-feature-field="name" value="${escapeHtml(feature.name)}"></label><label class="field">Type<input value="${escapeHtml(feature.type)}" disabled></label><label class="field">Layer<select data-feature-field="layerId">${project.layers.map((l)=>`<option value="${l.id}" ${l.id===feature.layerId?'selected':''}>${escapeHtml(l.name)}</option>`).join("")}</select></label></section><section class="inspector-section"><h3>Position</h3><div class="field-row"><label class="field">X<input data-position="x" type="number" step="0.1" value="${feature.position.x}"></label><label class="field">Y<input data-position="y" type="number" step="0.1" value="${feature.position.y}"></label></div><label class="field">Rotation<input data-feature-field="rotation" type="number" step="1" value="${feature.rotation}"><span class="help">degrees</span></label></section><section class="inspector-section"><h3>Dimensions</h3>${fields}</section><section class="inspector-section"><h3>Measurements</h3><p>Length: ${formatNumber(feature.parameters.length||b.width)} mm<br>Diameter: ${feature.parameters.diameter?`${formatNumber(feature.parameters.diameter)} mm`:"Not applicable"}<br>Bounding-box area: ${formatNumber(area)} mm²<br>Bounding volume: ${depth>0?`${formatNumber(volume)} µL`:"Not calculated — depth required"}</p></section>`;
   }
   function renderIssues() {
     document.querySelectorAll("[data-profile]").forEach(input=>input.value=project.profile[input.dataset.profile]);
