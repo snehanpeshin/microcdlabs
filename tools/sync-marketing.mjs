@@ -2,17 +2,20 @@
 import fs from "node:fs";import path from "node:path";import {fileURLToPath} from "node:url";import {renderSiteNavigation} from "./site-navigation.mjs";
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),"..");
 export function footer(prefix=""){const link=(href,label)=>'<a href="'+prefix+href+'">'+label+'</a>';return '<footer class="site-footer review-footer"><div><img class="footer-logo" src="'+prefix+'assets/microcd-labs-wordmark.svg?v=boxed" width="154" height="34" loading="lazy" alt="MicroCD Labs"><p>Engineering for microfluidics, assays, and diagnostic development.</p><a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a><p><a href="https://www.linkedin.com/company/microcd-labs/" target="_blank" rel="noreferrer">LinkedIn</a></p></div><nav aria-label="Footer navigation">'+[["clair/","CLAIR"],["services.html","Engineering Services"],["tools.html","Research Tools"],["products.html","Research components &amp; sourcing"],["about.html","About"],["consultation.html","Contact"],["privacy.html","Website Privacy"],["terms.html","Terms & Payments"],["accessibility.html","Accessibility"],["credits.html","Image Credits"]].map(x=>link(...x)).join("")+'</nav><p class="review-footer-note">CLAIR is in development, not for sale or clinical use. Research components are enquiry categories; source and supply require review. Images may be representative. <a href="'+prefix+'refunds.html">Refunds & Returns</a></p></footer>';}
-function walk(dir){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>{if(e.name.startsWith(".")||e.name==="node_modules")return [];const file=path.join(dir,e.name);return e.isDirectory()?walk(file):e.name.endsWith(".html")?[file]:[]})}
+function walk(dir){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>{if(e.name.startsWith(".")||["node_modules","dist"].includes(e.name))return [];const file=path.join(dir,e.name);return e.isDirectory()?walk(file):e.name.endsWith(".html")?[file]:[]})}
 let count=0;for(const file of walk(root)){
  let h=fs.readFileSync(file,"utf8");if(!h.includes('class="site-header"'))continue;
  const relative=path.relative(root,file).split(path.sep).join("/"),prefix="../".repeat(relative.split("/").length-1);
  // Lead pages should bring visitors to an enquiry without third-party publisher ads.
- if(["index.html","services.html","consultation.html","about.html"].includes(relative)){
+ if(["index.html","services.html","consultation.html","about.html","microfluidic-consulting.html","diagnostic-cartridge-design.html","engineering-prototyping.html"].includes(relative)){
   h=h.replace(/\s*<!-- Google AdSense site verification and ad loader -->/g,"").replace(/\s*<script\b[^>]*src="https:\/\/pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js[^"]*"[^>]*>\s*<\/script>/g,"");
  }
  let action="consultation.html",label="Contact";
  if(relative==="clair/human.html"){action="consultation.html?project=clair-human#inquiry-title";label="Discuss human research";}
  else if(relative==="clair/veterinary.html"){action="consultation.html?project=clair-veterinary#inquiry-title";label="Discuss veterinary research";}
+ else if(relative==="microfluidic-consulting.html"){action="consultation.html?project=microfluidic-development#inquiry-title";label="Discuss your project";}
+ else if(relative==="diagnostic-cartridge-design.html"){action="consultation.html?project=diagnostic-cartridge#inquiry-title";label="Discuss your project";}
+ else if(relative==="engineering-prototyping.html"){action="consultation.html?project=engineering-design#inquiry-title";label="Discuss your project";}
  else if(relative==="services.html"){action="consultation.html?project=microfluidic-development#inquiry-title";label="Request engineering support";}
  else if(relative==="products.html"||relative.startsWith("catalog/")){action="products.html#quote";label="Your enquiry list";}
  const header='<header class="site-header"><a class="brand" href="'+prefix+'index.html#top" aria-label="MicroCD Labs home"><img class="brand-logo" src="'+prefix+'assets/microcd-labs-wordmark.svg?v=boxed" width="154" height="34" alt="MicroCD Labs"></a>'+renderSiteNavigation(prefix)+'<div class="header-actions"><a class="header-cta" href="'+prefix+action+'">'+label+'</a></div></header>';

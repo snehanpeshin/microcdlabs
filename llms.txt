@@ -9,6 +9,9 @@ MicroCD Labs is a division of Karigari Home LLC. Website content describes resea
 - [Home](https://www.microcdlabs.com/): CLAIR flagship platform, evidence boundaries, capabilities, and collaboration options
 - [CLAIR](https://www.microcdlabs.com/clair/): Shared platform overview for human and veterinary oral-health testing research, with separate panels and validation plans
 - [Services](https://www.microcdlabs.com/services.html): Microfluidic and diagnostic product-development capabilities
+- [Microfluidic consulting](https://www.microcdlabs.com/microfluidic-consulting.html): Fluidic architecture, workflow and prototype planning
+- [Diagnostic cartridge design](https://www.microcdlabs.com/diagnostic-cartridge-design.html): Disposable workflows, assay and reader interfaces, and evidence planning
+- [Engineering prototyping](https://www.microcdlabs.com/engineering-prototyping.html): Scoped CAD, fixtures, interfaces and build-and-test planning
 - [Diagnostics](https://www.microcdlabs.com/diagnostics.html): Assay development, LFIA, lab-on-disc, and kinetic-analysis focus
 - [About](https://www.microcdlabs.com/about.html): Company background and areas of technical experience
 - [News](https://www.microcdlabs.com/news.html): Research and company updates

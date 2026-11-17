@@ -1,11 +1,16 @@
 version: 1
 frontend:
   phases:
+    preBuild:
+      commands:
+        - nvm install 22
     build:
       commands:
-        - echo "Static site - no build step required"
+        - node --version
+        - npm run verify
+        - npm run package:site
   artifacts:
-    baseDirectory: .
+    baseDirectory: dist
     files:
       - "**/*"
   cache:

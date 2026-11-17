@@ -33,13 +33,11 @@ Then visit `http://localhost:8080`.
 
 ## Deploy on AWS Amplify
 
-Use this folder as the Amplify app root:
-
-```text
-microfluidics-supply-site
-```
-
-The included `amplify.yml` publishes the static files directly and does not need an npm build.
+Use the existing Git-connected Amplify app with this repository as its app root.
+`amplify.yml` selects Node 22, runs `npm run verify`, then `npm run package:site`.
+Only the validated `dist/` website package is published. The enquiry backend is deployed
+separately; it is not part of the public static bundle. See
+`docs/site-and-aws-update-2026-11-17.md` for the deployment and AWS follow-up details.
 
 The marketing site uses `site.js` for shared navigation, responsive behavior, and consultation forms. Catalog pages also load `script.js`, which contains the product data and quote-cart behavior. The original framework source and package manifests for the historical product exports are not included in this repository.
 
@@ -51,13 +49,11 @@ The marketing site uses `site.js` for shared navigation, responsive behavior, an
 - The Modeler and Analyzer share `assets/scientific-ui.css` and `assets/scientific-ui.js`; the Motor Controller uses its own hardware-console stylesheet and module alongside the main site theme.
 - Product architecture and known gaps are documented in `docs/architecture-and-gap-assessment.md`. Scientific formulas and assumptions are documented in `docs/methodology.md`.
 
-Run product checks with Node 20 or newer:
+Run checks with Node 22 or newer:
 
 ```bash
-npm test
-npm run typecheck
-npm run lint
-npm run build
+npm run verify
+npm run package:site
 ```
 
 ## Payment setup

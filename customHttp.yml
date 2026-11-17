@@ -9,3 +9,15 @@ customHeaders:
         value: "strict-origin-when-cross-origin"
       - key: "Permissions-Policy"
         value: "camera=(self), microphone=(), geolocation=()"
+  - pattern: "**/*.html"
+    headers:
+      - key: "Cache-Control"
+        value: "public, max-age=0, s-maxage=300, must-revalidate"
+  - pattern: "/"
+    headers:
+      - key: "Cache-Control"
+        value: "public, max-age=0, s-maxage=300, must-revalidate"
+  - pattern: "/assets/inquiry-config.js"
+    headers:
+      - key: "Cache-Control"
+        value: "no-cache"
