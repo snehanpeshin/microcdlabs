@@ -52,3 +52,13 @@ test("baseline correction follows background subtraction and control normalizati
  assert.ok(Math.abs(metrics.endpoint-.12)<1e-12);assert.ok(Math.abs(metrics.auc-.1)<1e-12);
  assert.deepEqual(rows,before);
 });
+
+test("SNR compares raw net endpoint with raw background variation in matching units",()=>{
+ const rows=parseTimeSeriesCSV("time,signal,background,control\n0,10,2,100\n1,30,6,200\n2,50,10,200");
+ for(const config of [{},{backgroundSubtract:true},{backgroundSubtract:true,controlNormalize:true,baselineCorrect:true}]){
+  const metrics=calculateMetrics(applyPipeline(rows,config));
+  assert.equal(metrics.snr,10); // (50 - 10) / sampleSD([2, 6, 10])
+  assert.equal(metrics.methods.snr,"raw-net-signal-over-background-sd-v2");
+ }
+ assert.equal(calculateMetrics([{time:0,processed:1,background:1},{time:1,processed:2,background:2}]).snr,null);
+});

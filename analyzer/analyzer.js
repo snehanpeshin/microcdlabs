@@ -1,10 +1,10 @@
-import { downloadText, safeFilename, sha256, toast } from "../assets/scientific-ui.js?v=2.1.0-beta.4";
+import { downloadText, safeFilename, sha256, toast } from "../assets/scientific-ui.js?v=2.1.0-beta.5";
 
-import { ANALYZER_RELEASE as APP_VERSION } from "../assets/tool-definitions.js?v=2.1.0-beta.4";
+import { ANALYZER_RELEASE as APP_VERSION } from "../assets/tool-definitions.js?v=2.1.0-beta.5";
 
 export const ANALYSIS_METHODS = {
   endpoint: "last-observation-v1", initialSlope: "ols-initial-window-v1", maximumSlope: "adjacent-maximum-v1",
-  auc: "trapezoidal-v1", threshold: "first-crossing-linear-interpolation-v1", snr: "net-signal-over-background-sd-v1"
+  auc: "trapezoidal-v1", threshold: "first-crossing-linear-interpolation-v1", snr: "raw-net-signal-over-background-sd-v2"
 };
 
 export function assertSingleSeries(rows) {
@@ -74,7 +74,10 @@ export function calculateMetrics(rows, options = {}) {
   for(let i=1;i<points.length;i+=1){const dt=points[i].time-points[i-1].time;auc+=method==="left-rectangle"?dt*points[i-1].processed:dt*(points[i-1].processed+points[i].processed)/2;}
   const threshold=Number(options.threshold); let crossing=null;
   if(Number.isFinite(threshold)) for(let i=1;i<points.length;i+=1){const a=points[i-1],b=points[i];if((a.processed<threshold&&b.processed>=threshold)||(a.processed>threshold&&b.processed<=threshold)){const fraction=(threshold-a.processed)/(b.processed-a.processed);crossing=a.time+fraction*(b.time-a.time);break;}}
-  const backgrounds=points.map(p=>p.background).filter(Number.isFinite);const bgSD=sampleSD(backgrounds);const endpoint=points.at(-1).processed;const snr=bgSD>0?endpoint/bgSD:null;
+  const backgrounds=points.map(p=>p.background).filter(Number.isFinite);const bgSD=sampleSD(backgrounds);const endpoint=points.at(-1).processed;
+  const last=points.at(-1),rawNet=Number.isFinite(last.signal)&&Number.isFinite(last.background)?last.signal-last.background:null;
+  // SNR uses raw net signal and raw background variation, independent of the display pipeline.
+  const snr=rawNet!==null&&bgSD>0?rawNet/bgSD:null;
   return {
     endpoint, initialSlope:initial.slope, initialSlopeR2:initial.r2, maximumSlope:Math.max(...slopes.map(x=>x.value)), auc,
     timeToThreshold:crossing, snr, pointCount:points.length,

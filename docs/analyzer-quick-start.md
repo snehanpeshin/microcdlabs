@@ -25,3 +25,7 @@ Mixed sample or replicate identifiers are rejected before preprocessing and metr
 ## Numerical input and baseline correction (2.1.0-beta.4)
 
 Blank time or signal cells are rejected rather than interpreted as zero. Blank optional background/control cells remain missing values; non-numeric optional measurements are rejected. Baseline correction subtracts the first observation after background subtraction and control normalization, before smoothing, so both terms have the same units. Raw data remains unchanged. The default demo results above are unchanged. Earlier exports combining normalization and baseline correction should be rerun with this version.
+
+## SNR units (2.1.0-beta.5)
+
+SNR is the raw endpoint signal minus its raw background, divided by the sample standard deviation of available raw background observations. It is independent of control normalization, baseline correction, and smoothing. It is not calculated without a raw endpoint/background pair or with zero background variation. The method identifier is raw-net-signal-over-background-sd-v2; this is a temporal background-variation heuristic, not a validated detection limit. Rerun earlier SNR results that used a transformed signal numerator.
