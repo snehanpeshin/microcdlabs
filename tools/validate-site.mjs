@@ -11,8 +11,11 @@ const catalogPages = fs
   .readdirSync(path.join(root, "catalog"), { withFileTypes: true })
   .filter((entry) => entry.isFile() && entry.name.endsWith(".html"))
   .map((entry) => path.join("catalog", entry.name));
-const researchProductPages = fs
-  .readdirSync(path.join(root, "products"), { withFileTypes: true })
+const researchProductsDirectory = path.join(root, "products");
+const researchProductEntries = fs.existsSync(researchProductsDirectory)
+  ? fs.readdirSync(researchProductsDirectory, { withFileTypes: true })
+  : [];
+const researchProductPages = researchProductEntries
   .filter((entry) => entry.isDirectory() && fs.existsSync(path.join(root, "products", entry.name, "index.html")))
   .map((entry) => path.join("products", entry.name, "index.html"));
 const commercialCategoryDirectories = [
