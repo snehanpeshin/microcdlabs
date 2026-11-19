@@ -23,9 +23,20 @@
     <section id="dashboard" aria-labelledby="stats-heading" hidden>
       <h2 id="stats-heading">Last 30 days <small>UTC, including today</small></h2>
       <dl>
-        <div><dt>Website requests</dt><dd id="requests">—</dd><dd class="stat-note">Includes asset requests and bots.</dd></div>
+        <div><dt>All-time website requests</dt><dd id="all-time-requests">—</dd><dd class="stat-note" id="all-time-coverage"></dd></div>
+        <div><dt>Website requests, last 30 days</dt><dd id="requests">—</dd><dd class="stat-note">Includes asset requests and bots.</dd></div>
         <div><dt>Accepted enquiries</dt><dd id="enquiries">—</dd><dd class="stat-note" id="coverage"></dd></div>
       </dl>
+      <section aria-labelledby="pages-heading">
+        <h2 id="pages-heading">Traffic by page</h2>
+        <p id="page-coverage">The page report is being prepared.</p>
+        <p>Successful HTML requests on the public site, including bots. Asset requests are excluded.</p>
+        <table id="page-report" hidden>
+          <caption>Page requests, highest first</caption>
+          <thead><tr><th scope="col">Page</th><th scope="col">Requests</th></tr></thead>
+          <tbody id="pages"></tbody>
+        </table>
+      </section>
       <table>
         <caption>Daily totals</caption>
         <thead><tr><th scope="col">Date (UTC)</th><th scope="col">Website requests</th><th scope="col">Accepted enquiries</th></tr></thead>

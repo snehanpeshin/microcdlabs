@@ -16,8 +16,38 @@ function endpoint(origin, path, parameters) {
   return url.href;
 }
 
-function renderStats({ days, enquiryTrackingStart }) {
-  const format = (value) => value === null ? '—' : fmt.format(value);
+function renderPageTraffic(report) {
+  if (!report) return;
+
+  const start = report.start.slice(0, 10);
+  const last = new Date(Date.parse(report.end) - 86400000).toISOString().slice(0, 10);
+  byId('page-coverage').textContent = start + ' to ' + last + ' UTC. Refreshed daily.';
+  if (!report.pages.length) {
+    byId('page-coverage').textContent += ' No page requests were found.';
+    return;
+  }
+
+  for (const page of report.pages) {
+    const row = document.createElement('tr');
+    const path = document.createElement('th');
+    path.scope = 'row';
+    path.className = 'page-path';
+    path.textContent = page.path;
+    const count = document.createElement('td');
+    count.textContent = fmt.format(page.requests);
+    row.append(path, count);
+    byId('pages').append(row);
+  }
+  byId('page-report').hidden = false;
+}
+
+function renderStats({ days, enquiryTrackingStart, allTimeRequests, allTimeStart, pageTraffic }) {
+  const format = (value) => Number.isFinite(value) ? fmt.format(value) : '—';
+  byId('all-time-requests').textContent = format(allTimeRequests);
+  byId('all-time-coverage').textContent = allTimeStart
+    ? 'Recorded since ' + allTimeStart + ' UTC. Includes asset requests and bots.'
+    : 'Historical totals unavailable.';
+  renderPageTraffic(pageTraffic);
   for (const key of ['requests', 'enquiries']) {
     const values = days.map((day) => day[key]).filter((value) => value !== null);
     byId(key).textContent = format(values.length ? values.reduce((sum, value) => sum + value, 0) : null);
