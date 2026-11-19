@@ -45,8 +45,28 @@ export function createHandler({sendEmail, env = process.env}) {
   };
 }
 let ses;
-export const handler = createHandler({sendEmail: async input => {
+const sendInquiry = createHandler({sendEmail: async input => {
   const {SESClient, SendEmailCommand} = await import('@aws-sdk/client-ses');
   ses ||= new SESClient({});
   return ses.send(new SendEmailCommand(input));
 }});
+
+export async function handler(event) {
+  const response = await sendInquiry(event);
+  if (response.statusCode === 200) {
+    // CloudWatch Embedded Metric Format records the accepted count without enquiry content.
+    const metric = {
+      _aws: {
+        Timestamp: Date.now(),
+        CloudWatchMetrics: [{
+          Namespace: 'MicroCDLabs/Website',
+          Dimensions: [[]],
+          Metrics: [{Name: 'AcceptedEnquiries', Unit: 'Count'}]
+        }]
+      },
+      AcceptedEnquiries: 1
+    };
+    process.stdout.write(JSON.stringify(metric) + "\n");
+  }
+  return response;
+}

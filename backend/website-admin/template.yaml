@@ -1,0 +1,247 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Private MicroCD Labs website statistics with invite-only Cognito sign-in and aggregate CloudWatch metrics.
+Metadata:
+  com.aws.cloudformation.Context:
+    arch: Amplify serves the dashboard shell. API Gateway authorizes access before Lambda queries metrics.
+    must:
+      - Publish aggregate counts only.
+      - Keep self-registration disabled and require MFA.
+Parameters:
+  AmplifyAppId:
+    Type: String
+    AllowedPattern: '[a-z0-9]+'
+  LoginDomainPrefix:
+    Type: String
+    AllowedPattern: '[a-z0-9][a-z0-9-]{1,61}[a-z0-9]'
+  EnquiryTrackingStart:
+    Type: String
+    Description: UTC time when accepted enquiry tracking was enabled.
+  SiteOrigin:
+    Type: String
+    Default: https://www.microcdlabs.com
+    AllowedValues: [https://www.microcdlabs.com]
+Resources:
+  AdminUsers:
+    Type: AWS::Cognito::UserPool
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Isolates website administrators from customer-facing identities.
+        must: Only provision accounts for designated administrators.
+    Properties:
+      UserPoolName: !Ref AWS::StackName
+      UserPoolTier: ESSENTIALS
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: true
+      UsernameAttributes: [email]
+      UsernameConfiguration:
+        CaseSensitive: false
+      MfaConfiguration: 'ON'
+      EnabledMfas: [SOFTWARE_TOKEN_MFA]
+      AutoVerifiedAttributes: [email]
+      AccountRecoverySetting:
+        RecoveryMechanisms:
+          - Name: verified_email
+            Priority: 1
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 14
+          RequireLowercase: true
+          RequireUppercase: true
+          RequireNumbers: true
+          RequireSymbols: true
+          TemporaryPasswordValidityDays: 3
+  AdminClient:
+    Type: AWS::Cognito::UserPoolClient
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Keeps sign-in and MFA on the hosted login; the website uses code exchange with PKCE.
+        must: Keep public client without a secret and use exact redirect allowlists.
+    Properties:
+      UserPoolId: !Ref AdminUsers
+      GenerateSecret: false
+      PreventUserExistenceErrors: ENABLED
+      EnableTokenRevocation: true
+      ExplicitAuthFlows: [ALLOW_REFRESH_TOKEN_AUTH]
+      AllowedOAuthFlowsUserPoolClient: true
+      AllowedOAuthFlows: [code]
+      AllowedOAuthScopes: [openid]
+      SupportedIdentityProviders: [COGNITO]
+      CallbackURLs: [!Sub '${SiteOrigin}/admin.html']
+      LogoutURLs: [!Sub '${SiteOrigin}/admin.html']
+      AccessTokenValidity: 15
+      TokenValidityUnits:
+        AccessToken: minutes
+  LoginDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      UserPoolId: !Ref AdminUsers
+      Domain: !Ref LoginDomainPrefix
+      ManagedLoginVersion: 2
+  LoginBranding:
+    Type: AWS::Cognito::ManagedLoginBranding
+    Properties:
+      UserPoolId: !Ref AdminUsers
+      ClientId: !Ref AdminClient
+      UseCognitoProvidedValues: true
+  AdminApi:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: !Ref AWS::StackName
+      ProtocolType: HTTP
+      CorsConfiguration:
+        AllowOrigins: [!Ref SiteOrigin]
+        AllowMethods: [GET]
+        AllowHeaders: [Authorization]
+  AdminAuthorizer:
+    Type: AWS::ApiGatewayV2::Authorizer
+    Properties:
+      ApiId: !Ref AdminApi
+      Name: AdminCognito
+      AuthorizerType: JWT
+      IdentitySource: ['$request.header.Authorization']
+      JwtConfiguration:
+        Audience: [!Ref AdminClient]
+        Issuer: !GetAtt AdminUsers.ProviderURL
+  StatsRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+        - PolicyName: ReadCloudWatchMetrics
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: cloudwatch:GetMetricData
+                Resource: '*'
+  StatsFunction:
+    Type: AWS::Lambda::Function
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Keeps metric access behind the authenticated route and returns daily aggregates.
+        must: Read fixed site metrics and avoid collecting submission contents.
+    Properties:
+      Runtime: nodejs22.x
+      Handler: index.handler
+      Role: !GetAtt StatsRole.Arn
+      Timeout: 8
+      ReservedConcurrentExecutions: 2
+      Environment:
+        Variables:
+          AMPLIFY_APP_ID: !Ref AmplifyAppId
+          ENQUIRY_TRACKING_START: !Ref EnquiryTrackingStart
+      Code:
+        ZipFile: |
+          const { CloudWatchClient, GetMetricDataCommand } = require('@aws-sdk/client-cloudwatch');
+
+          const cloudwatch = new CloudWatchClient({});
+          const day = 86400000;
+
+          function metric(id, namespace, name, dimensions = []) {
+            return {
+              Id: id,
+              MetricStat: {
+                Metric: { Namespace: namespace, MetricName: name, Dimensions: dimensions },
+                Period: 86400,
+                Stat: 'Sum'
+              }
+            };
+          }
+
+          exports.handler = async (event) => {
+            const headers = { 'content-type': 'application/json', 'cache-control': 'no-store' };
+            const claims = event.requestContext?.authorizer?.jwt?.claims;
+            if (claims?.token_use !== 'access') {
+              return { statusCode: 403, headers, body: JSON.stringify({ error: 'Access denied' }) };
+            }
+
+            const end = Date.now();
+            const start = Math.floor(end / day) * day - 29 * day;
+            const startTracking = new Date(process.env.ENQUIRY_TRACKING_START);
+            const queries = [
+              metric('requests', 'AWS/AmplifyHosting', 'Requests', [{ Name: 'App', Value: process.env.AMPLIFY_APP_ID }]),
+              metric('enquiries', 'MicroCDLabs/Website', 'AcceptedEnquiries')
+            ];
+
+            try {
+              const response = await cloudwatch.send(new GetMetricDataCommand({
+                StartTime: new Date(start),
+                EndTime: new Date(end),
+                MetricDataQueries: queries
+              }));
+              const series = new Map(response.MetricDataResults.map((result) => [
+                result.Id,
+                { complete: result.StatusCode === 'Complete', values: new Map(
+                  result.Timestamps.map((timestamp, index) => [timestamp.toISOString().slice(0, 10), result.Values[index]])
+                ) }
+              ]));
+              const days = Array.from({ length: 30 }, (_, index) => {
+                const date = new Date(start + index * day).toISOString().slice(0, 10);
+                const requests = series.get('requests');
+                const enquiries = series.get('enquiries');
+                return {
+                  date,
+                  requests: requests?.complete ? (requests.values.get(date) ?? 0) : null,
+                  enquiries: enquiries?.complete && date >= startTracking.toISOString().slice(0, 10)
+                    ? (enquiries.values.get(date) ?? 0) : null
+                };
+              });
+              return { statusCode: 200, headers, body: JSON.stringify({
+                days, enquiryTrackingStart: startTracking.toISOString()
+              }) };
+            } catch (error) {
+              console.error('Unable to read website metrics', error.name);
+              return { statusCode: 503, headers, body: JSON.stringify({ error: 'Stats temporarily unavailable' }) };
+            }
+          };
+  StatsIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref AdminApi
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !GetAtt StatsFunction.Arn
+      PayloadFormatVersion: '2.0'
+  StatsRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref AdminApi
+      RouteKey: GET /stats
+      AuthorizationType: JWT
+      AuthorizationScopes: [openid]
+      AuthorizerId: !Ref AdminAuthorizer
+      Target: !Sub 'integrations/${StatsIntegration}'
+  ApiStage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      ApiId: !Ref AdminApi
+      StageName: '$default'
+      AutoDeploy: true
+      DefaultRouteSettings:
+        ThrottlingBurstLimit: 4
+        ThrottlingRateLimit: 2
+  InvocationPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref StatsFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${AdminApi}/$default/GET/stats'
+Outputs:
+  UserPoolId:
+    Value: !Ref AdminUsers
+  ClientId:
+    Value: !Ref AdminClient
+  LoginOrigin:
+    Value: !Sub 'https://${LoginDomainPrefix}.auth.${AWS::Region}.amazoncognito.com'
+  StatsEndpoint:
+    Value: !Sub '${AdminApi.ApiEndpoint}/stats'
