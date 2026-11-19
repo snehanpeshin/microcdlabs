@@ -339,7 +339,7 @@ Resources:
       Runtime: nodejs22.x
       Handler: index.handler
       Role: !GetAtt PageTrafficRole.Arn
-      Timeout: 240
+      Timeout: 600
       MemorySize: 384
       ReservedConcurrentExecutions: 1
       Environment:
@@ -409,9 +409,13 @@ Resources:
             const end = Math.floor(Date.now() / day) * day;
             const start = end - 30 * day;
             const counts = new Map();
-            await Promise.all([0, 10, 20].map((offset) =>
-              tallyWindow(start + offset * day, start + (offset + 10) * day, counts)
-            ));
+            const windowSize = 2 * day;
+            const windows = Array.from({ length: 15 }, (_, index) => start + index * windowSize);
+            for (let index = 0; index < windows.length; index += 4) {
+              await Promise.all(windows.slice(index, index + 4).map((from) =>
+                tallyWindow(from, from + windowSize, counts)
+              ));
+            }
             const report = {
               start: new Date(start).toISOString(),
               end: new Date(end).toISOString(),
