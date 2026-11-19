@@ -1,6 +1,8 @@
 const LIMITS = {projectType: 160, name: 120, email: 254, description: 4000, organization: 180, developmentStage: 180, context: 2000, nextStep: 180};
 const REQUIRED = ['projectType', 'name', 'email', 'description'];
-export function createHandler({sendEmail, env = process.env}) {
+const CONSULTATION_SOURCES = new Set(['home', 'services', 'components', 'clair', 'tools', 'labops', 'other', 'direct', 'external']);
+
+export function createHandler({sendEmail, recordAcceptance = () => {}, env = process.env}) {
   return async event => {
     const headers = Object.fromEntries(Object.entries(event.headers || {}).map(([k,v]) => [k.toLowerCase(),v]));
     const origin = headers.origin;
@@ -37,6 +39,10 @@ export function createHandler({sendEmail, env = process.env}) {
         }
       });
       if (!result?.MessageId) throw new Error('No mail acceptance receipt');
+      // Analytics failure must not change an already accepted delivery.
+      try {
+        recordAcceptance(CONSULTATION_SOURCES.has(data.consultationSource) ? data.consultationSource : null);
+      } catch { /* delivery already accepted */ }
       return reply(200, {accepted:true, receipt:result.MessageId});
     } catch {
       // Do not log request bodies, email addresses, or provider error details.
@@ -45,28 +51,26 @@ export function createHandler({sendEmail, env = process.env}) {
   };
 }
 let ses;
-const sendInquiry = createHandler({sendEmail: async input => {
-  const {SESClient, SendEmailCommand} = await import('@aws-sdk/client-ses');
-  ses ||= new SESClient({});
-  return ses.send(new SendEmailCommand(input));
-}});
-
-export async function handler(event) {
-  const response = await sendInquiry(event);
-  if (response.statusCode === 200) {
-    // CloudWatch Embedded Metric Format records the accepted count without enquiry content.
-    const metric = {
-      _aws: {
-        Timestamp: Date.now(),
-        CloudWatchMetrics: [{
-          Namespace: 'MicroCDLabs/Website',
-          Dimensions: [[]],
-          Metrics: [{Name: 'AcceptedEnquiries', Unit: 'Count'}]
-        }]
-      },
-      AcceptedEnquiries: 1
-    };
-    process.stdout.write(JSON.stringify(metric) + "\n");
+function recordAcceptance(source) {
+  const namespace = 'MicroCDLabs/Website';
+  const metrics = [{Namespace: namespace, Dimensions: [[]], Metrics: [{Name: 'AcceptedEnquiries', Unit: 'Count'}]}];
+  const values = {AcceptedEnquiries: 1};
+  if (source) {
+    metrics.push({Namespace: namespace, Dimensions: [['Source']], Metrics: [{Name: 'ConsultationAccepted', Unit: 'Count'}]});
+    values.ConsultationAccepted = 1;
+    values.Source = source;
   }
-  return response;
+  process.stdout.write(JSON.stringify({
+    _aws: {Timestamp: Date.now(), CloudWatchMetrics: metrics},
+    ...values
+  }) + "\n");
 }
+
+export const handler = createHandler({
+  recordAcceptance,
+  sendEmail: async input => {
+    const {SESClient, SendEmailCommand} = await import('@aws-sdk/client-ses');
+    ses ||= new SESClient({});
+    return ses.send(new SendEmailCommand(input));
+  }
+});

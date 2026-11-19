@@ -10,8 +10,8 @@
   <link rel="icon" href="assets/microcd-tab-icon.svg" type="image/svg+xml">
   <meta name="referrer" content="no-referrer">
   <title>Website stats | MicroCD Labs</title>
-  <link rel="stylesheet" href="assets/website-admin.css">
-  <script type="module" src="assets/website-admin.js"></script>
+  <link rel="stylesheet" href="assets/website-admin.css?v=20261119-funnel">
+  <script type="module" src="assets/website-admin.js?v=20261119-funnel"></script>
 </head>
 <body>
   <header><a href="/" aria-label="MicroCD Labs home"><img src="assets/microcd-labs-wordmark.svg" alt="MicroCD Labs" width="154" height="34"></a></header>
@@ -27,6 +27,18 @@
         <div><dt>Website requests, last 30 days</dt><dd id="requests">—</dd><dd class="stat-note">Includes asset requests and bots.</dd></div>
         <div><dt>Accepted enquiries</dt><dd id="enquiries">—</dd><dd class="stat-note" id="coverage"></dd></div>
       </dl>
+      <section aria-labelledby="consultation-funnel-title">
+        <h2 id="consultation-funnel-title">Consultation enquiry activity</h2>
+        <p id="consultation-coverage">Consultation tracking is unavailable.</p>
+        <p>Starts count the first form edit or enquiry choice per page load. Submit attempts include retries and validation errors. Accepted enquiries count submissions the mail service accepted.</p>
+        <div class="funnel-table-scroll">
+          <table id="consultation-funnel" hidden>
+            <caption>Consultation activity by referring section</caption>
+            <thead><tr><th scope="col">Referring section</th><th scope="col">Starts</th><th scope="col">Attempts</th><th scope="col">Accepted</th></tr></thead>
+            <tbody id="consultation-funnel-rows"></tbody>
+          </table>
+        </div>
+      </section>
       <section aria-labelledby="pages-heading">
         <h2 id="pages-heading">Traffic by page</h2>
         <p id="page-coverage">The page report is being prepared.</p>

@@ -1,0 +1,38 @@
+.visitor-section .visitor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 1.25rem;
+  margin-block: 1.25rem;
+}
+.visitor-section .visitor-grid article {
+  border: 1px solid #cbdadc;
+  border-radius: .9rem;
+  padding: 1.15rem;
+}
+.visitor-section .visitor-grid h3 { margin-top: 0; }
+.contact-intro.consultation-hero { grid-template-columns: 1fr; padding-bottom: 1rem; }
+.contact-enquiry.inquiry-section { padding-top: .5rem; align-items: start; }
+.contact-enquiry .mcd-inquiry-paths {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: .5rem;
+  margin: 1rem 0;
+  padding: 0;
+}
+.contact-enquiry .project-inquiry-actions { align-items: flex-start; }
+
+.contact-enquiry .mcd-inquiry-paths a {
+  padding: .4rem .6rem;
+  border: 1px solid #b4c9c3;
+  border-radius: .4rem;
+  background: #fff;
+  line-height: 1.45;
+}
+.contact-enquiry .mcd-inquiry-paths a[aria-current="true"] {
+  border-color: #164f48;
+  background: #164f48;
+  color: #fff;
+}
+.visitor-section .visitor-grid a,
+.contact-enquiry .inquiry-copy a[href^="mailto:"] { text-decoration: underline; text-underline-offset: .2em; }

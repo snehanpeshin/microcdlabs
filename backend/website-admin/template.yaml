@@ -10,6 +10,10 @@ Parameters:
   AmplifyAppId:
     Type: String
     AllowedPattern: '[a-z0-9]+'
+  ConsultationTrackingStart:
+    Type: String
+    Description: UTC time the consultation funnel went live.
+    AllowedPattern: '[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z'
   TrafficCoverageStart:
     Type: String
     Description: UTC date when the Amplify app was created.
@@ -94,9 +98,9 @@ Resources:
       Name: !Ref AWS::StackName
       ProtocolType: HTTP
       CorsConfiguration:
-        AllowOrigins: [!Ref SiteOrigin]
-        AllowMethods: [GET]
-        AllowHeaders: [Authorization]
+        AllowOrigins: [!Ref SiteOrigin, 'https://microcdlabs.com']
+        AllowMethods: [GET, POST]
+        AllowHeaders: [Authorization, Content-Type]
   AdminAuthorizer:
     Type: AWS::ApiGatewayV2::Authorizer
     Properties:
@@ -146,6 +150,7 @@ Resources:
         Variables:
           AMPLIFY_APP_ID: !Ref AmplifyAppId
           ENQUIRY_TRACKING_START: !Ref EnquiryTrackingStart
+          CONSULTATION_TRACKING_START: !Ref ConsultationTrackingStart
           TRAFFIC_COVERAGE_START: !Ref TrafficCoverageStart
           REPORT_BUCKET: !Ref PageReportBucket
       Code:
@@ -156,6 +161,10 @@ Resources:
           const cloudwatch = new CloudWatchClient({});
           const s3 = new S3Client({});
           const day = 86400000;
+          const sources = ['home', 'services', 'components', 'clair', 'tools', 'labops', 'other', 'direct', 'external'];
+          const funnelMetrics = {
+            starts: 'ConsultationStarts', attempts: 'ConsultationAttempts', accepted: 'ConsultationAccepted'
+          };
 
           function metric(id, namespace, name, dimensions = []) {
             return {
@@ -193,10 +202,14 @@ Resources:
             const end = Date.now();
             const start = Math.floor(end / day) * day - 29 * day;
             const startTracking = new Date(process.env.ENQUIRY_TRACKING_START);
+            const consultationStart = new Date(process.env.CONSULTATION_TRACKING_START);
             const launch = new Date(process.env.TRAFFIC_COVERAGE_START);
             const queries = [
               metric('requests', 'AWS/AmplifyHosting', 'Requests', [{ Name: 'App', Value: process.env.AMPLIFY_APP_ID }]),
-              metric('enquiries', 'MicroCDLabs/Website', 'AcceptedEnquiries')
+              metric('enquiries', 'MicroCDLabs/Website', 'AcceptedEnquiries'),
+              ...sources.flatMap(source => Object.entries(funnelMetrics).map(([step, name]) =>
+                metric(step + '_' + source, 'MicroCDLabs/Website', name, [{Name: 'Source', Value: source}])
+              ))
             ];
 
             try {
@@ -225,11 +238,22 @@ Resources:
               const requests = series.get('requests');
               const allTimeRequests = requests?.complete
                 ? [...requests.values.values()].reduce((sum, count) => sum + count, 0) : null;
+              const funnelStartDate = new Date(Math.max(start, consultationStart.getTime())).toISOString().slice(0, 10);
+              const funnel = sources.map(source => ({
+                source,
+                ...Object.fromEntries(Object.keys(funnelMetrics).map(step => {
+                  const metric = series.get(step + '_' + source);
+                  const total = metric?.complete
+                    ? [...metric.values].reduce((sum, [date, count]) => date >= funnelStartDate ? sum + count : sum, 0) : null;
+                  return [step, total];
+                }))
+              }));
               const allTimeStart = requests?.values.size
                 ? [...requests.values.keys()].sort()[0] : null;
               return { statusCode: 200, headers, body: JSON.stringify({
                 days, enquiryTrackingStart: startTracking.toISOString(),
-                allTimeRequests, allTimeStart, pageTraffic
+                allTimeRequests, allTimeStart, pageTraffic,
+                consultationTrackingStart: consultationStart.toISOString(), funnel
               }) };
             } catch (error) {
               console.error('Unable to read website metrics', error.name);
@@ -268,6 +292,84 @@ Resources:
       FunctionName: !Ref StatsFunction
       Principal: apigateway.amazonaws.com
       SourceArn: !Sub 'arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${AdminApi}/$default/GET/stats'
+  EnquiryEventRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+  EnquiryEventFunction:
+    Type: AWS::Lambda::Function
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Count browser interactions without touching the email delivery function.
+        must: Accept only the defined event and source labels. Never log request data.
+    Properties:
+      Runtime: nodejs22.x
+      Handler: index.handler
+      Role: !GetAtt EnquiryEventRole.Arn
+      Timeout: 5
+      MemorySize: 128
+      ReservedConcurrentExecutions: 2
+      Code:
+        ZipFile: |
+          const sources = new Set(['home', 'services', 'components', 'clair', 'tools', 'labops', 'other', 'direct', 'external']);
+          const metrics = new Map([['start', 'ConsultationStarts'], ['submit', 'ConsultationAttempts']]);
+          const origins = new Set(['https://www.microcdlabs.com', 'https://microcdlabs.com']);
+
+          exports.handler = async (request) => {
+            const headers = {'cache-control': 'no-store'};
+            if (!origins.has(request.headers?.origin)) return {statusCode: 403, headers};
+            if (request.requestContext?.http?.method !== 'POST') return {statusCode: 405, headers};
+            if (!request.body || request.body.length > 160 || request.isBase64Encoded) return {statusCode: 400, headers};
+
+            let payload;
+            try { payload = JSON.parse(request.body); } catch { return {statusCode: 400, headers}; }
+            const metric = metrics.get(payload?.event);
+            if (!metric || !sources.has(payload?.source) || Object.keys(payload).length !== 2) return {statusCode: 400, headers};
+
+            // Each log record contains only a fixed metric name and a bounded source label.
+            process.stdout.write(JSON.stringify({
+              _aws: {
+                Timestamp: Date.now(),
+                CloudWatchMetrics: [{
+                  Namespace: 'MicroCDLabs/Website',
+                  Dimensions: [['Source']],
+                  Metrics: [{Name: metric, Unit: 'Count'}]
+                }]
+              },
+              Source: payload.source,
+              [metric]: 1
+            }) + '\n');
+            return {statusCode: 204, headers};
+          };
+  EnquiryEventIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref AdminApi
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !GetAtt EnquiryEventFunction.Arn
+      PayloadFormatVersion: '2.0'
+  EnquiryEventRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref AdminApi
+      RouteKey: POST /enquiry-events
+      AuthorizationType: NONE
+      Target: !Sub 'integrations/${EnquiryEventIntegration}'
+  EnquiryEventPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref EnquiryEventFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${AdminApi}/$default/POST/enquiry-events'
   PageReportBucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Retain

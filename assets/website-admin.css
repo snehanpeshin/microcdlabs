@@ -35,3 +35,5 @@ caption { text-align: left; font-weight: 650; margin: 1.75rem 0 .5rem; }
 th, td { padding: .65rem; border-bottom: 1px solid #cbd9d8; text-align: right; }
 th:first-child { text-align: left; }
 .page-path { overflow-wrap: anywhere; }
+
+.funnel-table-scroll { overflow-x: auto; }

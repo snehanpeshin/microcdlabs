@@ -227,11 +227,19 @@ function initProjectInquiryForm() {
   const online = Boolean(delivery && delivery.endpointURL(deliveryConfig.endpoint));
   let sending = false;
   let sent = false;
+  let started = false;
+  const source = delivery?.consultationSource?.(document.referrer, location.origin) || 'direct';
+  function recordStart() {
+    if (started) return;
+    started = true;
+    delivery?.recordInteraction?.(deliveryConfig, 'start', source);
+  }
   if (online) {
+    form.querySelector(".project-inquiry-actions").prepend(submit);
     submit.textContent = "Send inquiry";
     document.querySelector("#deliveryNotice").innerHTML = 'Send these details to MicroCD Labs to discuss your inquiry. Please review our <a href="privacy.html">privacy policy</a> before sending.';
-    document.querySelector("#inquiryHeroDescription").textContent = "Choose research collaboration, engineering support or component sourcing. Send a concise inquiry and we will review your question.";
-    document.querySelector("#inquiryExpectations").innerHTML = "<li>Review your details and select Send inquiry.</li><li>We will review your question and follow up by email.</li><li>Scope, timing, and fees are agreed before paid work begins.</li>";
+    form.querySelector("#copyProjectInquiry").classList.replace("button-primary", "button-secondary");
+    submit.classList.replace("button-secondary", "button-primary");
     document.querySelector("#inquiryPreviewHelp").textContent = "Review the details before selecting Send inquiry. Copy inquiry is available as an email fallback.";
     form.querySelector("#copyProjectInquiry").textContent = "Copy inquiry";
   }
@@ -256,7 +264,7 @@ function initProjectInquiryForm() {
     "technical-consulting": "Technical consulting or commercialization",
     "system-integration": "Microfluidic product development",
   };
-  if (aliases[requested]) purpose.value = aliases[requested];
+  if (Object.hasOwn(aliases, requested)) purpose.value = aliases[requested];
   const stage = form.querySelector("#developmentStage");
   const context = form.querySelector("#engineeringContext");
   const heading = document.querySelector("#inquiry-title");
@@ -273,7 +281,7 @@ function initProjectInquiryForm() {
     context.hidden = research || sourcing || labops;
     stage.disabled = research || sourcing || labops;
     stage.required = false;
-    heading.textContent = !purpose.value ? "Choose the conversation you need." : labops ? "Connect your team’s LabOps workflows." : sourcing ? "Discuss sourcing or manufacturing coordination." : human ? "Discuss human oral-health research." : vet ? "Discuss veterinary clinic workflow." : research ? "Explore a research collaboration." : "What engineering decision comes next?";
+    heading.textContent = !purpose.value ? "Start your enquiry" : labops ? "Connect your team’s LabOps workflows." : sourcing ? "Discuss sourcing or manufacturing coordination." : human ? "Discuss human oral-health research." : vet ? "Discuss veterinary clinic workflow." : research ? "Explore a research collaboration." : "What engineering decision comes next?";
     description.textContent = labops ? "Tell us your team size, priority workflows, and current review or traceability challenge. We will discuss workspace access, intended use, and next steps." : sourcing ? "Share the component or supplier question, required specifications, quantity, destination, and compatibility needs. For component-specific requirements, use the enquiry list." : human ? "Tell us about your periodontal assessment or saliva-research question and where professional input could help." : vet ? "Tell us about oral assessment, saliva collection, or the practical evidence your clinic would need." : research ? "Share the scientific question, methods, or expertise you would like to discuss." : "Share the technical challenge and the decision or deliverable your team needs. A finished scope is not required.";
     const label = labops ? "Team workflow question" : sourcing ? "Sourcing question" : human ? "Research question" : vet ? "Clinic or workflow question" : research ? "Collaboration question" : "Technical question";
     messageLabel.replaceChildren(document.createTextNode(label + " "));
@@ -283,7 +291,8 @@ function initProjectInquiryForm() {
     form.dataset.purpose = labops ? "labops" : sourcing ? "sourcing" : human ? "clair-human" : vet ? "clair-veterinary" : research ? "research" : "engineering";
     document.querySelectorAll(".mcd-inquiry-paths a").forEach(a => {
       const query = new URL(a.href).searchParams.get("project");
-      if (aliases[query] === purpose.value) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");
+      const active = query === 'research' ? research : query === 'sourcing' ? sourcing : Boolean(purpose.value) && !research && !sourcing && !labops;
+      if (active) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");
     });
     setFormStatus(status, "Required: purpose, name, email, and question. No inquiry has been sent.");
   }
@@ -293,9 +302,26 @@ function initProjectInquiryForm() {
   });
   adaptPurpose();
   purpose.addEventListener("change", adaptPurpose);
+  document.querySelectorAll(".mcd-inquiry-paths a").forEach(link => {
+    link.addEventListener("click", event => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const category = new URL(link.href).searchParams.get("project");
+      if (!Object.hasOwn(aliases, category)) return;
+      event.preventDefault();
+      purpose.value = aliases[category];
+      recordStart();
+      adaptPurpose();
+      updateDraftPreview();
+      purpose.focus();
+    });
+  });
+  form.addEventListener("change", event => {
+    if (event.isTrusted && event.target.matches("select")) recordStart();
+  });
   form.addEventListener("input", event => {
     const field = event.target.closest("input, select, textarea");
     if (!field) return;
+    if (event.isTrusted && field.name && field.name !== "website") recordStart();
     field.removeAttribute("aria-invalid");
     const error = form.querySelector('[data-error-for="' + field.id + '"]');
     if (error) error.textContent = "";
@@ -335,6 +361,7 @@ function initProjectInquiryForm() {
   form.addEventListener("submit", async event => {
     event.preventDefault();
     if (sending || sent) return;
+    if (online) delivery?.recordInteraction?.(deliveryConfig, "submit", source);
     const inquiry = prepare();
     if (!inquiry) return;
     if (online) {
@@ -342,7 +369,7 @@ function initProjectInquiryForm() {
       submit.disabled = true;
       submit.setAttribute("aria-busy", "true");
       setFormStatus(status, "Sending your inquiry…", "loading");
-      const payload = Object.fromEntries(inquiry.data.entries());
+      const payload = {...Object.fromEntries(inquiry.data.entries()), consultationSource: source};
       // Freeze inputs during submission, but preserve their contents if delivery fails.
       const enabled = Array.from(form.querySelectorAll("input, select, textarea, button")).filter(el => !el.disabled && el !== submit);
       enabled.forEach(el => { el.disabled = true; });

@@ -41,7 +41,39 @@ function renderPageTraffic(report) {
   byId('page-report').hidden = false;
 }
 
-function renderStats({ days, enquiryTrackingStart, allTimeRequests, allTimeStart, pageTraffic }) {
+function renderConsultation({ funnel, consultationTrackingStart }) {
+  if (!consultationTrackingStart || !Array.isArray(funnel)) return;
+
+  const labels = {
+    home: 'Homepage', services: 'Engineering services', components: 'Components', clair: 'CLAIR',
+    tools: 'Research and tools', labops: 'LabOps', other: 'Other site pages',
+    direct: 'Direct or no referrer', external: 'External website'
+  };
+  const coverage = consultationTrackingStart.slice(0, 10);
+  byId('consultation-coverage').textContent = 'Counts for the last 30 days, including today. Tracking began ' + coverage + ' UTC.';
+  const table = byId('consultation-funnel-rows');
+  const steps = ['starts', 'attempts', 'accepted'];
+  const totals = Object.fromEntries(steps.map(step => [
+    step, funnel.every(item => Number.isFinite(item[step])) ? funnel.reduce((sum, item) => sum + item[step], 0) : null
+  ]));
+  for (const item of [{...totals, source: 'total'}, ...funnel]) {
+    const row = document.createElement('tr');
+    const label = document.createElement('th');
+    label.scope = 'row';
+    label.textContent = labels[item.source] ?? 'Total';
+    row.append(label);
+    for (const step of steps) {
+      const cell = document.createElement('td');
+      cell.textContent = Number.isFinite(item[step]) ? fmt.format(item[step]) : '—';
+      row.append(cell);
+    }
+    table.append(row);
+  }
+  byId('consultation-funnel').hidden = false;
+}
+
+function renderStats({ days, enquiryTrackingStart, allTimeRequests, allTimeStart, pageTraffic, funnel, consultationTrackingStart }) {
+  renderConsultation({ funnel, consultationTrackingStart });
   const format = (value) => Number.isFinite(value) ? fmt.format(value) : '—';
   byId('all-time-requests').textContent = format(allTimeRequests);
   byId('all-time-coverage').textContent = allTimeStart

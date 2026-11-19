@@ -29,6 +29,34 @@
     // No contact information or message content goes to Google. Existing consent remains in force.
     gtag('event', 'conversion', {send_to: config.googleAdsSendTo, transaction_id: receipt});
   }
-  const api = {endpointURL, deliver, track};
+  function consultationSource(referrer, origin) {
+    if (!referrer) return 'direct';
+    try {
+      const url = new URL(referrer);
+      if (url.origin !== origin) return 'external';
+      const path = url.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/\/+$/, '') || '/';
+      if (path === '/') return 'home';
+      if (['/services', '/microfluidic-consulting', '/diagnostic-cartridge-design', '/engineering-prototyping'].includes(path)) return 'services';
+      if (path === '/products' || path === '/kits' || path.startsWith('/catalog/') || path.startsWith('/microfluidic-')) return 'components';
+      if (path === '/clair' || path.startsWith('/clair/')) return 'clair';
+      if (['/tools', '/modeler', '/analyzer', '/motor-controller', '/diagnostics', '/platform'].some(page => path === page || path.startsWith(page + '/'))) return 'tools';
+      if (path === '/labops') return 'labops';
+    } catch { /* unrecognized source */ }
+    return 'other';
+  }
+  function recordInteraction(config, event, source, fetcher = fetch) {
+    const url = endpointURL(config.interactionEndpoint);
+    if (!url || (event !== 'start' && event !== 'submit')) return;
+    // The event contains only a fixed event type and a category from consultationSource.
+    return Promise.resolve().then(() => fetcher(url, {
+      method: 'POST',
+      credentials: 'omit',
+      keepalive: true,
+      referrerPolicy: 'no-referrer',
+      headers: {'Content-Type': 'text/plain'},
+      body: JSON.stringify({event, source})
+    })).catch(() => { /* reporting must not block form use */ });
+  }
+  const api = {endpointURL, deliver, track, consultationSource, recordInteraction};
   root.MicroCDInquiryDelivery = api;
 })(typeof window === 'undefined' ? globalThis : window);

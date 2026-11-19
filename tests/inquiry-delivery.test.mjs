@@ -36,3 +36,40 @@ test('backend sends only to configured inbox and succeeds only after SES accepts
     assert.equal(result.statusCode,503);assert.equal(JSON.parse(result.body).accepted,false);
   }
 });
+
+test('consultation interaction sends only the fixed event and referring category', async () => {
+  const {consultationSource, recordInteraction} = globalThis.MicroCDInquiryDelivery;
+  assert.equal(consultationSource('', env.ALLOWED_ORIGINS), 'direct');
+  assert.equal(consultationSource(env.ALLOWED_ORIGINS + '/index.html?discard=this#fragment', env.ALLOWED_ORIGINS), 'home');
+  assert.equal(consultationSource(env.ALLOWED_ORIGINS + '/clair/human.html?personal=discard', env.ALLOWED_ORIGINS), 'clair');
+  assert.equal(consultationSource('https://elsewhere.example/page?q=discard', env.ALLOWED_ORIGINS), 'external');
+  let request;
+  await recordInteraction({interactionEndpoint:'https://example.com/events'}, 'start', 'home', async (url, options) => {request = {url, ...options};});
+  assert.deepEqual(JSON.parse(request.body), {event:'start', source:'home'});
+  assert.equal(request.credentials, 'omit');
+  assert.equal(request.referrerPolicy, 'no-referrer');
+  assert.equal(request.keepalive, true);
+  await recordInteraction({interactionEndpoint:'https://example.com/events'}, 'submit', 'home', () => {throw Error('blocked');});
+});
+
+test('only SES-accepted requests reach enquiry analytics and unknown sources are discarded', async () => {
+  const recorded = [];
+  let mail;
+  const handle = createHandler({
+    env,
+    sendEmail: async input => {mail = input; return {MessageId:'ses-id'};},
+    recordAcceptance: source => recorded.push(source)
+  });
+  await handle(event({...payload, consultationSource:'service@example.org'}));
+  await handle(event({...payload, consultationSource:'services'}));
+  await handle(event({...payload, consultationSource:'home', website:'spam'}));
+  const failingMail = createHandler({env, sendEmail:async () => ({}), recordAcceptance:source => recorded.push(source)});
+  assert.equal((await failingMail(event({...payload, consultationSource:'home'}))).statusCode, 503);
+  assert.deepEqual(recorded, [null, 'services']);
+  assert.doesNotMatch(mail.Message.Body.Text.Data, /consultationSource/);
+
+  const failingAnalytics = createHandler({
+    env, sendEmail:async () => ({MessageId:'ses-id'}), recordAcceptance:() => {throw Error('tracking unavailable');}
+  });
+  assert.equal((await failingAnalytics(event({...payload, consultationSource:'home'}))).statusCode, 200);
+});

@@ -34,7 +34,9 @@
     <link rel="stylesheet" href="styles.css?v=20260816c" />
   <link rel="stylesheet" href="assets/custom-pages.css?v=20261101-oral" />
   <link rel="stylesheet" href="assets/review.css?v=20261105" />
-<link rel="stylesheet" href="assets/marketing.css?v=20261108-flow1"></head>
+<link rel="stylesheet" href="assets/marketing.css?v=20261108-flow1">
+    <link rel="stylesheet" href="assets/lead-pages.css?v=20261119">
+  </head>
   <body class="mcd-custom mcd-contact">
     <header class="site-header"><a class="brand" href="index.html#top" aria-label="MicroCD Labs home"><img class="brand-logo" src="assets/microcd-labs-wordmark.svg?v=boxed" width="154" height="34" alt="MicroCD Labs"></a>      <nav class="main-nav" aria-label="Primary navigation">
         <a class="nav-primary-link" href="clair/">CLAIR</a>
@@ -58,22 +60,23 @@
       </nav><div class="header-actions"><a class="header-cta" href="consultation.html">Contact</a></div></header>
 
     <main>
-      <section class="consultation-hero section" aria-labelledby="consultation-title">
+      <section class="consultation-hero section contact-intro" aria-labelledby="consultation-title">
         <div>
-          <p class="eyebrow">Start a conversation</p>
-          <h1 id="consultation-title">Bring your question.
-We’ll find the next step.</h1>
-          <p id="inquiryHeroDescription">Choose research collaboration, engineering support or component sourcing. Review and copy your details, then paste them into an email and send it yourself.</p>
+          <h1 id="consultation-title">Request engineering support</h1>
+          <p>Tell us what you are working on. Choose an engineering project, a parts quote, or a research collaboration.</p>
         </div>
-        <aside class="consultation-expectations" aria-label="What to expect"><strong>What happens next</strong><ol id="inquiryExpectations"><li>Review and copy your inquiry details. Nothing is sent by this form.</li><li>Open an email draft, paste the copied details and send it yourself.</li><li>For engineering work, scope, timing, and fees are agreed before paid work begins.</li></ol></aside>
-      </section>
-
-      <nav class="review-inquiry-choices mcd-inquiry-paths" aria-label="Choose an inquiry purpose"><a href="consultation.html?project=clair-human#inquiry-title">Human research</a><a href="consultation.html?project=clair-veterinary#inquiry-title">Veterinary research</a><a href="consultation.html?project=microfluidic-development#inquiry-title">Engineering services</a><a href="consultation.html?project=research#inquiry-title">Research partnership</a><a href="consultation.html?project=sourcing#inquiry-title">Components &amp; sourcing</a><a href="consultation.html?project=labops#inquiry-title">LabOps for teams</a></nav><section class="section inquiry-section" aria-labelledby="inquiry-title">
+      </section><section class="section inquiry-section contact-enquiry" aria-labelledby="inquiry-title">
         <div class="inquiry-copy">
-          <p class="eyebrow">Project inquiry</p>
-          <h2 id="inquiry-title">A concise technical brief is enough.</h2>
-          <p id="inquiry-description">Share the question you want to discuss and the next step you have in mind.</p>
-          <details class="review-disclosure"><summary>Sharing non-confidential details</summary><div><p>Please do not include trade secrets, patient information, controlled technical data, or other sensitive information in this initial request. An NDA can be discussed separately when appropriate; this website form does not create confidentiality obligations.</p></div></details>
+          <h2 id="inquiry-title">Start your enquiry</h2>
+          <p id="inquiry-description">Choose a purpose and tell us what you would like to discuss.</p>
+          <nav class="review-inquiry-choices mcd-inquiry-paths" aria-label="Choose an enquiry type">
+            <a href="consultation.html?project=microfluidic-development#inquiry-title">Engineering project</a>
+            <a href="consultation.html?project=sourcing#inquiry-title">Parts or quote</a>
+            <a href="consultation.html?project=research#inquiry-title">Research collaboration</a>
+          </nav>
+          <p>For engineering work, we agree on scope, timing, and fees before paid work begins.</p>
+          <p>Prefer email? <a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a></p>
+          <details class="review-disclosure"><summary>Sharing non-confidential details</summary><div><p>Keep this first enquiry non-confidential. If the project needs an NDA, we can discuss that before you share sensitive details.</p><p>We count form activity by referring section to improve this page. Those counts contain no enquiry contents.</p></div></details>
         </div>
 
         <noscript><p class="review-form-notice">JavaScript is needed to prepare or copy an email draft. Email <a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a> directly.</p><style>#projectInquiryForm{display:none}</style></noscript><form id="projectInquiryForm" class="contact-form project-inquiry-form" novalidate>
@@ -95,9 +98,9 @@ We’ll find the next step.</h1>
     </main>
 
     <footer class="site-footer review-footer"><div><img class="footer-logo" src="assets/microcd-labs-wordmark.svg?v=boxed" width="154" height="34" loading="lazy" alt="MicroCD Labs"><p>Engineering for microfluidics, assays, and diagnostic development.</p><a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a><p><a href="https://www.linkedin.com/company/microcd-labs/" target="_blank" rel="noreferrer">LinkedIn</a></p></div><nav aria-label="Footer navigation"><a href="clair/">CLAIR</a><a href="services.html">Engineering Services</a><a href="tools.html">Research Tools</a><a href="products.html">Research components &amp; sourcing</a><a href="about.html">About</a><a href="consultation.html">Contact</a><a href="privacy.html">Website Privacy</a><a href="terms.html">Terms & Payments</a><a href="accessibility.html">Accessibility</a><a href="credits.html">Image Credits</a></nav><p class="review-footer-note">CLAIR is in development, not for sale or clinical use. Research components are enquiry categories; source and supply require review. Images may be representative. <a href="refunds.html">Refunds & Returns</a></p></footer>
-    <script src="assets/inquiry-config.js?v=20261116"></script>
-    <script src="assets/inquiry-delivery.js?v=20261116"></script>
-    <script src="site.js?v=20261117-labops"></script>
+    <script src="assets/inquiry-config.js?v=20261119-funnel"></script>
+    <script src="assets/inquiry-delivery.js?v=20261119-funnel"></script>
+    <script src="site.js?v=20261119-funnel"></script>
       <!-- Start of microcdlabs Zendesk Widget script -->
 
     <script src="assets/chat-widget.js?v=20261106"></script>
