@@ -13,7 +13,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Microfluidic Development Tools | MicroCD Labs</title>
-    <meta name="description" content="Explore MicroCD Labs research tools for microfluidic geometry, kinetic assay analysis, and CLAIR motor control." />
+    <meta name="description" content="Compare MicroCD Labs tools for microfluidic design, assay analysis, CLAIR motor control, and team operations. Try the built-in Kinetic Assay Analyzer demo." />
     <link rel="canonical" href="https://www.microcdlabs.com/tools.html" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Microfluidic Development Tools | MicroCD Labs" />
@@ -23,8 +23,10 @@
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="assets/microcd-tab-icon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css?v=20260816c" />
-  <link rel="stylesheet" href="assets/marketing.css?v=20261108-flow1"><link rel="stylesheet" href="assets/visitor-journey.css?v=20261117"></head>
-  <body class="tools-page">
+  <link rel="stylesheet" href="assets/marketing.css?v=20261108-flow1"><link rel="stylesheet" href="assets/visitor-journey.css?v=20261117">
+    <link rel="stylesheet" href="assets/product-design.css?v=20261121">
+</head>
+  <body class="product-design tools-page">
     <header class="site-header"><a class="brand" href="index.html#top" aria-label="MicroCD Labs home"><img class="brand-logo" src="assets/microcd-labs-wordmark.svg?v=boxed" width="154" height="34" alt="MicroCD Labs"></a>      <nav class="main-nav" aria-label="Primary navigation">
         <a class="nav-primary-link" href="clair/">CLAIR</a>
         <a class="nav-primary-link" href="services.html">Engineering Services</a>
@@ -48,8 +50,19 @@
 
     <main>
       <section class="tools-hero section" aria-labelledby="tools-page-title">
-        <div><p class="eyebrow">MicroCD Labs tools</p><h1 id="tools-page-title">Focused workspaces for engineering and assay development.</h1><p>Each tool has a defined job and a visible maturity level. Use them with non-sensitive research or engineering data unless a project-specific agreement says otherwise.</p></div>
-        <aside><strong>Choose by task</strong><a href="modeler/">Open the 2D Modeler</a><a href="analyzer/">Open Kinetic Assay Analyzer</a><a href="motor-controller/">Review motor-console requirements</a></aside>
+        <div>
+          <p class="eyebrow">MicroCD Labs tools</p>
+          <h1 id="tools-page-title">Tools for microfluidic development</h1>
+          <p>Sketch a device concept, explore assay data, or coordinate engineering work with your team. Use non-sensitive research and engineering data unless your project agreement specifies otherwise.</p>
+        </div>
+        <aside>
+          <strong>Choose by task</strong>
+          <a href="#modeler">Sketch a 2D flow path</a>
+          <a href="#analyzer">Compare assay analysis inputs and exports</a>
+          <a href="analyzer/?demo=1">Try the Analyzer demo</a>
+          <a href="#motor-controller">Check motor controller requirements</a>
+          <a href="labops.html">Explore LabOps for teams</a>
+        </aside>
       </section>
 
       <span id="enhancer"></span><section class="tool-detail-section section" aria-label="MicroCD Labs software tools"><article id="modeler" class="tool-detail"><figure><img src="assets/tools/modeler-workspace.webp" width="960" height="640" loading="lazy" alt="Illustrative built-in flow path in the local 2D workspace; not fabrication-ready."><figcaption>Illustrative built-in flow path in the local 2D workspace; not fabrication-ready.</figcaption></figure><div><div class="tool-status"><span>Research beta</span><span>2.1.0-beta.3</span></div><p class="eyebrow">Modern browser; legacy 3D requires WebGL</p><h2>Microfluidic Modeler</h2><p>Sketch 2D flow paths, inspect geometry and connection guidance, and save a native project.</p><p><strong>Browser exports:</strong> Native JSON, SVG, PNG, CSV.</p><p><strong>Legacy:</strong> Separate legacy 3D workspace: GLB, not synchronized with 2D. STEP/DXF remain disabled roadmap items; STL and OBJ are not advertised browser exports.</p><p><strong>iOS:</strong> Separate App Store listing; current native-build capabilities are not verified by this checkout. <a href="https://apps.apple.com/us/app/microfluidic-modeler/id6788555232">See the separate App Store listing</a>.</p><p class="tool-boundary"><strong>Data:</strong> 2D autosave in local storage; offline asset cache; no project upload. Research and engineering use; no clinical performance claim.</p><a class="button button-primary" href="modeler/">Open Microfluidic Modeler</a></div></article>
@@ -57,7 +70,7 @@
 <article id="motor-controller" class="tool-detail"><figure><img src="assets/tools/motor-profile.webp" width="960" height="727" loading="lazy" alt="Existing motor-profile software prototype; not a validated commercial controller."><figcaption>Existing motor-profile software prototype; not a validated commercial controller.</figcaption></figure><div><div class="tool-status"><span>Engineering beta</span><span>Firmware-dependent</span></div><p class="eyebrow">Web Serial in supported desktop Chromium; HTTPS or localhost</p><h2>CLAIR Motor Controller</h2><p>Engineering console for compatible ESP32 / SimpleFOC firmware over USB serial. Define timed RPM profiles, inspect telemetry, and download logs.</p><p><strong>Exports:</strong> Profile JSON, Telemetry CSV, Run report JSON.</p><p>MAX/LIMIT unsupported by documented firmware. Software stop is not a safety-rated emergency stop.</p><p>Confirm hardware, enclosure, firmware protocol, and physical power-disconnect arrangements before connecting.</p><p class="tool-boundary"><strong>Data:</strong> Serial data stays in browser until downloaded. Research and engineering use; no clinical performance claim.</p><a class="button button-primary" href="motor-controller/">Open CLAIR Motor Controller</a></div></article></section>
 
       <section class="tools-clair-band section" aria-labelledby="tools-clair-title"><div><p class="eyebrow">From software to system</p><h2 id="tools-clair-title">CLAIR connects controlled fluid handling with standardized imaging.</h2><p>The flagship platform applies the same engineering disciplines to separate human and veterinary oral-health research programs.</p></div><a class="button button-light" href="clair/">Explore CLAIR</a></section>
-    <section class="section" aria-labelledby="tools-engineering-title"><p class="eyebrow">From exploration to a scoped project</p><h2 id="tools-engineering-title">Need support with the engineering decision?</h2><p>These research tools can help you explore a question. For a defined work product, review our service inputs and deliverables, then discuss the scope with MicroCD Labs.</p><div class="hero-actions"><a class="button button-primary" href="microfluidic-consulting.html">Microfluidic consulting</a><a class="button button-secondary" href="diagnostic-cartridge-design.html">Cartridge design</a><a class="button button-secondary" href="engineering-prototyping.html">Design &amp; prototyping</a></div></section><section class="visitor-section visitor-dark" aria-labelledby="tools-labops-title"><p class="eyebrow">For teams coordinating the work</p><h2 id="tools-labops-title">From individual analysis to connected operations.</h2><p>LabOps brings nine operations dashboards, editable deadline timelines, linked evidence, and independent reviews into an organization-scoped workspace.</p><div class="hero-actions"><a class="button" href="labops.html">See LabOps capabilities →</a><a class="button" href="consultation.html?project=labops#inquiry-title">Discuss your team workflow</a></div></section></main>
+    <section class="section" aria-labelledby="tools-engineering-title"><p class="eyebrow">From exploration to a scoped project</p><h2 id="tools-engineering-title">Need support with the engineering decision?</h2><p>These research tools can help you explore a question. For a defined work product, review our service inputs and deliverables, then discuss the scope with MicroCD Labs.</p><div class="hero-actions"><a class="button button-primary" href="microfluidic-consulting.html">Microfluidic consulting</a><a class="button button-secondary" href="diagnostic-cartridge-design.html">Cartridge design</a><a class="button button-secondary" href="engineering-prototyping.html">Design &amp; prototyping</a></div></section><section class="visitor-section visitor-dark" aria-labelledby="tools-labops-title"><p class="eyebrow">For teams coordinating the work</p><h2 id="tools-labops-title">From individual analysis to connected operations.</h2><p>LabOps brings nine operations dashboards, editable deadline timelines, linked evidence, and independent reviews into an organization-scoped workspace.</p><div class="hero-actions"><a class="button" href="labops.html">See LabOps capabilities</a><a class="button" href="consultation.html?project=labops#inquiry-title">Discuss your team workflow</a></div></section></main>
 
     <footer class="site-footer review-footer"><div><img class="footer-logo" src="assets/microcd-labs-wordmark.svg?v=boxed" width="154" height="34" loading="lazy" alt="MicroCD Labs"><p>Engineering for microfluidics, assays, and diagnostic development.</p><a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a><p><a href="https://www.linkedin.com/company/microcd-labs/" target="_blank" rel="noreferrer">LinkedIn</a></p></div><nav aria-label="Footer navigation"><a href="clair/">CLAIR</a><a href="services.html">Engineering Services</a><a href="tools.html">Research Tools</a><a href="products.html">Research components &amp; sourcing</a><a href="about.html">About</a><a href="consultation.html">Contact</a><a href="privacy.html">Website Privacy</a><a href="terms.html">Terms & Payments</a><a href="accessibility.html">Accessibility</a><a href="credits.html">Image Credits</a></nav><p class="review-footer-note">CLAIR is in development, not for sale or clinical use. Research components are enquiry categories; source and supply require review. Images may be representative. <a href="refunds.html">Refunds & Returns</a></p></footer>
     <script src="site.js?v=20261108-flow1"></script>

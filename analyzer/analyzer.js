@@ -207,7 +207,18 @@ function init(){
   }
   document.querySelectorAll("[data-report]").forEach(button=>button.addEventListener("click",async()=>{if(!state.metrics)return;const base=safeFilename(document.querySelector("#experiment-name").value,"kinetic-analysis"),type=button.dataset.report;if(type==="raw")downloadText(`${base}-raw.csv`,rowsCSV(state.raw,false),"text/csv");if(type==="processed")downloadText(`${base}-processed.csv`,rowsCSV(state.processed,true),"text/csv");if(type==="results")downloadText(`${base}-results.csv`,resultsCSV(state.metrics),"text/csv");if(type==="manifest")downloadText(`${base}-analysis.json`,JSON.stringify(await manifest(),null,2),"application/json");if(type==="plot")downloadText(`${base}-kinetic-curve.svg`,state.chartSvg,"image/svg+xml");toast("Export downloaded");}));
   document.querySelector('[data-action="export-manifest"]').addEventListener("click",async()=>{if(state.metrics)downloadText(`${safeFilename(document.querySelector("#experiment-name").value)}-analysis.json`,JSON.stringify(await manifest(),null,2),"application/json")});document.querySelectorAll('[data-action="print"]').forEach(b=>b.addEventListener("click",()=>window.print()));document.querySelector('[data-action="export-chart"]').addEventListener("click",()=>downloadText(`${safeFilename(document.querySelector("#experiment-name").value)}-kinetic-curve.svg`,state.chartSvg,"image/svg+xml"));
-  document.querySelector('[data-action="reset"]').addEventListener("click",()=>{if(confirm("Start a new experiment? Download current exports first if needed."))location.reload();});
+  const startUrl = new URL(location.href);
+  const startWithDemo = startUrl.searchParams.get("demo") === "1";
+  document.querySelector('[data-action="reset"]').addEventListener("click", () => {
+    if (!confirm("Start a new experiment? Download current exports first if needed.")) return;
+    if (startWithDemo) {
+      startUrl.searchParams.delete("demo");
+      startUrl.hash = "";
+      location.replace(startUrl.href);
+      return;
+    }
+    location.reload();
+  });
   document.addEventListener("change",event=>{
     if(event.target.matches("[data-pipeline],#slope-window,#auc-method,#threshold,#classification-enabled,#time-unit,#signal-unit,#cv-limit,[data-roi-field]"))invalidateAnalysis();
   });
@@ -215,7 +226,10 @@ function init(){
   function pipelineDescription(){return[state.pipeline.channel,state.pipeline.backgroundSubtract?"background subtracted":null,state.pipeline.controlNormalize?"control normalized":null,state.pipeline.baselineCorrect?"baseline corrected":null,state.pipeline.smoothing==="moving-average"?`moving average (${state.pipeline.window})`:null].filter(Boolean).join(" → ");}
   function rowsCSV(rows,includeProcessed){const headers=["row","time","sample_id","replicate_id","signal_raw","background_raw","control_raw",...(includeProcessed?["signal_processed"]:[])];return[headers,...rows.map(r=>[r.row,r.time,r.sampleId,r.replicateId,r.signal,r.background??"",r.control??"",...(includeProcessed?[r.processed]:[])])].map(row=>row.map(csv).join(",")).join("\n");}
   function resultsCSV(m){return[["metric","value","unit","method"],["endpoint",m.endpoint,processedUnit(),m.methods.endpoint],["initial_slope",m.initialSlope,`${processedUnit()}/${document.querySelector("#time-unit").value}`,m.methods.initialSlope],["maximum_slope",m.maximumSlope,`${processedUnit()}/${document.querySelector("#time-unit").value}`,m.methods.maximumSlope],["auc",m.auc,`${processedUnit()}*${document.querySelector("#time-unit").value}`,m.methods.auc],["time_to_threshold",m.timeToThreshold??"",document.querySelector("#time-unit").value,m.methods.timeToThreshold],["snr",m.snr??"","ratio",m.methods.snr]].map(row=>row.map(csv).join(",")).join("\n");}
-  if(location.hash&&document.querySelector(`[data-stage="${CSS.escape(location.hash.slice(1))}"]`))go(location.hash.slice(1));renderImportPreview();
+  if (startWithDemo) loadDemo();
+  else renderImportPreview();
+  const initialStage = location.hash.slice(1);
+  if (initialStage && document.querySelector(`[data-stage="${CSS.escape(initialStage)}"]`)) go(initialStage);
 }
 
 function chartGrid(pad,width,height,xmin,xmax,ymin,ymax){
