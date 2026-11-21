@@ -128,23 +128,6 @@
   text-underline-offset: 4px;
 }
 
-.product-design .product-preview-operations {
-  background: var(--product-glow), var(--product-dark);
-  border-color: var(--product-dark);
-}
-
-.product-preview-operations > div {
-  padding-top: clamp(28px, 6vw, 72px);
-}
-
-.product-preview-operations :is(h3, p, a) {
-  color: #e6faf5;
-}
-
-.product-preview-operations a:focus-visible {
-  outline-color: #a7e9dd;
-}
-
 .product-design .tools-hero,
 .product-design .catalog-intro {
   background: radial-gradient(ellipse at top right, #d6eeea, transparent 65%), var(--product-paper);
@@ -287,7 +270,204 @@
     font-size: clamp(2rem, 9vw, 3.2rem);
   }
 
-  .product-preview-operations > div {
-    padding-top: 28px;
+}
+
+.product-design .review-services-band .mcd-section-heading p {
+  color: #dcefeb;
+}
+
+.product-design .home-tools {
+  max-width: none;
+  padding-inline: max(22px, calc((100% - 1200px) / 2));
+}
+
+.home-tools-heading, .home-sourcing {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px 24px;
+}
+
+.home-tools-heading h2, .home-sourcing p {
+  margin: 0;
+}
+
+.home-sourcing {
+  margin-top: 24px;
+  padding: clamp(16px, 3vw, 24px);
+  border: 1px solid var(--product-line);
+  border-radius: var(--product-radius);
+  background: var(--product-paper);
+}
+
+.home-sourcing p {
+  color: var(--product-muted);
+  line-height: 1.55;
+}
+
+.home-sourcing strong {
+  color: var(--product-ink);
+}
+
+.product-design .home-programs {
+  background: #eaf4f1;
+  border-top: 1px solid var(--product-line);
+}
+
+.home-program-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.home-program-grid article {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: clamp(16px, 3vw, 26px);
+  background: #fff;
+  border: 1px solid var(--product-line);
+  border-radius: 14px;
+}
+
+.home-program-grid h3 {
+  margin: 0 0 8px;
+  color: var(--product-ink);
+}
+
+.home-program-grid p {
+  margin: 0 0 12px;
+  color: var(--product-muted);
+}
+
+.home-program-grid a {
+  margin-top: auto;
+  color: var(--product-action);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.operations-preview {
+  margin: 0;
+  min-width: 0;
+  padding: clamp(16px, 2.5vw, 28px);
+  background: #e5f2ef;
+  color: var(--product-ink);
+}
+
+.product-preview-card .operations-preview {
+  display: grid;
+  align-content: center;
+  aspect-ratio: 3 / 2;
+  border-bottom: 1px solid var(--product-line);
+}
+
+.operations-preview figcaption {
+  margin-bottom: 10px;
+  color: #285653;
+  font-size: .875rem;
+  font-weight: 750;
+}
+
+.operations-preview ol {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.operations-preview li {
+  display: grid;
+  gap: 2px;
+  padding: 7px 12px;
+  background: #fff;
+  border: 1px solid #c0d9d5;
+  border-inline-start: 4px solid #4e9e92;
+  border-radius: 7px;
+  font-size: .875rem;
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.operations-preview li span {
+  color: #456167;
+  font-weight: 400;
+}
+
+.product-design .operations-hero {
+  margin-top: clamp(16px, 3vw, 36px);
+}
+
+.operations-hero-grid, .product-design[data-catalog-scope="products"] .catalog-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr);
+  align-items: center;
+  gap: clamp(24px, 5vw, 64px);
+}
+
+.product-design .operations-hero h1 {
+  font-size: clamp(2.15rem, 4vw, 3.75rem);
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+
+.operations-hero .operations-preview {
+  border: 1px solid #a7cfc9;
+  border-radius: var(--product-radius);
+}
+
+.operations-hero .operations-preview li {
+  padding: 12px 14px;
+}
+
+.product-design[data-catalog-scope="products"] .catalog-intro h1 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.08;
+  letter-spacing: -.04em;
+  text-wrap: balance;
+}
+
+.catalog-intro-image {
+  margin: 0;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--product-line);
+  border-radius: var(--product-radius);
+  box-shadow: var(--product-shadow);
+}
+
+.catalog-intro-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.catalog-intro-image figcaption {
+  padding: 9px 14px;
+  color: var(--product-muted);
+  font-size: .875rem;
+}
+
+.product-design[data-catalog-scope="products"] .catalog-controls select {
+  padding-inline-end: 28px;
+  background-position: calc(100% - 15px) center, calc(100% - 9px) center;
+}
+
+.product-design[data-catalog-scope="products"] .catalog-intro .button,
+.product-design .operations-hero .button {
+  min-height: 44px;
+}
+
+@media (max-width: 760px) {
+  .home-program-grid, .operations-hero-grid,
+  .product-design[data-catalog-scope="products"] .catalog-intro {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .product-design .operations-hero {
+    margin-top: 0;
   }
 }
