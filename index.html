@@ -41,8 +41,10 @@
     <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Saliva-Testing Technology for Oral-Health Research | MicroCD Labs", "url": "https://www.microcdlabs.com/"}</script>
   <link rel="stylesheet" href="assets/custom-pages.css?v=20261102-care" />
   <link rel="stylesheet" href="assets/review.css?v=20261105" />
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://www.microcdlabs.com/#organization", "name": "MicroCD Labs", "url": "https://www.microcdlabs.com/", "email": "info@microcdlabs.com", "sameAs": ["https://www.linkedin.com/company/microcd-labs/"]}</script><link rel="stylesheet" href="assets/marketing.css?v=20261108-flow1"><link rel="stylesheet" href="assets/visitor-journey.css?v=20261117"></head>
-  <body class="mcd-custom mcd-home">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://www.microcdlabs.com/#organization", "name": "MicroCD Labs", "url": "https://www.microcdlabs.com/", "email": "info@microcdlabs.com", "sameAs": ["https://www.linkedin.com/company/microcd-labs/"]}</script><link rel="stylesheet" href="assets/marketing.css?v=20261108-flow1"><link rel="stylesheet" href="assets/visitor-journey.css?v=20261117">
+    <link rel="stylesheet" href="assets/product-design.css?v=20261121">
+</head>
+  <body class="product-design mcd-custom mcd-home">
     <div class="utility-bar" aria-label="MicroCD Labs quick contact">
       <span>Lab-on-disc · Centrifugal microfluidics · Point-of-care</span>
       <span>Engineering support · Research-use products</span>
@@ -79,10 +81,10 @@
             <a class="button button-primary" href="consultation.html?project=microfluidic-development#inquiry-title">Request engineering support</a>
             <a class="button button-ghost-light" href="clair/">Explore CLAIR research</a>
           </div>
-          <a class="review-hero-service" href="services.html">See engineering services <span aria-hidden="true">↗</span></a>
+          <a class="review-hero-service" href="services.html">See engineering services</a>
         </div>
         <figure class="review-hero-visual">
-          <img src="assets/clair/concept/clair-concept-hero.png" alt="Concept rendering of the CLAIR centrifugal microfluidic disc" fetchpriority="high">
+          <img src="assets/clair/concept/clair-concept-hero-960.webp" srcset="assets/clair/concept/clair-concept-hero-640.webp 640w, assets/clair/concept/clair-concept-hero-960.webp 960w" sizes="(max-width: 760px) calc(100vw - 44px), (max-width: 1100px) 48vw, 580px" width="960" height="540" alt="Concept rendering of the CLAIR centrifugal microfluidic disc" fetchpriority="high">
           <figcaption>CLAIR research concept. Geometry is illustrative.</figcaption>
         </figure>
       </section>
@@ -90,9 +92,17 @@
       <section class="visitor-section" aria-labelledby="visitor-path-title">
         <h2 id="visitor-path-title">Microfluidic tools and research components</h2>
         <div class="visitor-grid">
-          <article><h3>Microfluidic Modeler</h3><p>Sketch 2D channel layouts in your browser and export early design concepts.</p><a href="modeler/">Open Modeler</a></article>
-          <article><h3>Kinetic Assay Analyzer</h3><p>Load a sample time series to explore preprocessing, signal metrics, and quality checks.</p><a href="analyzer/?demo=1">Try the Analyzer demo</a></article>
-          <article><h3>MicroCD LabOps</h3><p>Track deadlines, connect engineering records, and review evidence with your team.</p><a href="labops.html">Explore LabOps for teams</a></article>
+          <article class="product-preview-card">
+            <img src="assets/tools/modeler-workspace.webp" alt="Illustrative microfluidic flow path in the Modeler workspace" width="960" height="640" loading="lazy">
+            <div><h3>Microfluidic Modeler</h3><p>Sketch 2D channel layouts in your browser and export early design concepts.</p><a href="modeler/">Open Modeler</a></div>
+          </article>
+          <article class="product-preview-card">
+            <img src="assets/tools/analyzer-workspace.webp" alt="Time-series signal plot in the Analyzer demo workspace" width="960" height="640" loading="lazy">
+            <div><h3>Kinetic Assay Analyzer</h3><p>Load a sample time series to explore preprocessing, signal metrics, and quality checks.</p><a href="analyzer/?demo=1">Try the Analyzer demo</a></div>
+          </article>
+          <article class="product-preview-card product-preview-operations">
+            <div><h3>MicroCD LabOps</h3><p>Track deadlines, connect engineering records, and review evidence with your team.</p><a href="labops.html">Explore LabOps for teams</a></div>
+          </article>
         </div>
         <p><a href="tools.html">Compare research tools</a> · <a href="products.html">Browse chips, tubing, and other research components</a></p>
       </section>
@@ -123,7 +133,7 @@
         </div>
         <div class="hero-actions">
           <a class="button button-primary" href="consultation.html?project=microfluidic-development#inquiry-title">Request engineering support</a>
-          <a class="text-link" href="services.html">Compare services and deliverables <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="services.html">Compare services and deliverables</a>
         </div>
       </section>
     </main>
