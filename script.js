@@ -950,9 +950,13 @@ const productGrid = document.querySelector("#productGrid");
 const quoteList = document.querySelector("#quoteList");
 const emptyQuote = document.querySelector("#emptyQuote");
 const quoteMail = document.querySelector("#quoteMail");
-const stripePayLink = document.querySelector("#stripePayLink");
-const cartSubtotal = document.querySelector("#cartSubtotal");
 const quoteForm = document.querySelector("#quoteForm");
+const submitQuote = document.querySelector("#submitQuote");
+const quoteSubmissionStatus = document.querySelector("#quoteSubmissionStatus");
+const quoteDelivery = globalThis.MicroCDInquiryDelivery;
+const quoteEndpoint = quoteDelivery?.endpointURL(globalThis.microcdInquiryConfig?.endpoint);
+let quoteSubmissionPending = false;
+let quoteSubmissionUnconfirmed = false;
 const contactForm = document.querySelector("#contactForm");
 const contactMail = document.querySelector("#contactMail");
 const creditList = document.querySelector("#creditList");
@@ -1284,7 +1288,7 @@ function enquiryFieldsHTML(product, value={}, scope="detail", qty="To be determi
 function getEnquiryDetailHTML(product,prefix="../"){
  const e=escapeHtml,s=QuoteState.classify(product),isPDMS=product.id==="pdms-microfluidic-chips",service=s.offeringType==="Engineering service";
  const alternatives=isPDMS?'<nav class="material-alternatives" aria-label="Alternative material enquiries"><strong>Other materials, separate enquiries:</strong> <a href="glass-microfluidic-chips.html">Glass</a> · <a href="coc-microfluidic-chips.html">COC</a> · <a href="pmma-microfluidic-chips.html">PMMA</a></nav>':'';
- return '<section class="section product-detail-section" aria-labelledby="product-detail-title"><nav class="breadcrumb" aria-label="Breadcrumb"><a href="'+prefix+'products.html">Research components &amp; custom sourcing</a><span aria-hidden="true">/</span><span>'+e(product.sku)+'</span></nav><div class="product-detail-layout"><div class="product-detail-media"><img src="'+e(resolveAssetUrl(product.image?.url||'assets/catalog-custom/microfluidic-chips.jpg',prefix))+'" width="960" height="640" alt="Representative illustration for '+e(product.name)+'"><p class="image-credit">Representative illustration, not the exact item to be supplied. '+'</p></div><div class="product-detail-copy"><p class="eyebrow">'+e(s.offeringType)+'</p><h1 id="product-detail-title">'+e(product.name)+'</h1><p>'+e(product.description)+'</p><p class="enquiry-status"><strong>'+e(s.specificationCompleteness)+'</strong><br>'+e(s.pricing.status)+'<br>'+e(s.supplyConfirmation)+'</p><a class="button button-primary" href="#requirements">'+(isPDMS?'Discuss your PDMS chip requirements':service?'Discuss the scope':'Describe your requirements')+'</a><dl class="product-detail-specs"><div><dt>Enquiry reference</dt><dd>'+e(product.sku)+'</dd></div><div><dt>Offering type</dt><dd>'+e(s.offeringType)+'</dd></div><div><dt>Commercial role</dt><dd>'+e(s.commercialRole)+'</dd></div><div><dt>Supply source</dt><dd>'+(service?'Service provider and fabrication responsibility to be confirmed in the proposal.':'To be confirmed in the proposal')+'</dd></div><div><dt>Availability and lead time</dt><dd>Confirmed after specification and supplier review</dd></div></dl>'+alternatives+'</div></div><section class="enquiry-scope"><h2>'+(service?'Agree the work before it starts':'From requirements to a suitable route')+'</h2><p>'+(isPDMS?'This configurable enquiry category does not identify a fixed chip design. ':'')+'Requirements clarification, supplier identification, RFQ preparation and coordination may be included within an agreed scope. Fabrication responsibility is identified in the proposal. These are generic enquiry categories, not references to particular suppliers or third-party product catalogs. No manufacturer relationship or inventory is implied.</p><p>Where applicable, the proposal distinguishes engineering fees, tooling or mold charges, components, and shipping. These charges do not apply automatically. Any paid feasibility, sourcing or engineering scope is stated for agreement before work begins.</p></section><form id="detailEnquiryForm" class="contact-form enquiry-form" aria-labelledby="requirements"><h2 id="requirements">Requirements to discuss</h2><p>Share non-confidential information only. “Not sure—please advise” is welcome. No drawing upload is required; files can be exchanged by email after the initial discussion. Opening an email draft does not attach files.</p>'+enquiryFieldsHTML(product,{},"detail")+'<div class="product-detail-actions"><button class="button button-primary" type="submit" data-add-enquiry="'+e(product.id)+'">Add to enquiry</button><a class="button button-secondary" href="'+prefix+'products.html#quote">Your enquiry list</a></div><p id="detailQuoteStatus" role="status"></p><section id="detailEnquiryFallback" class="quote-draft" hidden><label for="detailEnquiryDraft">Draft for manual copying (not saved or sent)</label><textarea id="detailEnquiryDraft" readonly rows="10"></textarea><p>Select and copy these details, then email them to <a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a>. Do this before leaving or reloading this page.</p></section></form><noscript><style>.enquiry-form{display:none}</style><p>The interactive enquiry form needs JavaScript. Email your application, design needs, quantity, destination and documentation needs to <a href="mailto:info@microcdlabs.com?subject='+encodeURIComponent(QuoteState.subject([{product}]))+'">info@microcdlabs.com</a>, quoting '+e(product.sku)+'. Nothing is submitted by this page.</p></noscript></section>';
+ return '<section class="section product-detail-section" aria-labelledby="product-detail-title"><nav class="breadcrumb" aria-label="Breadcrumb"><a href="'+prefix+'products.html">Research components &amp; custom sourcing</a><span aria-hidden="true">/</span><span>'+e(product.sku)+'</span></nav><div class="product-detail-layout"><div class="product-detail-media"><img src="'+e(resolveAssetUrl(product.image?.url||'assets/catalog-custom/microfluidic-chips.jpg',prefix))+'" width="960" height="640" alt="Representative illustration for '+e(product.name)+'"><p class="image-credit">Representative illustration, not the exact item to be supplied. '+'</p></div><div class="product-detail-copy"><p class="eyebrow">'+e(s.offeringType)+'</p><h1 id="product-detail-title">'+e(product.name)+'</h1><p>'+e(product.description)+'</p><p class="enquiry-status"><strong>'+e(s.specificationCompleteness)+'</strong><br>'+e(s.pricing.status)+'<br>'+e(s.supplyConfirmation)+'</p><a class="button button-primary" href="#requirements">'+(isPDMS?'Discuss your PDMS chip requirements':service?'Discuss the scope':'Describe your requirements')+'</a><dl class="product-detail-specs"><div><dt>Enquiry reference</dt><dd>'+e(product.sku)+'</dd></div><div><dt>Offering type</dt><dd>'+e(s.offeringType)+'</dd></div><div><dt>Commercial role</dt><dd>'+e(s.commercialRole)+'</dd></div><div><dt>Supply source</dt><dd>'+(service?'Service provider and fabrication responsibility to be confirmed in the proposal.':'To be confirmed in the proposal')+'</dd></div><div><dt>Availability and lead time</dt><dd>Confirmed after specification and supplier review</dd></div></dl>'+alternatives+'</div></div><section class="enquiry-scope"><h2>'+(service?'Agree the work before it starts':'From requirements to a suitable route')+'</h2><p>'+(isPDMS?'This configurable enquiry category does not identify a fixed chip design. ':'')+'Requirements clarification, supplier identification, RFQ preparation and coordination may be included within an agreed scope. Fabrication responsibility is identified in the proposal. These are generic enquiry categories, not references to particular suppliers or third-party product catalogs. No manufacturer relationship or inventory is implied.</p><p>Where applicable, the proposal distinguishes engineering fees, tooling or mold charges, components, and shipping. These charges do not apply automatically. Any paid feasibility, sourcing or engineering scope is stated for agreement before work begins.</p></section><form id="detailEnquiryForm" class="contact-form enquiry-form" aria-labelledby="requirements"><h2 id="requirements">Requirements to discuss</h2><p>Share non-confidential information only. “Not sure—please advise” is welcome. No drawing upload is required; files can be exchanged by email after the initial discussion. Opening an email draft does not attach files.</p>'+enquiryFieldsHTML(product,{},"detail")+'<div class="product-detail-actions"><button class="button button-primary" type="submit" data-add-enquiry="'+e(product.id)+'">Add to enquiry</button><a class="button button-secondary" href="'+prefix+'products.html#quote">Review basket</a></div><p id="detailQuoteStatus" role="status"></p><section id="detailEnquiryFallback" class="quote-draft" hidden><label for="detailEnquiryDraft">Draft for manual copying (not saved or sent)</label><textarea id="detailEnquiryDraft" readonly rows="10"></textarea><p>Select and copy these details, then email them to <a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a>. Do this before leaving or reloading this page.</p></section></form><noscript><style>.enquiry-form{display:none}</style><p>The interactive enquiry form needs JavaScript. Email your application, design needs, quantity, destination and documentation needs to <a href="mailto:info@microcdlabs.com?subject='+encodeURIComponent(QuoteState.subject([{product}]))+'">info@microcdlabs.com</a>, quoting '+e(product.sku)+'. Nothing is submitted by this page.</p></noscript></section>';
 }
 function renderProductDetail(){
  if(!productDetail||!productDetailId)return;
@@ -1296,7 +1300,7 @@ function renderProductDetail(){
   q.setCustomValidity(valid?"":"Enter a whole number from 1 to 9999, or To be determined.");if(!form.reportValidity())return;
   const requirements={};form.querySelectorAll("[data-enquiry-field]").forEach(f=>requirements[f.dataset.enquiryField]=f.value);
   const key=QuoteState.newKey(product);selected.set(key,{key,product,option:getProductOptions(product)[0],optionIndex:0,quantity:valid,requirements,notes:""});
-  const saved=renderQuote();document.querySelector("#detailQuoteStatus").innerHTML='Added to your enquiry list. Nothing has been sent. <a href="../products.html#quote">Review details and add your contact information</a>.';
+  const saved=renderQuote();document.querySelector("#detailQuoteStatus").innerHTML='Added to your sourcing basket. <a href="../products.html#quote">Review basket and request a quote</a>.';
   if(!saved){
    document.querySelector("#detailQuoteStatus").textContent="Your browser could not save this enquiry. It is available on this page only. Copy the draft below before leaving. Nothing has been sent.";
    const fallback=document.querySelector("#detailEnquiryFallback");fallback.hidden=false;
@@ -1320,8 +1324,17 @@ function renderQuote(renderList=true){
  const items=[...selected.values()];
  if(renderList)quoteList.innerHTML=items.map((entry,i)=>'<li class="enquiry-item" data-enquiry-key="'+escapeHtml(entry.key)+'"><h3>'+escapeHtml(entry.product.name)+'</h3><p>Enquiry reference: '+escapeHtml(entry.product.sku)+' · '+escapeHtml(entry.product.offeringType)+'</p>'+enquiryFieldsHTML(entry.product,entry.requirements||{},"entry-"+i,entry.quantity)+(entry.notes?'<p>Saved notes: '+escapeHtml(entry.notes)+'</p>':'')+'<button class="button button-secondary" type="button" data-remove="'+escapeHtml(entry.key)+'">Remove enquiry</button></li>').join("");
  emptyQuote.hidden=!!items.length;
- if(cartSubtotal)cartSubtotal.hidden=true;
- if(stripePayLink)stripePayLink.hidden=true;
+  const quoteDetails = document.querySelector("#quoteDetails");
+  if (quoteDetails) quoteDetails.hidden = items.length === 0;
+  const count = document.querySelector("#quoteCount");
+  if (count) {
+    count.hidden = items.length === 0;
+    count.textContent = items.length;
+  }
+  if (submitQuote) {
+    submitQuote.disabled = !items.length || quoteSubmissionPending || quoteSubmissionUnconfirmed;
+    submitQuote.textContent = quoteSubmissionPending ? "Submitting…" : "Submit quote request";
+  }
  const contact=Object.fromEntries(new FormData(quoteForm));
  const preview=document.querySelector("#quotePreview");if(preview)preview.value=QuoteState.request(items,contact);
  const subject=QuoteState.subject(items);
@@ -1335,7 +1348,19 @@ function validEnquiry(){
  if(!selected.size){document.querySelector("#quoteStatus").textContent="Add an enquiry first.";return false;}
  for(const q of quoteList.querySelectorAll("[data-enquiry-quantity]"))q.setCustomValidity(QuoteState.quantity(q.value)?"":"Enter 1–9999, or To be determined.");
  const fields=[...quoteList.querySelectorAll("input,textarea,select"),...quoteForm.querySelectorAll("input,textarea")];
- const invalid=fields.find(f=>!f.checkValidity());if(invalid){invalid.reportValidity();invalid.focus();return false;}return true;
+ for (const field of fields) {
+   if (!field.required || field.matches("[data-enquiry-quantity]")) continue;
+   field.setCustomValidity(field.value.trim() ? "" : "Fill in this field.");
+ }
+ const invalid=fields.find(f=>!f.checkValidity());
+ if(invalid){
+   const details = invalid.closest("details");
+   if (details) details.open = true;
+   invalid.reportValidity();
+   invalid.focus();
+   return false;
+ }
+ return true;
 }
 function renderContactMail() {
   if (!contactForm || !contactMail) return;
@@ -1429,7 +1454,10 @@ if(quoteList){
   const item=event.target.closest("[data-enquiry-key]");if(!item)return;
   const entry=selected.get(item.dataset.enquiryKey);if(!entry)return;
   if(event.target.matches("[data-enquiry-quantity]")){entry.quantity=event.target.value;event.target.setCustomValidity("");}
-  if(event.target.dataset.enquiryField)entry.requirements[event.target.dataset.enquiryField]=event.target.value;
+  if(event.target.dataset.enquiryField){
+   event.target.setCustomValidity("");
+   entry.requirements[event.target.dataset.enquiryField]=event.target.value;
+  }
   renderQuote(false);
  });
  quoteList.addEventListener("click",event=>{const button=event.target.closest("[data-remove]");if(!button)return;selected.delete(button.dataset.remove);renderQuote();});
@@ -1557,7 +1585,17 @@ function initNavigationMenus() {
   });
 }
 
-if (quoteForm) quoteForm.addEventListener("input", ()=>renderQuote(false));
+if (quoteForm) {
+  quoteForm.addEventListener("input", event => {
+    event.target.setCustomValidity?.("");
+    renderQuote(false);
+  });
+  quoteForm.addEventListener("submit", submitSourcingRequest);
+  if (!quoteEndpoint) {
+    submitQuote.hidden = true;
+    document.querySelector("#quoteEmailFallback").open = true;
+  }
+}
 if (contactForm) contactForm.addEventListener("input", renderContactMail);
 
 restoreQuote();
@@ -1579,3 +1617,47 @@ quoteMail?.addEventListener("click",event=>{
  if(!validEnquiry()){event.preventDefault();return;}
  document.querySelector("#quoteStatus").textContent="Opening an email draft with a subject only. Paste the reviewed details and send it yourself. Nothing has been sent or received by this website.";
 });
+
+async function submitSourcingRequest(event) {
+  event.preventDefault();
+  if (!quoteEndpoint || quoteSubmissionPending || quoteSubmissionUnconfirmed || !validEnquiry()) return;
+
+  const reference = "MCD-" + crypto.randomUUID().replaceAll("-", "").slice(0, 16).toUpperCase();
+  const items = [...selected.values()];
+  const contact = Object.fromEntries(new FormData(quoteForm));
+  const payload = QuoteState.checkoutPayload(items, contact, reference);
+  const fallback = document.querySelector("#quoteEmailFallback");
+  if (!payload) {
+    quoteSubmissionStatus.textContent = "This request exceeds the online submission limit. Send the complete details using the email option below.";
+    fallback.open = true;
+    fallback.querySelector("summary").focus();
+    return;
+  }
+
+  quoteSubmissionPending = true;
+  quoteList.inert = true;
+  quoteForm.inert = true;
+  quoteSubmissionStatus.textContent = "Submitting your quote request…";
+  renderQuote(false);
+
+  try {
+    await quoteDelivery.deliver(quoteEndpoint, payload);
+  } catch {
+    quoteSubmissionUnconfirmed = true;
+    quoteSubmissionStatus.textContent = "We couldn’t confirm receipt. Contact info@microcdlabs.com with reference " + reference + " before sending the request again.";
+    return;
+  } finally {
+    quoteSubmissionPending = false;
+    quoteList.inert = false;
+    quoteForm.inert = false;
+    renderQuote(false);
+  }
+
+  selected.clear();
+  quoteForm.reset();
+  renderQuote();
+  document.querySelector("#quoteWorkspace").hidden = true;
+  document.querySelector("#quoteReceipt").textContent = reference;
+  document.querySelector("#quoteConfirmation").hidden = false;
+  document.querySelector("#quoteConfirmationTitle").focus();
+}

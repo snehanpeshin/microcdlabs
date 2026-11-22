@@ -1,0 +1,59 @@
+.checkout-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(20px, 4vw, 56px);
+  margin-top: 32px;
+}
+
+.checkout-card {
+  min-width: 0;
+  padding: clamp(16px, 3vw, 28px);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper);
+}
+
+.checkout-layout #quoteForm {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  margin: 0;
+}
+
+.checkout-layout #quoteForm > * { margin: 0; }
+.checkout-layout #quoteForm label { display: grid; gap: 6px; }
+.checkout-layout #quoteForm details label { margin-top: 12px; }
+.checkout-layout :is(summary, label) { font-size: .95rem; }
+.checkout-layout summary { cursor: pointer; font-weight: 650; }
+.checkout-layout :is(p, a, button) { overflow-wrap: anywhere; }
+.checkout-layout button { max-width: 100%; white-space: normal; }
+
+.checkout-payment {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.checkout-count {
+  display: inline-block;
+  margin-inline-start: 6px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--soft);
+  color: var(--teal-dark);
+  font-size: .9rem;
+  vertical-align: middle;
+}
+
+.checkout-confirmation { max-width: 760px; margin-top: 28px; }
+.checkout-fallback { margin: 16px 0 0; }
+.checkout-fallback .hero-actions { flex-wrap: wrap; }
+#quoteSubmissionStatus { margin: 12px 0 0; }
+#quoteSubmissionStatus:empty { display: none; }
+
+@media (max-width: 840px) {
+  .checkout-layout { grid-template-columns: minmax(0, 1fr); }
+}
