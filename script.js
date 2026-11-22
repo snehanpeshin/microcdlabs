@@ -1,159 +1,4 @@
 const QuoteState = globalThis.MicroCDQuote;
-const catalogImages = {
-  chip: {
-    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Microfluidic_Device_%286842746147%29.jpg/960px-Microfluidic_Device_%286842746147%29.jpg",
-    title: "Microfluidic Device",
-    alt: "A microfluidic device with pipette and fluidic channel on a lab bench",
-    credit: "Cooksey/NIST",
-    source: "https://commons.wikimedia.org/wiki/File:Microfluidic_Device_(6842746147).jpg",
-    license: "Public domain",
-    modifications: "Displayed at reduced size and may be cropped by responsive layout.",
-  },
-  chipClose: {
-    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Microfluidic_chip_for_point-of-care_medical_devices.jpg/960px-Microfluidic_chip_for_point-of-care_medical_devices.jpg",
-    title: "Microfluidic chip for point-of-care medical devices",
-    alt: "A transparent microfluidic chip with etched channels and electrodes",
-    credit: "FMNLab",
-    source: "https://commons.wikimedia.org/wiki/File:Microfluidic_chip_for_point-of-care_medical_devices.jpg",
-    license: "CC BY 4.0",
-    licenseUrl: "https://creativecommons.org/licenses/by/4.0/",
-    modifications: "Displayed at reduced size and may be cropped by responsive layout.",
-  },
-  laminar: {
-    url: "https://upload.wikimedia.org/wikipedia/commons/5/57/Microfluidic_device_laminar_flow.png",
-    title: "Microfluidic device laminar flow",
-    alt: "A multi-input microfluidic device diagram showing colored laminar flow",
-    credit: "Courson & Rock",
-    source: "https://commons.wikimedia.org/wiki/File:Microfluidic_device_laminar_flow.png",
-    license: "CC BY 2.5",
-    licenseUrl: "https://creativecommons.org/licenses/by/2.5/",
-    modifications: "Displayed at reduced size and may be cropped by responsive layout.",
-  },
-  pump: {
-    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/EPA_GULF_BREEZE_LABORATORY%2C_BIOASSAY_WET_LAB._THIS_IS_A_CLOSE-UP_OF_A_SYRINGE_PUMP%2C_WHICH_CONTROLS_THE_RATE_OF_FLOW..._-_NARA_-_546326.jpg/960px-EPA_GULF_BREEZE_LABORATORY%2C_BIOASSAY_WET_LAB._THIS_IS_A_CLOSE-UP_OF_A_SYRINGE_PUMP%2C_WHICH_CONTROLS_THE_RATE_OF_FLOW..._-_NARA_-_546326.jpg",
-    title: "EPA Gulf Breeze Laboratory syringe pump",
-    alt: "Close-up of a syringe pump controlling laboratory fluid flow",
-    credit: "EPA/NARA",
-    source: "https://commons.wikimedia.org/wiki/File:EPA_GULF_BREEZE_LABORATORY,_BIOASSAY_WET_LAB._THIS_IS_A_CLOSE-UP_OF_A_SYRINGE_PUMP,_WHICH_CONTROLS_THE_RATE_OF_FLOW..._-_NARA_-_546326.jpg",
-    license: "Public domain",
-    modifications: "Displayed at reduced size and may be cropped by responsive layout.",
-  },
-  rapidTest: {
-    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/COVID-19_rapid_test.jpg/720px-COVID-19_rapid_test.jpg",
-    title: "COVID-19 rapid test",
-    alt: "Two lateral flow rapid test cassettes on a light background",
-    credit: "Lennardywlee",
-    source: "https://commons.wikimedia.org/wiki/File:COVID-19_rapid_test.jpg",
-    license: "CC BY-SA 4.0",
-    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
-    modifications: "Displayed at reduced size and may be cropped by responsive layout.",
-  },
-  microplate: {
-    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Microplate_with_hand.jpg/960px-Microplate_with_hand.jpg",
-    title: "Microplate with hand",
-    alt: "A clear 96-well microplate held by a gloved hand",
-    credit: "Magnus Manske",
-    source: "https://commons.wikimedia.org/wiki/File:Microplate_with_hand.jpg",
-    license: "CC BY-SA 3.0",
-    licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
-    modifications: "Displayed at reduced size and may be cropped by responsive layout.",
-  },
-  tips: {
-    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Pipette_tips-different_1.jpg/960px-Pipette_tips-different_1.jpg",
-    title: "Pipette tips-different 1",
-    alt: "Different sizes of clear plastic pipette tips",
-    credit: "Nadine90",
-    source: "https://commons.wikimedia.org/wiki/File:Pipette_tips-different_1.jpg",
-    license: "CC BY-SA 3.0",
-    licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
-    modifications: "Displayed at reduced size and may be cropped by responsive layout.",
-  },
-  oemComplexTuning: {
-    url: "assets/oem/complex-microfluidic-tuning.jpg",
-    alt: "Vendor-neutral microfluidic prototype with controllers, tubing, valves, sensors, and chip connections",
-    credit: "MicroCD Labs",
-    source: "assets/oem/complex-microfluidic-tuning.jpg",
-    license: "Generated custom website asset",
-  },
-  oemPlugAndPlay: {
-    url: "assets/oem/plug-and-play-microfluidic-device.jpg",
-    alt: "Vendor-neutral plug-and-play microfluidic instrument with cartridge slot and guided interface",
-    credit: "MicroCD Labs",
-    source: "assets/oem/plug-and-play-microfluidic-device.jpg",
-    license: "Generated custom website asset",
-  },
-  customMicrofluidicChips: {
-    url: "assets/catalog-custom/microfluidic-chips.jpg",
-    alt: "Vendor-neutral assortment of transparent microfluidic chips and lab-on-chip materials",
-    credit: "MicroCD Labs",
-    source: "assets/catalog-custom/microfluidic-chips.jpg",
-    license: "Generated custom catalog asset",
-  },
-  customTubing: {
-    url: "assets/catalog-custom/tubing-assortment.jpg",
-    alt: "Vendor-neutral assortment of microfluidic tubing in multiple materials and diameters",
-    credit: "MicroCD Labs",
-    source: "assets/catalog-custom/tubing-assortment.jpg",
-    license: "Generated custom catalog asset",
-  },
-  customFittings: {
-    url: "assets/catalog-custom/fittings-connectors.jpg",
-    alt: "Vendor-neutral assortment of microfluidic fittings, connectors, ferrules, and manifolds",
-    credit: "MicroCD Labs",
-    source: "assets/catalog-custom/fittings-connectors.jpg",
-    license: "Generated custom catalog asset",
-  },
-  customReservoirs: {
-    url: "assets/catalog-custom/reservoirs-accessories.jpg",
-    alt: "Vendor-neutral microfluidic reservoirs, bottle caps, adapters, and fluidic accessories",
-    credit: "MicroCD Labs",
-    source: "assets/catalog-custom/reservoirs-accessories.jpg",
-    license: "Generated custom catalog asset",
-  },
-  customPumps: {
-    url: "assets/catalog-custom/pumps-flow-control.jpg",
-    alt: "Vendor-neutral pumps, pressure controller modules, meters, tubing, and transparent chip setup",
-    credit: "MicroCD Labs",
-    source: "assets/catalog-custom/pumps-flow-control.jpg",
-    license: "Generated custom catalog asset",
-  },
-  customSensorsValves: {
-    url: "assets/catalog-custom/sensors-valves.jpg",
-    alt: "Vendor-neutral microfluidic sensors, meters, valves, and tubing connections",
-    credit: "MicroCD Labs",
-    source: "assets/catalog-custom/sensors-valves.jpg",
-    license: "Generated custom catalog asset",
-  },
-  customDiagnostics: {
-    url: "assets/catalog-custom/diagnostics-consumables.jpg",
-    alt: "Vendor-neutral diagnostic consumables, LFIA materials, cartridges, and rapid test housings",
-    credit: "MicroCD Labs",
-    source: "assets/catalog-custom/diagnostics-consumables.jpg",
-    license: "Generated custom catalog asset",
-  },
-  customLabPlastics: {
-    url: "assets/catalog-custom/lab-plastics-consumables.jpg",
-    alt: "Vendor-neutral lab plastics including plates, tubes, vials, reservoirs, bottles, and pipette tips",
-    credit: "MicroCD Labs",
-    source: "assets/catalog-custom/lab-plastics-consumables.jpg",
-    license: "Generated custom catalog asset",
-  },
-  customOemManufacturing: {
-    url: "assets/catalog-custom/oem-manufacturing.jpg",
-    alt: "Vendor-neutral molded diagnostic cartridges, enclosures, reservoirs, and OEM plastic components",
-    credit: "MicroCD Labs",
-    source: "assets/catalog-custom/oem-manufacturing.jpg",
-    license: "Generated custom catalog asset",
-  },
-  customServicesKits: {
-    url: "assets/catalog-custom/services-kits.jpg",
-    alt: "Vendor-neutral microfluidic sourcing kit with tubing, connectors, chip holder, sensor, and planning materials",
-    credit: "MicroCD Labs",
-    source: "assets/catalog-custom/services-kits.jpg",
-    license: "Generated custom catalog asset",
-  },
-};
-
 const products = [
   {
     id: "pdms-microfluidic-chips",
@@ -163,7 +8,6 @@ const products = [
     price: "Quote",
     tags: ["PDMS", "Prototype", "RUO"],
     icon: "chip",
-    image: catalogImages.chip,
   },
   {
     id: "glass-microfluidic-chips",
@@ -173,7 +17,6 @@ const products = [
     price: "Quote",
     tags: ["Glass", "Solvent ready", "Optical"],
     icon: "chip",
-    image: catalogImages.chipClose,
   },
   {
     id: "coc-microfluidic-chips",
@@ -183,7 +26,6 @@ const products = [
     price: "Quote",
     tags: ["COC", "Diagnostic R&D", "Low autofluorescence"],
     icon: "chip",
-    image: catalogImages.chipClose,
   },
   {
     id: "pmma-microfluidic-chips",
@@ -193,7 +35,6 @@ const products = [
     price: "Quote",
     tags: ["PMMA", "Acrylic", "Prototype"],
     icon: "chip",
-    image: catalogImages.chip,
   },
   {
     id: "microfluidic-mixers",
@@ -203,7 +44,6 @@ const products = [
     price: "Quote",
     tags: ["Mixing", "Gradient", "Chip"],
     icon: "chip",
-    image: catalogImages.laminar,
   },
   {
     id: "droplet-generation-chips",
@@ -213,7 +53,6 @@ const products = [
     price: "Quote",
     tags: ["Droplet", "T-junction", "Flow focusing"],
     icon: "chip",
-    image: catalogImages.laminar,
   },
   {
     id: "organ-on-chip-devices",
@@ -223,7 +62,6 @@ const products = [
     price: "Quote",
     tags: ["Cell model", "Perfusion", "RUO"],
     icon: "chip",
-    image: catalogImages.chipClose,
   },
   {
     id: "cell-culture-microfluidic-devices",
@@ -233,7 +71,6 @@ const products = [
     price: "Quote",
     tags: ["Cell culture", "Imaging", "Perfusion"],
     icon: "chip",
-    image: catalogImages.chipClose,
   },
   {
     id: "custom-microfluidic-chip-fabrication",
@@ -243,7 +80,6 @@ const products = [
     price: "Quote",
     tags: ["Custom", "Design support", "Small batch"],
     icon: "holder",
-    image: catalogImages.chip,
   },
   {
     id: "microfluidic-prototyping-services",
@@ -253,7 +89,6 @@ const products = [
     price: "Quote",
     tags: ["Prototype", "Consulting", "Build list"],
     icon: "kit",
-    image: catalogImages.chip,
   },
   {
     id: "ptfe-tubing",
@@ -263,7 +98,6 @@ const products = [
     price: "Quote",
     tags: ["PTFE", "Chemical resistant", "Microbore"],
     icon: "tubing",
-    image: catalogImages.chip,
   },
   {
     id: "fep-tubing",
@@ -273,7 +107,6 @@ const products = [
     price: "Quote",
     tags: ["FEP", "Clear", "Fluoropolymer"],
     icon: "tubing",
-    image: catalogImages.chip,
   },
   {
     id: "peek-tubing",
@@ -283,7 +116,6 @@ const products = [
     price: "Quote",
     tags: ["PEEK", "High pressure", "Analytical"],
     icon: "tubing",
-    image: catalogImages.laminar,
   },
   {
     id: "silicone-tubing",
@@ -293,7 +125,6 @@ const products = [
     price: "Quote",
     tags: ["Silicone", "Flexible", "Pump tubing"],
     icon: "tubing",
-    image: catalogImages.chip,
   },
   {
     id: "flexible-laboratory-tubing",
@@ -303,7 +134,6 @@ const products = [
     price: "Quote",
     tags: ["Flexible", "Laboratory tubing", "Transfer"],
     icon: "tubing",
-    image: catalogImages.chip,
   },
   {
     id: "microbore-tubing",
@@ -313,7 +143,6 @@ const products = [
     price: "Quote",
     tags: ["Small ID", "Low dead volume", "Microfluidics"],
     icon: "tubing",
-    image: catalogImages.laminar,
   },
   {
     id: "luer-lock-connectors",
@@ -323,7 +152,6 @@ const products = [
     price: "Quote",
     tags: ["Luer", "Adapters", "Assorted"],
     icon: "connectors",
-    image: catalogImages.laminar,
   },
   {
     id: "barbed-fittings",
@@ -333,7 +161,6 @@ const products = [
     price: "Quote",
     tags: ["Barbed", "Elbow", "Tee"],
     icon: "connectors",
-    image: catalogImages.laminar,
   },
   {
     id: "compression-fittings",
@@ -343,7 +170,6 @@ const products = [
     price: "Quote",
     tags: ["Ferrules", "Unions", "Leak control"],
     icon: "connectors",
-    image: catalogImages.laminar,
   },
   {
     id: "fluidic-manifolds",
@@ -353,7 +179,6 @@ const products = [
     price: "Quote",
     tags: ["Manifold", "Routing", "Multi-port"],
     icon: "holder",
-    image: catalogImages.laminar,
   },
   {
     id: "syringe-pumps",
@@ -363,7 +188,6 @@ const products = [
     price: "Quote",
     tags: ["Syringe", "Flow rate", "Benchtop"],
     icon: "pump",
-    image: catalogImages.pump,
   },
   {
     id: "peristaltic-pumps",
@@ -373,7 +197,6 @@ const products = [
     price: "Quote",
     tags: ["Peristaltic", "Continuous", "Tubing"],
     icon: "pump",
-    image: catalogImages.pump,
   },
   {
     id: "pressure-controllers",
@@ -383,7 +206,6 @@ const products = [
     price: "Quote",
     tags: ["Pressure", "Stable flow", "Controller"],
     icon: "sensor",
-    image: catalogImages.pump,
   },
   {
     id: "solenoid-valves",
@@ -393,7 +215,6 @@ const products = [
     price: "Quote",
     tags: ["Valve", "Switching", "Automation"],
     icon: "sensor",
-    image: catalogImages.laminar,
   },
   {
     id: "pinch-valves",
@@ -403,7 +224,6 @@ const products = [
     price: "Quote",
     tags: ["Pinch", "Tubing", "Low contamination"],
     icon: "sensor",
-    image: catalogImages.laminar,
   },
   {
     id: "flow-sensors",
@@ -413,7 +233,6 @@ const products = [
     price: "Quote",
     tags: ["Inline", "Low flow", "Monitoring"],
     icon: "sensor",
-    image: catalogImages.laminar,
   },
   {
     id: "pressure-sensors",
@@ -423,7 +242,6 @@ const products = [
     price: "Quote",
     tags: ["Pressure", "Sensor", "Instrument"],
     icon: "sensor",
-    image: catalogImages.pump,
   },
   {
     id: "flow-meters",
@@ -433,7 +251,6 @@ const products = [
     price: "Quote",
     tags: ["Meter", "Calibration", "Verification"],
     icon: "sensor",
-    image: catalogImages.pump,
   },
   {
     id: "lateral-flow-assay-materials",
@@ -443,7 +260,6 @@ const products = [
     price: "Quote",
     tags: ["LFIA", "Assay", "RUO"],
     icon: "parts",
-    image: catalogImages.rapidTest,
   },
   {
     id: "nitrocellulose-membranes",
@@ -453,7 +269,6 @@ const products = [
     price: "Quote",
     tags: ["Membrane", "LFIA", "Capillary flow"],
     icon: "parts",
-    image: catalogImages.rapidTest,
   },
   {
     id: "sample-pads",
@@ -463,7 +278,6 @@ const products = [
     price: "Quote",
     tags: ["Sample pad", "Strip build", "Screening"],
     icon: "parts",
-    image: catalogImages.rapidTest,
   },
   {
     id: "conjugate-pads",
@@ -473,7 +287,6 @@ const products = [
     price: "Quote",
     tags: ["Conjugate", "Reagent release", "LFIA"],
     icon: "parts",
-    image: catalogImages.rapidTest,
   },
   {
     id: "absorbent-pads",
@@ -483,7 +296,6 @@ const products = [
     price: "Quote",
     tags: ["Absorbent", "Wicking", "Strip"],
     icon: "parts",
-    image: catalogImages.rapidTest,
   },
   {
     id: "diagnostic-cartridges",
@@ -493,7 +305,6 @@ const products = [
     price: "Quote",
     tags: ["Cartridge", "Prototype", "OEM"],
     icon: "parts",
-    image: catalogImages.rapidTest,
   },
   {
     id: "rapid-test-housings",
@@ -503,7 +314,6 @@ const products = [
     price: "Quote",
     tags: ["Cassette", "Housing", "Pilot run"],
     icon: "parts",
-    image: catalogImages.rapidTest,
   },
   {
     id: "custom-lfia-development",
@@ -513,7 +323,6 @@ const products = [
     price: "Quote",
     tags: ["Custom", "Assay development", "LFIA"],
     icon: "kit",
-    image: catalogImages.rapidTest,
   },
   {
     id: "96-well-plates",
@@ -523,7 +332,6 @@ const products = [
     price: "Quote",
     tags: ["96-well", "Assay", "Plate"],
     icon: "parts",
-    image: catalogImages.microplate,
   },
   {
     id: "pcr-plates",
@@ -533,7 +341,6 @@ const products = [
     price: "Quote",
     tags: ["PCR", "Thermal cycling", "Plate"],
     icon: "parts",
-    image: catalogImages.microplate,
   },
   {
     id: "pcr-tubes",
@@ -543,7 +350,6 @@ const products = [
     price: "Quote",
     tags: ["PCR", "Tubes", "Strips"],
     icon: "parts",
-    image: catalogImages.microplate,
   },
   {
     id: "centrifuge-tubes",
@@ -553,7 +359,6 @@ const products = [
     price: "Quote",
     tags: ["15 mL", "50 mL", "Sample prep"],
     icon: "parts",
-    image: catalogImages.tips,
   },
   {
     id: "cryovials",
@@ -563,7 +368,6 @@ const products = [
     price: "Quote",
     tags: ["Cryo", "Storage", "Vials"],
     icon: "parts",
-    image: catalogImages.tips,
   },
   {
     id: "reservoir-trays",
@@ -573,7 +377,6 @@ const products = [
     price: "Quote",
     tags: ["Reservoir", "Pipetting", "Automation"],
     icon: "parts",
-    image: catalogImages.tips,
   },
   {
     id: "reagent-bottles",
@@ -583,7 +386,6 @@ const products = [
     price: "Quote",
     tags: ["Bottles", "Storage", "Reagents"],
     icon: "parts",
-    image: catalogImages.tips,
   },
   {
     id: "pipette-tips",
@@ -593,7 +395,6 @@ const products = [
     price: "Quote",
     tags: ["Tips", "Filtered", "Sterile"],
     icon: "parts",
-    image: catalogImages.tips,
   },
   {
     id: "injection-molded-plastic-parts",
@@ -603,7 +404,6 @@ const products = [
     price: "Quote",
     tags: ["OEM", "Tooling", "Plastic"],
     icon: "parts",
-    image: catalogImages.rapidTest,
   },
   {
     id: "diagnostic-cartridge-molding",
@@ -613,7 +413,6 @@ const products = [
     price: "Quote",
     tags: ["Cartridge", "Molding", "Scale-up"],
     icon: "parts",
-    image: catalogImages.rapidTest,
   },
   {
     id: "medical-grade-plastic-enclosures",
@@ -623,7 +422,6 @@ const products = [
     price: "Quote",
     tags: ["Enclosure", "Instrument", "OEM"],
     icon: "holder",
-    image: catalogImages.rapidTest,
   },
   {
     id: "custom-reagent-reservoirs",
@@ -633,7 +431,6 @@ const products = [
     price: "Quote",
     tags: ["Reservoir", "Consumable", "Custom"],
     icon: "holder",
-    image: catalogImages.tips,
   },
   {
     id: "disposable-assay-cassettes",
@@ -643,7 +440,6 @@ const products = [
     price: "Quote",
     tags: ["Disposable", "Cassette", "Assay"],
     icon: "parts",
-    image: catalogImages.rapidTest,
   },
   {
     id: "prototype-to-production-manufacturing",
@@ -653,7 +449,6 @@ const products = [
     price: "Quote",
     tags: ["Prototype", "Production", "Supplier support"],
     icon: "kit",
-    image: catalogImages.chip,
   },
   {
     id: "technical-sourcing-service",
@@ -663,7 +458,6 @@ const products = [
     price: "Quote",
     tags: ["Sourcing", "Engineer review", "Parts list"],
     icon: "kit",
-    image: catalogImages.chip,
   },
   {
     id: "microfluidic-supplier-search-package",
@@ -673,7 +467,6 @@ const products = [
     price: "Quote",
     tags: ["5 suppliers", "Comparison", "Memo"],
     icon: "kit",
-    image: catalogImages.chip,
   },
   {
     id: "diagnostic-oem-match-package",
@@ -683,7 +476,6 @@ const products = [
     price: "Quote",
     tags: ["OEM/CDMO", "Intro package", "Diagnostics"],
     icon: "kit",
-    image: catalogImages.rapidTest,
   },
   {
     id: "oem-microfluidic-device-ux-package",
@@ -693,7 +485,6 @@ const products = [
     price: "Quote",
     tags: ["OEM UX", "Workflow mapping", "Plug-and-play"],
     icon: "kit",
-    image: catalogImages.oemPlugAndPlay,
   },
   {
     id: "microfluidics-beginner-kit",
@@ -703,7 +494,6 @@ const products = [
     price: "Quote",
     tags: ["Beginner", "Universities", "Students"],
     icon: "kit",
-    image: catalogImages.laminar,
   },
   {
     id: "flow-testing-kit",
@@ -713,7 +503,6 @@ const products = [
     price: "Quote",
     tags: ["Flow sensor", "Pressure gauge", "Testing"],
     icon: "kit",
-    image: catalogImages.pump,
   },
   {
     id: "microfluidic-prototyping-kit",
@@ -723,28 +512,8 @@ const products = [
     price: "Quote",
     tags: ["Prototype", "Chip holders", "Consultation"],
     icon: "kit",
-    image: catalogImages.chip,
   },
 ];
-
-const productsWithRepresentativeImages = new Set([
-  "pdms-microfluidic-chips",
-  "glass-microfluidic-chips",
-  "coc-microfluidic-chips",
-  "pmma-microfluidic-chips",
-  "microfluidic-mixers",
-  "droplet-generation-chips",
-  "organ-on-chip-devices",
-  "cell-culture-microfluidic-devices",
-  "custom-microfluidic-chip-fabrication",
-  "syringe-pumps",
-  "lateral-flow-assay-materials",
-  "diagnostic-cartridges",
-  "rapid-test-housings",
-  "96-well-plates",
-  "pcr-plates",
-  "pipette-tips",
-]);
 
 const categoryCatalogPrefixes = {
   microfluidics: "MF",
@@ -848,64 +617,22 @@ function assignCatalogMetadata() {
 
 assignCatalogMetadata();
 products.forEach(product=>{
- Object.assign(product,QuoteState.classify(product));
+  Object.assign(product, QuoteState.classify(product));
+  const imagePath = `assets/catalog-items/${product.id}.webp`;
+  product.image = {
+    url: imagePath,
+    source: imagePath,
+    title: product.name,
+    alt: `Representative illustration of ${product.name}`,
+    credit: "MicroCD Labs",
+    license: "AI-generated catalog illustration"
+  };
  if(product.id==="pdms-microfluidic-chips"){
  product.name="PDMS Microfluidic Chips — Custom Sourcing & Fabrication Enquiry";
  product.description="Tell us your experiment, channel geometry, assembly needs, and quantity. Requirements are reviewed to identify a suitable sourcing or fabrication route before a written proposal is issued.";
  }else{
  product.description=product.category==="services"?"Describe the scope, inputs and deliverables sought. The engineering work is reviewed before an agreed scope is proposed.":product.category==="starter-kits"?"Describe your intended experiment. Kit contents, compatibility, supply source and pricing are confirmed in the proposal.":"Discuss your requirements for "+product.name.toLowerCase()+". This enquiry category does not identify a fixed, stocked product. Specification, source and supply route require review.";
  }
-});
-
-products.forEach((product) => {
-  if (!productsWithRepresentativeImages.has(product.id)) {
-    product.image = null;
-  }
-});
-
-const genericCatalogImageSources = new Set([
-  catalogImages.chip.source,
-  catalogImages.chipClose.source,
-  catalogImages.laminar.source,
-  catalogImages.pump.source,
-  catalogImages.rapidTest.source,
-  catalogImages.microplate.source,
-  catalogImages.tips.source,
-]);
-
-const specificProductImageSources = new Set([
-  catalogImages.oemPlugAndPlay.source,
-]);
-
-function getCustomCatalogImage(product) {
-  if (specificProductImageSources.has(product.image?.source)) return product.image;
-
-  if (product.category === "microfluidics") return catalogImages.customMicrofluidicChips;
-
-  if (product.category === "fluid-handling") {
-    if (product.subclass === "Tubing") return catalogImages.customTubing;
-    if (product.subclass === "Connectors and manifolds") return catalogImages.customFittings;
-    return catalogImages.customReservoirs;
-  }
-
-  if (product.category === "flow-control") {
-    if (product.subclass === "Valves" || product.subclass === "Sensors and meters") return catalogImages.customSensorsValves;
-    return catalogImages.customPumps;
-  }
-
-  if (product.category === "diagnostics") return catalogImages.customDiagnostics;
-  if (product.category === "lab-plastics") return catalogImages.customLabPlastics;
-  if (product.category === "oem") return catalogImages.customOemManufacturing;
-  if (product.category === "services" && product.id === "oem-microfluidic-device-ux-package") return catalogImages.oemPlugAndPlay;
-  if (product.category === "services" || product.category === "starter-kits") return catalogImages.customServicesKits;
-
-  return catalogImages.customMicrofluidicChips;
-}
-
-products.forEach((product) => {
-  if (!product.image || genericCatalogImageSources.has(product.image.source)) {
-    product.image = getCustomCatalogImage(product);
-  }
 });
 
 function isPriceRange(price) {
@@ -1230,7 +957,7 @@ function renderProducts(filter = null) {
     catalogLoadMore.textContent = remaining ? `Show more enquiries (${remaining} remaining)` : "All enquiries shown";
   }
 
-  productGrid.innerHTML=renderedProducts.map(product=>'<article class="product-card"><a class="product-visual" href="'+getProductPageUrl(product)+'"><img class="product-image" src="'+escapeHtml(product.image.url)+'" alt="Representative illustration for '+escapeHtml(product.name)+'" loading="lazy" width="480" height="320"><span class="image-credit">Representative illustration; not an exact supplied item</span></a><div class="product-body"><p class="eyebrow">'+escapeHtml(product.offeringType)+'</p><h3>'+escapeHtml(product.name)+'</h3><p>'+escapeHtml(product.description)+'</p><p><strong>'+escapeHtml(product.specificationCompleteness)+'</strong><br>'+escapeHtml(product.pricing.status)+'</p><p>Enquiry reference: '+escapeHtml(product.sku)+'</p><p>Source, availability and lead time to be confirmed.</p></div><div class="product-card-actions"><a class="button button-primary" href="'+getProductPageUrl(product)+'#requirements">Describe requirements</a></div></article>').join("");
+  productGrid.innerHTML=renderedProducts.map(product=>'<article class="product-card"><a class="product-visual" href="'+getProductPageUrl(product)+'"><img class="product-image" src="'+escapeHtml(product.image.url)+'" alt="'+escapeHtml(product.image.alt)+'" loading="lazy" width="480" height="320"><span class="image-credit">Representative illustration · AI-generated</span></a><div class="product-body"><p class="eyebrow">'+escapeHtml(product.offeringType)+'</p><h3>'+escapeHtml(product.name)+'</h3><p>'+escapeHtml(product.description)+'</p><p><strong>'+escapeHtml(product.specificationCompleteness)+'</strong><br>'+escapeHtml(product.pricing.status)+'</p><p>Enquiry reference: '+escapeHtml(product.sku)+'</p><p>Source, availability and lead time to be confirmed.</p></div><div class="product-card-actions"><a class="button button-primary" href="'+getProductPageUrl(product)+'#requirements">Describe requirements</a></div></article>').join("");
   if (!visible.length) {
     productGrid.innerHTML = '<p class="empty-catalog">No catalog items match this classification yet.</p>';
   }
@@ -1288,7 +1015,7 @@ function enquiryFieldsHTML(product, value={}, scope="detail", qty="To be determi
 function getEnquiryDetailHTML(product,prefix="../"){
  const e=escapeHtml,s=QuoteState.classify(product),isPDMS=product.id==="pdms-microfluidic-chips",service=s.offeringType==="Engineering service";
  const alternatives=isPDMS?'<nav class="material-alternatives" aria-label="Alternative material enquiries"><strong>Other materials, separate enquiries:</strong> <a href="glass-microfluidic-chips.html">Glass</a> · <a href="coc-microfluidic-chips.html">COC</a> · <a href="pmma-microfluidic-chips.html">PMMA</a></nav>':'';
- return '<section class="section product-detail-section" aria-labelledby="product-detail-title"><nav class="breadcrumb" aria-label="Breadcrumb"><a href="'+prefix+'products.html">Research components &amp; custom sourcing</a><span aria-hidden="true">/</span><span>'+e(product.sku)+'</span></nav><div class="product-detail-layout"><div class="product-detail-media"><img src="'+e(resolveAssetUrl(product.image?.url||'assets/catalog-custom/microfluidic-chips.jpg',prefix))+'" width="960" height="640" alt="Representative illustration for '+e(product.name)+'"><p class="image-credit">Representative illustration, not the exact item to be supplied. '+'</p></div><div class="product-detail-copy"><p class="eyebrow">'+e(s.offeringType)+'</p><h1 id="product-detail-title">'+e(product.name)+'</h1><p>'+e(product.description)+'</p><p class="enquiry-status"><strong>'+e(s.specificationCompleteness)+'</strong><br>'+e(s.pricing.status)+'<br>'+e(s.supplyConfirmation)+'</p><a class="button button-primary" href="#requirements">'+(isPDMS?'Discuss your PDMS chip requirements':service?'Discuss the scope':'Describe your requirements')+'</a><dl class="product-detail-specs"><div><dt>Enquiry reference</dt><dd>'+e(product.sku)+'</dd></div><div><dt>Offering type</dt><dd>'+e(s.offeringType)+'</dd></div><div><dt>Commercial role</dt><dd>'+e(s.commercialRole)+'</dd></div><div><dt>Supply source</dt><dd>'+(service?'Service provider and fabrication responsibility to be confirmed in the proposal.':'To be confirmed in the proposal')+'</dd></div><div><dt>Availability and lead time</dt><dd>Confirmed after specification and supplier review</dd></div></dl>'+alternatives+'</div></div><section class="enquiry-scope"><h2>'+(service?'Agree the work before it starts':'From requirements to a suitable route')+'</h2><p>'+(isPDMS?'This configurable enquiry category does not identify a fixed chip design. ':'')+'Requirements clarification, supplier identification, RFQ preparation and coordination may be included within an agreed scope. Fabrication responsibility is identified in the proposal. These are generic enquiry categories, not references to particular suppliers or third-party product catalogs. No manufacturer relationship or inventory is implied.</p><p>Where applicable, the proposal distinguishes engineering fees, tooling or mold charges, components, and shipping. These charges do not apply automatically. Any paid feasibility, sourcing or engineering scope is stated for agreement before work begins.</p></section><form id="detailEnquiryForm" class="contact-form enquiry-form" aria-labelledby="requirements"><h2 id="requirements">Requirements to discuss</h2><p>Share non-confidential information only. “Not sure—please advise” is welcome. No drawing upload is required; files can be exchanged by email after the initial discussion. Opening an email draft does not attach files.</p>'+enquiryFieldsHTML(product,{},"detail")+'<div class="product-detail-actions"><button class="button button-primary" type="submit" data-add-enquiry="'+e(product.id)+'">Add to enquiry</button><a class="button button-secondary" href="'+prefix+'products.html#quote">Review basket</a></div><p id="detailQuoteStatus" role="status"></p><section id="detailEnquiryFallback" class="quote-draft" hidden><label for="detailEnquiryDraft">Draft for manual copying (not saved or sent)</label><textarea id="detailEnquiryDraft" readonly rows="10"></textarea><p>Select and copy these details, then email them to <a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a>. Do this before leaving or reloading this page.</p></section></form><noscript><style>.enquiry-form{display:none}</style><p>The interactive enquiry form needs JavaScript. Email your application, design needs, quantity, destination and documentation needs to <a href="mailto:info@microcdlabs.com?subject='+encodeURIComponent(QuoteState.subject([{product}]))+'">info@microcdlabs.com</a>, quoting '+e(product.sku)+'. Nothing is submitted by this page.</p></noscript></section>';
+ return '<section class="section product-detail-section" aria-labelledby="product-detail-title"><nav class="breadcrumb" aria-label="Breadcrumb"><a href="'+prefix+'products.html">Research components &amp; custom sourcing</a><span aria-hidden="true">/</span><span>'+e(product.sku)+'</span></nav><div class="product-detail-layout"><div class="product-detail-media"><img src="'+e(resolveAssetUrl(product.image.url,prefix))+'" width="960" height="640" alt="'+e(product.image.alt)+'"><p class="image-credit">Representative illustration · AI-generated</p></div><div class="product-detail-copy"><p class="eyebrow">'+e(s.offeringType)+'</p><h1 id="product-detail-title">'+e(product.name)+'</h1><p>'+e(product.description)+'</p><p class="enquiry-status"><strong>'+e(s.specificationCompleteness)+'</strong><br>'+e(s.pricing.status)+'<br>'+e(s.supplyConfirmation)+'</p><a class="button button-primary" href="#requirements">'+(isPDMS?'Discuss your PDMS chip requirements':service?'Discuss the scope':'Describe your requirements')+'</a><dl class="product-detail-specs"><div><dt>Enquiry reference</dt><dd>'+e(product.sku)+'</dd></div><div><dt>Offering type</dt><dd>'+e(s.offeringType)+'</dd></div><div><dt>Commercial role</dt><dd>'+e(s.commercialRole)+'</dd></div><div><dt>Supply source</dt><dd>'+(service?'Service provider and fabrication responsibility to be confirmed in the proposal.':'To be confirmed in the proposal')+'</dd></div><div><dt>Availability and lead time</dt><dd>Confirmed after specification and supplier review</dd></div></dl>'+alternatives+'</div></div><section class="enquiry-scope"><h2>'+(service?'Agree the work before it starts':'From requirements to a suitable route')+'</h2><p>'+(isPDMS?'This configurable enquiry category does not identify a fixed chip design. ':'')+'Requirements clarification, supplier identification, RFQ preparation and coordination may be included within an agreed scope. Fabrication responsibility is identified in the proposal. These are generic enquiry categories, not references to particular suppliers or third-party product catalogs. No manufacturer relationship or inventory is implied.</p><p>Where applicable, the proposal distinguishes engineering fees, tooling or mold charges, components, and shipping. These charges do not apply automatically. Any paid feasibility, sourcing or engineering scope is stated for agreement before work begins.</p></section><form id="detailEnquiryForm" class="contact-form enquiry-form" aria-labelledby="requirements"><h2 id="requirements">Requirements to discuss</h2><p>Share non-confidential information only. “Not sure—please advise” is welcome. No drawing upload is required; files can be exchanged by email after the initial discussion. Opening an email draft does not attach files.</p>'+enquiryFieldsHTML(product,{},"detail")+'<div class="product-detail-actions"><button class="button button-primary" type="submit" data-add-enquiry="'+e(product.id)+'">Add to basket</button><a class="button button-secondary" href="'+prefix+'products.html#quote">Review basket</a></div><p id="detailQuoteStatus" role="status"></p><section id="detailEnquiryFallback" class="quote-draft" hidden><label for="detailEnquiryDraft">Draft for manual copying (not saved or sent)</label><textarea id="detailEnquiryDraft" readonly rows="10"></textarea><p>Select and copy these details, then email them to <a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a>. Do this before leaving or reloading this page.</p></section></form><noscript><style>.enquiry-form{display:none}</style><p>The interactive enquiry form needs JavaScript. Email your application, design needs, quantity, destination and documentation needs to <a href="mailto:info@microcdlabs.com?subject='+encodeURIComponent(QuoteState.subject([{product}]))+'">info@microcdlabs.com</a>, quoting '+e(product.sku)+'. Nothing is submitted by this page.</p></noscript></section>';
 }
 function renderProductDetail(){
  if(!productDetail||!productDetailId)return;
@@ -1318,50 +1045,73 @@ function restoreQuote(){
  if(document.querySelector("#quoteNotes"))document.querySelector("#quoteNotes").value=QuoteState.cleanNotes(saved.notes);
  }catch{}
 }
-function renderQuote(renderList=true){
- const saved=persistQuote();if(!quoteForm||!quoteList||!emptyQuote||!quoteMail)return saved;
- const storageStatus=document.querySelector("#enquiryStorageStatus");if(storageStatus){storageStatus.hidden=saved;storageStatus.textContent=saved?"":"Your browser could not save this enquiry list. Copy the prepared details before leaving or reloading this page.";}
- const items=[...selected.values()];
- if(renderList)quoteList.innerHTML=items.map((entry,i)=>'<li class="enquiry-item" data-enquiry-key="'+escapeHtml(entry.key)+'"><h3>'+escapeHtml(entry.product.name)+'</h3><p>Enquiry reference: '+escapeHtml(entry.product.sku)+' · '+escapeHtml(entry.product.offeringType)+'</p>'+enquiryFieldsHTML(entry.product,entry.requirements||{},"entry-"+i,entry.quantity)+(entry.notes?'<p>Saved notes: '+escapeHtml(entry.notes)+'</p>':'')+'<button class="button button-secondary" type="button" data-remove="'+escapeHtml(entry.key)+'">Remove enquiry</button></li>').join("");
- emptyQuote.hidden=!!items.length;
-  const quoteDetails = document.querySelector("#quoteDetails");
-  if (quoteDetails) quoteDetails.hidden = items.length === 0;
+function renderQuote(renderList = true) {
+  const saved = persistQuote();
+  if (!quoteForm || !quoteList || !emptyQuote || !quoteMail) return saved;
+
+  const storageStatus = document.querySelector("#enquiryStorageStatus");
+  storageStatus.hidden = saved;
+  storageStatus.textContent = saved ? "" : "Your browser could not save this basket. Copy the prepared details before leaving or reloading this page.";
+
+  const items = [...selected.values()];
+  if (renderList) {
+    quoteList.innerHTML = items.map((entry, index) => {
+      const {product} = entry;
+      return `<li class="enquiry-item" data-enquiry-key="${escapeHtml(entry.key)}">
+        <div class="checkout-item-header">
+          <img src="${escapeHtml(product.image.url)}" alt="" width="96" height="64" loading="lazy">
+          <div>
+            <h4>${escapeHtml(product.name)}</h4>
+            <p>${escapeHtml(product.sku)} · ${escapeHtml(product.offeringType)}</p>
+          </div>
+        </div>
+        ${enquiryFieldsHTML(product, entry.requirements || {}, "entry-" + index, entry.quantity)}
+        ${entry.notes ? `<p>Saved notes: ${escapeHtml(entry.notes)}</p>` : ""}
+        <button class="button button-secondary" type="button" data-remove="${escapeHtml(entry.key)}" aria-label="Remove ${escapeHtml(product.name)}">Remove item</button>
+      </li>`;
+    }).join("");
+  }
+
+  const hasItems = items.length > 0;
+  emptyQuote.hidden = hasItems;
+  document.querySelector("#quoteDetails").hidden = !hasItems;
   const count = document.querySelector("#quoteCount");
-  if (count) {
-    count.hidden = items.length === 0;
-    count.textContent = items.length;
-  }
-  if (submitQuote) {
-    submitQuote.disabled = !items.length || quoteSubmissionPending || quoteSubmissionUnconfirmed;
-    submitQuote.textContent = quoteSubmissionPending ? "Submitting…" : "Submit quote request";
-  }
- const contact=Object.fromEntries(new FormData(quoteForm));
- const preview=document.querySelector("#quotePreview");if(preview)preview.value=QuoteState.request(items,contact);
- const subject=QuoteState.subject(items);
- // Requirements and personal details stay out of URLs. The reviewed draft is copied manually.
- quoteMail.href=items.length?"mailto:"+companyEmail+"?subject="+encodeURIComponent(subject):"#";
- quoteMail.classList.toggle("disabled",!items.length);quoteMail.setAttribute("aria-disabled",String(!items.length));
- const copy=document.querySelector("#copyQuote");if(copy)copy.disabled=!items.length;
- return saved;
+  count.hidden = !hasItems;
+  count.textContent = items.length;
+  submitQuote.disabled = !hasItems || quoteSubmissionPending || quoteSubmissionUnconfirmed;
+  submitQuote.textContent = quoteSubmissionPending ? "Submitting…" : "Submit quote request";
+
+  const contact = Object.fromEntries(new FormData(quoteForm));
+  document.querySelector("#quotePreview").value = QuoteState.request(items, contact);
+  // Keep the request and personal details out of the mailto URL.
+  quoteMail.href = hasItems ? "mailto:" + companyEmail + "?subject=" + encodeURIComponent(QuoteState.subject(items)) : "#";
+  quoteMail.classList.toggle("disabled", !hasItems);
+  quoteMail.setAttribute("aria-disabled", String(!hasItems));
+  document.querySelector("#copyQuote").disabled = !hasItems;
+  return saved;
 }
-function validEnquiry(){
- if(!selected.size){document.querySelector("#quoteStatus").textContent="Add an enquiry first.";return false;}
- for(const q of quoteList.querySelectorAll("[data-enquiry-quantity]"))q.setCustomValidity(QuoteState.quantity(q.value)?"":"Enter 1–9999, or To be determined.");
- const fields=[...quoteList.querySelectorAll("input,textarea,select"),...quoteForm.querySelectorAll("input,textarea")];
- for (const field of fields) {
-   if (!field.required || field.matches("[data-enquiry-quantity]")) continue;
-   field.setCustomValidity(field.value.trim() ? "" : "Fill in this field.");
- }
- const invalid=fields.find(f=>!f.checkValidity());
- if(invalid){
-   const details = invalid.closest("details");
-   if (details) details.open = true;
-   invalid.reportValidity();
-   invalid.focus();
-   return false;
- }
- return true;
+
+function validEnquiry() {
+  if (!selected.size) return false;
+
+  const fields = [...quoteList.querySelectorAll("input, textarea, select"), ...quoteForm.querySelectorAll("input, textarea")];
+  for (const field of fields) {
+    if (field.matches("[data-enquiry-quantity]")) {
+      field.setCustomValidity(QuoteState.quantity(field.value) ? "" : "Enter 1–9999, or To be determined.");
+    } else if (field.required) {
+      field.setCustomValidity(field.value.trim() ? "" : "Fill in this field.");
+    }
+  }
+
+  const invalidField = fields.find(field => !field.checkValidity());
+  if (!invalidField) return true;
+  const details = invalidField.closest("details");
+  if (details) details.open = true;
+  invalidField.reportValidity();
+  invalidField.focus();
+  return false;
 }
+
 function renderContactMail() {
   if (!contactForm || !contactMail) return;
   const formData = new FormData(contactForm);
@@ -1642,9 +1392,13 @@ async function submitSourcingRequest(event) {
 
   try {
     await quoteDelivery.deliver(quoteEndpoint, payload);
-  } catch {
-    quoteSubmissionUnconfirmed = true;
-    quoteSubmissionStatus.textContent = "We couldn’t confirm receipt. Contact info@microcdlabs.com with reference " + reference + " before sending the request again.";
+  } catch (error) {
+    if (error.status === 429) {
+      quoteSubmissionStatus.textContent = "Online submission is busy. Wait a moment and try again, or send your request by email.";
+    } else {
+      quoteSubmissionUnconfirmed = true;
+      quoteSubmissionStatus.textContent = "We couldn’t confirm receipt. Contact info@microcdlabs.com with reference " + reference + " before sending the request again.";
+    }
     return;
   } finally {
     quoteSubmissionPending = false;

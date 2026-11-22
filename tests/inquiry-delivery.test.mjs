@@ -73,3 +73,10 @@ test('only SES-accepted requests reach enquiry analytics and unknown sources are
   });
   assert.equal((await failingAnalytics(event({...payload, consultationSource:'home'}))).statusCode, 200);
 });
+
+test('HTTP throttling remains identifiable even when the response has no JSON body', async () => {
+  await assert.rejects(
+    deliver('https://example.com', payload, async () => ({ok:false, status:429})),
+    {status:429}
+  );
+});

@@ -18,7 +18,7 @@ A static HTML/CSS/JavaScript website for MicroCD Labs: in-development CLAIR huma
 - Terms & Payments page for quote-based ordering
 - MicroCD catalog numbers for all products
 - Research-use-only and export-aware positioning
-- Online catalog imagery from Wikimedia Commons/NIST/NARA with source credits rendered on the page
+- Original AI-generated illustrations for individual catalog listings, with source credits
 
 ## Run
 
@@ -70,7 +70,7 @@ The site does not collect card details or automatically create invoices, confirm
 
 Before using this commercially, confirm the catalog against real supplier-approved items, prices, warranties, country-of-origin data, and compliance classifications.
 
-The current catalog images are representative open-source images, not supplier product photos. Replace them with your own supplier-approved photos before launch, or keep the credit section if using Creative Commons/public-domain sources.
+Catalog illustrations depict representative items. Actual configurations and supplier documentation are confirmed during quote review.
 
 Do not copy third-party product photos or claim supplier affiliation, endorsement, distribution rights, or live inventory unless MicroCD Labs has written permission and a supplier-approved data feed or agreement.
 
