@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { renderSiteNavigation } from "./site-navigation.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const buildDate = "2026-11-08";
+const buildDate = "2026-11-22";
 const siteUrl = "https://www.microcdlabs.com";
 
 const categoryDefinitions = [
@@ -211,7 +211,8 @@ ${JSON.stringify(productStructuredData(product, detail, image), null, 6)}
       .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(product.name)} | Research Sourcing</title>`)
       .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${escapeHtml(description)}" />`)
       .replace(/<link rel="canonical" href="[^"]*" \/>/, `<link rel="canonical" href="${siteUrl}/catalog/${product.id}.html" />`)
-      .replace(/script\.js\?v=[^"]+/, "script.js?v=20261108-flow1")
+      .replace(">Your enquiry list</a>", ">Review basket</a>")
+      .replace(/script\.js\?v=[^"]+/, "script.js?v=20261122-catalog")
       .replace(/\s*<!-- SEO_PRODUCT_META_START -->[\s\S]*?<!-- SEO_PRODUCT_META_END -->\s*/g, "\n")
       .replace("</head>", `${generatedHead}  </head>`)
       .replace(/<main id="productDetail">[\s\S]*?<\/main>/, productMain(product));
@@ -322,7 +323,7 @@ ${renderSiteNavigation("../")}
       </section>
       <section class="seo-direct-answer section" aria-labelledby="selection-answer-title"><div><p class="eyebrow">Selection answer</p><h2 id="selection-answer-title">How should you choose?</h2></div><div><p>${escapeHtml(definition.answer)}</p><p class="seo-review-note">General selection guidance · Updated November 6, 2026. These are general selection considerations, not verified specifications for a listed item.</p></div></section>
       <section class="seo-considerations section" aria-labelledby="considerations-title"><div class="section-heading"><div><p class="eyebrow">Before requesting a quote</p><h2 id="considerations-title">Confirm the complete system requirement</h2></div><p>Define requirements first. Source, documentation, pricing, availability and lead time require confirmation in the proposal.</p></div><div class="seo-consideration-grid">${definition.considerations.map(([title, copy]) => `<article><h3>${escapeHtml(title)}</h3><p>${escapeHtml(copy)}</p></article>`).join("")}</div></section>
-      <section id="category-products" class="seo-category-products section" aria-labelledby="category-products-title"><div class="section-heading"><div><p class="eyebrow">Research components &amp; custom sourcing</p><h2 id="category-products-title">${escapeHtml(definition.eyebrow)} enquiry categories</h2></div><p>Open an enquiry for requirements to discuss. Listings do not imply inventory, specified products, or a specified manufacturer.</p></div><div class="seo-product-grid">${products.map(categoryCard).join("")}</div></section>
+      <section id="category-products" class="seo-category-products section" aria-labelledby="category-products-title"><div class="section-heading"><div><p class="eyebrow">Research components &amp; custom sourcing</p><h2 id="category-products-title">${escapeHtml(definition.eyebrow)} enquiry categories</h2></div><p>Open an item to describe your requirements. The item images are representative AI-generated illustrations. Specifications and availability are confirmed in the quote.</p></div><div class="seo-product-grid">${products.map(categoryCard).join("")}</div></section>
       <section class="seo-category-cta section"><div><p class="eyebrow">Technical review</p><h2>Not sure which components fit together?</h2><p>Share the fluid, target flow or pressure, interface sizes, and intended research workflow. We can help build a compatible shortlist.</p></div><a class="button button-primary" href="../consultation.html?project=technical-consulting">Request a technical consultation</a></section>
     </main>
     <footer class="site-footer"><div><img class="footer-logo" src="../assets/microcd-labs-wordmark.svg?v=boxed" alt="microcd labs" /><p class="company-legal">MicroCD Labs, a division of Karigari Home LLC</p><p>Microfluidics parts supplier and product-development support for research teams.</p></div><p>Products are for non-clinical research use unless stated otherwise. <a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a> <a href="../privacy.html">Privacy</a> <a href="../terms.html">Terms</a></p></footer>

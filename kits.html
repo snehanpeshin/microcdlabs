@@ -35,7 +35,8 @@
     <link rel="stylesheet" href="styles.css?v=20260816c" />
       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6605747981994820"
      crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="assets/marketing.css?v=20261108-flow1"></head>
+  <link rel="stylesheet" href="assets/marketing.css?v=20261108-flow1">
+    <link rel="stylesheet" href="assets/checkout.css"></head>
   <body data-catalog-scope="kits">
     <header class="site-header"><a class="brand" href="index.html#top" aria-label="MicroCD Labs home"><img class="brand-logo" src="assets/microcd-labs-wordmark.svg?v=boxed" width="154" height="34" alt="MicroCD Labs"></a>      <nav class="main-nav" aria-label="Primary navigation">
         <a class="nav-primary-link" href="clair/">CLAIR</a>
@@ -97,13 +98,73 @@
         <div class="product-grid product-grid-compact" id="productGrid"></div>
       </section>
 
-      <section id="quote" class="section quote-section" aria-labelledby="quote-title"><p class="eyebrow">Your enquiry list</p><h2 id="quote-title">Review requirements before sending</h2><p>This is an enquiry, not an order or a confirmed quotation. Source, pricing, availability, fabrication responsibility and lead time remain subject to review. No paid engineering or sourcing work is added automatically.</p><p id="enquiryStorageStatus" class="storage-notice" role="status" hidden></p><ul id="quoteList" class="enquiry-list"></ul><p id="emptyQuote">No enquiries added yet. Choose a category and describe your requirements.</p><form id="quoteForm" class="contact-form" aria-label="Enquiry contact details"><h3>Contact details</h3><p>Non-confidential information only. Files can be exchanged by email after the initial discussion; this form does not upload or attach drawings.</p><label>Name (required)<input id="quoteName" name="name" required maxlength="120" autocomplete="name"></label><label>Organization (required)<input id="quoteOrganisation" name="organisation" required maxlength="180" autocomplete="organization"></label><label>Work email (required)<input id="quoteEmail" name="email" type="email" required maxlength="254" autocomplete="email"></label><details><summary>Additional enquiry notes (optional)</summary><label>Notes<textarea id="quoteNotes" name="notes" maxlength="4000" rows="4"></textarea></label></details></form><section class="quote-draft"><h3>Send enquiry by email</h3><p>1. Review and copy the details below. 2. Open an email draft, paste the details and send it. Opening the draft does not send the enquiry or attach any files.</p><label for="quotePreview">Prepared enquiry details</label><textarea id="quotePreview" readonly rows="12"></textarea><div class="hero-actions"><button id="copyQuote" class="button button-primary" type="button" disabled>Copy enquiry details</button><a id="quoteMail" class="button button-secondary disabled" href="#" aria-disabled="true">Open email draft</a></div><p id="quoteStatus" role="status">Nothing has been sent. You can also email <a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a> directly.</p></section><noscript><p>To enquire without JavaScript, email your requested offering/reference, application, design needs, quantity, destination, desired date and documentation needs to <a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a>.</p></noscript></section>
+      <section id="quote" class="section quote-section" aria-labelledby="quote-title">
+  <h2 id="quote-title">Components sourcing checkout</h2>
+  <p>Review your basket and request a quote. MicroCD Labs confirms specifications, availability, lead time, shipping and taxes. Approve the quote and pay the emailed Stripe invoice to place your order.</p>
+
+  <section id="quoteConfirmation" class="checkout-card checkout-confirmation" aria-labelledby="quoteConfirmationTitle" hidden>
+    <h3 id="quoteConfirmationTitle" tabindex="-1">Quote request received</h3>
+    <p>Keep your request reference <strong id="quoteReceipt"></strong> for follow-up.</p>
+    <p>We’ll contact you at the email you provided to review your requirements. If you approve the quote, we’ll email a Stripe invoice you can pay online. After payment, we’ll confirm the order and share fulfillment updates.</p>
+    <a class="button button-secondary" href="products.html#catalog">Browse components</a>
+  </section>
+
+  <div id="quoteWorkspace">
+    <p id="enquiryStorageStatus" class="storage-notice" role="status" hidden></p>
+    <div class="checkout-layout">
+      <section aria-labelledby="quoteBasketTitle">
+        <h3 id="quoteBasketTitle">Review your basket <span id="quoteCount" class="checkout-count" hidden></span></h3>
+        <ul id="quoteList" class="enquiry-list"></ul>
+        <div id="emptyQuote" class="checkout-card">
+          <p>Your basket is empty. Choose a component and add its requirements to get started.</p>
+          <a class="button button-secondary" href="products.html#catalog">Browse components</a>
+        </div>
+      </section>
+
+      <div id="quoteDetails" hidden>
+        <form id="quoteForm" class="contact-form checkout-card" aria-labelledby="quoteContactTitle" method="post">
+          <h3 id="quoteContactTitle">Contact and delivery</h3>
+          <label>Name<input id="quoteName" name="name" required maxlength="120" autocomplete="name"></label>
+          <label>Organization<input id="quoteOrganisation" name="organisation" required maxlength="180" autocomplete="organization"></label>
+          <label>Work email<input id="quoteEmail" name="email" type="email" required maxlength="254" autocomplete="email"></label>
+          <label>Destination country<input id="quoteCountry" name="country" required maxlength="100" autocomplete="shipping country-name"></label>
+          <label>ZIP or postal code (if applicable)<input id="quotePostal" name="postal" maxlength="30" autocomplete="shipping postal-code"></label>
+          <details>
+            <summary>Purchasing details (optional)</summary>
+            <label>PO reference<input id="quotePO" name="purchaseOrder" maxlength="80"></label>
+            <label>Notes<textarea id="quoteNotes" name="notes" maxlength="4000" rows="4" placeholder="Desired delivery date or purchasing requirements"></textarea></label>
+          </details>
+          <div hidden aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
+          <p class="checkout-payment"><strong>Total due today</strong><strong>$0.00</strong></p>
+          <p>Submit non-confidential details only. See our <a href="terms.html">ordering terms</a>, <a href="refunds.html">refund policy</a> and <a href="privacy.html">privacy policy</a>.</p>
+          <button id="submitQuote" class="button button-primary" type="submit" disabled>Submit quote request</button>
+        </form>
+        <p id="quoteSubmissionStatus" role="status"></p>
+        <details id="quoteEmailFallback" class="quote-draft checkout-fallback">
+          <summary>Send by email instead</summary>
+          <p>Copy the details below, open an email draft, then paste and send them to MicroCD Labs.</p>
+          <label for="quotePreview">Prepared request details</label>
+          <textarea id="quotePreview" readonly rows="8"></textarea>
+          <div class="hero-actions">
+            <button id="copyQuote" class="button button-secondary" type="button" disabled>Copy request details</button>
+            <a id="quoteMail" class="button button-secondary disabled" href="#" aria-disabled="true">Open email draft</a>
+          </div>
+          <p id="quoteStatus" role="status"></p>
+        </details>
+      </div>
+    </div>
+  </div>
+  <noscript><p>Email your requested items, quantities, delivery destination, and requirements to <a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a>.</p></noscript>
+</section>
+
 </main>
 
     <footer class="site-footer review-footer"><div><img class="footer-logo" src="assets/microcd-labs-wordmark.svg?v=boxed" width="154" height="34" loading="lazy" alt="MicroCD Labs"><p>Engineering for microfluidics, assays, and diagnostic development.</p><a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a><p><a href="https://www.linkedin.com/company/microcd-labs/" target="_blank" rel="noreferrer">LinkedIn</a></p></div><nav aria-label="Footer navigation"><a href="clair/">CLAIR</a><a href="services.html">Engineering Services</a><a href="tools.html">Research Tools</a><a href="products.html">Research components &amp; sourcing</a><a href="about.html">About</a><a href="consultation.html">Contact</a><a href="privacy.html">Website Privacy</a><a href="terms.html">Terms & Payments</a><a href="accessibility.html">Accessibility</a><a href="credits.html">Image Credits</a></nav><p class="review-footer-note">CLAIR is in development, not for sale or clinical use. Research components are enquiry categories; source and supply require review. Images may be representative. <a href="refunds.html">Refunds & Returns</a></p></footer>
 
-    <script src="assets/quote-state.js?v=20261108-flow1"></script>
-<script src="script.js?v=20261108-flow1"></script>
+    <script src="assets/inquiry-config.js?v=20261122-checkout"></script>
+    <script src="assets/inquiry-delivery.js?v=20261122-catalog"></script>
+    <script src="assets/quote-state.js?v=20261122-catalog"></script>
+<script src="script.js?v=20261122-catalog"></script>
     <script src="site.js?v=20261108-flow1"></script>
       <!-- Start of microcdlabs Zendesk Widget script -->
 

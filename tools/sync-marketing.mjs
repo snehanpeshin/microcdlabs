@@ -18,7 +18,7 @@ let count=0;for(const file of walk(root)){
  else if(relative==="diagnostic-cartridge-design.html"){action="consultation.html?project=diagnostic-cartridge#inquiry-title";label="Discuss your project";}
  else if(relative==="engineering-prototyping.html"){action="consultation.html?project=engineering-design#inquiry-title";label="Discuss your project";}
  else if(relative==="services.html"){action="consultation.html?project=microfluidic-development#inquiry-title";label="Request engineering support";}
- else if(relative==="products.html"||relative.startsWith("catalog/")){action="products.html#quote";label="Your enquiry list";}
+ else if(relative==="products.html"||relative.startsWith("catalog/")){action="products.html#quote";label="Review basket";}
  const header='<header class="site-header"><a class="brand" href="'+prefix+'index.html#top" aria-label="MicroCD Labs home"><img class="brand-logo" src="'+prefix+'assets/microcd-labs-wordmark.svg?v=boxed" width="154" height="34" alt="MicroCD Labs"></a>'+renderSiteNavigation(prefix)+'<div class="header-actions"><a class="header-cta" href="'+prefix+action+'">'+label+'</a></div></header>';
  const finalHeader=relative==="motor-controller/index.html"?header.replace('<div class="header-actions">','<div class="header-actions"><button id="theme-toggle" class="app-quiet-button" type="button">Light theme</button>'):header;
  h=h.replace(/<header class="site-header">[\s\S]*?<\/header>/,finalHeader).replace(/<footer class="site-footer[^"]*">[\s\S]*?<\/footer>/,footer(prefix));

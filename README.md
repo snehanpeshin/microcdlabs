@@ -12,14 +12,13 @@ A static HTML/CSS/JavaScript website for MicroCD Labs: in-development CLAIR huma
 - Broad quote-based catalog for tubing, fittings, chips, pumps, sensors, diagnostic consumables, lab plastics, OEM items, starter kits, and productized sourcing services
 - Careers page for a microfluidic testing internship
 - Non-interruptive first-quote promotion shown within the product workflow
-- Cart and order-request interaction with quantities
-- Mailto order request draft with payment-link/invoice request
-- Invoice-first payment workflow copy
-- Stripe invoice/payment-link request button
+- Sourcing basket and online quote checkout with delivery and purchasing details
+- Request confirmation reference and email fallback
+- Stripe-hosted invoices after quote approval
 - Terms & Payments page for quote-based ordering
 - MicroCD catalog numbers for all products
 - Research-use-only and export-aware positioning
-- Online catalog imagery from Wikimedia Commons/NIST/NARA with source credits rendered on the page
+- Original AI-generated illustrations for individual catalog listings, with source credits
 
 ## Run
 
@@ -58,27 +57,20 @@ npm run package:site
 
 ## Payment setup
 
-The live site is currently a static cart and order-request flow. It does not collect card numbers or bank details.
+Components Sourcing and Kits submit a quote request through the existing enquiry endpoint. They show a reference after the endpoint accepts the request. Larger requests can use the email fallback.
 
-Recommended next step for real payments:
+1. Find the request by its MCD reference in the enquiries inbox. Review the requested configuration, destination and supplier options.
+2. Send a written quote with item quantities, prices, shipping, taxes where applicable, lead time and terms.
+3. Once the buyer approves the quote, create and send a Stripe-hosted invoice from the business Stripe Dashboard. Include the MCD reference so the invoice and correspondence can be matched.
+4. Verify the invoice is paid in Stripe before starting fulfillment. Confirm the order and send shipment or project updates to the customer.
 
-- Use Stripe Checkout, Stripe invoices, or Stripe Payment Links for customer payment.
-- Connect Stripe payouts to the Mercury business bank account.
-- Keep Stripe secret keys on a serverless backend, not in `index.html`, `products.html`, `services.html`, `kits.html`, or `script.js`.
-- Add environment variables only when a backend checkout function is added, such as `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and product price IDs.
-- Add terms, refund, shipping, and cancellation policy pages before enabling live checkout.
-
-Current Stripe-ready setup:
-
-- The product, service, and kit catalog pages have a `Request Stripe invoice` button that prepares an email with the selected cart items.
-- To use a no-code Stripe Payment Link, create the link in Stripe Dashboard and paste it into `stripePaymentLinkUrl` in `script.js`.
-- For true dynamic cart checkout, add a backend/API endpoint that creates Stripe Checkout Sessions and stores prices server-side.
+The site does not collect card details or automatically create invoices, confirm payments, or publish order tracking.
 
 ## Notes
 
 Before using this commercially, confirm the catalog against real supplier-approved items, prices, warranties, country-of-origin data, and compliance classifications.
 
-The current catalog images are representative open-source images, not supplier product photos. Replace them with your own supplier-approved photos before launch, or keep the credit section if using Creative Commons/public-domain sources.
+Catalog illustrations depict representative items. Actual configurations and supplier documentation are confirmed during quote review.
 
 Do not copy third-party product photos or claim supplier affiliation, endorsement, distribution rights, or live inventory unless MicroCD Labs has written permission and a supplier-approved data feed or agreement.
 

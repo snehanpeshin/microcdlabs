@@ -14,8 +14,13 @@
         method: 'POST', credentials: 'omit', headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(payload), signal: controller.signal
       });
+      if (!response.ok) {
+        const error = new Error('Submission was not confirmed. Please email your inquiry instead.');
+        error.status = response.status;
+        throw error;
+      }
       const result = await response.json();
-      if (!response.ok || result.accepted !== true || typeof result.receipt !== 'string' || !result.receipt) {
+      if (result?.accepted !== true || typeof result.receipt !== 'string' || !result.receipt) {
         throw new Error('Submission was not confirmed. Please email your inquiry instead.');
       }
       return result;

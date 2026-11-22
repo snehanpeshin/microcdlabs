@@ -29,6 +29,44 @@
   ...(e.notes?['Additional notes: '+clean(e.notes)]:[]),s.pricing.status,'Supply source: To be confirmed in the proposal','Availability and lead time: Confirmed after specification and supplier review'
  ].join('\n');}).join('\n\n');}
  function subject(entries){if(entries.length===1){const p=entries[0].product;return (p.id==='pdms-microfluidic-chips'?'PDMS chip sourcing enquiry':p.name+' enquiry')+' — '+p.sku;}return 'Research components & custom sourcing enquiry';}
- function request(entries,contact={}){return ['Research sourcing enquiry — requirements for review','',lines(entries),'','Name: '+clean(contact.name,120),'Organization: '+clean(contact.organisation,180),'Work email: '+clean(contact.email,254),'Additional enquiry notes: '+(clean(contact.notes)||'None provided'),'','This is an enquiry, not an order or confirmed quotation. Pricing, source, availability, lead time and fabrication responsibility remain to be confirmed in a written proposal. Any paid feasibility, sourcing or engineering scope requires separate agreement.'].join('\n');}
- globalThis.MicroCDQuote=Object.freeze({version:3,fieldLimit,newKey,approvedPrices:Object.freeze({}),classify,schema,requirements,quantity,clampQuantity,cleanNotes:clean,serialize,lines,subject,request,fields:p=>schema(p).map(f=>f.label)});
+ function request(entries,contact={}){return ['Research sourcing enquiry — requirements for review','',lines(entries),'','Name: '+clean(contact.name,120),'Organization: '+clean(contact.organisation,180),'Work email: '+clean(contact.email,254),'Delivery destination: '+([clean(contact.country,100),clean(contact.postal,30)].filter(Boolean).join(', ')||'To be confirmed'),'PO reference: '+(clean(contact.purchaseOrder,80)||'None provided'),'Additional enquiry notes: '+(clean(contact.notes)||'None provided'),'','This is an enquiry, not an order or confirmed quotation. Pricing, source, availability, lead time and fabrication responsibility remain to be confirmed in a written proposal. Any paid feasibility, sourcing or engineering scope requires separate agreement.'].join('\n');}
+ function checkoutPayload(entries, contact, reference) {
+  const description = entries.map(entry => {
+   const product = entry.product;
+   const r = requirements(product, entry.requirements);
+   const details = [
+    ['Application', r.application],
+    ['Configuration', r.configuration],
+    ...schema(product).map(field => [field.label, r[field.key]]),
+    ['Item-specific destination', r.destination],
+    ['Desired date', r.date],
+    ['Documentation', r.documentation],
+    ['Item notes', clean(entry.notes)]
+   ];
+   return [
+    product.name + ' (' + product.sku + ')',
+    'Quantity: ' + quantity(entry.quantity),
+    ...details.filter(([,value]) => value).map(([label,value]) => label + ': ' + value)
+   ].join('\n');
+  }).join('\n\n');
+  const context = [
+   'Request reference: ' + reference,
+   'Delivery country: ' + clean(contact.country, 100),
+   contact.postal && 'Postal code: ' + clean(contact.postal, 30),
+   contact.purchaseOrder && 'PO reference: ' + clean(contact.purchaseOrder, 80),
+   contact.notes && 'Notes: ' + clean(contact.notes)
+  ].filter(Boolean).join('\n');
+  // Match the deployed inquiry API limits. The email fallback preserves oversized requests.
+  if (description.length > 4000 || context.length > 2000) return null;
+  return {
+   projectType: 'Component sourcing quote request — ' + reference,
+   name: clean(contact.name,120),
+   email: clean(contact.email,254),
+   organization: clean(contact.organisation,180),
+   description,
+   context,
+   website: contact.website || ''
+  };
+ }
+ globalThis.MicroCDQuote=Object.freeze({version:3,fieldLimit,newKey,approvedPrices:Object.freeze({}),classify,schema,requirements,quantity,clampQuantity,cleanNotes:clean,serialize,lines,subject,request,checkoutPayload,fields:p=>schema(p).map(f=>f.label)});
 })();
