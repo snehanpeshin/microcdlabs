@@ -1,3 +1,5 @@
+import { mountQuoteQueue } from "./sourcing-quote-admin.js";
+
 const byId = (id) => document.getElementById(id);
 const status = byId('status');
 const signIn = byId('sign-in');
@@ -127,6 +129,7 @@ async function initialize() {
 
   signOut.addEventListener('click', () => {
     byId('dashboard').hidden = true;
+    byId('sourcing-quote-queue').hidden = true;
     location.replace(endpoint(loginOrigin, '/logout', { client_id: clientId, logout_uri: callback }));
   });
 
@@ -161,6 +164,7 @@ async function initialize() {
     if (!accessToken) throw new Error('Sign-in failed');
     signIn.hidden = true;
     signOut.hidden = false;
+    mountQuoteQueue(new URL('/sourcing-quotes', statsEndpoint).href, accessToken);
     const stats = await fetch(statsEndpoint, {
       headers: { Authorization: 'Bearer ' + accessToken },
       cache: 'no-store'

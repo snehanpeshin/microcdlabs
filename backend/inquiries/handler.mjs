@@ -1,8 +1,9 @@
 const LIMITS = {projectType: 160, name: 120, email: 254, description: 4000, organization: 180, developmentStage: 180, context: 2000, nextStep: 180};
+const QUOTE_SUBJECT = /^Component sourcing quote request — (MCD-[A-F0-9]{16})$/;
 const REQUIRED = ['projectType', 'name', 'email', 'description'];
 const CONSULTATION_SOURCES = new Set(['home', 'services', 'components', 'clair', 'tools', 'labops', 'other', 'direct', 'external']);
 
-export function createHandler({sendEmail, recordAcceptance = () => {}, env = process.env}) {
+export function createHandler({sendEmail, storeQuote, recordAcceptance = () => {}, env = process.env}) {
   return async event => {
     const headers = Object.fromEntries(Object.entries(event.headers || {}).map(([k,v]) => [k.toLowerCase(),v]));
     const origin = headers.origin;
@@ -29,6 +30,18 @@ export function createHandler({sendEmail, recordAcceptance = () => {}, env = pro
       if (clean[key].length > limit || (REQUIRED.includes(key) && !clean[key])) return reply(400, {accepted:false});
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean.email) || /[\r\n]/.test(clean.projectType)) return reply(400, {accepted:false});
+    const quoteReference = QUOTE_SUBJECT.exec(clean.projectType)?.[1];
+    // An isolated sandbox queue only retains requests from its configured test recipient.
+    if (storeQuote && quoteReference && clean.email.toLowerCase() === env.QUOTE_SANDBOX_RECIPIENT?.toLowerCase()) {
+      try {
+        const created = await storeQuote(quoteReference, clean);
+        if (!created) return reply(409, {accepted:false});
+        try { recordAcceptance(null); } catch { /* queue delivery remains accepted */ }
+        return reply(200, {accepted:true, receipt:quoteReference});
+      } catch {
+        return reply(503, {accepted:false});
+      }
+    }
     try {
       const result = await sendEmail({
         Source: env.SENDER_EMAIL, Destination: {ToAddresses:[env.RECIPIENT_EMAIL]},
@@ -51,6 +64,27 @@ export function createHandler({sendEmail, recordAcceptance = () => {}, env = pro
   };
 }
 let ses;
+let dynamo;
+async function persistQuote(reference, request) {
+  const {DynamoDBClient, PutItemCommand} = await import('@aws-sdk/client-dynamodb');
+  dynamo ||= new DynamoDBClient({});
+  const values = {
+    reference, status:'pending', name:request.name, email:request.email, organization:request.organization,
+    description:request.description, context:request.context
+  };
+  const item = Object.fromEntries(Object.entries(values).map(([key,value]) => [key,{S:value}]));
+  item.createdAt = {N:String(Date.now())};
+  try {
+    await dynamo.send(new PutItemCommand({
+      TableName:process.env.QUOTE_TABLE, Item:item, ConditionExpression:'attribute_not_exists(reference)'
+    }));
+    return true;
+  } catch (error) {
+    if (error.name === 'ConditionalCheckFailedException') return false;
+    throw error;
+  }
+}
+
 function recordAcceptance(source) {
   const namespace = 'MicroCDLabs/Website';
   const metrics = [{Namespace: namespace, Dimensions: [[]], Metrics: [{Name: 'AcceptedEnquiries', Unit: 'Count'}]}];
@@ -68,6 +102,7 @@ function recordAcceptance(source) {
 
 export const handler = createHandler({
   recordAcceptance,
+  storeQuote: process.env.QUOTE_TABLE ? persistQuote : undefined,
   sendEmail: async input => {
     const {SESClient, SendEmailCommand} = await import('@aws-sdk/client-ses');
     ses ||= new SESClient({});

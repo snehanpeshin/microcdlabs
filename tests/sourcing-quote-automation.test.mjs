@@ -1,0 +1,154 @@
+import assert from "node:assert/strict";
+import { createHmac } from "node:crypto";
+import test from "node:test";
+import { createWorkflow } from "../backend/sourcing-quotes/workflow.mjs";
+import { createStripe } from "../backend/sourcing-quotes/stripe.mjs";
+import { createHandler } from "../backend/inquiries/handler.mjs";
+
+const reference = "MCD-0123456789ABCDEF";
+const recipient = "sandbox@example.test";
+const secret = "whsec_fixture_only";
+const amount = "25.00";
+const time = 1795460400000;
+const action = { reference, approved: true, amount, description: "Approved prototype sample" };
+const admin = data => ({
+  routeKey: "POST /sourcing-quotes/invoice",
+  requestContext: { authorizer: { jwt: { claims: { token_use: "access", sub: "staff-fixture" } } } },
+  body: JSON.stringify(data),
+});
+const signedEvent = (overrides = {}, epoch = time) => {
+  const body = JSON.stringify({
+    type: "invoice.payment_succeeded", livemode: false,
+    data: { object: {
+      id: "in_fixture", metadata: { microcd_quote: reference }, status: "paid", currency: "usd", amount_paid: 2500,
+      ...overrides,
+    } },
+  });
+  const timestamp = Math.floor(epoch / 1000);
+  const signature = createHmac("sha256", secret).update(timestamp + "." + body).digest("hex");
+  return { body, headers: { "stripe-signature": "t=" + timestamp + ",v1=" + signature } };
+};
+
+function fixture() {
+  const record = { reference, email: recipient, status: "pending" };
+  const calls = [];
+  const store = {
+    get: async () => record,
+    approve: async (input, at) => {
+      if (record.status === "pending") Object.assign(record, input, { status: "approved", approvedAt: at });
+      return record;
+    },
+    linkInvoice: async (_, id) => { record.invoiceId = id; },
+    markSent: async () => {
+      if (record.status === "approved") record.status = "sent";
+      return record;
+    },
+    markPaid: async () => {
+      if (record.status === "paid") return false;
+      record.status = "paid";
+      return true;
+    },
+  };
+  const stripe = {
+    verifyAccount: async () => calls.push("account"),
+    createInvoice: async () => { calls.push("create"); return "in_fixture"; },
+    finalizeInvoice: async () => { calls.push("finalize"); },
+    sendInvoice: async () => { calls.push("send"); },
+  };
+  const workflow = createWorkflow({
+    store, stripe, recipient, webhookSecret: secret, now: () => time,
+    notifyPaid: async () => { calls.push("notify"); },
+  });
+  return { workflow, stripe, record, calls };
+}
+
+test("only approved staff-authorized sandbox requests can create and send an invoice", async () => {
+  const { workflow, record, calls } = fixture();
+  assert.equal((await workflow.admin({ ...admin(action), requestContext: {} })).statusCode, 403);
+  assert.equal((await workflow.admin(admin({ ...action, approved: false }))).statusCode, 400);
+  assert.equal((await workflow.admin(admin({ ...action, amount: "25.001" }))).statusCode, 400);
+  record.email = "real-customer@example.test";
+  assert.equal((await workflow.admin(admin(action))).statusCode, 422);
+  assert.deepEqual(calls, []);
+  record.email = recipient;
+  assert.equal((await workflow.admin(admin(action))).statusCode, 200);
+  assert.equal(record.approvedBy, "staff-fixture");
+  assert.equal(record.invoiceId, "in_fixture");
+  assert.equal(record.status, "sent");
+  assert.equal((await workflow.admin(admin(action))).statusCode, 200);
+  assert.equal((await workflow.admin(admin({ ...action, amount: "26.00" }))).statusCode, 409);
+  assert.deepEqual(calls, ["account", "create", "finalize", "send"]);
+});
+
+test("retries resume from the stored invoice and expired approvals require reconciliation", async () => {
+  const { workflow, record, calls, stripe } = fixture();
+  const send = stripe.sendInvoice;
+  stripe.sendInvoice = async () => { throw new Error("temporary delivery failure"); };
+  assert.equal((await workflow.admin(admin(action))).statusCode, 503);
+  assert.equal(record.status, "approved");
+  assert.equal(record.invoiceId, "in_fixture");
+  record.approvedAt -= 21 * 3600000;
+  assert.equal((await workflow.admin(admin(action))).statusCode, 409);
+  record.approvedAt = time;
+  stripe.sendInvoice = send;
+  assert.equal((await workflow.admin(admin(action))).statusCode, 200);
+  assert.equal(calls.filter(call => call === "create").length, 1);
+});
+
+test("a signed Stripe sandbox payment changes the matched quote and notifies once", async () => {
+  const { workflow, record, calls } = fixture();
+  await workflow.admin(admin(action));
+  assert.equal((await workflow.webhook({ ...signedEvent(), headers: {} })).statusCode, 400);
+  assert.equal((await workflow.webhook(signedEvent({}, time - 301000))).statusCode, 400);
+  await workflow.webhook(signedEvent({ amount_paid: 2499 }));
+  await workflow.webhook(signedEvent({ id: "in_other" }));
+  assert.equal(record.status, "sent");
+  const payment = signedEvent();
+  assert.equal((await workflow.webhook(payment)).statusCode, 200);
+  assert.equal((await workflow.webhook(payment)).statusCode, 200);
+  assert.equal(record.status, "paid");
+  assert.equal(calls.filter(call => call === "notify").length, 1);
+});
+
+test("Stripe requests are scoped to the sandbox and use deterministic mutation keys", async () => {
+  assert.throws(() => createStripe("sk_live_fixture"), /sandbox key/);
+  const calls = [];
+  const stripe = createStripe("sk_test_fixture", async (url, options) => {
+    calls.push({ url, options });
+    const path = new URL(url).pathname;
+    const data = path === "/v1/account" ? { id: "acct_1Tj1MwCAcBbMzZu0" }
+      : path === "/v1/customers" ? { id: "cus_fixture" }
+      : path.endsWith("/finalize") ? { id: "in_fixture", livemode: false, amount_due: 2500, status: "open", currency: "usd", hosted_invoice_url: "fixture" }
+      : { id: "in_fixture" };
+    return { ok: true, json: async () => data };
+  });
+  const record = { reference, email: recipient, name: "Fixture", cents: 2500, invoiceDescription: "Approved lines" };
+  await stripe.verifyAccount();
+  const id = await stripe.createInvoice(record);
+  await stripe.finalizeInvoice(record, id);
+  await stripe.sendInvoice(record, id);
+  assert.deepEqual(calls.slice(1).map(call => call.options.headers["idempotency-key"]),
+    ["customer", "draft", "line", "finalize", "send"].map(action => "microcd-sourcing-v1:" + reference + ":" + action));
+  assert.equal(calls[2].options.body.get("collection_method"), "send_invoice");
+  assert.equal(calls[3].options.body.get("amount"), "2500");
+});
+
+test("only the configured synthetic sourcing request reaches the sandbox queue", async () => {
+  const calls = [];
+  const origin = "https://www.microcdlabs.com";
+  const handler = createHandler({
+    env: { SENDER_EMAIL: recipient, RECIPIENT_EMAIL: recipient, ALLOWED_ORIGINS: origin, QUOTE_SANDBOX_RECIPIENT: recipient },
+    storeQuote: async ref => { calls.push(ref); return true; },
+    sendEmail: async () => { calls.push("email"); return { MessageId: "fixture" }; },
+  });
+  const request = (email, projectType) => ({
+    headers: { origin, "content-type": "application/json" },
+    requestContext: { http: { method: "POST" } },
+    body: JSON.stringify({ email, projectType, name: "Fixture", description: "Fixture requirements" }),
+  });
+  const subject = "Component sourcing quote request — " + reference;
+  assert.equal((await handler(request(recipient, subject))).statusCode, 200);
+  await handler(request("real-customer@example.test", subject));
+  await handler(request(recipient, "Engineering consultation"));
+  assert.deepEqual(calls, [reference, "email", "email"]);
+});

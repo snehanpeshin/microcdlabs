@@ -10,8 +10,8 @@
   <link rel="icon" href="assets/microcd-tab-icon.svg" type="image/svg+xml">
   <meta name="referrer" content="no-referrer">
   <title>Website stats | MicroCD Labs</title>
-  <link rel="stylesheet" href="assets/website-admin.css?v=20261119-funnel">
-  <script type="module" src="assets/website-admin.js?v=20261119-funnel"></script>
+  <link rel="stylesheet" href="assets/website-admin.css?v=20261123-quotes">
+  <script type="module" src="assets/website-admin.js?v=20261123-quotes"></script>
 </head>
 <body>
   <header><a href="/" aria-label="MicroCD Labs home"><img src="assets/microcd-labs-wordmark.svg" alt="MicroCD Labs" width="154" height="34"></a></header>
@@ -20,6 +20,14 @@
     <p id="status" role="status">Loading sign-in…</p>
     <button id="sign-in" type="button" hidden>Admin sign-in</button>
     <button id="sign-out" type="button" hidden>Sign out</button>
+    <section id="sourcing-quote-queue" aria-labelledby="sourcing-quote-title" hidden>
+      <h2 id="sourcing-quote-title">Sourcing quotes <small>Stripe sandbox</small></h2>
+      <p>Review the buyer’s requirements and enter the agreed final total after the buyer approves the quote.</p>
+      <button id="sourcing-quote-refresh" type="button">Refresh quotes</button>
+      <p id="sourcing-quote-status" role="status"></p>
+      <div id="sourcing-quote-list"></div>
+      <button id="sourcing-quote-more" type="button" hidden>Load more quotes</button>
+    </section>
     <section id="dashboard" aria-labelledby="stats-heading" hidden>
       <h2 id="stats-heading">Last 30 days <small>UTC, including today</small></h2>
       <dl>
