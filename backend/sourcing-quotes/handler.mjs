@@ -2,7 +2,7 @@ import { DynamoDBClient, GetItemCommand, ScanCommand, UpdateItemCommand } from "
 import { SecretsManagerClient, GetSecretValueCommand } from "@aws-sdk/client-secrets-manager";
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import { createWorkflow } from "./workflow.mjs";
-import { createStripe } from "./stripe.mjs";
+import { createStripe, parseSandboxCredentials } from "./stripe.mjs";
 
 const db = new DynamoDBClient({});
 const secrets = new SecretsManagerClient({});
@@ -89,7 +89,7 @@ async function loadWorkflow() {
     cacheExpiresAt = Date.now() + 60_000;
     cachedWorkflow = secrets.send(new GetSecretValueCommand({ SecretId: process.env.STRIPE_SECRET_ARN }))
       .then(result => {
-        const settings = JSON.parse(result.SecretString);
+        const settings = parseSandboxCredentials(result.SecretString);
         return createWorkflow({
           store, stripe: createStripe(settings.apiKey), webhookSecret: settings.webhookSecret,
           recipient: process.env.SANDBOX_RECIPIENT, notifyPaid,

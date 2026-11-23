@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { createHmac } from "node:crypto";
 import test from "node:test";
 import { createWorkflow } from "../backend/sourcing-quotes/workflow.mjs";
-import { createStripe } from "../backend/sourcing-quotes/stripe.mjs";
+import { createStripe, parseSandboxCredentials } from "../backend/sourcing-quotes/stripe.mjs";
 import { createHandler } from "../backend/inquiries/handler.mjs";
 
 const reference = "MCD-0123456789ABCDEF";
@@ -151,4 +151,16 @@ test("only the configured synthetic sourcing request reaches the sandbox queue",
   await handler(request("real-customer@example.test", subject));
   await handler(request(recipient, "Engineering consultation"));
   assert.deepEqual(calls, [reference, "email", "email"]);
+});
+
+test("normalizes console credential labels while rejecting live, missing, or ambiguous credentials", () => {
+  assert.deepEqual(
+    parseSandboxCredentials(JSON.stringify({ " APIKEY ": " sk_test_Fixture ", "WebhookSecret ": " whsec_Fixture " })),
+    { apiKey: "sk_test_Fixture", webhookSecret: "whsec_Fixture" },
+  );
+  for (const values of [
+    { apiKey: "sk_live_Fixture", webhookSecret: "whsec_Fixture" },
+    { apiKey: "rk_test_Fixture" },
+    { apiKey: "rk_test_Fixture", APIKEY: "sk_test_Other", webhookSecret: "whsec_Fixture" },
+  ]) assert.throws(() => parseSandboxCredentials(JSON.stringify(values)));
 });

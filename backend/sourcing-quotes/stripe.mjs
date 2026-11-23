@@ -1,5 +1,28 @@
 const sandboxAccount = "acct_1Tj1MwCAcBbMzZu0";
 
+export function parseSandboxCredentials(secretString) {
+  const parsed = JSON.parse(secretString);
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+    throw new Error("Stripe sandbox credentials must be a JSON object.");
+  }
+  const entries = new Map();
+  for (const [label, value] of Object.entries(parsed)) {
+    const name = label.trim().toLowerCase();
+    if (name !== "apikey" && name !== "webhooksecret") continue;
+    if (typeof value !== "string" || entries.has(name)) {
+      throw new Error("Stripe sandbox credential fields must be unique strings.");
+    }
+    entries.set(name, value.trim());
+  }
+  const apiKey = entries.get("apikey");
+  const webhookSecret = entries.get("webhooksecret");
+  if (!/^(?:sk|rk)_test_[A-Za-z0-9]+$/.test(apiKey ?? "") ||
+      !/^whsec_[A-Za-z0-9]+$/.test(webhookSecret ?? "")) {
+    throw new Error("Stripe sandbox credentials are incomplete.");
+  }
+  return { apiKey, webhookSecret };
+}
+
 export function createStripe(key, fetcher = fetch) {
   if (!/^(?:sk|rk)_test_[A-Za-z0-9]+$/.test(key ?? "")) throw new Error("Stripe sandbox key required.");
 
