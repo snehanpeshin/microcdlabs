@@ -8,6 +8,20 @@ Parameters:
   RecipientEmail:
     Type: String
     Default: info@microcdlabs.com
+  QuoteSandboxTableName:
+    Type: String
+    Default: ''
+  QuoteSandboxTableArn:
+    Type: String
+    Default: ''
+  QuoteSandboxRecipient:
+    Type: String
+    Default: ''
+Conditions:
+  SandboxQueueConfigured: !And
+    - !Not [!Equals [!Ref QuoteSandboxTableName, '']]
+    - !Not [!Equals [!Ref QuoteSandboxTableArn, '']]
+    - !Not [!Equals [!Ref QuoteSandboxRecipient, '']]
 Resources:
   InquiryApi:
     Type: AWS::Serverless::HttpApi
@@ -34,6 +48,8 @@ Resources:
         Variables:
           SENDER_EMAIL: !Ref SenderEmail
           RECIPIENT_EMAIL: !Ref RecipientEmail
+          QUOTE_TABLE: !If [SandboxQueueConfigured, !Ref QuoteSandboxTableName, '']
+          QUOTE_SANDBOX_RECIPIENT: !If [SandboxQueueConfigured, !Ref QuoteSandboxRecipient, '']
           ALLOWED_ORIGINS: 'https://www.microcdlabs.com,https://microcdlabs.com'
       Policies:
         - Statement:
@@ -45,6 +61,13 @@ Resources:
                   ses:FromAddress: !Ref SenderEmail
                 ForAllValues:StringEquals:
                   ses:Recipients: [!Ref RecipientEmail]
+        - !If
+          - SandboxQueueConfigured
+          - Statement:
+              - Effect: Allow
+                Action: dynamodb:PutItem
+                Resource: !Ref QuoteSandboxTableArn
+          - !Ref AWS::NoValue
       Events:
         Submit:
           Type: HttpApi

@@ -37,3 +37,26 @@ th:first-child { text-align: left; }
 .page-path { overflow-wrap: anywhere; }
 
 .funnel-table-scroll { overflow-x: auto; }
+
+.quote-admin-card {
+  margin-block: 1rem;
+  padding: 1rem;
+  border: 1px solid #cbd9d8;
+  border-radius: .5rem;
+  background: white;
+  overflow-wrap: anywhere;
+}
+.quote-admin-card h3 { margin-top: 0; }
+.quote-admin-description { white-space: pre-wrap; }
+.quote-admin-form { display: grid; gap: .75rem; margin-top: 1rem; }
+.quote-admin-form label { display: block; font-weight: 600; }
+.quote-admin-form :is(input:not([type="checkbox"]), textarea) {
+  display: block;
+  width: min(100%, 35rem);
+  padding: .5rem;
+  border: 1px solid #657a7e;
+  border-radius: .3rem;
+  font: inherit;
+}
+.quote-admin-form button { justify-self: start; }
+.quote-admin-form [role="status"]:empty { display: none; }
