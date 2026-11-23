@@ -31,6 +31,7 @@ async function verifyCheckout(browser, width) {
 
     await page.goto(paymentPage);
     await page.locator("#payment-help").waitFor({ state: "visible" });
+    await page.getByText("MicroCD Labs is a DBA of KARIGARI HOME LLC", { exact: false }).waitFor();
     assert.equal(await page.locator("#stripe-invoice").isVisible(), false);
 
     await page.goto(quoteUrl(sandboxUrl));
