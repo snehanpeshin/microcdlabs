@@ -29,13 +29,15 @@ export function parseStripeInvoice(value) {
 
 export function showQuotePayment(document, hash) {
   const invoice = parseStripeInvoice(new URLSearchParams(hash.slice(1)).get("invoice"));
-  if (!invoice) return;
-
-  document.querySelector("#payment-help").hidden = true;
-  document.querySelector("#payment-ready").hidden = false;
-  document.querySelector("#payment-test").hidden = !invoice.sandbox;
+  document.querySelector("#payment-help").hidden = Boolean(invoice);
+  document.querySelector("#payment-ready").hidden = !invoice;
+  document.querySelector("#payment-test").hidden = !invoice?.sandbox;
 
   const button = document.querySelector("#stripe-invoice");
-  button.href = invoice.href;
-  if (invoice.sandbox) button.textContent = "Open Stripe test invoice";
+  button.textContent = invoice?.sandbox ? "Open Stripe test invoice" : "Pay with Stripe";
+  if (invoice) {
+    button.href = invoice.href;
+  } else {
+    button.removeAttribute("href");
+  }
 }

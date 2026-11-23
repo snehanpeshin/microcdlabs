@@ -1,3 +1,5 @@
 import { showQuotePayment } from "./quote-payment.js";
 
-showQuotePayment(document, window.location.hash);
+const render = () => showQuotePayment(document, window.location.hash);
+window.addEventListener("hashchange", render);
+render();

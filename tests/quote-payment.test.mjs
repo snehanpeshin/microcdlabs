@@ -32,6 +32,8 @@ test("reveals only a verified payment link and marks the sandbox", () => {
     "#payment-test": { hidden: true },
     "#stripe-invoice": { textContent: "Pay with Stripe" },
   };
+  const button = fields["#stripe-invoice"];
+  button.removeAttribute = name => { delete button[name]; };
   const document = { querySelector: selector => fields[selector] };
   showQuotePayment(document, "#invoice=https://example.com");
   assert.equal(fields["#payment-ready"].hidden, true);
@@ -43,6 +45,16 @@ test("reveals only a verified payment link and marks the sandbox", () => {
   assert.equal(fields["#payment-test"].hidden, false);
   assert.equal(fields["#stripe-invoice"].textContent, "Open Stripe test invoice");
   assert.equal(fields["#stripe-invoice"].href, sandbox);
+
+  showQuotePayment(document, "#" + new URLSearchParams({ invoice: live }));
+  assert.equal(fields["#payment-test"].hidden, true);
+  assert.equal(button.textContent, "Pay with Stripe");
+  assert.equal(button.href, live);
+
+  showQuotePayment(document, "");
+  assert.equal(fields["#payment-help"].hidden, false);
+  assert.equal(fields["#payment-ready"].hidden, true);
+  assert.equal(button.href, undefined);
 });
 
 test("staff link generation defaults to sandbox and requires explicit live mode", () => {
