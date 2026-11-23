@@ -76,7 +76,8 @@ async function persistQuote(reference, request) {
   item.createdAt = {N:String(Date.now())};
   try {
     await dynamo.send(new PutItemCommand({
-      TableName:process.env.QUOTE_TABLE, Item:item, ConditionExpression:'attribute_not_exists(reference)'
+      TableName:process.env.QUOTE_TABLE, Item:item, ConditionExpression:'attribute_not_exists(#ref)',
+      ExpressionAttributeNames:{'#ref':'reference'}
     }));
     return true;
   } catch (error) {
