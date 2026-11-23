@@ -1,6 +1,6 @@
 <section id="quote" class="section quote-section" aria-labelledby="quote-title">
-  <h2 id="quote-title">Components sourcing checkout</h2>
-  <p>Review your basket and request a quote. MicroCD Labs confirms specifications, availability, lead time, shipping and taxes. Approve the quote and pay the emailed Stripe invoice to place your order.</p>
+  <h2 id="quote-title">Review and request a quote</h2>
+  <p>Review your basket and request a quote. MicroCD Labs confirms specifications, availability, lead time, shipping and taxes. Once you approve the quote, you can pay the final invoice through Stripe.</p>
 
   <section id="quoteConfirmation" class="checkout-card checkout-confirmation" aria-labelledby="quoteConfirmationTitle" hidden>
     <h3 id="quoteConfirmationTitle" tabindex="-1">Quote request received</h3>
@@ -35,7 +35,7 @@
             <label>Notes<textarea id="quoteNotes" name="notes" maxlength="4000" rows="4" placeholder="Desired delivery date or purchasing requirements"></textarea></label>
           </details>
           <div hidden aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
-          <p class="checkout-payment"><strong>Total due today</strong><strong>$0.00</strong></p>
+          <p class="checkout-payment"><strong>Payment follows quote approval</strong></p>
           <p>Submit non-confidential details only. See our <a href="../terms.html">ordering terms</a>, <a href="../refunds.html">refund policy</a> and <a href="../privacy.html">privacy policy</a>.</p>
           <button id="submitQuote" class="button button-primary" type="submit" disabled>Submit quote request</button>
         </form>

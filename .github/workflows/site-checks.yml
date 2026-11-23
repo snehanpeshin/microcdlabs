@@ -16,3 +16,11 @@ jobs:
           node-version: '22'
       - name: Validate source and package public website
         run: npm run verify && npm run package:site
+      - name: Test the quote payment handoff in Chrome
+        run: |
+          npm install --prefix "$RUNNER_TEMP/quote-browser" --no-save playwright@1.62.1
+          python3 -m http.server 8772 --bind 127.0.0.1 --directory dist &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          curl --fail --silent --retry 10 --retry-connrefused --retry-delay 1 http://127.0.0.1:8772/quote-payment.html >/dev/null
+          PLAYWRIGHT_MODULE="$RUNNER_TEMP/quote-browser/node_modules/playwright" node tests/quote-payment-browser.cjs
