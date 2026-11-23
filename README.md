@@ -61,7 +61,7 @@ Components Sourcing and Kits submit a quote request through the existing enquiry
 
 1. Find the request by its MCD reference in the enquiries inbox. Review the requested configuration, destination and supplier options.
 2. Send a written quote with item quantities, prices, shipping, taxes where applicable, lead time and terms.
-3. Once the buyer approves the quote, create and send a Stripe-hosted invoice from the business Stripe Dashboard. Include the MCD reference so the invoice and correspondence can be matched.
+3. Once the buyer approves the quote, create a Stripe-hosted invoice in the business Stripe Dashboard. Include the MCD reference and the agreed charges. Finalize the invoice to obtain its hosted payment URL. Send the customer the Stripe invoice or use the website handoff below.
 4. Verify the invoice is paid in Stripe before starting fulfillment. Confirm the order and send shipment or project updates to the customer.
 
 The site does not collect card details or automatically create invoices, confirm payments, or publish order tracking.
@@ -69,6 +69,10 @@ The site does not collect card details or automatically create invoices, confirm
 ## Notes
 
 Before using this commercially, confirm the catalog against real supplier-approved items, prices, warranties, country-of-origin data, and compliance classifications.
+
+**Website payment handoff.** From a repository checkout, run `node tools/quote-payment-link.mjs`, paste the hosted URL into its standard input, and press Enter then Ctrl+D. The command prints a customer-specific MicroCD Labs URL to use as the **Pay with Stripe** button target in your quote email. Include the direct Stripe URL as a fallback. Treat both URLs as private customer links.
+
+The command accepts sandbox invoices by default. Use `node tools/quote-payment-link.mjs --live` for a live invoice after confirming the payment page with the business Stripe account. The landing page labels sandbox invoices and takes customers directly to Stripe to see the invoice and pay. Stripe remains the source of payment status.
 
 Catalog illustrations depict representative items. Actual configurations and supplier documentation are confirmed during quote review.
 

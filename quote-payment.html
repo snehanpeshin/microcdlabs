@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Continue to Stripe to pay an approved MicroCD Labs sourcing quote.">
+  <meta property="og:title" content="Pay an approved sourcing quote | MicroCD Labs">
+  <meta property="og:description" content="Continue to Stripe to pay an approved MicroCD Labs sourcing quote.">
+  <link rel="canonical" href="https://www.microcdlabs.com/quote-payment.html">
+  <link rel="icon" href="assets/microcd-tab-icon.svg" type="image/svg+xml">
+  <title>Pay an approved sourcing quote | MicroCD Labs</title>
+  <link rel="stylesheet" href="assets/marketing.css">
+  <link rel="stylesheet" href="assets/checkout.css">
+  <script type="module" src="assets/quote-payment-page.js"></script>
+</head>
+<body>
+  <main class="section">
+    <div class="checkout-card checkout-confirmation">
+      <a href="index.html" aria-label="MicroCD Labs home">
+        <img src="assets/microcd-labs-wordmark.svg" alt="MicroCD Labs" width="154" height="34">
+      </a>
+      <h1>Pay an approved sourcing quote</h1>
+      <div id="payment-ready" hidden>
+        <p id="payment-test" hidden><strong>Stripe sandbox.</strong> This sample invoice uses simulated payments.</p>
+        <p>Review your invoice and final total on Stripe before paying. Stripe also provides your invoice and receipt.</p>
+        <a id="stripe-invoice" class="button button-primary" rel="noreferrer" referrerpolicy="no-referrer">Pay with Stripe</a>
+      </div>
+      <div id="payment-help">
+        <p>Open the payment link from your approved quote email. If you need a new link, email your request reference to <a href="mailto:info@microcdlabs.com">info@microcdlabs.com</a>.</p>
+        <noscript><p>You can also use the Stripe invoice link included with your quote.</p></noscript>
+      </div>
+      <p><a href="products.html#catalog">Back to Components Sourcing</a></p>
+    </div>
+  </main>
+</body>
+</html>
