@@ -3,10 +3,12 @@ import { SecretsManagerClient, GetSecretValueCommand } from "@aws-sdk/client-sec
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import { createWorkflow } from "./workflow.mjs";
 import { createStripe, parseSandboxCredentials } from "./stripe.mjs";
+import { sandboxInvoiceMessage } from "./invoice-email.mjs";
 
 const db = new DynamoDBClient({});
 const secrets = new SecretsManagerClient({});
 const ses = new SESClient({});
+const invoiceSes = new SESClient({ maxAttempts: 1 });
 const table = process.env.QUOTE_TABLE;
 const key = reference => ({ reference: { S: reference } });
 
@@ -57,6 +59,13 @@ const store = {
       { "#status": "status" }, { ":id": { S: invoiceId } });
     if (!row) throw new Error("Invoice reference conflict.");
   },
+  async claimInvoiceEmail(reference, invoiceId, time) {
+    return Boolean(await update(reference, "invoiceEmailStartedAt = :time",
+      "invoiceId = :id AND #status = :approved AND attribute_not_exists(invoiceEmailStartedAt)",
+      { "#status": "status" }, {
+        ":id": { S: invoiceId }, ":approved": { S: "approved" }, ":time": { N: String(time) },
+      }));
+  },
   async markSent(reference) {
     return (await update(reference, "#status = :sent", "#status = :approved", { "#status": "status" }, {
       ":sent": { S: "sent" }, ":approved": { S: "approved" },
@@ -70,6 +79,15 @@ const store = {
       }));
   },
 };
+
+async function emailInvoice(record, paymentLink) {
+  const delivery = await invoiceSes.send(new SendEmailCommand({
+    Source: process.env.PAID_SENDER,
+    Destination: { ToAddresses: [process.env.SANDBOX_RECIPIENT] },
+    Message: sandboxInvoiceMessage(record.reference, record.cents, paymentLink),
+  }));
+  if (!delivery.MessageId) throw new Error("Sandbox invoice email was not acknowledged.");
+}
 
 async function notifyPaid(reference) {
   await ses.send(new SendEmailCommand({
@@ -92,7 +110,7 @@ async function loadWorkflow() {
         const settings = parseSandboxCredentials(result.SecretString);
         return createWorkflow({
           store, stripe: createStripe(settings.apiKey), webhookSecret: settings.webhookSecret,
-          recipient: process.env.SANDBOX_RECIPIENT, notifyPaid,
+          recipient: process.env.SANDBOX_RECIPIENT, emailInvoice, notifyPaid,
           report: message => console.error(message),
         });
       }).catch(error => {

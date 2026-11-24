@@ -37,7 +37,10 @@ export function verifyEvent(raw, header, secret, now) {
   try { return JSON.parse(raw.toString("utf8")); } catch { return null; }
 }
 
-export function createWorkflow({ store, stripe, webhookSecret, recipient, notifyPaid, now = Date.now, report = () => {} }) {
+export function createWorkflow({ store, stripe, webhookSecret, recipient, emailInvoice, notifyPaid, now = Date.now, report = () => {} }) {
+  const deliveryUnconfirmed = () => error(409,
+    "Invoice email delivery is unconfirmed. Check the sandbox inbox before sending anything again.");
+
   async function sendInvoice(input) {
     const current = await store.get(input.reference);
     if (!current) throw error(404, "Quote request not found.");
@@ -51,6 +54,7 @@ export function createWorkflow({ store, stripe, webhookSecret, recipient, notify
       throw error(409, "This quote already has an approved total and invoice description.");
     }
     if (["sent", "paid"].includes(record.status)) return record;
+    if (record.invoiceEmailStartedAt) throw deliveryUnconfirmed();
     if (now() - record.approvedAt >= retryWindow) {
       throw error(409, "Reconcile the existing invoice in Stripe before retrying this quote.");
     }
@@ -59,9 +63,21 @@ export function createWorkflow({ store, stripe, webhookSecret, recipient, notify
     const invoiceId = record.invoiceId || await stripe.createInvoice(record);
     if (!invoicePattern.test(invoiceId)) throw error(503, "Stripe invoice could not be verified.");
     await store.linkInvoice(record.reference, invoiceId);
-    await stripe.finalizeInvoice(record, invoiceId);
-    await stripe.sendInvoice(record, invoiceId);
-    return store.markSent(record.reference);
+    const paymentLink = await stripe.finalizeInvoice(record, invoiceId);
+    const claimed = await store.claimInvoiceEmail(record.reference, invoiceId, now());
+    if (!claimed) {
+      const latest = await store.get(record.reference);
+      if (latest && ["sent", "paid"].includes(latest.status)) return latest;
+      throw deliveryUnconfirmed();
+    }
+
+    try {
+      await emailInvoice(record, paymentLink);
+      return await store.markSent(record.reference);
+    } catch {
+      report("sourcing_quote_invoice_email_unconfirmed");
+      throw deliveryUnconfirmed();
+    }
   }
 
   return {
