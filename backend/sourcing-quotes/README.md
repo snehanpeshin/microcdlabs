@@ -25,3 +25,9 @@ Deploy `live-template.yaml` as a separate stack using the same staff API and JWT
 In the KARIGARI HOME LLC live Stripe account, verify that the account accepts payments. Create a restricted live key for reading the account and creating customers, invoices, and invoice items. Configure the live webhook URL output for snapshot `invoice.payment_succeeded` events. Store the API key and the live endpoint signing secret in the dedicated Secrets Manager record. Enable invoice payment links in Stripe invoice email settings. Stripe sends the live invoice, and SES sends only the internal paid alert.
 
 Enable the pilot with the staff-approved `PilotQuoteReference`, `PilotRecipient`, `PilotName`, and maximum approved amount in `PilotMaxCents`. Staff must confirm the buyer approved the total and billing email before sending. The pilot sends one payable invoice for the configured quote only. The dashboard records the linked invoice and payment state. Repeated requests retain the same Stripe idempotency keys. To pause sends, set `LiveEnabled=false`; signed events for existing live invoices still update the live table.
+
+## Live queue rollout
+
+Set `LiveAllQuotes=true` on the live quote stack to list stored customer quote requests. Set `LiveEnabled=true` to allow staff-approved sends. Give the inquiry stack the live table's name and ARN using `QuoteLiveTableName` and `QuoteLiveTableArn`. Deploy the live quote stack first. The designated sandbox email continues to route to the sandbox queue. Customer quote requests remain visible to staff in the live queue if the separate inquiry inbox notification fails.
+
+Previously emailed requests remain in the inbox. The queue contains new requests, plus the original pilot record if it was already created. The original pilot retains its recipient and amount cap. Set `LiveEnabled=false` to pause outgoing invoices. Existing live payments still update their quotes.

@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Stripe live sourcing invoice pilot for invited MicroCD Labs administrators.
+Description: Staff-approved live Stripe invoicing for MicroCD Labs sourcing quotes.
 Parameters:
   AdminApiId:
     Type: String
@@ -15,6 +15,10 @@ Parameters:
     Type: String
     Description: The verified internal SES recipient for paid notifications.
   LiveEnabled:
+    Type: String
+    Default: 'false'
+    AllowedValues: ['true', 'false']
+  LiveAllQuotes:
     Type: String
     Default: 'false'
     AllowedValues: ['true', 'false']
@@ -67,6 +71,7 @@ Resources:
           STRIPE_SECRET_ARN: !Ref StripeSecretArn
           LIVE_QUOTES: 'true'
           LIVE_INVOICE_ENABLED: !Ref LiveEnabled
+          LIVE_ALL_QUOTES: !Ref LiveAllQuotes
           LIVE_PILOT_REFERENCE: !Ref PilotQuoteReference
           LIVE_PILOT_RECIPIENT: !Ref PilotRecipient
           LIVE_PILOT_NAME: !Ref PilotName
@@ -76,7 +81,7 @@ Resources:
       Policies:
         - Statement:
             - Effect: Allow
-              Action: [dynamodb:GetItem, dynamodb:PutItem, dynamodb:UpdateItem]
+              Action: [dynamodb:GetItem, dynamodb:PutItem, dynamodb:Scan, dynamodb:UpdateItem]
               Resource: !GetAtt Quotes.Arn
             - Effect: Allow
               Action: secretsmanager:GetSecretValue

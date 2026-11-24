@@ -12,6 +12,7 @@ const invoiceSes = new SESClient({ maxAttempts: 1 });
 const table = process.env.QUOTE_TABLE;
 const live = process.env.LIVE_QUOTES === "true";
 const liveEnabled = process.env.LIVE_INVOICE_ENABLED === "true";
+const allLiveQuotes = live && process.env.LIVE_ALL_QUOTES === "true";
 const livePilot = live ? {
   reference: process.env.LIVE_PILOT_REFERENCE,
   name: process.env.LIVE_PILOT_NAME,
@@ -58,7 +59,7 @@ const store = {
   },
   async list(cursor) {
     const page = await db.send(new ScanCommand({
-      TableName: table, Limit: 25, ExclusiveStartKey: cursor ? key(cursor) : undefined,
+      TableName: table, ConsistentRead: true, Limit: 25, ExclusiveStartKey: cursor ? key(cursor) : undefined,
     }));
     const quotes = (page.Items ?? []).map(decode).sort((a, b) => b.createdAt - a.createdAt);
     return { quotes, cursor: page.LastEvaluatedKey?.reference?.S ?? null };
@@ -122,7 +123,7 @@ async function notifyPaid(reference) {
 const workflowOptions = {
   store,
   recipient: live ? process.env.LIVE_PILOT_RECIPIENT : process.env.SANDBOX_RECIPIENT,
-  live, pilot: livePilot, enabled: !live || liveEnabled, emailInvoice, notifyPaid,
+  live, pilot: livePilot, allLiveQuotes, enabled: !live || liveEnabled, emailInvoice, notifyPaid,
   report: message => console.error(message),
 };
 
