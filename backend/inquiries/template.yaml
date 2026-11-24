@@ -17,7 +17,16 @@ Parameters:
   QuoteSandboxRecipient:
     Type: String
     Default: ''
+  QuoteLiveTableName:
+    Type: String
+    Default: ''
+  QuoteLiveTableArn:
+    Type: String
+    Default: ''
 Conditions:
+  LiveQueueConfigured: !And
+    - !Not [!Equals [!Ref QuoteLiveTableName, '']]
+    - !Not [!Equals [!Ref QuoteLiveTableArn, '']]
   SandboxQueueConfigured: !And
     - !Not [!Equals [!Ref QuoteSandboxTableName, '']]
     - !Not [!Equals [!Ref QuoteSandboxTableArn, '']]
@@ -50,6 +59,7 @@ Resources:
           RECIPIENT_EMAIL: !Ref RecipientEmail
           QUOTE_TABLE: !If [SandboxQueueConfigured, !Ref QuoteSandboxTableName, '']
           QUOTE_SANDBOX_RECIPIENT: !If [SandboxQueueConfigured, !Ref QuoteSandboxRecipient, '']
+          QUOTE_LIVE_TABLE: !If [LiveQueueConfigured, !Ref QuoteLiveTableName, '']
           ALLOWED_ORIGINS: 'https://www.microcdlabs.com,https://microcdlabs.com'
       Policies:
         - Statement:
@@ -67,6 +77,13 @@ Resources:
               - Effect: Allow
                 Action: dynamodb:PutItem
                 Resource: !Ref QuoteSandboxTableArn
+          - !Ref AWS::NoValue
+        - !If
+          - LiveQueueConfigured
+          - Statement:
+              - Effect: Allow
+                Action: dynamodb:PutItem
+                Resource: !Ref QuoteLiveTableArn
           - !Ref AWS::NoValue
       Events:
         Submit:

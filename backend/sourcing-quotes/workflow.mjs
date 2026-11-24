@@ -38,7 +38,7 @@ export function verifyEvent(raw, header, secret, now) {
 }
 
 export function createWorkflow({ store, stripe, webhookSecret, recipient, emailInvoice, notifyPaid,
-  live = false, pilot, enabled = !live, now = Date.now, report = () => {} }) {
+  live = false, pilot, allLiveQuotes = false, enabled = !live, now = Date.now, report = () => {} }) {
   const route = live ? "/sourcing-quotes-live" : "/sourcing-quotes";
   const eligiblePilot = live && referencePattern.test(pilot?.reference ?? "") &&
     typeof pilot.name === "string" && pilot.name.trim() && Number.isInteger(pilot.maxCents) && pilot.maxCents >= 50 &&
@@ -51,15 +51,17 @@ export function createWorkflow({ store, stripe, webhookSecret, recipient, emailI
     "Invoice email delivery is unconfirmed. Check the sandbox inbox before sending anything again.");
 
   async function sendInvoice(input) {
-    if (live) {
-      if (!enabled || !pilotQuote) throw error(409, "Live invoice sending is paused.");
+    if (live && !enabled) throw error(409, "Live invoice sending is paused.");
+    if (live && (!allLiveQuotes || input.reference === pilotQuote?.reference)) {
+      if (!pilotQuote) throw error(409, "Live invoice sending is paused.");
       if (input.reference !== pilotQuote.reference) throw error(404, "Quote is outside the live pilot.");
       if (input.cents > pilot.maxCents) throw error(422, "The total exceeds the approved live pilot limit.");
       await store.ensurePilot(pilotQuote, now());
     }
     const current = await store.get(input.reference);
     if (!current) throw error(404, "Quote request not found.");
-    if (current.email.toLowerCase() !== recipient?.toLowerCase()) {
+    if ((!live || !allLiveQuotes || input.reference === pilotQuote?.reference) &&
+        current.email.toLowerCase() !== recipient?.toLowerCase()) {
       throw error(422, "Only the configured invoice recipient can receive this invoice.");
     }
 
@@ -108,7 +110,7 @@ export function createWorkflow({ store, stripe, webhookSecret, recipient, emailI
       }
       try {
         if (event.routeKey === "GET " + route) {
-          if (live) {
+          if (live && !allLiveQuotes) {
             const row = pilotQuote && await store.get(pilotQuote.reference);
             return json(200, {
               quotes: row || pilotQuote ? [row || pilotQuote] : [], cursor: null, enabled: enabled && Boolean(pilotQuote),
@@ -116,7 +118,8 @@ export function createWorkflow({ store, stripe, webhookSecret, recipient, emailI
           }
           const cursor = event.queryStringParameters?.cursor;
           if (cursor !== undefined && !referencePattern.test(cursor)) throw error(400, "Invalid quote cursor.");
-          return json(200, await store.list(cursor));
+          const page = await store.list(cursor);
+          return json(200, live ? { ...page, enabled } : page);
         }
         if (event.routeKey === "POST " + route + "/invoice" && !event.isBase64Encoded) {
           const record = await sendInvoice({ ...parseRequest(event.body), approvedBy: claims.sub });

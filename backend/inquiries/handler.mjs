@@ -3,7 +3,7 @@ const QUOTE_SUBJECT = /^Component sourcing quote request — (MCD-[A-F0-9]{16})$
 const REQUIRED = ['projectType', 'name', 'email', 'description'];
 const CONSULTATION_SOURCES = new Set(['home', 'services', 'components', 'clair', 'tools', 'labops', 'other', 'direct', 'external']);
 
-export function createHandler({sendEmail, storeQuote, recordAcceptance = () => {}, env = process.env}) {
+export function createHandler({sendEmail, storeQuote, storeLiveQuote, recordAcceptance = () => {}, env = process.env}) {
   return async event => {
     const headers = Object.fromEntries(Object.entries(event.headers || {}).map(([k,v]) => [k.toLowerCase(),v]));
     const origin = headers.origin;
@@ -42,6 +42,15 @@ export function createHandler({sendEmail, storeQuote, recordAcceptance = () => {
         return reply(503, {accepted:false});
       }
     }
+    let queued = false;
+    if (storeLiveQuote && quoteReference && clean.email.toLowerCase() !== env.QUOTE_SANDBOX_RECIPIENT?.toLowerCase()) {
+      try {
+        queued = await storeLiveQuote(quoteReference, clean);
+        if (!queued) return reply(409, {accepted:false});
+      } catch {
+        return reply(503, {accepted:false});
+      }
+    }
     try {
       const result = await sendEmail({
         Source: env.SENDER_EMAIL, Destination: {ToAddresses:[env.RECIPIENT_EMAIL]},
@@ -56,16 +65,20 @@ export function createHandler({sendEmail, storeQuote, recordAcceptance = () => {
       try {
         recordAcceptance(CONSULTATION_SOURCES.has(data.consultationSource) ? data.consultationSource : null);
       } catch { /* delivery already accepted */ }
-      return reply(200, {accepted:true, receipt:result.MessageId});
+      return reply(200, {accepted:true, receipt:queued ? quoteReference : result.MessageId});
     } catch {
-      // Do not log request bodies, email addresses, or provider error details.
+      // A durable quote remains available to staff if the additional email fails.
+      if (queued) {
+        try { recordAcceptance(null); } catch { /* queue delivery remains accepted */ }
+        return reply(200, {accepted:true, receipt:quoteReference});
+      }
       return reply(503, {accepted:false});
     }
   };
 }
 let ses;
 let dynamo;
-async function persistQuote(reference, request) {
+async function persistQuote(table, reference, request) {
   const {DynamoDBClient, PutItemCommand} = await import('@aws-sdk/client-dynamodb');
   dynamo ||= new DynamoDBClient({});
   const values = {
@@ -76,7 +89,7 @@ async function persistQuote(reference, request) {
   item.createdAt = {N:String(Date.now())};
   try {
     await dynamo.send(new PutItemCommand({
-      TableName:process.env.QUOTE_TABLE, Item:item, ConditionExpression:'attribute_not_exists(#ref)',
+      TableName:table, Item:item, ConditionExpression:'attribute_not_exists(#ref)',
       ExpressionAttributeNames:{'#ref':'reference'}
     }));
     return true;
@@ -103,7 +116,8 @@ function recordAcceptance(source) {
 
 export const handler = createHandler({
   recordAcceptance,
-  storeQuote: process.env.QUOTE_TABLE ? persistQuote : undefined,
+  storeQuote: process.env.QUOTE_TABLE ? persistQuote.bind(null, process.env.QUOTE_TABLE) : undefined,
+  storeLiveQuote: process.env.QUOTE_LIVE_TABLE ? persistQuote.bind(null, process.env.QUOTE_LIVE_TABLE) : undefined,
   sendEmail: async input => {
     const {SESClient, SendEmailCommand} = await import('@aws-sdk/client-ses');
     ses ||= new SESClient({});

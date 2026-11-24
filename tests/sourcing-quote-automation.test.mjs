@@ -269,3 +269,69 @@ test("live Stripe requires a restricted key and verifies the business has paymen
   chargesEnabled = true;
   await stripe.verifyAccount();
 });
+
+test("customer quote requests enter the live queue while sandbox and other inquiries keep their routing", async () => {
+  const origin = "https://www.microcdlabs.com";
+  const calls = [];
+  const handler = createHandler({
+    env: { SENDER_EMAIL: recipient, RECIPIENT_EMAIL: recipient, ALLOWED_ORIGINS: origin, QUOTE_SANDBOX_RECIPIENT: recipient },
+    storeQuote: async () => { calls.push("sandbox"); return true; },
+    storeLiveQuote: async (ref, quote) => { calls.push([ref, quote.email]); return true; },
+    sendEmail: async () => { calls.push("staff-email"); throw new Error("fixture email outage"); },
+  });
+  const request = (email, projectType) => ({
+    headers: { origin, "content-type": "application/json" },
+    requestContext: { http: { method: "POST" } },
+    body: JSON.stringify({ email, projectType, name: "Fixture", description: "Fixture requirements" }),
+  });
+  const subject = "Component sourcing quote request — " + reference;
+  const liveEmail = "customer@example.test";
+  const result = await handler(request(liveEmail, subject));
+  assert.equal(result.statusCode, 200);
+  assert.equal(JSON.parse(result.body).receipt, reference);
+  assert.equal((await handler(request(recipient, subject))).statusCode, 200);
+  assert.equal((await handler(request(liveEmail, "Engineering consultation"))).statusCode, 503);
+  assert.deepEqual(calls, [[reference, liveEmail], "staff-email", "sandbox", "staff-email"]);
+});
+
+test("live queue invoices only stored requests with approval and keeps prior invoice state", async () => {
+  const originalReference = "MCD-FFFFFFFFFFFFFFFF";
+  const prior = { reference: originalReference, email: recipient, cents: 2000, status: "sent", invoiceId: "in_original" };
+  const row = { reference, email: "buyer@example.test", status: "pending" };
+  const rows = new Map([[reference, row], [originalReference, prior]]);
+  const calls = [];
+  const store = {
+    get: async key => rows.get(key),
+    list: async cursor => ({ quotes: cursor ? [row] : [prior], cursor: cursor ? null : originalReference }),
+    ensurePilot: async () => { calls.push("pilot"); },
+    approve: async (input, at) => Object.assign(rows.get(input.reference), input, { status: "approved", approvedAt: at }),
+    linkInvoice: async (key, invoiceId) => { rows.get(key).invoiceId = invoiceId; },
+    markSent: async key => Object.assign(rows.get(key), { status: "sent" }),
+    markPaid: async key => { rows.get(key).status = "paid"; return true; },
+  };
+  const stripe = {
+    verifyAccount: async () => {},
+    createInvoice: async quote => { calls.push(quote.email); return "in_fixture"; },
+    finalizeInvoice: async () => {},
+    sendLiveInvoice: async () => { calls.push("send-live"); },
+  };
+  const options = { store, stripe, recipient, webhookSecret: secret, live: true, allLiveQuotes: true,
+    pilot: { reference: originalReference, name: "Pilot buyer", maxCents: 2000 }, now: () => time };
+  const workflow = createWorkflow({ ...options, enabled: true });
+  const liveAdmin = input => ({ ...admin(input), routeKey: "POST /sourcing-quotes-live/invoice" });
+  const queue = { ...liveAdmin(action), routeKey: "GET /sourcing-quotes-live" };
+  assert.equal((await createWorkflow(options).admin(liveAdmin(action))).statusCode, 409);
+  const first = JSON.parse((await workflow.admin(queue)).body);
+  assert.equal(first.enabled, true);
+  assert.equal(first.quotes[0].invoiceId, "in_original");
+  const next = JSON.parse((await workflow.admin({ ...queue, queryStringParameters: { cursor: first.cursor } })).body);
+  assert.equal(next.quotes[0].reference, reference);
+  assert.equal((await workflow.admin(liveAdmin({ ...action, approved: false }))).statusCode, 400);
+  assert.equal((await workflow.admin(liveAdmin({ ...action, reference: "MCD-AAAAAAAAAAAAAAAA" }))).statusCode, 404);
+  assert.equal((await workflow.admin(liveAdmin(action))).statusCode, 200);
+  assert.equal(row.status, "sent");
+  assert.deepEqual(calls, [row.email, "send-live"]);
+  assert.equal((await workflow.webhook(signedEvent({}, time, true))).statusCode, 200);
+  assert.equal(row.status, "paid");
+  assert.equal(prior.status, "sent");
+});
