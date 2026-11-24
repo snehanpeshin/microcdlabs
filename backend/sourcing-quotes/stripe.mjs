@@ -1,3 +1,5 @@
+import { sandboxPaymentLink } from "./invoice-email.mjs";
+
 const sandboxAccount = "acct_1Tj1MwCAcBbMzZu0";
 
 export function parseSandboxCredentials(secretString) {
@@ -68,9 +70,7 @@ export function createStripe(key, fetcher = fetch) {
           invoice.currency !== "usd" || invoice.status !== "open" || !invoice.hosted_invoice_url) {
         throw new Error("Final invoice does not match the approved sandbox quote.");
       }
-    },
-    async sendInvoice(record, id) {
-      await mutate("invoices/" + id + "/send", record, "send");
+      return sandboxPaymentLink(invoice.hosted_invoice_url, sandboxAccount);
     },
   };
 }
