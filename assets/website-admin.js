@@ -1,4 +1,4 @@
-import { mountQuoteQueue } from "./sourcing-quote-admin.js";
+import { mountQuoteQueue } from "./sourcing-quote-admin.js?v=20261124-live-pilot";
 
 const byId = (id) => document.getElementById(id);
 const status = byId('status');
@@ -130,6 +130,7 @@ async function initialize() {
   signOut.addEventListener('click', () => {
     byId('dashboard').hidden = true;
     byId('sourcing-quote-queue').hidden = true;
+    byId('sourcing-live-quote-queue').hidden = true;
     location.replace(endpoint(loginOrigin, '/logout', { client_id: clientId, logout_uri: callback }));
   });
 
@@ -165,6 +166,7 @@ async function initialize() {
     signIn.hidden = true;
     signOut.hidden = false;
     mountQuoteQueue(new URL('/sourcing-quotes', statsEndpoint).href, accessToken);
+    mountQuoteQueue(new URL('/sourcing-quotes-live', statsEndpoint).href, accessToken, true);
     const stats = await fetch(statsEndpoint, {
       headers: { Authorization: 'Bearer ' + accessToken },
       cache: 'no-store'

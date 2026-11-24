@@ -6,12 +6,14 @@ const statusLabels = {
   paid: "Paid — ready for fulfillment",
 };
 
-export function mountQuoteQueue(endpoint, accessToken) {
-  const panel = byId("sourcing-quote-queue");
-  const status = byId("sourcing-quote-status");
-  const list = byId("sourcing-quote-list");
-  const more = byId("sourcing-quote-more");
-  const refresh = byId("sourcing-quote-refresh");
+export function mountQuoteQueue(endpoint, accessToken, live = false) {
+  const prefix = live ? "sourcing-live-quote" : "sourcing-quote";
+  const mode = live ? "live" : "sandbox";
+  const panel = byId(prefix + "-queue");
+  const status = byId(prefix + "-status");
+  const list = byId(prefix + "-list");
+  const more = byId(prefix + "-more");
+  const refresh = byId(prefix + "-refresh");
   let cursor;
   let loading = false;
 
@@ -20,7 +22,7 @@ export function mountQuoteQueue(endpoint, accessToken) {
     const response = await fetch(url, { ...options, headers, cache: "no-store" });
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
-      if (response.status === 404 && !data.error) throw new Error("Sandbox quote automation is awaiting backend setup.");
+      if (response.status === 404 && !data.error) throw new Error("The " + mode + " quote queue is awaiting backend setup.");
       throw new Error(data.error || "Could not reach the quote queue.");
     }
     return data;
@@ -44,7 +46,7 @@ export function mountQuoteQueue(endpoint, accessToken) {
     return wrapper;
   }
 
-  function entryFor(quote) {
+  function entryFor(quote, enabled) {
     const card = document.createElement("article");
     card.className = "quote-admin-card";
     const title = document.createElement("h3");
@@ -59,7 +61,7 @@ export function mountQuoteQueue(endpoint, accessToken) {
     description.textContent = [quote.description, quote.context].filter(Boolean).join("\n\n");
     detail.append(summary, description);
     card.append(title, contact, detail);
-    if (!["pending", "approved"].includes(quote.status)) return card;
+    if (!enabled || !["pending", "approved"].includes(quote.status)) return card;
 
     const form = document.createElement("form");
     form.className = "quote-admin-form";
@@ -71,11 +73,11 @@ export function mountQuoteQueue(endpoint, accessToken) {
       field("Invoice line description", "description", {
         tag: "textarea", maxLength: 500, value: quote.invoiceDescription,
       }),
-      field("Buyer approved this quote", "approved", { type: "checkbox" }),
+      field(live ? "Buyer approved this total and billing email" : "Buyer approved this quote", "approved", { type: "checkbox" }),
     );
     const button = document.createElement("button");
     button.type = "submit";
-    button.textContent = quote.status === "approved" ? "Retry sandbox invoice" : "Send sandbox invoice";
+    button.textContent = (quote.status === "approved" ? "Retry " : "Send ") + mode + " invoice";
     const result = document.createElement("p");
     result.setAttribute("role", "status");
     form.append(button, result);
@@ -83,7 +85,7 @@ export function mountQuoteQueue(endpoint, accessToken) {
       event.preventDefault();
       button.disabled = true;
       const values = new FormData(form);
-      result.textContent = "Processing the sandbox invoice…";
+      result.textContent = "Processing the " + mode + " invoice…";
       try {
         const { status: next } = await request(endpoint + "/invoice", {
           method: "POST", headers: { "Content-Type": "application/json" },
@@ -110,16 +112,18 @@ export function mountQuoteQueue(endpoint, accessToken) {
     loading = true;
     more.disabled = true;
     refresh.disabled = true;
-    status.textContent = "Loading sandbox quotes…";
+    status.textContent = "Loading " + mode + " quotes…";
     try {
       const url = new URL(endpoint);
       if (append && cursor) url.searchParams.set("cursor", cursor);
       const page = await request(url);
       if (!append) list.replaceChildren();
-      for (const quote of page.quotes) list.append(entryFor(quote));
+      const enabled = !live || page.enabled === true;
+      for (const quote of page.quotes) list.append(entryFor(quote, enabled));
       cursor = page.cursor;
       more.hidden = !cursor;
-      status.textContent = list.childElementCount ? "" : "No sandbox quote requests yet.";
+      status.textContent = !enabled ? "Live invoice sending is paused."
+        : list.childElementCount ? "" : "No " + mode + " quote requests yet.";
     } catch (error) {
       status.textContent = error.message;
     } finally {
