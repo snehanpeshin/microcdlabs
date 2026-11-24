@@ -11,7 +11,7 @@
   <meta name="referrer" content="no-referrer">
   <title>Website stats | MicroCD Labs</title>
   <link rel="stylesheet" href="assets/website-admin.css?v=20261123-quotes">
-  <script type="module" src="assets/website-admin.js?v=20261123-quotes"></script>
+  <script type="module" src="assets/website-admin.js?v=20261124-live-pilot"></script>
 </head>
 <body>
   <header><a href="/" aria-label="MicroCD Labs home"><img src="assets/microcd-labs-wordmark.svg" alt="MicroCD Labs" width="154" height="34"></a></header>
@@ -27,6 +27,14 @@
       <p id="sourcing-quote-status" role="status"></p>
       <div id="sourcing-quote-list"></div>
       <button id="sourcing-quote-more" type="button" hidden>Load more quotes</button>
+    </section>
+    <section id="sourcing-live-quote-queue" aria-labelledby="sourcing-live-quote-title" hidden>
+      <h2 id="sourcing-live-quote-title">Live sourcing invoice pilot</h2>
+      <p>Send only after the buyer approves the final total and billing email. Stripe emails a real payable invoice.</p>
+      <button id="sourcing-live-quote-refresh" type="button">Refresh live quote</button>
+      <p id="sourcing-live-quote-status" role="status"></p>
+      <div id="sourcing-live-quote-list"></div>
+      <button id="sourcing-live-quote-more" type="button" hidden>Load more quotes</button>
     </section>
     <section id="dashboard" aria-labelledby="stats-heading" hidden>
       <h2 id="stats-heading">Last 30 days <small>UTC, including today</small></h2>

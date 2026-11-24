@@ -1,13 +1,22 @@
-import { DynamoDBClient, GetItemCommand, ScanCommand, UpdateItemCommand } from "@aws-sdk/client-dynamodb";
+import { DynamoDBClient, GetItemCommand, ScanCommand, UpdateItemCommand, PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { SecretsManagerClient, GetSecretValueCommand } from "@aws-sdk/client-secrets-manager";
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import { createWorkflow } from "./workflow.mjs";
-import { createStripe, parseSandboxCredentials } from "./stripe.mjs";
+import { createStripe, parseStripeCredentials } from "./stripe.mjs";
+import { sandboxInvoiceMessage } from "./invoice-email.mjs";
 
 const db = new DynamoDBClient({});
 const secrets = new SecretsManagerClient({});
 const ses = new SESClient({});
+const invoiceSes = new SESClient({ maxAttempts: 1 });
 const table = process.env.QUOTE_TABLE;
+const live = process.env.LIVE_QUOTES === "true";
+const liveEnabled = process.env.LIVE_INVOICE_ENABLED === "true";
+const livePilot = live ? {
+  reference: process.env.LIVE_PILOT_REFERENCE,
+  name: process.env.LIVE_PILOT_NAME,
+  maxCents: Number(process.env.LIVE_PILOT_MAX_CENTS),
+} : undefined;
 const key = reference => ({ reference: { S: reference } });
 
 function decode(item) {
@@ -30,6 +39,18 @@ async function update(reference, expression, condition, names, values) {
 }
 
 const store = {
+  async ensurePilot(quote, now) {
+    const Item = Object.fromEntries(Object.entries(quote).map(([field, value]) => [field, { S: value }]));
+    Item.createdAt = { N: String(now) };
+    try {
+      await db.send(new PutItemCommand({
+        TableName: table, Item, ConditionExpression: "attribute_not_exists(#ref)",
+        ExpressionAttributeNames: { "#ref": "reference" },
+      }));
+    } catch (error) {
+      if (error.name !== "ConditionalCheckFailedException") throw error;
+    }
+  },
   async get(reference) {
     return decode((await db.send(new GetItemCommand({
       TableName: table, Key: key(reference), ConsistentRead: true,
@@ -57,6 +78,13 @@ const store = {
       { "#status": "status" }, { ":id": { S: invoiceId } });
     if (!row) throw new Error("Invoice reference conflict.");
   },
+  async claimInvoiceEmail(reference, invoiceId, time) {
+    return Boolean(await update(reference, "invoiceEmailStartedAt = :time",
+      "invoiceId = :id AND #status = :approved AND attribute_not_exists(invoiceEmailStartedAt)",
+      { "#status": "status" }, {
+        ":id": { S: invoiceId }, ":approved": { S: "approved" }, ":time": { N: String(time) },
+      }));
+  },
   async markSent(reference) {
     return (await update(reference, "#status = :sent", "#status = :approved", { "#status": "status" }, {
       ":sent": { S: "sent" }, ":approved": { S: "approved" },
@@ -71,16 +99,32 @@ const store = {
   },
 };
 
+async function emailInvoice(record, paymentLink) {
+  const delivery = await invoiceSes.send(new SendEmailCommand({
+    Source: process.env.PAID_SENDER,
+    Destination: { ToAddresses: [process.env.SANDBOX_RECIPIENT] },
+    Message: sandboxInvoiceMessage(record.reference, record.cents, paymentLink),
+  }));
+  if (!delivery.MessageId) throw new Error("Sandbox invoice email was not acknowledged.");
+}
+
 async function notifyPaid(reference) {
   await ses.send(new SendEmailCommand({
     Source: process.env.PAID_SENDER,
     Destination: { ToAddresses: [process.env.SANDBOX_RECIPIENT] },
     Message: {
-      Subject: { Data: "[Sandbox] MicroCD Labs quote " + reference + " paid" },
-      Body: { Text: { Data: "Stripe confirmed the sandbox payment. Open the staff quote queue to review " + reference + "." } },
+      Subject: { Data: (live ? "[Live]" : "[Sandbox]") + " MicroCD Labs quote " + reference + " paid" },
+      Body: { Text: { Data: "Stripe confirmed the " + (live ? "live" : "sandbox") + " payment. Open the staff quote queue to review " + reference + "." } },
     },
   }));
 }
+
+const workflowOptions = {
+  store,
+  recipient: live ? process.env.LIVE_PILOT_RECIPIENT : process.env.SANDBOX_RECIPIENT,
+  live, pilot: livePilot, enabled: !live || liveEnabled, emailInvoice, notifyPaid,
+  report: message => console.error(message),
+};
 
 let cachedWorkflow;
 let cacheExpiresAt = 0;
@@ -89,11 +133,9 @@ async function loadWorkflow() {
     cacheExpiresAt = Date.now() + 60_000;
     cachedWorkflow = secrets.send(new GetSecretValueCommand({ SecretId: process.env.STRIPE_SECRET_ARN }))
       .then(result => {
-        const settings = parseSandboxCredentials(result.SecretString);
+        const settings = parseStripeCredentials(result.SecretString, live);
         return createWorkflow({
-          store, stripe: createStripe(settings.apiKey), webhookSecret: settings.webhookSecret,
-          recipient: process.env.SANDBOX_RECIPIENT, notifyPaid,
-          report: message => console.error(message),
+          ...workflowOptions, stripe: createStripe(settings.apiKey, fetch, live), webhookSecret: settings.webhookSecret,
         });
       }).catch(error => {
         cachedWorkflow = undefined;
@@ -105,14 +147,18 @@ async function loadWorkflow() {
 
 export async function handler(event) {
   try {
+    if (live && (event.routeKey === "GET /sourcing-quotes-live" ||
+        (!liveEnabled && event.routeKey === "POST /sourcing-quotes-live/invoice"))) {
+      return createWorkflow(workflowOptions).admin(event);
+    }
     const workflow = await loadWorkflow();
-    return event.routeKey === "POST /sourcing-quotes/stripe-webhook"
+    return event.routeKey === "POST " + (live ? "/sourcing-quotes-live" : "/sourcing-quotes") + "/stripe-webhook"
       ? workflow.webhook(event) : workflow.admin(event);
   } catch {
     console.error("sourcing_quote_configuration_unavailable");
     return {
       statusCode: 503, headers: { "content-type": "application/json", "cache-control": "no-store" },
-      body: JSON.stringify({ error: "Sandbox quote automation is unavailable." }),
+      body: JSON.stringify({ error: "Quote automation is unavailable." }),
     };
   }
 }

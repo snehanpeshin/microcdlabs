@@ -37,12 +37,30 @@ export function verifyEvent(raw, header, secret, now) {
   try { return JSON.parse(raw.toString("utf8")); } catch { return null; }
 }
 
-export function createWorkflow({ store, stripe, webhookSecret, recipient, notifyPaid, now = Date.now, report = () => {} }) {
+export function createWorkflow({ store, stripe, webhookSecret, recipient, emailInvoice, notifyPaid,
+  live = false, pilot, enabled = !live, now = Date.now, report = () => {} }) {
+  const route = live ? "/sourcing-quotes-live" : "/sourcing-quotes";
+  const eligiblePilot = live && referencePattern.test(pilot?.reference ?? "") &&
+    typeof pilot.name === "string" && pilot.name.trim() && Number.isInteger(pilot.maxCents) && pilot.maxCents >= 50 &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipient ?? "");
+  const pilotQuote = eligiblePilot ? {
+    reference: pilot.reference, name: pilot.name, description: "Staff-designated live invoice pilot.",
+    email: recipient, status: "pending",
+  } : null;
+  const deliveryUnconfirmed = () => error(409,
+    "Invoice email delivery is unconfirmed. Check the sandbox inbox before sending anything again.");
+
   async function sendInvoice(input) {
+    if (live) {
+      if (!enabled || !pilotQuote) throw error(409, "Live invoice sending is paused.");
+      if (input.reference !== pilotQuote.reference) throw error(404, "Quote is outside the live pilot.");
+      if (input.cents > pilot.maxCents) throw error(422, "The total exceeds the approved live pilot limit.");
+      await store.ensurePilot(pilotQuote, now());
+    }
     const current = await store.get(input.reference);
     if (!current) throw error(404, "Quote request not found.");
     if (current.email.toLowerCase() !== recipient?.toLowerCase()) {
-      throw error(422, "Only the configured sandbox test recipient can receive an invoice.");
+      throw error(422, "Only the configured invoice recipient can receive this invoice.");
     }
 
     const record = await store.approve(input, now());
@@ -51,6 +69,7 @@ export function createWorkflow({ store, stripe, webhookSecret, recipient, notify
       throw error(409, "This quote already has an approved total and invoice description.");
     }
     if (["sent", "paid"].includes(record.status)) return record;
+    if (record.invoiceEmailStartedAt) throw deliveryUnconfirmed();
     if (now() - record.approvedAt >= retryWindow) {
       throw error(409, "Reconcile the existing invoice in Stripe before retrying this quote.");
     }
@@ -59,9 +78,26 @@ export function createWorkflow({ store, stripe, webhookSecret, recipient, notify
     const invoiceId = record.invoiceId || await stripe.createInvoice(record);
     if (!invoicePattern.test(invoiceId)) throw error(503, "Stripe invoice could not be verified.");
     await store.linkInvoice(record.reference, invoiceId);
-    await stripe.finalizeInvoice(record, invoiceId);
-    await stripe.sendInvoice(record, invoiceId);
-    return store.markSent(record.reference);
+    const paymentLink = await stripe.finalizeInvoice(record, invoiceId);
+    if (live) {
+      // Stripe idempotency covers the provider send itself.
+      await stripe.sendLiveInvoice(record, invoiceId);
+      return store.markSent(record.reference);
+    }
+    const claimed = await store.claimInvoiceEmail(record.reference, invoiceId, now());
+    if (!claimed) {
+      const latest = await store.get(record.reference);
+      if (latest && ["sent", "paid"].includes(latest.status)) return latest;
+      throw deliveryUnconfirmed();
+    }
+
+    try {
+      await emailInvoice(record, paymentLink);
+      return await store.markSent(record.reference);
+    } catch {
+      report("sourcing_quote_invoice_email_unconfirmed");
+      throw deliveryUnconfirmed();
+    }
   }
 
   return {
@@ -71,12 +107,18 @@ export function createWorkflow({ store, stripe, webhookSecret, recipient, notify
         return json(403, { error: "Staff sign-in required." });
       }
       try {
-        if (event.routeKey === "GET /sourcing-quotes") {
+        if (event.routeKey === "GET " + route) {
+          if (live) {
+            const row = pilotQuote && await store.get(pilotQuote.reference);
+            return json(200, {
+              quotes: row || pilotQuote ? [row || pilotQuote] : [], cursor: null, enabled: enabled && Boolean(pilotQuote),
+            });
+          }
           const cursor = event.queryStringParameters?.cursor;
           if (cursor !== undefined && !referencePattern.test(cursor)) throw error(400, "Invalid quote cursor.");
           return json(200, await store.list(cursor));
         }
-        if (event.routeKey === "POST /sourcing-quotes/invoice" && !event.isBase64Encoded) {
+        if (event.routeKey === "POST " + route + "/invoice" && !event.isBase64Encoded) {
           const record = await sendInvoice({ ...parseRequest(event.body), approvedBy: claims.sub });
           return json(200, { reference: record.reference, status: record.status });
         }
@@ -90,11 +132,11 @@ export function createWorkflow({ store, stripe, webhookSecret, recipient, notify
 
     async webhook(event) {
       if (typeof event.body !== "string" || event.body.length > 350000) {
-        return json(400, { error: "Invalid sandbox event." });
+        return json(400, { error: "Invalid Stripe payment event." });
       }
       const raw = Buffer.from(event.body, event.isBase64Encoded ? "base64" : "utf8");
       const signed = verifyEvent(raw, event.headers?.["stripe-signature"], webhookSecret, now());
-      if (signed?.livemode !== false) return json(400, { error: "Invalid sandbox event." });
+      if (signed?.livemode !== live) return json(400, { error: "Invalid Stripe payment event." });
       if (signed.type !== "invoice.payment_succeeded") return json(200, { accepted: true });
 
       const invoice = signed.data?.object;

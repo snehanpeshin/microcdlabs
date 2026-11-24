@@ -1,0 +1,144 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Stripe live sourcing invoice pilot for invited MicroCD Labs administrators.
+Parameters:
+  AdminApiId:
+    Type: String
+    AllowedPattern: '[a-z0-9]+'
+  AdminAuthorizerId:
+    Type: String
+    AllowedPattern: '[a-z0-9]+'
+  StripeSecretArn:
+    Type: String
+    Description: Secrets Manager ARN for JSON containing apiKey (restricted live key) and webhookSecret.
+  NotificationRecipient:
+    Type: String
+    Description: The verified internal SES recipient for paid notifications.
+  LiveEnabled:
+    Type: String
+    Default: 'false'
+    AllowedValues: ['true', 'false']
+  PilotQuoteReference:
+    Type: String
+    Default: ''
+    AllowedPattern: '^(MCD-[A-F0-9]{16})?$'
+  PilotRecipient:
+    Type: String
+    Default: ''
+    NoEcho: true
+  PilotName:
+    Type: String
+    Default: ''
+    NoEcho: true
+  PilotMaxCents:
+    Type: Number
+    Default: 0
+    MinValue: 0
+    MaxValue: 99999999
+  PaidSender:
+    Type: String
+    Description: A verified SES sender in this region.
+Resources:
+  Quotes:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      SSESpecification:
+        SSEEnabled: true
+      AttributeDefinitions:
+        - AttributeName: reference
+          AttributeType: S
+      KeySchema:
+        - AttributeName: reference
+          KeyType: HASH
+  LiveQuotes:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: handler.handler
+      Runtime: nodejs22.x
+      Timeout: 28
+      MemorySize: 192
+      Environment:
+        Variables:
+          QUOTE_TABLE: !Ref Quotes
+          STRIPE_SECRET_ARN: !Ref StripeSecretArn
+          LIVE_QUOTES: 'true'
+          LIVE_INVOICE_ENABLED: !Ref LiveEnabled
+          LIVE_PILOT_REFERENCE: !Ref PilotQuoteReference
+          LIVE_PILOT_RECIPIENT: !Ref PilotRecipient
+          LIVE_PILOT_NAME: !Ref PilotName
+          LIVE_PILOT_MAX_CENTS: !Ref PilotMaxCents
+          SANDBOX_RECIPIENT: !Ref NotificationRecipient
+          PAID_SENDER: !Ref PaidSender
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: [dynamodb:GetItem, dynamodb:PutItem, dynamodb:UpdateItem]
+              Resource: !GetAtt Quotes.Arn
+            - Effect: Allow
+              Action: secretsmanager:GetSecretValue
+              Resource: !Ref StripeSecretArn
+            - Effect: Allow
+              Action: ses:SendEmail
+              Resource: !Sub 'arn:${AWS::Partition}:ses:${AWS::Region}:${AWS::AccountId}:identity/${PaidSender}'
+              Condition:
+                StringEquals:
+                  ses:FromAddress: !Ref PaidSender
+                ForAllValues:StringEquals:
+                  ses:Recipients: [!Ref NotificationRecipient]
+  QuotesIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref AdminApiId
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !GetAtt LiveQuotes.Arn
+      PayloadFormatVersion: '2.0'
+  ListQuotes:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref AdminApiId
+      RouteKey: GET /sourcing-quotes-live
+      AuthorizationType: JWT
+      AuthorizationScopes: [openid]
+      AuthorizerId: !Ref AdminAuthorizerId
+      Target: !Sub 'integrations/${QuotesIntegration}'
+  InvoiceQuote:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref AdminApiId
+      RouteKey: POST /sourcing-quotes-live/invoice
+      AuthorizationType: JWT
+      AuthorizationScopes: [openid]
+      AuthorizerId: !Ref AdminAuthorizerId
+      Target: !Sub 'integrations/${QuotesIntegration}'
+  StripeWebhook:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref AdminApiId
+      RouteKey: POST /sourcing-quotes-live/stripe-webhook
+      AuthorizationType: NONE
+      Target: !Sub 'integrations/${QuotesIntegration}'
+  ListPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref LiveQuotes
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${AdminApiId}/$default/GET/sourcing-quotes-live'
+  WritePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref LiveQuotes
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${AdminApiId}/$default/POST/sourcing-quotes-live/*'
+Outputs:
+  QuoteTableName:
+    Value: !Ref Quotes
+  QuoteTableArn:
+    Value: !GetAtt Quotes.Arn
+  WebhookUrl:
+    Value: !Sub 'https://${AdminApiId}.execute-api.${AWS::Region}.${AWS::URLSuffix}/sourcing-quotes-live/stripe-webhook'

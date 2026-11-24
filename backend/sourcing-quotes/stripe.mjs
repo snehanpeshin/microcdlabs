@@ -1,6 +1,14 @@
+import { sandboxPaymentLink } from "./invoice-email.mjs";
+
 const sandboxAccount = "acct_1Tj1MwCAcBbMzZu0";
+const liveAccount = "acct_1Tj1MhFpqcjE8MaK";
+const keyPattern = live => live ? /^rk_live_[A-Za-z0-9]+$/ : /^(?:sk|rk)_test_[A-Za-z0-9]+$/;
 
 export function parseSandboxCredentials(secretString) {
+  return parseStripeCredentials(secretString);
+}
+
+export function parseStripeCredentials(secretString, live = false) {
   const parsed = JSON.parse(secretString);
   if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
     throw new Error("Stripe sandbox credentials must be a JSON object.");
@@ -16,15 +24,16 @@ export function parseSandboxCredentials(secretString) {
   }
   const apiKey = entries.get("apikey");
   const webhookSecret = entries.get("webhooksecret");
-  if (!/^(?:sk|rk)_test_[A-Za-z0-9]+$/.test(apiKey ?? "") ||
+  if (!keyPattern(live).test(apiKey ?? "") ||
       !/^whsec_[A-Za-z0-9]+$/.test(webhookSecret ?? "")) {
     throw new Error("Stripe sandbox credentials are incomplete.");
   }
   return { apiKey, webhookSecret };
 }
 
-export function createStripe(key, fetcher = fetch) {
-  if (!/^(?:sk|rk)_test_[A-Za-z0-9]+$/.test(key ?? "")) throw new Error("Stripe sandbox key required.");
+export function createStripe(key, fetcher = fetch, live = false) {
+  if (!keyPattern(live).test(key ?? "")) throw new Error(live ? "Restricted live Stripe key required." : "Stripe sandbox key required.");
+  const account = live ? liveAccount : sandboxAccount;
 
   async function call(path, { body, idempotency } = {}) {
     const headers = { authorization: "Bearer " + key };
@@ -34,7 +43,7 @@ export function createStripe(key, fetcher = fetch) {
       headers, method: body ? "POST" : "GET", body: body && new URLSearchParams(body),
       signal: AbortSignal.timeout(5000),
     });
-    if (!response.ok) throw new Error("Stripe sandbox request failed.");
+    if (!response.ok) throw new Error("Stripe request failed.");
     return response.json();
   }
 
@@ -44,7 +53,9 @@ export function createStripe(key, fetcher = fetch) {
 
   return {
     async verifyAccount() {
-      if ((await call("account")).id !== sandboxAccount) throw new Error("Wrong Stripe sandbox account.");
+      const identity = await call("account");
+      if (identity.id !== account) throw new Error("Wrong Stripe account.");
+      if (live && identity.charges_enabled !== true) throw new Error("Live Stripe payments are not enabled.");
     },
     async createInvoice(record) {
       const customer = await mutate("customers", record, "customer", {
@@ -64,13 +75,22 @@ export function createStripe(key, fetcher = fetch) {
     },
     async finalizeInvoice(record, id) {
       const invoice = await mutate("invoices/" + id + "/finalize", record, "finalize", { auto_advance: "false" });
-      if (invoice.livemode !== false || invoice.id !== id || invoice.amount_due !== record.cents ||
+      if (invoice.livemode !== live || invoice.id !== id || invoice.amount_due !== record.cents ||
           invoice.currency !== "usd" || invoice.status !== "open" || !invoice.hosted_invoice_url) {
-        throw new Error("Final invoice does not match the approved sandbox quote.");
+        throw new Error("Final invoice does not match the approved quote.");
       }
+      if (!live) return sandboxPaymentLink(invoice.hosted_invoice_url, account);
+      const link = new URL(invoice.hosted_invoice_url);
+      if (link.origin !== "https://invoice.stripe.com" || link.username || link.password ||
+          !link.pathname.startsWith("/i/" + account + "/live_")) {
+        throw new Error("Unexpected live invoice link.");
+      }
+      return link.href;
     },
-    async sendInvoice(record, id) {
-      await mutate("invoices/" + id + "/send", record, "send");
+    async sendLiveInvoice(record, id) {
+      if (!live) throw new Error("Live invoice send requires live mode.");
+      const invoice = await mutate("invoices/" + id + "/send", record, "send-live");
+      if (invoice.livemode !== true || invoice.id !== id) throw new Error("Unexpected live invoice send response.");
     },
   };
 }
