@@ -104,6 +104,43 @@ function renderStats({ days, enquiryTrackingStart, allTimeRequests, allTimeStart
   byId('dashboard').hidden = false;
 }
 
+async function loadLabOpsStats() {
+  const stats = byId('labops-stats');
+  const status = byId('labops-stats-status');
+  const refresh = byId('labops-stats-refresh');
+  stats.hidden = true;
+  refresh.disabled = true;
+  status.textContent = 'Loading LabOps workspace totals…';
+
+  try {
+    const response = await fetch('https://labops.microcdlabs.com/api/admin/workspace-stats', {
+      credentials: 'include',
+      cache: 'no-store',
+    });
+    if (response.status === 401) {
+      status.textContent = 'Open LabOps settings to sign in, then refresh these totals.';
+      return;
+    }
+    if (response.status === 403) {
+      status.textContent = 'LabOps workspace owners and admins can view these totals.';
+      return;
+    }
+    if (!response.ok) throw new Error('LabOps stats unavailable');
+    const data = await response.json();
+    const keys = ['projects', 'experiments', 'reports'];
+    if (typeof data.workspace !== 'string' || !keys.every(key => Number.isSafeInteger(data[key]) && data[key] >= 0)) {
+      throw new Error('Invalid LabOps stats');
+    }
+    for (const key of keys) byId('labops-' + key).textContent = fmt.format(data[key]);
+    status.textContent = data.workspace + ' · Workspace totals';
+    stats.hidden = false;
+  } catch {
+    status.textContent = 'LabOps totals are temporarily unavailable.';
+  } finally {
+    refresh.disabled = false;
+  }
+}
+
 async function initialize() {
   const { config } = await import('./website-admin-config.js');
   const { loginOrigin, clientId, statsEndpoint } = config;
@@ -167,6 +204,8 @@ async function initialize() {
     signIn.hidden = true;
     signOut.hidden = false;
     byId('labops-admin').hidden = false;
+    byId('labops-stats-refresh').addEventListener('click', loadLabOpsStats);
+    void loadLabOpsStats();
     mountQuoteQueue(new URL('/sourcing-quotes', statsEndpoint).href, accessToken);
     mountQuoteQueue(new URL('/sourcing-quotes-live', statsEndpoint).href, accessToken, true);
     const stats = await fetch(statsEndpoint, {

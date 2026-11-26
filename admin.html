@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src https://microcdlabs-website-admin-924225826927.auth.us-east-1.amazoncognito.com https://v4jt5tbwwh.execute-api.us-east-1.amazonaws.com; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src https://microcdlabs-website-admin-924225826927.auth.us-east-1.amazoncognito.com https://v4jt5tbwwh.execute-api.us-east-1.amazonaws.com https://labops.microcdlabs.com; base-uri 'none'; form-action 'none'">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
   <meta name="description" content="MicroCD Labs website traffic and enquiry totals for invited administrators.">
@@ -11,7 +11,7 @@
   <meta name="referrer" content="no-referrer">
   <title>Admin | MicroCD Labs</title>
   <link rel="stylesheet" href="assets/website-admin.css?v=20261123-quotes">
-  <script type="module" src="assets/website-admin.js?v=20261126-labops"></script>
+  <script type="module" src="assets/website-admin.js?v=20261126-labops-stats"></script>
 </head>
 <body>
   <header><a href="/" aria-label="MicroCD Labs home"><img src="assets/microcd-labs-wordmark.svg" alt="MicroCD Labs" width="154" height="34"></a></header>
@@ -37,9 +37,15 @@
       <button id="sourcing-live-quote-more" type="button" hidden>Load more quotes</button>
     </section>
     <section id="labops-admin" aria-labelledby="labops-admin-heading" hidden>
-      <h2 id="labops-admin-heading">LabOps administration</h2>
-      <p>Manage workspace members, roles, and settings. LabOps checks your workspace permissions when you open it.</p>
-      <p><a href="https://labops.microcdlabs.com/app/settings">Open LabOps settings</a></p>
+      <h2 id="labops-admin-heading">LabOps workspace stats</h2>
+      <p id="labops-stats-status" role="status"></p>
+      <dl id="labops-stats" hidden>
+        <div><dt>Projects</dt><dd id="labops-projects"></dd></div>
+        <div><dt>Experiments</dt><dd id="labops-experiments"></dd></div>
+        <div><dt>Reports</dt><dd id="labops-reports"></dd></div>
+      </dl>
+      <p><a href="https://labops.microcdlabs.com/app/settings" target="_blank" rel="noopener noreferrer">Open LabOps settings</a></p>
+      <button id="labops-stats-refresh" type="button">Refresh LabOps stats</button>
     </section>
     <section id="dashboard" aria-labelledby="stats-heading" hidden>
       <h2 id="stats-heading">Last 30 days <small>UTC, including today</small></h2>
