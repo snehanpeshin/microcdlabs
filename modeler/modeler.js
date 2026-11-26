@@ -274,6 +274,11 @@ function init() {
   const canvas = document.querySelector("#design-canvas"); const geometry = document.querySelector("#geometry-layer"); const selectionLayer = document.querySelector("#selection-layer");
   const projectTree = document.querySelector("#project-tree"); const inspector = document.querySelector("#inspector-body");
   const projectName = document.querySelector("#project-name"); const exportDialog = document.querySelector("#export-dialog");
+  document.querySelector('[data-action="labops"]').addEventListener("click", () => {
+    exportJSON();
+    window.open("https://labops.microcdlabs.com/app/engineering-handoff", "_blank", "noopener,noreferrer");
+    toast("Design snapshot downloaded. Select it in LabOps to finish the handoff.");
+  });
   bindDialog(exportDialog, [document.querySelector('[data-action="export"]')]);
   document.querySelector(".version").textContent = `v${APP_VERSION}`;
 
