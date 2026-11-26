@@ -27,6 +27,7 @@
         <button class="command" data-action="redo" disabled>Redo</button>
         <button class="command" data-action="import">Import</button>
         <button class="command" data-action="export">Export</button>
+        <button class="command" data-action="labops">Send to LabOps</button>
         <a class="command" href="/docs/modeler-quick-start.md" target="_blank">Help</a>
       </nav>
       <div class="topbar__meta"><span class="status-badge status-badge--ruo">RUO</span><span class="version">v2.1.0-beta.3</span></div>
@@ -126,6 +127,6 @@
 
   <input aria-label="Import native project JSON" id="project-file" class="sr-only" type="file" accept="application/json,.json">
   <dialog id="export-dialog" class="dialog" aria-labelledby="export-title"><div class="dialog__header"><h2 id="export-title">Export project</h2><button class="icon-button" data-dialog-close aria-label="Close">×</button></div><div class="dialog__body export-grid"><button class="button" data-export="json">Native JSON</button><button class="button" data-export="svg">SVG geometry</button><button class="button" data-export="png">PNG snapshot</button><button class="button" data-export="csv">CSV feature list</button><button class="button" data-export="glb">Open legacy GLB workspace</button><button class="button" disabled title="The current kernel cannot guarantee a valid solid interchange file.">STEP / DXF — roadmap</button></div><div class="dialog__footer"><button class="button" data-dialog-close>Close</button></div></dialog>
-  <script type="module" src="/modeler/modeler.js?v=2.1.0-beta.3"></script>
+  <script type="module" src="/modeler/modeler.js?v=2.1.0-beta.3-handoff"></script>
 </body>
 </html>

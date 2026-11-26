@@ -129,6 +129,7 @@ async function initialize() {
 
   signOut.addEventListener('click', () => {
     byId('dashboard').hidden = true;
+    byId('labops-admin').hidden = true;
     byId('sourcing-quote-queue').hidden = true;
     byId('sourcing-live-quote-queue').hidden = true;
     location.replace(endpoint(loginOrigin, '/logout', { client_id: clientId, logout_uri: callback }));
@@ -165,6 +166,7 @@ async function initialize() {
     if (!accessToken) throw new Error('Sign-in failed');
     signIn.hidden = true;
     signOut.hidden = false;
+    byId('labops-admin').hidden = false;
     mountQuoteQueue(new URL('/sourcing-quotes', statsEndpoint).href, accessToken);
     mountQuoteQueue(new URL('/sourcing-quotes-live', statsEndpoint).href, accessToken, true);
     const stats = await fetch(statsEndpoint, {

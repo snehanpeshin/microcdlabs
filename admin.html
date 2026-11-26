@@ -9,14 +9,14 @@
   <link rel="canonical" href="https://www.microcdlabs.com/admin.html">
   <link rel="icon" href="assets/microcd-tab-icon.svg" type="image/svg+xml">
   <meta name="referrer" content="no-referrer">
-  <title>Website stats | MicroCD Labs</title>
+  <title>Admin | MicroCD Labs</title>
   <link rel="stylesheet" href="assets/website-admin.css?v=20261123-quotes">
-  <script type="module" src="assets/website-admin.js?v=20261124-live-pilot"></script>
+  <script type="module" src="assets/website-admin.js?v=20261126-labops"></script>
 </head>
 <body>
   <header><a href="/" aria-label="MicroCD Labs home"><img src="assets/microcd-labs-wordmark.svg" alt="MicroCD Labs" width="154" height="34"></a></header>
   <main>
-    <h1>Website stats</h1>
+    <h1>MicroCD Labs admin</h1>
     <p id="status" role="status">Loading sign-in…</p>
     <button id="sign-in" type="button" hidden>Admin sign-in</button>
     <button id="sign-out" type="button" hidden>Sign out</button>
@@ -35,6 +35,11 @@
       <p id="sourcing-live-quote-status" role="status"></p>
       <div id="sourcing-live-quote-list"></div>
       <button id="sourcing-live-quote-more" type="button" hidden>Load more quotes</button>
+    </section>
+    <section id="labops-admin" aria-labelledby="labops-admin-heading" hidden>
+      <h2 id="labops-admin-heading">LabOps administration</h2>
+      <p>Manage workspace members, roles, and settings. LabOps checks your workspace permissions when you open it.</p>
+      <p><a href="https://labops.microcdlabs.com/app/settings">Open LabOps settings</a></p>
     </section>
     <section id="dashboard" aria-labelledby="stats-heading" hidden>
       <h2 id="stats-heading">Last 30 days <small>UTC, including today</small></h2>
