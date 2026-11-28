@@ -43,7 +43,8 @@
   <link rel="stylesheet" href="assets/review.css?v=20261105" />
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://www.microcdlabs.com/#organization", "name": "MicroCD Labs", "url": "https://www.microcdlabs.com/", "email": "info@microcdlabs.com", "sameAs": ["https://www.linkedin.com/company/microcd-labs/"]}</script><link rel="stylesheet" href="assets/marketing.css?v=20261108-flow1"><link rel="stylesheet" href="assets/visitor-journey.css?v=20261117">
     <link rel="stylesheet" href="assets/product-design.css?v=20261121b">
-</head>
+    <link rel="stylesheet" href="assets/clair-film.css?v=1">
+  </head>
   <body class="product-design mcd-custom mcd-home">
     <div class="utility-bar" aria-label="MicroCD Labs quick contact">
       <span>Lab-on-disc · Centrifugal microfluidics · Point-of-care</span>
@@ -83,9 +84,12 @@
           </div>
           <a class="review-hero-service" href="services.html">See engineering services</a>
         </div>
-        <figure class="review-hero-visual">
-          <img src="assets/clair/concept/clair-concept-hero-960.webp" srcset="assets/clair/concept/clair-concept-hero-640.webp 640w, assets/clair/concept/clair-concept-hero-960.webp 960w" sizes="(max-width: 760px) calc(100vw - 44px), (max-width: 1100px) 48vw, 580px" width="960" height="540" alt="Concept rendering of the CLAIR centrifugal microfluidic disc" fetchpriority="high">
-          <figcaption>CLAIR research concept. Geometry is illustrative.</figcaption>
+        <figure class="clair-film">
+          <video controls playsinline preload="none" width="960" height="604" poster="assets/clair/concept/clair-workflow-poster.webp" aria-label="CLAIR 3D workflow concept" aria-describedby="clair-film-caption">
+            <source src="assets/clair/concept/clair-workflow.mp4" type="video/mp4">
+            <a href="assets/clair/concept/clair-workflow.mp4">Watch the CLAIR workflow</a>
+          </video>
+          <figcaption id="clair-film-caption">CLAIR concept animation. The reader opens, the cartridge seats, a sample enters, and the run ends with an illustrative optical trace.</figcaption>
         </figure>
       </section>
 
