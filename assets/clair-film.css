@@ -1,0 +1,3 @@
+.clair-film { margin: 0; min-width: 0; }
+.clair-film video { display: block; width: 100%; height: auto; border-radius: 12px; }
+.clair-film figcaption { margin-top: .65rem; font-size: .875rem; line-height: 1.5; }
